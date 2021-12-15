@@ -1,0 +1,621 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Api Documentation",
+    "description": "Api Documentation",
+    "termsOfService": "urn:tos",
+    "contact": {},
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    },
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4200",
+      "description": "Inferred Url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "code-rest-controller",
+      "description": "Code Rest Controller"
+    },
+    {
+      "name": "document-rest-controller",
+      "description": "Document Rest Controller"
+    },
+    {
+      "name": "file-controller",
+      "description": "File Controller"
+    },
+    {
+      "name": "folder-rest-controller",
+      "description": "Folder Rest Controller"
+    },
+    {
+      "name": "ui-rest-controller",
+      "description": "UI Rest Controller"
+    }
+  ],
+  "paths": {
+    "/api/code/": {
+      "get": {
+        "tags": [
+          "code-rest-controller"
+        ],
+        "summary": "trace",
+        "operationId": "traceUsingGET",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CodeTraceDTO"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/document/": {
+      "get": {
+        "tags": [
+          "document-rest-controller"
+        ],
+        "summary": "getDocument",
+        "operationId": "getDocumentUsingGET",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoryDocDTO"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "document-rest-controller"
+        ],
+        "summary": "createDocument",
+        "operationId": "createDocumentUsingPOST",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoryDocId"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/document/addblock": {
+      "post": {
+        "tags": [
+          "document-rest-controller"
+        ],
+        "summary": "addBlock",
+        "operationId": "addBlockUsingPOST",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BlockId"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/document/removeblock": {
+      "post": {
+        "tags": [
+          "document-rest-controller"
+        ],
+        "summary": "removeBlock",
+        "operationId": "removeBlockUsingPOST",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "allowReserved": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/document/tag": {
+      "post": {
+        "tags": [
+          "document-rest-controller"
+        ],
+        "summary": "addTag",
+        "operationId": "addTagUsingPOST",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "allowReserved": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tag",
+            "in": "query",
+            "description": "tag",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/files/{file_name}": {
+      "get": {
+        "tags": [
+          "file-controller"
+        ],
+        "summary": "getFile",
+        "operationId": "getFileUsingGET",
+        "parameters": [
+          {
+            "name": "file_name",
+            "in": "path",
+            "description": "file_name",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/folder/hello": {
+      "get": {
+        "tags": [
+          "folder-rest-controller"
+        ],
+        "summary": "hello",
+        "operationId": "helloUsingGET",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/ui/": {
+      "get": {
+        "tags": [
+          "ui-rest-controller"
+        ],
+        "summary": "getUI",
+        "operationId": "getUIUsingGET",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UIBlockDTO"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/ui/mockui": {
+      "get": {
+        "tags": [
+          "ui-rest-controller"
+        ],
+        "summary": "getMockUI",
+        "operationId": "getMockUIUsingGET",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "id",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MockUIDTO"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ArtifactDTO": {
+        "title": "ArtifactDTO",
+        "type": "object",
+        "properties": {
+          "artifactId": {
+            "$ref": "#/components/schemas/ArtifactId"
+          },
+          "artifactType": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "ArtifactId": {
+        "title": "ArtifactId",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "BlockDTO": {
+        "title": "BlockDTO",
+        "type": "object",
+        "properties": {
+          "artifacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArtifactDTO"
+            }
+          },
+          "blockId": {
+            "$ref": "#/components/schemas/BlockId"
+          },
+          "blockType": {
+            "type": "string"
+          },
+          "numbering": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "parentBlockId": {
+            "$ref": "#/components/schemas/BlockId"
+          },
+          "text": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        }
+      },
+      "BlockId": {
+        "title": "BlockId",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "CodeTraceDTO": {
+        "title": "CodeTraceDTO",
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CodeTraceItemDTO"
+            }
+          }
+        }
+      },
+      "CodeTraceItemDTO": {
+        "title": "CodeTraceItemDTO",
+        "type": "object",
+        "properties": {
+          "cid": {
+            "type": "string"
+          },
+          "className": {
+            "type": "string"
+          },
+          "methodName": {
+            "type": "string"
+          },
+          "params": {
+            "type": "string"
+          },
+          "resultValue": {
+            "type": "string"
+          },
+          "threadName": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "MockUIDTO": {
+        "title": "MockUIDTO",
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/MockUIId"
+          },
+          "imgURL": {
+            "type": "string"
+          }
+        }
+      },
+      "MockUIId": {
+        "title": "MockUIId",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "StoryDocDTO": {
+        "title": "StoryDocDTO",
+        "type": "object",
+        "properties": {
+          "blocks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BlockDTO"
+            }
+          },
+          "storyDocId": {
+            "$ref": "#/components/schemas/StoryDocId"
+          },
+          "title": {
+            "type": "string"
+          }
+        }
+      },
+      "StoryDocId": {
+        "title": "StoryDocId",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "UIBlockDTO": {
+        "title": "UIBlockDTO",
+        "type": "object",
+        "properties": {
+          "blockId": {
+            "$ref": "#/components/schemas/UIBlockId"
+          },
+          "uiList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UIDTO"
+            }
+          }
+        }
+      },
+      "UIBlockId": {
+        "title": "UIBlockId",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "UIDTO": {
+        "title": "UIDTO",
+        "type": "object",
+        "properties": {
+          "imgURL": {
+            "type": "string"
+          },
+          "uiId": {
+            "$ref": "#/components/schemas/UIId"
+          }
+        }
+      },
+      "UIId": {
+        "title": "UIId",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      }
+    }
+  }
+}

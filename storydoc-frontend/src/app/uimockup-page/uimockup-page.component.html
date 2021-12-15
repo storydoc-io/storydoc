@@ -1,0 +1,18 @@
+<div class="container-fluid">
+  <div class="row">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+        <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">UI design: </li>
+      </ol>
+    </nav>
+  </div>
+  <div class="row">
+    <div *ngIf="mockUI$ | async as mockUI ; else loading">
+      <img src="{{mockUI.imgURL}}">
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>loading...</ng-template>
