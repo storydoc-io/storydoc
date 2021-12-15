@@ -1,0 +1,8 @@
+<container-element [ngSwitch]="numbering.length">
+  <h3 *ngSwitchCase="1">{{ numberingAsString() }} {{ text }}</h3>
+  <h5 *ngSwitchCase="2">{{ numberingAsString() }} {{ text }}</h5>
+  <h5 *ngSwitchCase="3">{{ numberingAsString() }} {{ text }}</h5>
+  <h6 *ngSwitchCase="4">{{ numberingAsString() }} {{ text }}</h6>
+  <h6 *ngSwitchCase="5">{{ numberingAsString() }} {{ text }}</h6>
+  <h6 *ngSwitchCase="6">{{ numberingAsString() }} {{ text }}</h6>
+</container-element>

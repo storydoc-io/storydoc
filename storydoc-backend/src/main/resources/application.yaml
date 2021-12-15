@@ -1,0 +1,9 @@
+server:
+  port : 8080
+
+graphql:
+  subscriptions:
+    websocket:
+      path: /subscriptions
+  tools:
+    schema-location-pattern: "**/schema.graphql"

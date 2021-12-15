@@ -1,0 +1,31 @@
+<div *ngIf="doc$ | async as doc; else loading">
+  <div class="container-fluid">
+    <div class="row">
+       <nav aria-label="breadcrumb">
+         <ol class="breadcrumb">
+           <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+           <li class="breadcrumb-item active" aria-current="page">{{doc.title}}</li>
+         </ol>
+       </nav>
+    </div>
+    <div class="row">
+      <div class="col-3">
+        <ul class="list-group">
+          <li class="list-group-item" *ngFor="let block of doc.blocks">
+            {{numbering(block)}} {{block.title}}
+          </li>
+        </ul>
+      </div>
+      <div class="col-8">
+        <h3>{{doc.title}}</h3>
+        <div class="container">
+          <div class="row" *ngFor="let block of doc.blocks">
+            <app-block [block]="block" [documentId]="doc.storyDocId"></app-block>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>loading...</ng-template>

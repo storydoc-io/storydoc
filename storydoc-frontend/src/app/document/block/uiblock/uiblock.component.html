@@ -1,0 +1,10 @@
+<div *ngIf="$uiBlock | async as uiBlock ; else loading">
+
+  <div class="d-flex flex-row">
+    <div class="p-2" *ngFor="let ui of uiBlock.uiList">
+      <app-thumb-nail [ui]="ui"></app-thumb-nail>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>loading...</ng-template>

@@ -1,0 +1,8 @@
+<div class="d-flex flex-row">
+  <div class="p-2" *ngFor="let artifact of artifacts">
+    <a [routerLink]="editorUrl(artifact)" >
+      <img height="50" width="50" [src]="icon(artifact.artifactType)" alt="image">
+      <div >{{artifact.name}}</div>
+    </a>
+  </div>
+</div>

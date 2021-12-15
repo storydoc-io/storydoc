@@ -1,0 +1,131 @@
+type Query {
+
+    ##############################
+    # Folders
+    ##############################
+    folders_rootFolder: _FOLDER_Folder,
+    folders_subFolders(urn: [String]): [_FOLDER_Folder]
+
+    ##############################
+    # Document
+    ##############################
+    qryStoryDoc(id: String): StoryDoc,
+    qryTextBlock(id: String): TextBlock,
+    qryCmdBlock(id: String): CmdBlock,
+
+    ##############################
+    # Database
+    ##############################
+    dbMetaData(id: String): [_DB_MetaData_Table_]
+    dbTemplatePKQueries(id: String): [_DB_NavTemplate_PKQuery_]
+
+    dbQuery(id: String):  _DB_Data_TableSnapShot_
+}
+
+type Mutation {
+    ##############################
+    # Folders
+    ##############################
+    folders_addFolder(urn: [String], name: String) : _FOLDER_Urn
+
+    ##############################
+    # Document
+    ##############################
+    mutRunCmdBlock(id: ID!): ID
+}
+
+type Subscription {
+    subCmdBlockOutput(id: ID!): CmdBlockOutput
+}
+
+##############################
+# Folders
+##############################
+
+type _FOLDER_Urn {
+    path: [String]
+}
+
+type _FOLDER_Folder {
+    name: String,
+    urn: _FOLDER_Urn
+}
+
+##############################
+# Document
+##############################
+
+
+type StoryDoc {
+    id: ID,
+    name: String,
+    blocks: [BlockRef!]!
+}
+
+type BlockRef {
+    id: ID,
+    type: String,
+}
+
+type TextBlock {
+    id: ID,
+    name: String,
+    text: String
+}
+
+type CmdBlock {
+    id: ID,
+    cmd: String,
+    output: CmdBlockOutput
+}
+
+type CmdBlockOutput {
+    lines: [String]!
+}
+
+##############################
+# DB
+##############################
+
+## metadata
+
+type _DB_MetaData_PrimaryKey_ {
+    columns: [String]
+}
+
+type _DB_MetaData_ForeignKey_ {
+    columns: [String],
+    references: String
+}
+
+type _DB_MetaData_Table_ {
+    id: ID,
+    columnNames: [String],
+    primaryKey: _DB_MetaData_PrimaryKey_,
+    foreignKeys: [_DB_MetaData_ForeignKey_]
+}
+
+# nav template
+
+type _DB_NavTemplate_PKQuery_ {
+    pk: _DB_MetaData_PrimaryKey_
+    table: _DB_MetaData_Table_
+}
+
+
+# snapshot
+
+type _DB_Data_Row_ {
+    values: [String]
+}
+
+type _DB_Data_TableSnapShot_ {
+    tableMetaData: _DB_MetaData_Table_,
+    rows: [_DB_Data_Row_]
+}
+
+type _DB_Data_SnapShot_ {
+    id: ID,
+    tables: [_DB_Data_TableSnapShot_]
+}
+
