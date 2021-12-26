@@ -1,6 +1,6 @@
 package io.storydoc.server.document.infra.execution;
 
-import io.storydoc.core.Fixtures;
+import io.storydoc.server.document.app.Fixtures;
 import io.storydoc.server.document.domain.DocumentException;
 import io.storydoc.server.document.infra.store.model.StoryDoc;
 import io.storydoc.server.document.infra.execution.event.EventLogger;
@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import java.util.concurrent.TimeUnit;
 
-import static io.storydoc.core.Fixtures.aStoryDoc;
+import static io.storydoc.server.document.app.Fixtures.aStoryDoc;
 import static org.junit.Assert.assertEquals;
 
 public class ExecutionEngineTest {

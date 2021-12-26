@@ -1,9 +1,11 @@
 package io.storydoc.server.folder.infra;
 
+import io.storydoc.server.folder.app.FolderSettings;
 import io.storydoc.server.folder.app.dto.FolderDTO;
 import io.storydoc.server.folder.domain.FolderStore;
 import io.storydoc.server.folder.domain.FolderURN;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -14,14 +16,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
+@Component
 public class FileSystemFolderStore implements FolderStore {
 
     // static final Logger log = LoggerFactory.getLogger(FileSystemFolderStore.class)
 
-    private Path rootFolder;
+    private FolderSettings folderSettings;
 
-    public FileSystemFolderStore(Path rootFolder) {
-        this.rootFolder = rootFolder;
+    public FileSystemFolderStore(FolderSettings folderSettings) {
+        this.folderSettings = folderSettings;
     }
 
     @Override
@@ -70,7 +73,7 @@ public class FileSystemFolderStore implements FolderStore {
     }
 
     private Path resolve(FolderURN folderURN) {
-        Path path = rootFolder;
+        Path path = folderSettings.getWorkspaceFolder();
         for (String subDirName: folderURN.getPath()) {
             path= path.resolve(subDirName);
         }

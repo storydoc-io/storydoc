@@ -1,7 +1,5 @@
-package io.storydoc.server.filesystem;
+package io.storydoc.server.code.infra;
 
-import io.storydoc.server.code.infra.LogFileScanner;
-import io.storydoc.server.code.infra.TraceLine;
 import org.junit.Assert;
 import org.junit.Test;
 

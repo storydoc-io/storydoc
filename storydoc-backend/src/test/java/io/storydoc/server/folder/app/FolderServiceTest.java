@@ -1,35 +1,24 @@
 package io.storydoc.server.folder.app;
 
+import io.storydoc.server.TestBase;
 import io.storydoc.server.folder.app.dto.FolderDTO;
 import io.storydoc.server.folder.domain.FolderURN;
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.nio.file.Path;
 import java.util.List;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class FolderServiceTest {
+public class FolderServiceTest extends TestBase {
 
+    @Autowired
     private FolderQueryService folderQueryService;
 
+    @Autowired
     private FolderService folderService;
-
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
-
-    @Before
-    public void setUp() throws Exception {
-        Path rootFolder = temporaryFolder.newFolder("root").toPath();
-        FolderServiceTestFixture testFixture = new FolderServiceTestFixture(rootFolder);
-        this.folderQueryService = testFixture.getFolderQueryService();
-        this.folderService = testFixture.getFolderService();
-    }
 
     @Test
     public void getRootFolder()  {

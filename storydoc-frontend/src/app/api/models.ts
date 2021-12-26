@@ -4,6 +4,8 @@ export { BlockDto } from './models/block-dto';
 export { BlockId } from './models/block-id';
 export { CodeTraceDto } from './models/code-trace-dto';
 export { CodeTraceItemDto } from './models/code-trace-item-dto';
+export { FolderDto } from './models/folder-dto';
+export { FolderUrn } from './models/folder-urn';
 export { MockUidto } from './models/mock-uidto';
 export { MockUiId } from './models/mock-ui-id';
 export { StoryDocDto } from './models/story-doc-dto';

@@ -1,4 +1,4 @@
-package io.storydoc.core;
+package io.storydoc.server.document.app;
 
 import io.storydoc.server.document.infra.store.model.CmdBlock;
 import io.storydoc.server.document.infra.store.model.TextBlock;

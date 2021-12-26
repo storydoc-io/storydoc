@@ -6,7 +6,7 @@ import org.junit.rules.TemporaryFolder;
 
 import java.io.*;
 
-import static io.storydoc.core.Fixtures.jacksonConfig;
+import static io.storydoc.server.document.app.Fixtures.jacksonConfig;
 
 public class MockUIJSONWriterTest {
 

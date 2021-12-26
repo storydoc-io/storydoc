@@ -1,18 +1,27 @@
 package io.storydoc.server.document.infra.store;
 
 import io.storydoc.server.document.infra.store.model.StoryDoc;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.*;
+import java.nio.file.Path;
 
-import static io.storydoc.core.Fixtures.jacksonConfig;
+import static io.storydoc.server.document.app.Fixtures.jacksonConfig;
 
 public class StoryDocJSONWriterTest {
 
     @Rule
     public TemporaryFolder tempFolder = new TemporaryFolder();
+
+    private Path workFolder;
+
+    @Before
+    public void setUp() throws IOException {
+        workFolder = tempFolder.newFolder("work").toPath();
+    }
 
     @Test
     public void main_succes_scenario_with_artifacts() throws IOException {
@@ -27,7 +36,7 @@ public class StoryDocJSONWriterTest {
 
 
     private void writeStoryDoc(StoryDoc storyDoc, String fileName) throws IOException {
-        File file = tempFolder.newFile(fileName);
+        File file = workFolder.resolve(fileName).toFile();
         OutputStream outputStream = new FileOutputStream(file);
 
 
