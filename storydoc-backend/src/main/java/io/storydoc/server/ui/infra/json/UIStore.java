@@ -1,8 +1,8 @@
 package io.storydoc.server.ui.infra.json;
 
-import io.storydoc.server.config.Settings;
 import io.storydoc.server.document.domain.DocumentException;
 import io.storydoc.server.document.infra.store.JacksonConfig;
+import io.storydoc.server.folder.app.FolderSettings;
 import io.storydoc.server.ui.domain.MockUIId;
 import org.springframework.stereotype.Component;
 
@@ -18,8 +18,8 @@ public class UIStore {
 
     private MockUIJSONWriter jsonWriter;
 
-    public UIStore(Settings settings) {
-        this.workFolder = settings.getWorkFolder();
+    public UIStore(FolderSettings settings) {
+        this.workFolder = settings.getWorkspaceFolder();
         JacksonConfig jacksonConfig = new JacksonConfig();
         jacksonConfig.registerModule(new MockUIJacksonModule());
         jsonReader = new MockUIJsonReader(jacksonConfig);

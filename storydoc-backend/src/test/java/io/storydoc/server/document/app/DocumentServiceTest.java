@@ -1,46 +1,26 @@
 package io.storydoc.server.document.app;
 
+import io.storydoc.server.TestBase;
 import io.storydoc.server.document.app.dto.BlockDTO;
 import io.storydoc.server.document.app.dto.StoryDocDTO;
 import io.storydoc.server.document.domain.BlockId;
-import io.storydoc.server.document.domain.DocumentStore;
 import io.storydoc.server.document.domain.SectionId;
 import io.storydoc.server.document.domain.StoryDocId;
-import org.junit.Before;
-import org.junit.Rule;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.IOException;
-import java.nio.file.Path;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-import static org.junit.Assert.*;
+@Slf4j
+public class DocumentServiceTest extends TestBase {
 
-public class DocumentServiceTest {
-
-    static final Logger log = LoggerFactory.getLogger(DocumentServiceTest.class);
-
+    @Autowired
     private DocumentService documentService;
 
+    @Autowired
     private DocumentQueryService documentQueryService;
-
-    private DocumentStore documentStore;
-
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
-
-    @Before
-    public void setUp() throws IOException {
-        Path workFolder = temporaryFolder.newFolder("work").toPath();
-
-        DocumentServiceTestFixture testFixture = new DocumentServiceTestFixture(workFolder);
-        documentStore = testFixture.getDocumentStore();
-        documentService = testFixture.getDocumentService();
-        documentQueryService = testFixture.getDocumentQueryService();
-    }
-
 
     @Test
     public void createDocument() {
@@ -162,11 +142,6 @@ public class DocumentServiceTest {
         dump("with tag", storyDocId);
 
 
-    }
-
-    private void dump(String msg, StoryDocId storyDocId) {
-        log.info("***** " + msg + " *****");
-        log.info(documentStore.getContentAsString(storyDocId));
     }
 
 

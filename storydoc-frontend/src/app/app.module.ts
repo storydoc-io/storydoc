@@ -20,6 +20,7 @@ import { UIScenarioPageComponent } from './uiscenario-page/uiscenario-page.compo
 import { DBConnectionSettingsComponent } from './document/block/dbconnection-settings/dbconnection-settings.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CodeTracePageComponent } from './code-trace-page/code-trace-page.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { CodeTracePageComponent } from './code-trace-page/code-trace-page.compon
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

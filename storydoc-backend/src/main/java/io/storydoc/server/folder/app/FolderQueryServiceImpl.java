@@ -3,10 +3,12 @@ package io.storydoc.server.folder.app;
 import io.storydoc.server.folder.app.dto.FolderDTO;
 import io.storydoc.server.folder.domain.FolderStore;
 import io.storydoc.server.folder.domain.FolderURN;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class FolderQueryServiceImpl implements FolderQueryService{
 
     private final FolderStore folderStore;

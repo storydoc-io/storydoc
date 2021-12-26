@@ -1,6 +1,5 @@
-package io.storydoc.server.document.app;
+package io.storydoc.server.folder.app;
 
-import io.storydoc.server.config.Settings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,16 +15,16 @@ import java.nio.file.Files;
 @Slf4j
 public class FileController {
 
-    private final Settings settings;
+    private final FolderSettings settings;
 
-    public FileController(Settings settings) {
+    public FileController(FolderSettings settings) {
         this.settings = settings;
     }
 
     @RequestMapping(value = "/{file_name}", method = RequestMethod.GET)
     public void getFile(@PathVariable("file_name") String fileName, HttpServletResponse response) {
         try {
-            Files.copy(settings.getWorkFolder().resolve("files").resolve(fileName), response.getOutputStream());
+            Files.copy(settings.getWorkspaceFolder().resolve("files").resolve(fileName), response.getOutputStream());
             response.flushBuffer();
         } catch (IOException ex) {
             log.info("Error writing file to output stream. Filename was '{}'", fileName, ex);

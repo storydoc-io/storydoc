@@ -7,3 +7,4 @@ graphql:
       path: /subscriptions
   tools:
     schema-location-pattern: "**/schema.graphql"
+

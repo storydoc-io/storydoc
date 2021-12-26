@@ -1,11 +1,12 @@
 package io.storydoc.server.document.infra.store;
 
-import io.storydoc.server.config.Settings;
 import io.storydoc.server.document.domain.*;
 import io.storydoc.server.document.infra.store.model.ArtifactBlock;
 import io.storydoc.server.document.infra.store.model.Block;
 import io.storydoc.server.document.infra.store.model.Section;
 import io.storydoc.server.document.infra.store.model.StoryDoc;
+import io.storydoc.server.folder.app.FolderService;
+import io.storydoc.server.folder.app.FolderSettings;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -16,14 +17,17 @@ import java.util.List;
 @Component
 public class DocumentStoreImpl implements DocumentStore {
 
-    private Path workFolder;
+    private FolderSettings folderSettings;
 
     private StoryDocJsonReader jsonReader;
 
     private StoryDocJSONWriter jsonWriter;
 
-    public DocumentStoreImpl(Settings settings) {
-        this.workFolder = settings.getWorkFolder();
+    private final FolderService folderService;
+
+    public DocumentStoreImpl(FolderSettings folderSettings, FolderService folderService) {
+        this.folderSettings = folderSettings;
+        this.folderService = folderService;
         JacksonConfig jacksonConfig = new JacksonConfig();
         jacksonConfig.registerModule(new StoryDocJacksonModule());
         jsonReader = new StoryDocJsonReader(jacksonConfig);
@@ -151,7 +155,7 @@ public class DocumentStoreImpl implements DocumentStore {
     }
 
     private File getFile(StoryDocId storyDocId) {
-        Path path = workFolder.resolve(storyDocId.getId().toString());
+        Path path = folderSettings.getWorkspaceFolder().resolve(storyDocId.getId().toString());
         return path.toFile();
     }
 
