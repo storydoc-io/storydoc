@@ -1,5 +1,6 @@
 package io.storydoc.server.ui.app;
 
+import io.storydoc.server.ui.domain.MockUIId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UIDTO {
 
-    private UIId uiId;
+    private MockUIId uiId;
 
     private String imgURL;
 

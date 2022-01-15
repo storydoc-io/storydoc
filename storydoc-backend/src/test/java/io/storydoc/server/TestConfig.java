@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan(basePackages={"io.storydoc.server.document", "io.storydoc.server.folder"})
+@ComponentScan(basePackages={"io.storydoc.server.storydoc", "io.storydoc.server.workspace", "io.storydoc.server.ui", "io.storydoc.server.infra" })
 public class TestConfig {
 
     @Bean

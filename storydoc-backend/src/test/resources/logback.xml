@@ -10,7 +10,7 @@
         </layout>
     </appender>
     <logger name="org.springframework" level="ERROR" />
-    <root level="INFO">
+    <root level="TRACE">
         <appender-ref ref="Console"/>
     </root>
 </configuration>
