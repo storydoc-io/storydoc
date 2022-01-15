@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,7 +16,8 @@ public class MockUIDTO {
 
     private MockUIId id;
 
-    private String imgURL;
+    private String name;
 
+    private List<ScreenshotDTO> screenshots;
 
 }

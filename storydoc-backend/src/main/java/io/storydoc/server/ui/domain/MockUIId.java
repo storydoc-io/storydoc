@@ -1,5 +1,7 @@
 package io.storydoc.server.ui.domain;
 
+import io.storydoc.server.storydoc.domain.ArtifactId;
+
 import java.util.Objects;
 
 public class MockUIId {
@@ -22,8 +24,8 @@ public class MockUIId {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MockUIId blockId = (MockUIId) o;
-        return Objects.equals(id, blockId.id);
+        MockUIId mockUIId = (MockUIId) o;
+        return Objects.equals(id, mockUIId.id);
     }
 
     @Override
@@ -33,5 +35,9 @@ public class MockUIId {
 
     public static MockUIId fromString(String id) {
         return new MockUIId(id);
+    }
+
+    public ArtifactId asArtifactId() {
+        return new ArtifactId(id);
     }
 }

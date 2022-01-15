@@ -1,8 +1,7 @@
 package io.storydoc.server;
 
 import io.storydoc.server.config.StoryDocServerProperties;
-import io.storydoc.server.document.domain.DocumentStore;
-import io.storydoc.server.document.domain.StoryDocId;
+import io.storydoc.server.workspace.app.WorkspaceQueryService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Rule;
@@ -25,9 +24,9 @@ abstract public class TestBase {
     @Rule
     public TestRule watcher = new TestWatcher() {
         protected void starting(Description description) {
-            log.info("**");
-            log.info("* Test: " + description.getClassName() + "." + description.getMethodName());
-            log.info("**");
+            log.debug("**");
+            log.debug("* Test: " + description.getClassName() + "." + description.getMethodName());
+            log.debug("**");
         }
     };
 
@@ -38,19 +37,13 @@ abstract public class TestBase {
     private StoryDocServerProperties serverProperties;
 
     @Autowired
-    private DocumentStore documentStore;
+    protected WorkspaceQueryService workspaceQueryService;
 
     @Before
     public void setUp() throws IOException {
         String workspaceFolder = temporaryFolder.newFolder("workspace").getAbsolutePath();
-        log.info("workspaceFolder: " + workspaceFolder);
+        //log.info("workspaceFolder: " + workspaceFolder);
         serverProperties.setWorkspaceFolder(workspaceFolder);
     }
-
-    protected void dump(String msg, StoryDocId storyDocId) {
-        log.info(msg + ":");
-        log.info(documentStore.getContentAsString(storyDocId));
-    }
-
 
 }
