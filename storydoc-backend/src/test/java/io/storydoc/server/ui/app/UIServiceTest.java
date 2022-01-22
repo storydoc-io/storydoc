@@ -14,6 +14,7 @@ import io.storydoc.server.storydoc.domain.StoryDocId;
 import io.storydoc.server.ui.UIPageStub;
 import io.storydoc.server.ui.domain.*;
 import io.storydoc.server.workspace.WorkspaceTestUtils;
+import io.storydoc.server.workspace.domain.WorkspaceException;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -53,8 +54,11 @@ public class UIServiceTest extends TestBase {
     @Test
     public void createMockUI() {
         // given a storydoc with a artifact block
-        StoryDocId storyDocId = storyDocService.createDocument();
-        BlockId blockId = storyDocService.addArtifactBlock(storyDocId);
+        String story_name = "story";
+        StoryDocId storyDocId = storyDocService.createDocument(story_name);
+
+        String block_name = "block";
+        BlockId blockId = storyDocService.addArtifactBlock(storyDocId, block_name);
         ArtifactBlockCoordinate coordinate = ArtifactBlockCoordinate.builder()
                 .storyDocId(storyDocId)
                 .blockId(blockId)
@@ -90,11 +94,113 @@ public class UIServiceTest extends TestBase {
     }
 
     @Test
+    public void createScreenShotCollection() {
+        // given a storydoc with a artifact block
+        String story_name = "story";
+        StoryDocId storyDocId = storyDocService.createDocument(story_name);
+
+        String block_name = "block";
+        BlockId blockId = storyDocService.addArtifactBlock(storyDocId, block_name);
+        ArtifactBlockCoordinate coordinate = ArtifactBlockCoordinate.builder()
+                .storyDocId(storyDocId)
+                .blockId(blockId)
+                .build();
+        // when I create a ScreenshotCollection artifact
+        String screenshots_artifact_name = "screenshots";
+        ScreenShotCollectionId id = uiService.createScreenShotCollection(coordinate, screenshots_artifact_name);
+        assertNotNull(id);
+
+        workspaceTestUtils.logFolderStructure("after creating mock ui artifact ");
+        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
+
+    }
+
+    @Test
+    public void addScreenShotToCollection() throws WorkspaceException {
+        // given  a storydoc with an artifact block
+        String story_name = "story";
+        StoryDocId storyDocId = storyDocService.createDocument(story_name);
+
+        String block_name = "block";
+        BlockId blockId = storyDocService.addArtifactBlock(storyDocId, block_name);
+        ArtifactBlockCoordinate coordinate = ArtifactBlockCoordinate.builder()
+                .storyDocId(storyDocId)
+                .blockId(blockId)
+                .build();
+
+        // given a screenshot collection artifact
+        String screenshots_artifact_name = "screenshots";
+        ScreenShotCollectionId screenShotCollectionId = uiService.createScreenShotCollection(coordinate, screenshots_artifact_name);
+
+        // given an inputstream of a screenshot
+        InputStream inputStream = this.getClass().getResourceAsStream("dummy-image-10x10.png");
+
+        // when I upload a screenshot to the collection
+        String screenshot_name = "screenshot";
+        ScreenShotId screenShotId = uiService.uploadScreenShotToCollection(coordinate, screenShotCollectionId, inputStream, screenshot_name);
+
+        workspaceTestUtils.logFolderStructure("after uploading screenshot");
+        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
+
+        // then I can find it in the list of screenshots in the collection
+
+        ScreenShotCollectionDTO dto = uiQueryService.getScreenShotCollection(coordinate, screenShotCollectionId);
+        assertNotNull(dto);
+        assertEquals(1, dto.getScreenShots().size());
+
+        ScreenShotDTO screenShotDTO = dto.getScreenShots().get(0);
+        assertEquals(screenshot_name, screenShotDTO.getName());
+        assertEquals(screenShotId, screenShotDTO.getId());
+
+        // and then I can download it
+        InputStream  inputStream2 = uiQueryService.getScreenshot(coordinate, screenShotCollectionId, screenShotId);
+        workspaceTestUtils.logBinaryInputstream(inputStream2);
+
+    }
+
+    @Test
+    public void UIScenario_Has_Default_Associated_Snapshot_Collection () {
+        // given a storydoc with an artifact paragraph
+        String story_name = "story";
+        StoryDocId storyDocId = storyDocService.createDocument(story_name);
+
+        String block_name = "block";
+        BlockId blockId = storyDocService.addArtifactBlock(storyDocId, block_name);
+        ArtifactBlockCoordinate coordinate = ArtifactBlockCoordinate.builder()
+                .storyDocId(storyDocId)
+                .blockId(blockId)
+                .build();
+        // given a screenshot collection artifact in that paragraph
+        String screenshots_artifact_name = "screenshots";
+        ScreenShotCollectionId screenShotCollectionId = uiService.createScreenShotCollection(coordinate, screenshots_artifact_name);
+        // given  a screenshot is uploaded to the collection
+        String screenshot_name = "screenshot";
+        InputStream inputStream = this.getClass().getResourceAsStream("dummy-image-10x10.png");
+        ScreenShotId screenShotId = uiService.uploadScreenShotToCollection(coordinate, screenShotCollectionId, inputStream, screenshot_name);
+        // given a mockui artifact in the same paragraph
+        MockUIId mockUIId = uiService.createMockUI(coordinate, "mockui");
+
+        // then the mock ui is by default associated with this collection  of screenshots
+        MockUIDTO mockUIDTO = uiQueryService.getMockUIDTO(coordinate, mockUIId);
+        List<ScreenShotCollectionId> collections = mockUIDTO.getAssociatedCollections();
+        assertNotNull(collections);
+        assertEquals(1, collections.size());
+        assertEquals(screenShotCollectionId, collections.get(0));
+
+        workspaceTestUtils.logFolderStructure("after uploading screenshot");
+        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
+
+    }
+
+    @Test @Deprecated
     public void uploadScreenshot() throws IOException {
 
         // given a storydoc with a artifact block
-        StoryDocId storyDocId = storyDocService.createDocument();
-        BlockId blockId = storyDocService.addArtifactBlock(storyDocId);
+        String story_name = "story";
+        StoryDocId storyDocId = storyDocService.createDocument(story_name);
+
+        String block_name = "block";
+        BlockId blockId = storyDocService.addArtifactBlock(storyDocId, block_name);
         ArtifactBlockCoordinate coordinate = ArtifactBlockCoordinate.builder()
                 .storyDocId(storyDocId)
                 .blockId(blockId)
@@ -103,21 +209,26 @@ public class UIServiceTest extends TestBase {
         InputStream inputStream = this.getClass().getResourceAsStream("dummy-image-10x10.png");
 
         // when I upload the screenshot
-        ScreenshotId screenshotId = uiService.uploadScreenShot(coordinate, inputStream, "screenshot");
+        ScreenShotId screenshotId = uiService.uploadScreenShot(coordinate, inputStream, "screenshot");
 
         workspaceTestUtils.logFolderStructure("after uploading screenshot ");
         workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
         workspaceTestUtils.logBinaryResourceContent("screenshot", uiStorage.getScreenshotArtifactResourceUrn(coordinate, screenshotId));
 
-        //
+
     }
 
-    @Test
+
+
+    @Test @Deprecated
     public void uploadScreenshotsAndAddToMockUI() throws IOException {
 
         // given a storydoc was created with an artifact block
-        StoryDocId storyDocId = storyDocService.createDocument();
-        BlockId blockId = storyDocService.addArtifactBlock(storyDocId);
+        String story_name = "story";
+        StoryDocId storyDocId = storyDocService.createDocument(story_name);
+
+        String block_name = "block";
+        BlockId blockId = storyDocService.addArtifactBlock(storyDocId, block_name);
 
         ArtifactBlockCoordinate coordinate = ArtifactBlockCoordinate.builder()
                 .storyDocId(storyDocId)
@@ -135,13 +246,13 @@ public class UIServiceTest extends TestBase {
 
             // when I upload the image
             String screenshotName = "screenshot-" + screenshotCount;
-            ScreenshotId screenshotId = uiService.uploadScreenShot(coordinate, inputStream, screenshotName);
+            ScreenShotId screenshotId = uiService.uploadScreenShot(coordinate, inputStream, screenshotName);
 
             workspaceTestUtils.logFolderStructure("after uploading screenshot #" + screenshotCount);
             workspaceTestUtils.logResourceContent("storydoc after uploading screenshot #" + screenshotCount, storyDocQueryService.getDocument(storyDocId).getUrn());
 
             // then I can find it
-            List<ScreenshotId> screenshotIds = uiQueryService.getScreenshots(coordinate);
+            List<ScreenShotId> screenshotIds = uiQueryService.getScreenshots(coordinate);
             assertNotNull(screenshotIds);
             assertEquals(screenshotCount, screenshotIds.size());
             assertEquals(screenshotId, screenshotIds.get(screenshotCount-1));
@@ -152,7 +263,7 @@ public class UIServiceTest extends TestBase {
         // when I add the screenshots to the mockui
         for (int screenshotIdx=0; screenshotIdx < 5; screenshotIdx++){
             ArtifactId artifactId = storyDocQueryService.getArtifactsByType(coordinate, Screenshot.ARTIFACT_TYPE).get(screenshotIdx);
-            ScreenshotId screenshotId = new ScreenshotId(artifactId.getId());
+            ScreenShotId screenshotId = new ScreenShotId(artifactId.getId());
             uiService.addScreenShot(coordinate, mockUIId, screenshotId);
         }
 

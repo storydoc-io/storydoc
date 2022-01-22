@@ -1,6 +1,8 @@
 package io.storydoc.server.ui.domain;
 
 import io.storydoc.server.storydoc.domain.ArtifactBlockCoordinate;
+import io.storydoc.server.ui.domain.action.CreateScreenShotCollectionArtifactAction;
+import io.storydoc.server.ui.domain.action.UploadScreenShotToCollectionAction;
 import io.storydoc.server.ui.infra.json.MockUI;
 import io.storydoc.server.workspace.domain.ResourceUrn;
 
@@ -11,9 +13,13 @@ public interface UIStorage {
 
     MockUI loadMockUI(ArtifactBlockCoordinate coordinate, MockUIId id);
     ResourceUrn getUIArtifactResourceUrn(ArtifactBlockCoordinate coordinate, MockUIId uiId);
-    ResourceUrn getScreenshotArtifactResourceUrn(ArtifactBlockCoordinate coordinate, ScreenshotId screenshotId);
+    ResourceUrn getScreenshotArtifactResourceUrn(ArtifactBlockCoordinate coordinate, ScreenShotId screenshotId);
 
-    void addScreenshot(ArtifactBlockCoordinate coordinate, MockUIId mockUIId, ScreenshotId screenshotId);
+    void addScreenshot(ArtifactBlockCoordinate coordinate, MockUIId mockUIId, ScreenShotId screenshotId);
 
-    void createScreenshot(ArtifactBlockCoordinate coordinate, ScreenshotId screenshotId, InputStream inputStream, String name);
+    void createScreenshot(ArtifactBlockCoordinate coordinate, ScreenShotId screenshotId, InputStream inputStream, String name);
+
+    void createScreenshotCollection(CreateScreenShotCollectionArtifactAction action);
+
+    void uploadScreenShot(UploadScreenShotToCollectionAction action);
 }

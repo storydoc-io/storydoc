@@ -14,6 +14,8 @@
           <li class="list-group-item" *ngFor="let block of doc.blocks">
             {{numbering(block)}} {{block.title}}
           </li>
+          <div class="btn  btn-sm btn-outline-primary" (click)="openAddBlockDialog()">Add Paragraph</div>
+
         </ul>
       </div>
       <div class="col-8">
@@ -27,5 +29,9 @@
     </div>
   </div>
 </div>
+
+<jw-modal id="add-block-dialog">
+  <app-create-block-dialog [input]="createBlockDialogInput" (onConfirm)="confirmAddBlockDialog($event)" (onCancel)="cancelAddBlockDialog()"></app-create-block-dialog>
+</jw-modal>
 
 <ng-template #loading>loading...</ng-template>

@@ -1,8 +1,6 @@
 package io.storydoc.server.storydoc.domain;
 
-import io.storydoc.server.storydoc.domain.action.ArtifactLoadContext;
-import io.storydoc.server.storydoc.domain.action.ArtifactSaveContext;
-import io.storydoc.server.storydoc.domain.action.SaveBinaryArtifactContext;
+import io.storydoc.server.storydoc.domain.action.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -18,8 +16,8 @@ public class StoryDoc {
         this.storage = storage;
     }
 
-    public BlockId addBlock(BlockId blockId) {
-        storage.addArtifactBlock(id, blockId);
+    public BlockId addBlock(BlockId blockId, String name) {
+        storage.addArtifactBlock(id, blockId, name);
         return blockId;
     }
 
@@ -57,5 +55,13 @@ public class StoryDoc {
 
     public void saveBinaryArtifact(SaveBinaryArtifactContext context) {
         storage.saveBinaryArtifact(context);
+    }
+
+    public void createBinaryCollectionArtifact(CreateBinaryCollectionArtifactAction action) {
+        storage.createBinaryCollectionArtifact(action);
+    }
+
+    public void addItemToBinaryCollection(AddToBinaryCollectionAction action) {
+        storage.addItemToBinaryCollection(action);
     }
 }

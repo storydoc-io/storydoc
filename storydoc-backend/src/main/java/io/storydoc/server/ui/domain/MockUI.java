@@ -15,7 +15,7 @@ public class MockUI {
     private UIStorage uiStorage;
 
 
-    public void addScreenshot(ScreenshotId screenshotId) {
+    public void addScreenshot(ScreenShotId screenshotId) {
         uiStorage.addScreenshot(coordinate, mockUIId, screenshotId);
     }
 }

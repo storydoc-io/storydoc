@@ -1,0 +1,21 @@
+<div class="modal-dialog">
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title">Add Paragraph</h5>
+    <button type="button" class="btn-close" (click)="cancel()"></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formGroup">
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input formControlName="name" type="text" class="form-control" >
+        <div id="name" class="form-text">Enter a name for the paragraph.</div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!formGroup.valid">Save changes</button>
+    <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+  </div>
+</div>
+</div>

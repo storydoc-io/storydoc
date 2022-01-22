@@ -9,12 +9,13 @@ import io.storydoc.server.storydoc.app.StoryDocQueryService;
 import io.storydoc.server.storydoc.app.StoryDocService;
 import io.storydoc.server.storydoc.domain.ArtifactBlockCoordinate;
 import io.storydoc.server.storydoc.domain.ArtifactId;
+import io.storydoc.server.storydoc.domain.ItemId;
 import io.storydoc.server.storydoc.domain.action.ArtifactLoadContext;
 import io.storydoc.server.storydoc.domain.action.ArtifactSaveContext;
 import io.storydoc.server.storydoc.domain.action.SaveBinaryArtifactContext;
-import io.storydoc.server.ui.domain.MockUIId;
-import io.storydoc.server.ui.domain.ScreenshotId;
-import io.storydoc.server.ui.domain.UIStorage;
+import io.storydoc.server.ui.domain.*;
+import io.storydoc.server.ui.domain.action.CreateScreenShotCollectionArtifactAction;
+import io.storydoc.server.ui.domain.action.UploadScreenShotToCollectionAction;
 import io.storydoc.server.workspace.domain.FolderURN;
 import io.storydoc.server.workspace.domain.ResourceUrn;
 import lombok.SneakyThrows;
@@ -60,8 +61,20 @@ public class UIStorageImpl implements UIStorage {
     }
 
     @Override
+    public void createScreenshotCollection(CreateScreenShotCollectionArtifactAction action) {
+        ArtifactId artifactId = storyDocService.createBinaryCollectionArtifact(action.getCoordinate(), ScreenShotCollection.ARTIFACT_TYPE, "image", action.getName());
+        action.setCollectionId(ScreenShotCollectionId.fromString(artifactId.getId()));
+    }
+
+    @Override
+    public void uploadScreenShot(UploadScreenShotToCollectionAction action) {
+        ItemId itemId = storyDocService.addItemToBinaryCollection(action.getCoordinate(), action.getCollectionId().asArtifactId(), action.getName(), action.getInputStream());
+        action.setScreenshotId(ScreenShotId.fromString(itemId.getId()));
+    }
+
+    @Override
     @SneakyThrows
-    public void createScreenshot(ArtifactBlockCoordinate coordinate, ScreenshotId screenshotId, InputStream inputStream, String name) {
+    public void createScreenshot(ArtifactBlockCoordinate coordinate, ScreenShotId screenshotId, InputStream inputStream, String name) {
         storyDocService.addArtifact(coordinate.getStoryDocId(), coordinate.getBlockId(), screenshotId.asArtifactId(),
                 io.storydoc.server.ui.domain.Screenshot.ARTIFACT_TYPE, name);
         storyDocService.saveBinaryArtifact(SaveBinaryArtifactContext.builder()
@@ -73,7 +86,7 @@ public class UIStorageImpl implements UIStorage {
     }
 
     @Override
-    public void addScreenshot(ArtifactBlockCoordinate coordinate, MockUIId mockUIId, ScreenshotId screenshotId) {
+    public void addScreenshot(ArtifactBlockCoordinate coordinate, MockUIId mockUIId, ScreenShotId screenshotId) {
         MockUI mockUI = loadMockUI(coordinate, mockUIId);
         mockUI.getScreenshots().add(new io.storydoc.server.ui.infra.json.Screenshot(screenshotId.getId()));
         save(coordinate, mockUI);
@@ -97,15 +110,17 @@ public class UIStorageImpl implements UIStorage {
     }
 
     @Override
-    public ResourceUrn getScreenshotArtifactResourceUrn(ArtifactBlockCoordinate coordinate, ScreenshotId screenshotId) {
+    public ResourceUrn getScreenshotArtifactResourceUrn(ArtifactBlockCoordinate coordinate, ScreenShotId screenshotId) {
         return storyDocQueryService.getArtifactBlockFolder(coordinate.getStoryDocId(), coordinate.getBlockId()).resolve(getRelativeScreenshotArtifactResourceUrn(screenshotId));
     }
+
+
 
     private ResourceUrn getRelativeUIArtifactResourceUrn(MockUIId mockUIId) {
         return new ResourceUrn( new FolderURN(List.of()), mockUIId.getId() + ".json");
     }
 
-    private ResourceUrn getRelativeScreenshotArtifactResourceUrn(ScreenshotId screenshotId) {
+    private ResourceUrn getRelativeScreenshotArtifactResourceUrn(ScreenShotId screenshotId) {
         return new ResourceUrn( new FolderURN(List.of()), screenshotId.getId());
     }
 

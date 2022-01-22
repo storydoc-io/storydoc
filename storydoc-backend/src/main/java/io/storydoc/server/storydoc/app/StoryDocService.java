@@ -6,12 +6,13 @@ import io.storydoc.server.storydoc.domain.action.ArtifactSaveContext;
 import io.storydoc.server.storydoc.domain.action.SaveBinaryArtifactContext;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 public interface StoryDocService {
 
-    StoryDocId createDocument();
+    StoryDocId createDocument(String story_name);
 
-    BlockId addArtifactBlock(StoryDocId storyDocId);
+    BlockId addArtifactBlock(StoryDocId storyDocId, String name);
 
     BlockId addArtifactBlock(StoryDocId storyDocId, SectionId sectionId);
 
@@ -28,4 +29,9 @@ public interface StoryDocService {
     <A extends Artifact> A loadArtifact(ArtifactLoadContext artifactLoadContext);
 
     void saveBinaryArtifact(SaveBinaryArtifactContext context) throws IOException;
+
+    ArtifactId createBinaryCollectionArtifact(ArtifactBlockCoordinate coordinate, String artifactType, String binaryType, String name);
+
+    ItemId addItemToBinaryCollection(ArtifactBlockCoordinate coordinate, ArtifactId artifactId, String itemName, InputStream inputStream);
+
 }

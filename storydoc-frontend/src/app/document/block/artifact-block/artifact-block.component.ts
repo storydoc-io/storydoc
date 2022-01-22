@@ -1,8 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Observable} from "rxjs";
-import {UiBlockDto} from "../../../api/models/ui-block-dto";
+import {Component, Input} from '@angular/core';
 import {ArtifactDto} from "../../../api/models/artifact-dto";
 import {StoryDocId} from "../../../api/models/story-doc-id";
+import {ModalService} from "../../../common/modal-service";
+import {CreateArtifactDialogInput, CreateArtifactDialogData} from "../../create-artifact-dialog/create-artifact-dialog.component";
+import {BlockId} from "../../../api/models/block-id";
+import {UiRestControllerService} from "../../../api/services/ui-rest-controller.service";
+import {ArtifactDataService, ArtifactDescriptor} from "./artifact-data.service";
 
 @Component({
   selector: 'app-artifact-block',
@@ -11,44 +14,88 @@ import {StoryDocId} from "../../../api/models/story-doc-id";
 })
 export class ArtifactBlockComponent {
 
-  constructor() {
+  constructor(
+    private modalservice: ModalService,
+    private uiRestControllerService : UiRestControllerService,
+    private artifactDataService: ArtifactDataService) {
   }
 
   @Input()
   documentId: StoryDocId
 
   @Input()
+  blockId: BlockId
+
+  @Input()
   artifacts: Array<ArtifactDto>
 
-  icon(artifactType: string): string {
-    if (artifactType == 'UI') {
-      return '/assets/artifact-ui-design.png'
-    } else if (artifactType == 'UI-SCENARIO') {
-      return '/assets/artifact-ui-scenario.png'
-    } else if (artifactType == 'DB-CONNECTION-SETTINGS') {
-      return '/assets/db-connection-settings.png'
-    } else if (artifactType == 'DB-SNAPSHOT') {
-      return '/assets/db-snapshot.png'
-    } else if (artifactType == 'TEST-SPEC') {
-      return '/assets/test-script.png'
-    } else if (artifactType == 'CODE-TRACE') {
-      return '/assets/test-script.png'
+  // artifact list
+
+  editorUrl(artifact: ArtifactDto): string[] {
+    let descriptor = this.artifactDataService.descriptor(artifact.artifactType)
+    if (descriptor) {
+      return [descriptor.editorUrl, 'd', this.documentId.id, 'b', this.blockId.id, 'a', artifact.artifactId.id]
     }
-    return ''
+    return ['/error-unknown-block-type']
+
   }
 
-  editorUrl(artifact: ArtifactDto): String[] {
-    if (artifact.artifactType == 'UI') {
-      return ['/ui-mockup/', 'document', this.documentId.id, 'artifact', artifact.artifactId.id]
-    } else if (artifact.artifactType == 'UI-SCENARIO') {
-      return ['/ui-scenario', 'document', this.documentId.id, 'artifact', artifact.artifactId.id]
-    } else if (artifact.artifactType == 'DB-CONNECTION-SETTINGS') {
-      return ['/db-connection-settings', 'document', this.documentId.id, 'artifact', artifact.artifactId.id]
-    } else if (artifact.artifactType == 'CODE-TRACE') {
-      return ['/code-trace', 'document', this.documentId.id, 'artifact', artifact.artifactId.id]
-    }
+  icon(artifact: ArtifactDto) {
+    let descriptor = this.artifactDataService.descriptor(artifact.artifactType)
+    return descriptor? descriptor.icon : ''
+  }
 
-    return ['/error-unknown-block-type']
+  // create artifact dialog
+
+  createArtifactDialogInput: CreateArtifactDialogInput
+
+  dialogId(): string {
+    return 'add-artifact-dialog-'+ this.blockId.id
+  };
+
+  openAddArtifactDialog() {
+    this.createArtifactDialogInput = {
+      mode: 'NEW',
+      data: {
+        name: null,
+        artifactType: null
+      }
+    }
+    this.modalservice.open(this.dialogId())
+  }
+
+  confirmAddArtifactDialog(formData: CreateArtifactDialogData) {
+    switch (formData.artifactType) {
+      case 'io.storydoc.server.ui.domain.MockUI': {
+        console.log("ui scenario")
+        this.uiRestControllerService.createMockUiUsingPost({
+          storyDocId: this.documentId.id,
+          blockId: this.blockId.id,
+          name: formData.name
+        }).subscribe({
+          next: value => console.log(value)
+        })
+        break
+      }
+      case 'io.storydoc.server.ui.domain.ScreenShotCollection': {
+        console.log("screenshots")
+        console.log('formData: ', formData)
+        this.uiRestControllerService.createScreenShotCollectionUsingPost({
+            storyDocId: this.documentId.id,
+            blockId: this.blockId.id,
+            name: formData.name
+        }).subscribe({
+          next: value => console.log(value)
+        })
+        break
+      }
+
+    }
+    this.modalservice.close(this.dialogId())
+  }
+
+  cancelAddArtifactDialog() {
+    this.modalservice.close(this.dialogId())
   }
 
 }

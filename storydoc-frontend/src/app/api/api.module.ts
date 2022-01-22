@@ -5,10 +5,10 @@ import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { CodeRestControllerService } from './services/code-rest-controller.service';
-import { DocumentRestControllerService } from './services/document-rest-controller.service';
 import { FileControllerService } from './services/file-controller.service';
-import { FolderRestControllerService } from './services/folder-rest-controller.service';
+import { StoryDocRestControllerService } from './services/story-doc-rest-controller.service';
 import { UiRestControllerService } from './services/ui-rest-controller.service';
+import { WorkspaceRestControllerService } from './services/workspace-rest-controller.service';
 
 /**
  * Module that provides all services and configuration.
@@ -19,10 +19,10 @@ import { UiRestControllerService } from './services/ui-rest-controller.service';
   declarations: [],
   providers: [
     CodeRestControllerService,
-    DocumentRestControllerService,
     FileControllerService,
-    FolderRestControllerService,
+    StoryDocRestControllerService,
     UiRestControllerService,
+    WorkspaceRestControllerService,
     ApiConfiguration
   ],
 })
