@@ -1,0 +1,25 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Add Screenshot</h5>
+      <button type="button" class="btn-close" (click)="cancel()"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formGroup">
+        <div class="mb-3">
+          <label for="name" class="form-label">Screenshot</label>
+          <select formControlName="screenshot" class="form-select" aria-label="Default select example">
+              <ng-container *ngIf="screenshotCollectionDTO">
+                <option *ngFor="let screenshot of screenshotCollectionDTO.screenShots" [value]="screenshot.id.id" >{{screenshot.name}}</option>
+              </ng-container>
+          </select>
+          <div id="name" class="form-text">Select screenshot.</div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!formGroup.valid">Save changes</button>
+      <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+    </div>
+  </div>
+</div>

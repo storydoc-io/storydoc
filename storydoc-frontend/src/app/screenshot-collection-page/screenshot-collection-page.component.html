@@ -1,0 +1,30 @@
+<div class="container-fluid">
+  <div class="row">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+        <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Screenshot collection: </li>
+      </ol>
+    </nav>
+  </div>
+  <div class="row">
+    <div *ngIf="screenshotCollection$ | async as screenshotCollection ; else loading">
+      <ul class="list-group">
+        <li *ngFor="let screenshot of screenshotCollection.screenShots" class="list-group-item">
+          <div style="width: 120px;height: 100px;overflow: hidden;border: 1px solid blue; ">
+            <img [src]="getScreenshotUrl(screenshot)" height="100px" width="auto">
+          </div>
+          {{screenshot.name}}
+        </li>
+      </ul>
+    </div>
+    <div class="btn  btn-sm btn-outline-primary" (click)="openAddScreenshotDialog()">Add Screenshot</div>
+  </div>
+</div>
+
+<jw-modal [id]="getScreenshotDialogId()">
+  <app-create-screenshot-dialog [input]="createScreenshotDialogInput" (onConfirm)="confirmAddScreenshotDialog($event)" (onCancel)="cancelAddScreenshotDialog()"></app-create-screenshot-dialog>
+</jw-modal>
+
+<ng-template #loading>loading...</ng-template>

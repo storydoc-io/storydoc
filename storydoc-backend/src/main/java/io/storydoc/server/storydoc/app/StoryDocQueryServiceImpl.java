@@ -1,15 +1,15 @@
 package io.storydoc.server.storydoc.app;
 
-import io.storydoc.server.storydoc.app.dto.ArtifactDTO;
-import io.storydoc.server.storydoc.app.dto.BlockDTO;
-import io.storydoc.server.storydoc.app.dto.StoryDocDTO;
+import io.storydoc.server.storydoc.app.dto.*;
 import io.storydoc.server.storydoc.domain.*;
 import io.storydoc.server.storydoc.infra.store.model.*;
 import io.storydoc.server.storydoc.infra.store.model.Artifact;
 import io.storydoc.server.storydoc.infra.store.model.StoryDoc;
 import io.storydoc.server.workspace.domain.FolderURN;
+import io.storydoc.server.workspace.domain.WorkspaceException;
 import org.springframework.stereotype.Service;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +25,22 @@ public class StoryDocQueryServiceImpl implements StoryDocQueryService {
     }
 
     @Override
+    public List<StoryDocSummaryDTO> getStoryDocs() {
+        return storyDocStorage.loadDocuments().getStoryDocs().stream()
+            .map((metaData)-> StoryDocSummaryDTO.builder()
+                .storyDocId(StoryDocId.fromString(metaData.getId()))
+                .name(metaData.getName())
+                .build())
+            .collect(Collectors.toList());
+    }
+
+    @Override
     public StoryDocDTO getDocument(StoryDocId storyDocId) {
+
+        StoryDocMetaData storyDocMetaData = storyDocStorage.loadDocuments().getStoryDocs().stream()
+                .filter(metaData -> metaData.getId().equals(storyDocId.getId()))
+                .findFirst()
+                .get();
 
         StoryDoc storyDoc = storyDocStorage.loadDocument(storyDocId);
 
@@ -37,7 +52,7 @@ public class StoryDocQueryServiceImpl implements StoryDocQueryService {
                 .storyDocId(storyDocId)
                 .urn(storyDocStorage.getStoryDocUrn(storyDocId))
                 .blocks(blockDTOList)
-                .title(storyDoc.getName())
+                .title(storyDocMetaData.getName())
                 .build();
 
     }
@@ -86,6 +101,17 @@ public class StoryDocQueryServiceImpl implements StoryDocQueryService {
                 .artifactId(ArtifactId.fromString(artifact.getArtifactId()))
                 .name(artifact.getName())
                 .artifactType(artifact.getArtifactType())
+                .binary(artifact.isBinary())
+                .collection(artifact.isCollection())
+                .binaryType(artifact.getBinaryType())
+                .items(artifact.getItems()==null? null : artifact.getItems().stream()
+                    .map(item -> ItemDTO.builder()
+                        .id(item.getId())
+                        .name(item.getName())
+                        .build()
+                    )
+                    .collect(Collectors.toList())
+                )
                 .urn(artifact.getUrn())
                 .build();
     }
@@ -109,5 +135,21 @@ public class StoryDocQueryServiceImpl implements StoryDocQueryService {
     @Override
     public ArtifactMetaData getArtifactMetaData(ArtifactBlockCoordinate coordinate, ArtifactId artifactId) {
         return storyDocStorage.getArtifactMetaData(coordinate, artifactId);
+    }
+
+    @Override
+    public ArtifactDTO getArtifact(ArtifactBlockCoordinate coordinate, ArtifactId artifactId) {
+        ArtifactBlock artifactBlock = (ArtifactBlock) storyDocStorage.getBlock(coordinate);
+        Artifact artifact = artifactBlock.getArtifacts().stream()
+            .filter(a -> a.getArtifactId().equals(artifactId.getId()))
+            .findFirst()
+            .get();
+        return toArtifactDTO(artifact);
+
+    }
+
+    @Override
+    public InputStream getBinaryFromCollection(ArtifactBlockCoordinate coordinate, ArtifactId artifactId, ItemId itemId) throws WorkspaceException {
+        return storyDocStorage.getBinaryFromCollection(coordinate, artifactId, itemId);
     }
 }

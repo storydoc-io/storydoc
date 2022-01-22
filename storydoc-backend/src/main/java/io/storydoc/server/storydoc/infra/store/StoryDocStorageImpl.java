@@ -5,14 +5,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import io.storydoc.server.storydoc.domain.Artifact;
 import io.storydoc.server.storydoc.domain.*;
-import io.storydoc.server.storydoc.domain.action.ArtifactLoadContext;
-import io.storydoc.server.storydoc.domain.action.ArtifactSaveContext;
-import io.storydoc.server.storydoc.domain.action.SaveBinaryArtifactContext;
-import io.storydoc.server.storydoc.infra.store.model.ArtifactBlock;
-import io.storydoc.server.storydoc.infra.store.model.Block;
-import io.storydoc.server.storydoc.infra.store.model.Section;
+import io.storydoc.server.storydoc.domain.action.*;
 import io.storydoc.server.storydoc.infra.store.model.StoryDoc;
+import io.storydoc.server.storydoc.infra.store.model.*;
 import io.storydoc.server.workspace.app.WorkspaceQueryService;
 import io.storydoc.server.workspace.app.WorkspaceService;
 import io.storydoc.server.workspace.app.WorkspaceSettings;
@@ -59,6 +56,13 @@ public class StoryDocStorageImpl implements StoryDocStorage {
         return new ResourceUrn(getStoryDocFolder(storyDocId), fileName);
     }
 
+    @Override
+    public ResourceUrn getStoryDocsUrn() {
+        String fileName = "storydocs.json";
+        return new ResourceUrn(new FolderURN(List.of()), fileName);
+    }
+
+
     private FolderURN getStoryDocFolder(StoryDocId storyDocId) {
         return new FolderURN(List.of(storyDocId.getId()));
     }
@@ -73,7 +77,16 @@ public class StoryDocStorageImpl implements StoryDocStorage {
     }
 
     @Override
-    public void createDocument(StoryDocId storyDocId) {
+    public void createDocument(StoryDocId storyDocId, String name) {
+        StoryDocMetaData storyDocMetaData = new StoryDocMetaData();
+        storyDocMetaData.setId(storyDocId.getId());
+        storyDocMetaData.setName(name);
+
+        StoryDocs storyDocs = loadDocuments();
+        storyDocs.getStoryDocs().add(storyDocMetaData);
+
+        saveDocuments(storyDocs);
+
         StoryDoc storyDoc = new StoryDoc();
         storyDoc.setId(storyDocId.getId());
         storyDoc.setBlocks(new ArrayList<>());
@@ -84,12 +97,12 @@ public class StoryDocStorageImpl implements StoryDocStorage {
 
 
     @Override
-    public void addArtifactBlock(StoryDocId storyDocId, BlockId blockId) {
+    public void addArtifactBlock(StoryDocId storyDocId, BlockId blockId, String name) {
         FolderURN parentFolder = getStoryDocFolder(storyDocId);
         workspaceService.addFolder(parentFolder, blockId.getId());
 
         StoryDoc storyDoc = loadDocument(storyDocId);
-        ArtifactBlock block = createArtifactBlock(blockId);
+        ArtifactBlock block = createArtifactBlock(blockId, name);
         storyDoc.getBlocks().add(block);
         saveDocument(storyDoc);
 
@@ -97,24 +110,27 @@ public class StoryDocStorageImpl implements StoryDocStorage {
 
     @Override
     public void addArtifactBlock(StoryDocId storyDocId, BlockId blockId, SectionId sectionId) {
+        String name = null;
         StoryDoc storyDoc = loadDocument(storyDocId);
         Section section = lookupSection(sectionId, storyDoc);
-        Block block = createArtifactBlock(blockId);
+        Block block = createArtifactBlock(blockId, name);
         section.getBlocks().add(block);
         saveDocument(storyDoc);
     }
 
-    private ArtifactBlock createArtifactBlock(BlockId blockId) {
+    private ArtifactBlock createArtifactBlock(BlockId blockId, String name) {
         ArtifactBlock block = new ArtifactBlock();
         block.setId(blockId.getId());
+        block.setName(name);
         block.setTags(new ArrayList<>());
         return block;
     }
 
+    // todo merge with createBinaryCollectionArtifact()
     @Override
     public void addArtifact(StoryDocId storyDocId, BlockId blockId, ArtifactId artifactId, ArtifactMetaData metaData) {
         StoryDoc storyDoc = loadDocument(storyDocId);
-        Block block  = lookupBlock(blockId, storyDoc.getBlocks());
+        Block block  = lookupBlock(blockId, storyDoc);
         ArtifactBlock artifactBlock = (ArtifactBlock) block;
 
         if (artifactBlock.getArtifacts()==null) {
@@ -131,9 +147,35 @@ public class StoryDocStorageImpl implements StoryDocStorage {
      }
 
     @Override
+    public void createBinaryCollectionArtifact(CreateBinaryCollectionArtifactAction action) {
+        StoryDoc storyDoc = loadDocument(action.getCoordinate().getStoryDocId());
+        Block block  = lookupBlock(action.getCoordinate().getBlockId(), storyDoc);
+        ArtifactBlock artifactBlock = (ArtifactBlock) block;
+
+        if (artifactBlock.getArtifacts()==null) {
+            artifactBlock.setArtifacts(new ArrayList<>());
+        }
+
+        io.storydoc.server.storydoc.infra.store.model.Artifact artifact = new io.storydoc.server.storydoc.infra.store.model.Artifact();
+        artifact.setArtifactId(action.getArtifactId().getId());
+        artifact.setArtifactType(action.getArtifactType());
+        artifact.setName(action.getArtifactName());
+        artifact.setBinary(true);
+        artifact.setCollection(true);
+        artifact.setBinaryType(action.getBinaryType());
+        artifact.setItems(new ArrayList<>());
+
+        artifactBlock.getArtifacts().add(artifact);
+
+        saveDocument(storyDoc);
+
+
+    }
+
+    @Override
     public ArtifactMetaData getArtifactMetaData(ArtifactBlockCoordinate coordinate, ArtifactId artifactId) {
         StoryDoc storyDoc = loadDocument(coordinate.getStoryDocId());
-        ArtifactBlock block = (ArtifactBlock) lookupBlock(coordinate.getBlockId(), storyDoc.getBlocks());
+        ArtifactBlock block = (ArtifactBlock) lookupBlock(coordinate.getBlockId(), storyDoc);
         io.storydoc.server.storydoc.infra.store.model.Artifact artifact = block.getArtifacts().stream()
                 .filter(a -> a.getArtifactId().equals(artifactId.getId()))
                 .findFirst()
@@ -156,6 +198,15 @@ public class StoryDocStorageImpl implements StoryDocStorage {
             }
         }
         return null;
+    }
+
+    public Block getBlock(ArtifactBlockCoordinate coordinate) {
+        StoryDoc storyDoc = loadDocument(coordinate.getStoryDocId());
+        return lookupBlock(coordinate.getBlockId(), storyDoc);
+    }
+
+    private Block lookupBlock(BlockId blockId, StoryDoc storyDoc) {
+        return lookupBlock(blockId, storyDoc.getBlocks());
     }
 
     private Block lookupBlock(BlockId blockId, List<Block> blocks) {
@@ -204,14 +255,14 @@ public class StoryDocStorageImpl implements StoryDocStorage {
     @Override
     public void addTag(StoryDocId storyDocId, BlockId blockId, String tag) {
         StoryDoc storyDoc = loadDocument(storyDocId);
-        Block block = lookupBlock(blockId, storyDoc.getBlocks());
+        Block block = lookupBlock(blockId, storyDoc);
         block.getTags().add(tag);
         saveDocument(storyDoc);
     }
 
     public List<ArtifactId> getArtifacts(ArtifactBlockCoordinate coordinate, Function<ArtifactMetaData, Boolean> filter) {
         StoryDoc storyDoc = loadDocument(coordinate.getStoryDocId());
-        ArtifactBlock block = (ArtifactBlock)lookupBlock(coordinate.getBlockId(), storyDoc.getBlocks());
+        ArtifactBlock block = (ArtifactBlock)lookupBlock(coordinate.getBlockId(), storyDoc);
         return block.getArtifacts().stream()
             .filter(artifact -> filter.apply(getMetaData(artifact)))
             .map(a -> ArtifactId.fromString(a.getArtifactId()))
@@ -222,6 +273,24 @@ public class StoryDocStorageImpl implements StoryDocStorage {
         return ArtifactMetaData.builder()
                 .type(artifact.getArtifactType())
                 .build();
+    }
+
+    public StoryDocs loadDocuments()  {
+        try {
+            return workspaceService.loadResource(new ResourceLoadContext<StoryDocs>() {
+                @Override
+                public ResourceUrn getResourceUrn() {
+                    return getStoryDocsUrn();
+                }
+
+                @Override
+                public StoryDocs read(InputStream inputStream) throws IOException {
+                    return objectMapper.readValue(inputStream, StoryDocs.class);
+                }
+            });
+        } catch (WorkspaceException e) {
+            return new StoryDocs(new ArrayList<>());
+        }
     }
 
     @Override
@@ -240,6 +309,24 @@ public class StoryDocStorageImpl implements StoryDocStorage {
             });
         } catch (WorkspaceException e) {
             throw new StoryDocException("could not load storydoc " + storyDocId);
+        }
+    }
+
+    private void saveDocuments(StoryDocs storyDocs) throws StoryDocException {
+        try {
+            workspaceService.saveResource(new ResourceSaveContext() {
+                @Override
+                public ResourceUrn getResourceUrn() {
+                    return getStoryDocsUrn();
+                }
+
+                @Override
+                public void write(OutputStream outputStream) throws IOException {
+                    objectMapper.writerWithDefaultPrettyPrinter().writeValue(outputStream, storyDocs);
+                }
+            });
+        } catch (WorkspaceException e) {
+            throw new StoryDocException("could not save storydocs ", e);
         }
     }
 
@@ -320,6 +407,51 @@ public class StoryDocStorageImpl implements StoryDocStorage {
         } catch (WorkspaceException e) {
             throw new StoryDocException("could not save binary artifact ", e);
         }
+    }
+
+    @Override
+    public void addItemToBinaryCollection(AddToBinaryCollectionAction action) {
+        StoryDoc storyDoc = loadDocument(action.getCoordinate().getStoryDocId());
+        ArtifactBlock block = (ArtifactBlock) lookupBlock(action.getCoordinate().getBlockId(), storyDoc);
+        io.storydoc.server.storydoc.infra.store.model.Artifact artifact  = block.getArtifacts().stream()
+            .filter(a -> a.getArtifactId().equals(action.getArtifactId().getId()))
+            .findFirst()
+            .get();
+        artifact.getItems().add(ArtifactItem.builder()
+            .id(action.getItemId().getId())
+            .name(action.getItemName())
+            .build());
+        saveDocument(storyDoc);
+
+        try {
+            workspaceService.saveResource(new ResourceSaveContext() {
+                @Override
+                public ResourceUrn getResourceUrn() {
+                    ItemId itemId = action.getItemId();
+                    ArtifactBlockCoordinate coordinate = action.getCoordinate();
+                    return StoryDocStorageImpl.this.getItemResourceUrn(coordinate, itemId);
+                }
+
+                @Override
+                public void write(OutputStream outputStream) throws IOException {
+                    action.getInputStream().transferTo(outputStream);
+                }
+            });
+
+        } catch (WorkspaceException e) {
+            throw new StoryDocException("could not save binary artifact ", e);
+        }
+    }
+
+    private ResourceUrn getItemResourceUrn(ArtifactBlockCoordinate coordinate, ItemId itemId) {
+        ResourceUrn relativeItemResourceUrn = ResourceUrn.of(itemId.getId());
+        return getArtifactBlockFolder(coordinate).resolve(relativeItemResourceUrn);
+    }
+
+    @Override
+    public InputStream getBinaryFromCollection(ArtifactBlockCoordinate coordinate, ArtifactId artifactId, ItemId itemId) throws WorkspaceException {
+        ResourceUrn urn = getItemResourceUrn(coordinate, itemId);
+        return workspaceQueryService.getInputStream(urn);
     }
 
 

@@ -9,10 +9,15 @@
     </nav>
   </div>
   <div class="row">
-    <div *ngIf="mockUI$ | async as mockUI ; else loading">
-      <img src="{{mockUI.imgURL}}">
+    <div class="list-group" *ngIf="mockUI$ | async as mockUI ; else loading">
+      <div class="list-group-item" *ngFor="let screenshot of mockUI.screenshots">{{screenshot.id.id}}</div>
     </div>
   </div>
+  <div class="btn  btn-sm btn-outline-primary" (click)="openAddScreenshotDialog()">Add Screenshot</div>
 </div>
+
+<jw-modal [id]="getScreenshotDialogId()">
+  <app-add-screenshot-dialog [input]="createScreenshotDialogInput" [screenshotCollectionDTO]="screenshotCollection" (onConfirm)="confirmAddScreenshotDialog($event)" (onCancel)="cancelAddScreenshotDialog()"></app-add-screenshot-dialog>
+</jw-modal>
 
 <ng-template #loading>loading...</ng-template>

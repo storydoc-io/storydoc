@@ -34,24 +34,29 @@ public class WorkspaceTestUtils {
     @SneakyThrows
     public void logBinaryResourceContent(String msg, ResourceUrn resourceUrn){
         log.trace("");
-        log.trace(msg + ":" );
         log.trace("\turl: " + format(resourceUrn));
+        log.trace(msg + ":" );
         log.trace("\tcontent:" );
 
-        int numberOfColumns = 20;
         try(InputStream inputStream = queryService.getInputStream(resourceUrn)) {
-            long streamPtr=0;
-            StringBuilder stringBuilder = new StringBuilder();
-            while (inputStream.available() > 0) {
-                final long col = streamPtr++ % numberOfColumns;
-                stringBuilder.append(String.format("%02x ",inputStream.read()));
-                if (col == (numberOfColumns-1)) {
-                    log.trace(stringBuilder.toString());
-                    stringBuilder = new StringBuilder();
-                }
-            }
-            log.trace(stringBuilder.toString());
+            logBinaryInputstream(inputStream);
         }
+    }
+
+    @SneakyThrows
+    public void logBinaryInputstream(InputStream inputStream) {
+        int numberOfColumns = 20;
+        long streamPtr=0;
+        StringBuilder stringBuilder = new StringBuilder();
+        while (inputStream.available() > 0) {
+            final long col = streamPtr++ % numberOfColumns;
+            stringBuilder.append(String.format("%02x ", inputStream.read()));
+            if (col == (numberOfColumns-1)) {
+                log.trace(stringBuilder.toString());
+                stringBuilder = new StringBuilder();
+            }
+        }
+        log.trace(stringBuilder.toString());
     }
 
     private String format(ResourceUrn resourceUrn) {

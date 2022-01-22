@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,6 +22,14 @@ public class ArtifactDTO {
     private String artifactType;
 
     private ResourceUrn urn;
+
+    private boolean binary;
+
+    private boolean collection;
+
+    private String binaryType;
+
+    private List<ItemDTO> items;
 
 }
 

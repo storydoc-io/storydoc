@@ -23,7 +23,6 @@ export class BlockComponent implements OnInit {
   numbering(): string {
     if (!this.block) return ''
     let val =  ''
-    // @ts-ignore
     for(let nr of this.block.numbering) {
       val += (val.length==0 ? '' :'.') + nr
     }

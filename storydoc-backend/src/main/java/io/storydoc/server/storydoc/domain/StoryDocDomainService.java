@@ -21,8 +21,8 @@ public class StoryDocDomainService {
 
     }
 
-    public StoryDocId createDocument(StoryDocId storyDocId) {
-        storage.createDocument(storyDocId);
+    public StoryDocId createDocument(StoryDocId storyDocId, String name) {
+        storage.createDocument(storyDocId, name);
         return storyDocId;
     }
 }

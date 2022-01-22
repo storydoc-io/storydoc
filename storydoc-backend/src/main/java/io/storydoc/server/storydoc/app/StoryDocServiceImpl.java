@@ -2,13 +2,12 @@ package io.storydoc.server.storydoc.app;
 
 import io.storydoc.server.infra.IDGenerator;
 import io.storydoc.server.storydoc.domain.*;
-import io.storydoc.server.storydoc.domain.action.ArtifactLoadContext;
-import io.storydoc.server.storydoc.domain.action.ArtifactSaveContext;
-import io.storydoc.server.storydoc.domain.action.SaveBinaryArtifactContext;
+import io.storydoc.server.storydoc.domain.action.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 
 @Service
@@ -24,18 +23,18 @@ public class StoryDocServiceImpl implements StoryDocService {
     }
 
     @Override
-    public StoryDocId createDocument() {
+    public StoryDocId createDocument(String name) {
         StoryDocId storyDocId = new StoryDocId(idGenerator.generateID("STORY"));
-        return domainService.createDocument(storyDocId);
+        return domainService.createDocument(storyDocId, name);
     }
 
     @Override
-    public BlockId addArtifactBlock(StoryDocId storyDocId) {
+    public BlockId addArtifactBlock(StoryDocId storyDocId, String name) {
 
         StoryDoc storyDoc = domainService.getDocument(storyDocId);
         BlockId blockId = new BlockId(idGenerator.generateID("BLOCK"));
 
-        return storyDoc.addBlock(blockId);
+        return storyDoc.addBlock(blockId, name);
 
     }
 
@@ -94,5 +93,36 @@ public class StoryDocServiceImpl implements StoryDocService {
     public void saveBinaryArtifact(SaveBinaryArtifactContext context) throws IOException {
         StoryDoc storyDoc = domainService.getDocument(context.getCoordinate().getStoryDocId());
         storyDoc.saveBinaryArtifact(context);
+    }
+
+    @Override
+    public ArtifactId createBinaryCollectionArtifact(ArtifactBlockCoordinate coordinate, String artifactType, String binaryType, String name) {
+        ArtifactId artifactId = ArtifactId.fromString(idGenerator.generateID(artifactType));
+        CreateBinaryCollectionArtifactAction action = CreateBinaryCollectionArtifactAction.builder()
+            .coordinate(coordinate)
+            .artifactId(artifactId)
+            .artifactName(name)
+            .artifactType(artifactType)
+            .binaryType(binaryType)
+            .build();
+        StoryDoc storyDoc = domainService.getDocument(coordinate.getStoryDocId());
+        storyDoc.createBinaryCollectionArtifact(action);
+        return artifactId;
+    }
+
+    // todo add filename generator
+    @Override
+    public ItemId addItemToBinaryCollection(ArtifactBlockCoordinate coordinate, ArtifactId artifactId, String itemName, InputStream inputStream) {
+        ItemId itemId = ItemId.fromString(idGenerator.generateID("item"));
+        AddToBinaryCollectionAction action = AddToBinaryCollectionAction.builder()
+            .coordinate(coordinate)
+            .artifactId(artifactId)
+            .itemId(itemId)
+            .itemName(itemName)
+            .inputStream(inputStream)
+            .build();
+        StoryDoc storyDoc = domainService.getDocument(coordinate.getStoryDocId());
+        storyDoc.addItemToBinaryCollection(action);
+        return itemId;
     }
 }

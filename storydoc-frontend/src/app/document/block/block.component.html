@@ -2,8 +2,9 @@
   <app-title [numbering]="block.numbering" [text]="block.title"></app-title>
   <ng-container [ngSwitch]="block.blockType">
     <div *ngSwitchCase="'ARTIFACT'">
-      <app-artifact-block [artifacts]="block.artifacts" [documentId]="documentId"></app-artifact-block>
+      <app-artifact-block [documentId]="documentId" [blockId]="block.blockId" [artifacts]="block.artifacts" ></app-artifact-block>
     </div>
+<!--
     <div *ngSwitchCase="'UI'">
       <app-uiblock></app-uiblock>
     </div>
@@ -11,7 +12,8 @@
       <app-ui-walkthrough></app-ui-walkthrough>
     </div>
     <div *ngSwitchCase="'DB-CONNECTION'">
-      <app-ui-walkthrough></app-ui-walkthrough>
-    </div>
+    <app-ui-walkthrough></app-ui-walkthrough>
+</div>
+-->
   </ng-container>
 </div>

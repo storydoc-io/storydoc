@@ -1,6 +1,7 @@
 package io.storydoc.server.ui.app;
 
 import io.storydoc.server.ui.domain.MockUIId;
+import io.storydoc.server.ui.domain.ScreenShotCollectionId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +19,8 @@ public class MockUIDTO {
 
     private String name;
 
-    private List<ScreenshotDTO> screenshots;
+    private List<ScreenShotDTO> screenshots;
+
+    private List<ScreenShotCollectionId> associatedCollections;
 
 }
