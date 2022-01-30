@@ -8,6 +8,7 @@ import {StoryDocRestControllerService} from "../api/services/story-doc-rest-cont
 import {StoryDocSummaryDto} from "../api/models/story-doc-summary-dto";
 import {Observable} from "rxjs";
 import {PopupMenuComponent} from "../common/popup-menu/popup-menu.component";
+import {share} from "rxjs/operators";
 
 @Component({
   selector: 'app-story-manager-page',
@@ -24,10 +25,14 @@ export class DocumentManagerPageComponent implements OnInit {
   summaries$: Observable<StoryDocSummaryDto[]>
 
   ngOnInit(): void {
-    this.summaries$ = this.storyDocRestControllerService.getDocumentsUsingGet()
+    this.refresh();
   }
 
-  // create storydoc dialog
+  private refresh() {
+    this.summaries$ = this.storyDocRestControllerService.getDocumentsUsingGet().pipe(share())
+  }
+
+// create storydoc dialog
 
   createDocumentDialogInput: CreateDocumentDialogInput
 
@@ -44,7 +49,7 @@ export class DocumentManagerPageComponent implements OnInit {
   confirmAddDocumentDialog(data: CreateDocumentDialogData) {
     console.log('data:', data)
     this.storyDocRestControllerService.createDocumentUsingPost({ name : data.name }).subscribe({
-      next: value => console.log(value)
+      next: value => this.refresh()
     })
 
     this.modalservice.close("add-document-dialog")

@@ -7,8 +7,16 @@ export interface ArtifactDescriptor {
   editorUrl: string
 }
 
+let timeLineModel = {
+  key : 'io.storydoc.server.timeline.domain.TimeLineModel',
+  icon: '/assets/timeline.png',
+  label: 'Timeline',
+  editorUrl: '/timeline'
+
+} as ArtifactDescriptor
+
 let uiScenario = {
-  key : 'io.storydoc.server.ui.domain.MockUI',
+  key : 'io.storydoc.server.ui.domain.UIScenario',
   icon: '/assets/artifact-ui-scenario.png',
   label: 'UI Scenario',
   editorUrl: '/ui-scenario'
@@ -23,11 +31,13 @@ let uiScreenshotCollection = {
 } as ArtifactDescriptor
 
 let map : {[key: string]: ArtifactDescriptor} = {
-  'io.storydoc.server.ui.domain.MockUI' : uiScenario,
+  'io.storydoc.server.timeline.domain.TimeLineModel' : timeLineModel,
+  'io.storydoc.server.ui.domain.UIScenario' : uiScenario,
   'io.storydoc.server.ui.domain.ScreenShotCollection' : uiScreenshotCollection,
 }
 
 let list: ArtifactDescriptor[] = [
+  timeLineModel,
   uiScenario,
   uiScreenshotCollection
 ]

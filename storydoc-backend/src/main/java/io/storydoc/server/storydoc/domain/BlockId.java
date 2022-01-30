@@ -6,6 +6,8 @@ public class BlockId {
 
     private String id;
 
+    private BlockId() {}
+
     public BlockId(String id) {
         this.id = id;
     }

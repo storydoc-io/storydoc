@@ -9,12 +9,11 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
-import { MockUidto } from '../models/mock-uidto';
-import { MockUiId } from '../models/mock-ui-id';
 import { ScreenShotCollectionDto } from '../models/screen-shot-collection-dto';
 import { ScreenShotCollectionId } from '../models/screen-shot-collection-id';
-import { ScreenShotDto } from '../models/screen-shot-dto';
 import { ScreenShotId } from '../models/screen-shot-id';
+import { UiScenarioDto } from '../models/ui-scenario-dto';
+import { UiScenarioId } from '../models/ui-scenario-id';
 
 
 /**
@@ -29,174 +28,6 @@ export class UiRestControllerService extends BaseService {
     http: HttpClient
   ) {
     super(config, http);
-  }
-
-  /**
-   * Path part for operation getMockUiUsingGet
-   */
-  static readonly GetMockUiUsingGetPath = '/api/ui/mockui';
-
-  /**
-   * getMockUI.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getMockUiUsingGet()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getMockUiUsingGet$Response(params?: {
-
-    /**
-     * storyDocId
-     */
-    storyDocId?: string;
-
-    /**
-     * blockId
-     */
-    blockId?: string;
-
-    /**
-     * id
-     */
-    id?: string;
-  }): Observable<StrictHttpResponse<MockUidto>> {
-
-    const rb = new RequestBuilder(this.rootUrl, UiRestControllerService.GetMockUiUsingGetPath, 'get');
-    if (params) {
-      rb.query('storyDocId', params.storyDocId, {"style":"form"});
-      rb.query('blockId', params.blockId, {"style":"form"});
-      rb.query('id', params.id, {"style":"form"});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<MockUidto>;
-      })
-    );
-  }
-
-  /**
-   * getMockUI.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getMockUiUsingGet$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getMockUiUsingGet(params?: {
-
-    /**
-     * storyDocId
-     */
-    storyDocId?: string;
-
-    /**
-     * blockId
-     */
-    blockId?: string;
-
-    /**
-     * id
-     */
-    id?: string;
-  }): Observable<MockUidto> {
-
-    return this.getMockUiUsingGet$Response(params).pipe(
-      map((r: StrictHttpResponse<MockUidto>) => r.body as MockUidto)
-    );
-  }
-
-  /**
-   * Path part for operation getScreenshotUsingGet
-   */
-  static readonly GetScreenshotUsingGetPath = '/api/ui/screenshot';
-
-  /**
-   * getScreenshot.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getScreenshotUsingGet()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getScreenshotUsingGet$Response(params?: {
-
-    /**
-     * storyDocId
-     */
-    storyDocId?: string;
-
-    /**
-     * blockId
-     */
-    blockId?: string;
-
-    /**
-     * id
-     */
-    id?: string;
-  }): Observable<StrictHttpResponse<ScreenShotDto>> {
-
-    const rb = new RequestBuilder(this.rootUrl, UiRestControllerService.GetScreenshotUsingGetPath, 'get');
-    if (params) {
-      rb.query('storyDocId', params.storyDocId, {"style":"form"});
-      rb.query('blockId', params.blockId, {"style":"form"});
-      rb.query('id', params.id, {"style":"form"});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<ScreenShotDto>;
-      })
-    );
-  }
-
-  /**
-   * getScreenshot.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getScreenshotUsingGet$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getScreenshotUsingGet(params?: {
-
-    /**
-     * storyDocId
-     */
-    storyDocId?: string;
-
-    /**
-     * blockId
-     */
-    blockId?: string;
-
-    /**
-     * id
-     */
-    id?: string;
-  }): Observable<ScreenShotDto> {
-
-    return this.getScreenshotUsingGet$Response(params).pipe(
-      map((r: StrictHttpResponse<ScreenShotDto>) => r.body as ScreenShotDto)
-    );
   }
 
   /**
@@ -517,21 +348,105 @@ export class UiRestControllerService extends BaseService {
   }
 
   /**
-   * Path part for operation createMockUiUsingPost
+   * Path part for operation getMockUiUsingGet
    */
-  static readonly CreateMockUiUsingPostPath = '/api/ui/uiscenario';
+  static readonly GetMockUiUsingGetPath = '/api/ui/uiscenario';
 
   /**
-   * createMockUI.
+   * getMockUI.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `createMockUiUsingPost()` instead.
+   * To access only the response body, use `getMockUiUsingGet()` instead.
    *
    * This method doesn't expect any request body.
    */
-  createMockUiUsingPost$Response(params?: {
+  getMockUiUsingGet$Response(params?: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId?: string;
+
+    /**
+     * blockId
+     */
+    blockId?: string;
+
+    /**
+     * id
+     */
+    id?: string;
+  }): Observable<StrictHttpResponse<UiScenarioDto>> {
+
+    const rb = new RequestBuilder(this.rootUrl, UiRestControllerService.GetMockUiUsingGetPath, 'get');
+    if (params) {
+      rb.query('storyDocId', params.storyDocId, {"style":"form"});
+      rb.query('blockId', params.blockId, {"style":"form"});
+      rb.query('id', params.id, {"style":"form"});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<UiScenarioDto>;
+      })
+    );
+  }
+
+  /**
+   * getMockUI.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getMockUiUsingGet$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getMockUiUsingGet(params?: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId?: string;
+
+    /**
+     * blockId
+     */
+    blockId?: string;
+
+    /**
+     * id
+     */
+    id?: string;
+  }): Observable<UiScenarioDto> {
+
+    return this.getMockUiUsingGet$Response(params).pipe(
+      map((r: StrictHttpResponse<UiScenarioDto>) => r.body as UiScenarioDto)
+    );
+  }
+
+  /**
+   * Path part for operation createUiScenarioUsingPost
+   */
+  static readonly CreateUiScenarioUsingPostPath = '/api/ui/uiscenario';
+
+  /**
+   * createUIScenario.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `createUiScenarioUsingPost()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  createUiScenarioUsingPost$Response(params?: {
 
     /**
      * storyDocId
@@ -547,9 +462,9 @@ export class UiRestControllerService extends BaseService {
      * name
      */
     name?: string;
-  }): Observable<StrictHttpResponse<MockUiId>> {
+  }): Observable<StrictHttpResponse<UiScenarioId>> {
 
-    const rb = new RequestBuilder(this.rootUrl, UiRestControllerService.CreateMockUiUsingPostPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, UiRestControllerService.CreateUiScenarioUsingPostPath, 'post');
     if (params) {
       rb.query('storyDocId', params.storyDocId, {"style":"form"});
       rb.query('blockId', params.blockId, {"style":"form"});
@@ -562,22 +477,22 @@ export class UiRestControllerService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<MockUiId>;
+        return r as StrictHttpResponse<UiScenarioId>;
       })
     );
   }
 
   /**
-   * createMockUI.
+   * createUIScenario.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `createMockUiUsingPost$Response()` instead.
+   * To access the full response (for headers, for example), `createUiScenarioUsingPost$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  createMockUiUsingPost(params?: {
+  createUiScenarioUsingPost(params?: {
 
     /**
      * storyDocId
@@ -593,29 +508,29 @@ export class UiRestControllerService extends BaseService {
      * name
      */
     name?: string;
-  }): Observable<MockUiId> {
+  }): Observable<UiScenarioId> {
 
-    return this.createMockUiUsingPost$Response(params).pipe(
-      map((r: StrictHttpResponse<MockUiId>) => r.body as MockUiId)
+    return this.createUiScenarioUsingPost$Response(params).pipe(
+      map((r: StrictHttpResponse<UiScenarioId>) => r.body as UiScenarioId)
     );
   }
 
   /**
-   * Path part for operation addScreenshotToUiSceanrioUsingPost
+   * Path part for operation addScreenshotToUiScenarioUsingPost
    */
-  static readonly AddScreenshotToUiSceanrioUsingPostPath = '/api/ui/uiscenarioscreenshot';
+  static readonly AddScreenshotToUiScenarioUsingPostPath = '/api/ui/uiscenarioscreenshot';
 
   /**
-   * addScreenshotToUISceanrio.
+   * addScreenshotToUIScenario.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `addScreenshotToUiSceanrioUsingPost()` instead.
+   * To access only the response body, use `addScreenshotToUiScenarioUsingPost()` instead.
    *
    * This method doesn't expect any request body.
    */
-  addScreenshotToUiSceanrioUsingPost$Response(params?: {
+  addScreenshotToUiScenarioUsingPost$Response(params?: {
 
     /**
      * storyDocId
@@ -628,22 +543,46 @@ export class UiRestControllerService extends BaseService {
     blockId?: string;
 
     /**
-     * mockUiId
+     * uiScenarioId
      */
-    mockUiId?: string;
+    uiScenarioId?: string;
+
+    /**
+     * screenshotStoryDocId
+     */
+    screenshotStoryDocId?: string;
+
+    /**
+     * screenshotBlockId
+     */
+    screenshotBlockId?: string;
+
+    /**
+     * screenshotCollectionId
+     */
+    screenshotCollectionId?: string;
 
     /**
      * screenshotId
      */
     screenshotId?: string;
+
+    /**
+     * timeLineItemId
+     */
+    timeLineItemId?: string;
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, UiRestControllerService.AddScreenshotToUiSceanrioUsingPostPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, UiRestControllerService.AddScreenshotToUiScenarioUsingPostPath, 'post');
     if (params) {
       rb.query('storyDocId', params.storyDocId, {"style":"form"});
       rb.query('blockId', params.blockId, {"style":"form"});
-      rb.query('mockUiId', params.mockUiId, {"style":"form"});
+      rb.query('uiScenarioId', params.uiScenarioId, {"style":"form"});
+      rb.query('screenshotStoryDocId', params.screenshotStoryDocId, {"style":"form"});
+      rb.query('screenshotBlockId', params.screenshotBlockId, {"style":"form"});
+      rb.query('screenshotCollectionId', params.screenshotCollectionId, {"style":"form"});
       rb.query('screenshotId', params.screenshotId, {"style":"form"});
+      rb.query('timeLineItemId', params.timeLineItemId, {"style":"form"});
     }
 
     return this.http.request(rb.build({
@@ -658,16 +597,16 @@ export class UiRestControllerService extends BaseService {
   }
 
   /**
-   * addScreenshotToUISceanrio.
+   * addScreenshotToUIScenario.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `addScreenshotToUiSceanrioUsingPost$Response()` instead.
+   * To access the full response (for headers, for example), `addScreenshotToUiScenarioUsingPost$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  addScreenshotToUiSceanrioUsingPost(params?: {
+  addScreenshotToUiScenarioUsingPost(params?: {
 
     /**
      * storyDocId
@@ -680,17 +619,165 @@ export class UiRestControllerService extends BaseService {
     blockId?: string;
 
     /**
-     * mockUiId
+     * uiScenarioId
      */
-    mockUiId?: string;
+    uiScenarioId?: string;
+
+    /**
+     * screenshotStoryDocId
+     */
+    screenshotStoryDocId?: string;
+
+    /**
+     * screenshotBlockId
+     */
+    screenshotBlockId?: string;
+
+    /**
+     * screenshotCollectionId
+     */
+    screenshotCollectionId?: string;
 
     /**
      * screenshotId
      */
     screenshotId?: string;
+
+    /**
+     * timeLineItemId
+     */
+    timeLineItemId?: string;
   }): Observable<void> {
 
-    return this.addScreenshotToUiSceanrioUsingPost$Response(params).pipe(
+    return this.addScreenshotToUiScenarioUsingPost$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation setUiScenarioTimeLineUsingPost
+   */
+  static readonly SetUiScenarioTimeLineUsingPostPath = '/api/ui/uiscenariotimeline';
+
+  /**
+   * setUIScenarioTimeLine.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `setUiScenarioTimeLineUsingPost()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  setUiScenarioTimeLineUsingPost$Response(params?: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId?: string;
+
+    /**
+     * blockId
+     */
+    blockId?: string;
+
+    /**
+     * uiScenarioId
+     */
+    uiScenarioId?: string;
+
+    /**
+     * timeLineModelStoryDocId
+     */
+    timeLineModelStoryDocId?: string;
+
+    /**
+     * timeLineModelBlockId
+     */
+    timeLineModelBlockId?: string;
+
+    /**
+     * timeLineModelId
+     */
+    timeLineModelId?: string;
+
+    /**
+     * timeLineId
+     */
+    timeLineId?: string;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, UiRestControllerService.SetUiScenarioTimeLineUsingPostPath, 'post');
+    if (params) {
+      rb.query('storyDocId', params.storyDocId, {"style":"form"});
+      rb.query('blockId', params.blockId, {"style":"form"});
+      rb.query('uiScenarioId', params.uiScenarioId, {"style":"form"});
+      rb.query('timeLineModelStoryDocId', params.timeLineModelStoryDocId, {"style":"form"});
+      rb.query('timeLineModelBlockId', params.timeLineModelBlockId, {"style":"form"});
+      rb.query('timeLineModelId', params.timeLineModelId, {"style":"form"});
+      rb.query('timeLineId', params.timeLineId, {"style":"form"});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * setUIScenarioTimeLine.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `setUiScenarioTimeLineUsingPost$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  setUiScenarioTimeLineUsingPost(params?: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId?: string;
+
+    /**
+     * blockId
+     */
+    blockId?: string;
+
+    /**
+     * uiScenarioId
+     */
+    uiScenarioId?: string;
+
+    /**
+     * timeLineModelStoryDocId
+     */
+    timeLineModelStoryDocId?: string;
+
+    /**
+     * timeLineModelBlockId
+     */
+    timeLineModelBlockId?: string;
+
+    /**
+     * timeLineModelId
+     */
+    timeLineModelId?: string;
+
+    /**
+     * timeLineId
+     */
+    timeLineId?: string;
+  }): Observable<void> {
+
+    return this.setUiScenarioTimeLineUsingPost$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }

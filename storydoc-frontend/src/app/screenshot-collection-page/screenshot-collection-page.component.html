@@ -1,30 +1,58 @@
-<div class="container-fluid">
-  <div class="row">
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-        <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Screenshot collection: </li>
-      </ol>
-    </nav>
-  </div>
-  <div class="row">
-    <div *ngIf="screenshotCollection$ | async as screenshotCollection ; else loading">
-      <ul class="list-group">
-        <li *ngFor="let screenshot of screenshotCollection.screenShots" class="list-group-item">
-          <div style="width: 120px;height: 100px;overflow: hidden;border: 1px solid blue; ">
-            <img [src]="getScreenshotUrl(screenshot)" height="100px" width="auto">
-          </div>
-          {{screenshot.name}}
+<app-layout-2col
+  [breadcrumb]="breadcrumb"
+  [title]="title"
+  [leftColumn]="leftPanel"
+  [rightColumn]="rightPanel"
+>
+</app-layout-2col>
+
+<ng-template #breadcrumb>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+      <ng-container *ngIf="screenshotCollection$ | async as screenshotCollection">
+        <li class="breadcrumb-item"><a
+          [routerLink]="link.toStoryDoc(screenshotCollection.storyDocSummary)">{{screenshotCollection.storyDocSummary.name}}</a>
         </li>
-      </ul>
-    </div>
-    <div class="btn  btn-sm btn-outline-primary" (click)="openAddScreenshotDialog()">Add Screenshot</div>
+        <li class="breadcrumb-item active" aria-current="page">{{screenshotCollection.name}}</li>
+      </ng-container>
+    </ol>
+  </nav>
+</ng-template>
+
+<ng-template #title>
+  <div *ngIf="screenshotCollection$ | async as screenshotCollection">
+    <h3>Screenshots: {{screenshotCollection.name}}</h3>
   </div>
-</div>
+</ng-template>
+
+<ng-template #leftPanel>
+  <span>LEFT</span>
+</ng-template>
+
+<ng-template #rightPanel>
+  <div class="container-fluid">
+    <div class="row">
+    </div>
+    <div class="row">
+      <div *ngIf="(screenshotCollection$ | async) as screenshotCollection ; else loading">
+        <ul class="list-group">
+          <li *ngFor="let screenshot of screenshotCollection.screenShots" class="list-group-item">
+            <div style="width: 120px;height: 100px;overflow: hidden;border: 1px solid blue; ">
+              <img [src]="getScreenshotUrl(screenshot)" height="100px" width="auto">
+            </div>
+            {{screenshot.name}}
+          </li>
+        </ul>
+      </div>
+      <div class="btn  btn-sm btn-outline-primary" (click)="openAddScreenshotDialog()">Add Screenshot</div>
+    </div>
+  </div>
+</ng-template>
 
 <jw-modal [id]="getScreenshotDialogId()">
-  <app-create-screenshot-dialog [input]="createScreenshotDialogInput" (onConfirm)="confirmAddScreenshotDialog($event)" (onCancel)="cancelAddScreenshotDialog()"></app-create-screenshot-dialog>
+  <app-create-screenshot-dialog [input]="createScreenshotDialogInput" (onConfirm)="confirmAddScreenshotDialog($event)"
+                                (onCancel)="cancelAddScreenshotDialog()"></app-create-screenshot-dialog>
 </jw-modal>
 
 <ng-template #loading>loading...</ng-template>

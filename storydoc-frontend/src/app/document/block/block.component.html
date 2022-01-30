@@ -2,7 +2,7 @@
   <app-title [numbering]="block.numbering" [text]="block.title"></app-title>
   <ng-container [ngSwitch]="block.blockType">
     <div *ngSwitchCase="'ARTIFACT'">
-      <app-artifact-block [documentId]="documentId" [blockId]="block.blockId" [artifacts]="block.artifacts" ></app-artifact-block>
+      <app-artifact-block [documentId]="documentId" [blockId]="block.blockId" [artifacts]="block.artifacts" (onBlockChanged)="refresh()"></app-artifact-block>
     </div>
 <!--
     <div *ngSwitchCase="'UI'">

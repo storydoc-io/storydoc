@@ -9,11 +9,15 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @Component
@@ -43,6 +47,23 @@ public class FolderStoreImpl implements FolderStorage {
             file.mkdirs();
         }
         return subUrn(folderURN, folderName);
+    }
+
+    @Override
+    public void deleteFolder(FolderURN folderURN, boolean recursive) throws IOException {
+        Path path = resolve(folderURN);
+        if (recursive) {
+            log.trace("deleting " + path + " recursive");
+            try (Stream<Path> walk = Files.walk(path)) {
+                walk.sorted(Comparator.reverseOrder())
+                        .map(Path::toFile)
+                        // .peek(f -> log.trace("deleting " + f))
+                        .forEach(File::delete);
+            }
+        } else {
+            log.trace("deleting " + path + " non recursive");
+            Files.delete(path);
+        }
     }
 
     @Override

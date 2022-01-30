@@ -25,4 +25,8 @@ public class StoryDocDomainService {
         storage.createDocument(storyDocId, name);
         return storyDocId;
     }
+
+    public void removeDocument(StoryDocId storyDocId) {
+        storage.removeDocument(storyDocId);
+    }
 }

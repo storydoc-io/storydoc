@@ -10,6 +10,10 @@ import {
 } from "./create-screenshot-dialog/create-screenshot-dialog.component";
 import {HttpClient} from "@angular/common/http";
 import {ScreenShotDto} from "../api/models/screen-shot-dto";
+import {ScreenshotCollectionCoordinate} from "../api/models/screenshot-collection-coordinate";
+import {LinkService} from "../common/link.service";
+import {share} from "rxjs/operators";
+import {ScreenshotCoordinate} from "../api/models/screenshot-coordinate";
 
 @Component({
   selector: 'app-screenshot-collection-page',
@@ -21,6 +25,7 @@ export class ScreenshotCollectionPageComponent implements OnInit {
   constructor(
     private uiRestControllerService: UiRestControllerService,
     private route: ActivatedRoute,
+    public link: LinkService,
     private modalService: ModalService,
     private http: HttpClient) {
   }
@@ -36,23 +41,26 @@ export class ScreenshotCollectionPageComponent implements OnInit {
       this.documentId  = params.get('documentId')
       this.blockId = params.get('blockId')
       this.id = params.get('artifactId')
-      console.log('id: ', this.id)
       if (this.id) {
         console.log('params: ', {
           storyDocId: this.documentId,
           blockId: this.blockId,
           id: this.id
         })
-        this.screenshotCollection$ = this.uiRestControllerService.getScreenShotCollectionUsingGet({
-          storyDocId: this.documentId,
-          blockId: this.blockId,
-          id: this.id
-        })
+        this.reload();
       }
     });
   }
 
-  // create screenshot dialog
+  private reload() {
+    this.screenshotCollection$ = this.uiRestControllerService.getScreenShotCollectionUsingGet({
+      storyDocId: this.documentId,
+      blockId: this.blockId,
+      id: this.id
+    }).pipe(share())
+  }
+
+// create screenshot dialog
   createScreenshotDialogInput: CreateScreenshotDialogInput
 
   getScreenshotDialogId() {
@@ -80,7 +88,7 @@ export class ScreenshotCollectionPageComponent implements OnInit {
     formData.set('screenshotCollectionId', this.id)
     formData.set('name', data.name)
     this.http.post('http://localhost:4200/api/ui/screenshot', formData).subscribe({
-      next: value => console.log('success: ', value)
+      next: value => this.reload()
     })
     this.modalService.close(this.getScreenshotDialogId())
   }
@@ -90,7 +98,18 @@ export class ScreenshotCollectionPageComponent implements OnInit {
   }
 
   getScreenshotUrl(screenshot: ScreenShotDto) {
-    return 'http://localhost:4200/api/ui/screenshot/'+this.documentId+'/'+this.blockId+'/'+this.id+'/'+screenshot.id.id
+    let coord = <ScreenshotCoordinate>{
+      collectionCoordinate: {
+        blockCoordinate: {
+          storyDocId: { id: this.documentId},
+          blockId: { id : this.blockId}
+        },
+        screenShotCollectionId: { id: this.id }
+      },
+      screenShotId: { id : screenshot.id.id }
+    };
+    console.log('coord:', coord)
+    return this.link.getScreenshotUrl(coord)
   }
 
 }

@@ -3,6 +3,8 @@ package io.storydoc.server.workspace.app;
 import io.storydoc.server.workspace.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+
 @Service
 public class WorkspaceServiceImpl implements WorkspaceService {
 
@@ -26,8 +28,22 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     }
 
     @Override
+    public void deleteFolder(FolderURN folderURN, boolean recursive) throws WorkspaceException {
+        try {
+            folderStore.deleteFolder(folderURN, recursive);
+        } catch (IOException ioe) {
+            throw new WorkspaceException("could not delete folder " + folderURN, ioe);
+        }
+    }
+
+    @Override
     public void saveResource(ResourceSaveContext context) throws WorkspaceException {
         resourceStore.store(context);
+    }
+
+    @Override
+    public void deleteResource(ResourceUrn resourceUrn) throws WorkspaceException {
+        resourceStore.delete(resourceUrn);
     }
 
     @Override

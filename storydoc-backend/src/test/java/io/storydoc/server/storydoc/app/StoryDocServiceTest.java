@@ -1,6 +1,7 @@
 package io.storydoc.server.storydoc.app;
 
 import io.storydoc.server.TestBase;
+import io.storydoc.server.storydoc.StoryDocTestUtils;
 import io.storydoc.server.storydoc.app.dto.ArtifactDTO;
 import io.storydoc.server.storydoc.app.dto.BlockDTO;
 import io.storydoc.server.storydoc.app.dto.ItemDTO;
@@ -32,6 +33,9 @@ public class StoryDocServiceTest extends TestBase {
 
     private WorkspaceTestUtils workspaceTestUtils;
 
+    @Autowired
+    private StoryDocTestUtils storyDocTestUtils;
+
     @Before
     public void setup() {
         workspaceTestUtils = new WorkspaceTestUtils(workspaceQueryService);
@@ -61,6 +65,43 @@ public class StoryDocServiceTest extends TestBase {
     }
 
     @Test
+    public void removeDocument() {
+        // given a storydoc
+        ArtifactBlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        StoryDocId storyDocId = blockCoordinate.getStoryDocId();
+
+        workspaceTestUtils.logFolderStructure("before remove ");
+
+        // when I remove the document
+        storyDocService.removeDocument(storyDocId);
+
+        workspaceTestUtils.logFolderStructure("after remove ");
+
+        // then it is removed from the document list
+        assertEquals(0, storyDocQueryService.getStoryDocs().size());
+        // and it cannot be found by id
+        assertNull(storyDocQueryService.getDocument(storyDocId));
+        assertNull(storyDocQueryService.getStoryDocSummary(storyDocId));
+
+
+    }
+
+    @Test
+    public void renameDocument() {
+        // given a storydoc
+        ArtifactBlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        StoryDocId storyDocId = blockCoordinate.getStoryDocId();
+
+        // when I rename the document
+        String new_name = "new_name";
+        storyDocService.renameDocument(storyDocId, new_name);
+
+        // then the document has been renamed
+        assertEquals(new_name, storyDocQueryService.getStoryDocSummary(storyDocId).getName());
+        assertEquals(new_name, storyDocQueryService.getDocument(storyDocId).getTitle());
+    }
+
+    @Test
     public void addArtifactBlock() {
         // given
         String story_name = "story";
@@ -83,6 +124,19 @@ public class StoryDocServiceTest extends TestBase {
         workspaceTestUtils.logFolderStructure("after add block ");
         workspaceTestUtils.logResourceContent("storydoc",storyDocQueryService.getDocument(storyDocId).getUrn());
 
+    }
+
+    @Test
+    public void renameArtifactBlock() {
+        // given a storydoc with an artifact block
+        ArtifactBlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+
+        // when I rename the artifact block
+        String new_name = "new_name";
+        storyDocService.renameBlock(blockCoordinate, new_name);
+
+        // then the document has been renamed
+        assertEquals(new_name, storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getBlocks().get(0).getTitle());
     }
 
     @Test
@@ -177,6 +231,8 @@ public class StoryDocServiceTest extends TestBase {
             StoryDocDTO storyDocDTO = storyDocQueryService.getDocument(storyDocId);
             assertEquals(2, storyDocDTO.getBlocks().size());
         }
+
+        workspaceTestUtils.logFolderStructure("before remove block ");
 
         // when
         storyDocService.removeBlock(storyDocId, blockId1);

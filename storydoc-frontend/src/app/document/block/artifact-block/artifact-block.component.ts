@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ArtifactDto} from "../../../api/models/artifact-dto";
 import {StoryDocId} from "../../../api/models/story-doc-id";
 import {ModalService} from "../../../common/modal-service";
@@ -6,6 +6,7 @@ import {CreateArtifactDialogInput, CreateArtifactDialogData} from "../../create-
 import {BlockId} from "../../../api/models/block-id";
 import {UiRestControllerService} from "../../../api/services/ui-rest-controller.service";
 import {ArtifactDataService, ArtifactDescriptor} from "./artifact-data.service";
+import {TimeLineControllerService} from "../../../api/services/time-line-controller.service";
 
 @Component({
   selector: 'app-artifact-block',
@@ -17,7 +18,9 @@ export class ArtifactBlockComponent {
   constructor(
     private modalservice: ModalService,
     private uiRestControllerService : UiRestControllerService,
-    private artifactDataService: ArtifactDataService) {
+    private artifactDataService: ArtifactDataService,
+    private timeLineControllerService : TimeLineControllerService
+    ) {
   }
 
   @Input()
@@ -28,6 +31,13 @@ export class ArtifactBlockComponent {
 
   @Input()
   artifacts: Array<ArtifactDto>
+
+  @Output()
+  onBlockChanged = new EventEmitter()
+
+  refresh() {
+    this.onBlockChanged.emit()
+  }
 
   // artifact list
 
@@ -65,27 +75,38 @@ export class ArtifactBlockComponent {
   }
 
   confirmAddArtifactDialog(formData: CreateArtifactDialogData) {
+    console.log('formData: ', formData)
     switch (formData.artifactType) {
-      case 'io.storydoc.server.ui.domain.MockUI': {
-        console.log("ui scenario")
-        this.uiRestControllerService.createMockUiUsingPost({
+      case 'io.storydoc.server.timeline.domain.TimeLineModel': {
+        console.log("timeline model")
+        this.timeLineControllerService.createTimeLineModelUsingPost({
           storyDocId: this.documentId.id,
           blockId: this.blockId.id,
           name: formData.name
         }).subscribe({
-          next: value => console.log(value)
+          next: value => this.refresh()
+        })
+        break
+      }
+      case 'io.storydoc.server.ui.domain.UIScenario': {
+        console.log("ui scenario")
+        this.uiRestControllerService.createUiScenarioUsingPost({
+          storyDocId: this.documentId.id,
+          blockId: this.blockId.id,
+          name: formData.name
+        }).subscribe({
+          next: value => this.refresh()
         })
         break
       }
       case 'io.storydoc.server.ui.domain.ScreenShotCollection': {
         console.log("screenshots")
-        console.log('formData: ', formData)
         this.uiRestControllerService.createScreenShotCollectionUsingPost({
             storyDocId: this.documentId.id,
             blockId: this.blockId.id,
             name: formData.name
         }).subscribe({
-          next: value => console.log(value)
+          next: value => this.refresh()
         })
         break
       }

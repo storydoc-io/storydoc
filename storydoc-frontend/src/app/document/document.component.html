@@ -1,37 +1,53 @@
-<div *ngIf="doc$ | async as doc; else loading">
-  <div class="container-fluid">
-    <div class="row">
-       <nav aria-label="breadcrumb">
-         <ol class="breadcrumb">
-           <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-           <li class="breadcrumb-item active" aria-current="page">{{doc.title}}</li>
-         </ol>
-       </nav>
-    </div>
-    <div class="row">
-      <div class="col-3">
-        <ul class="list-group">
-          <li class="list-group-item" *ngFor="let block of doc.blocks">
-            {{numbering(block)}} {{block.title}}
-          </li>
-          <div class="btn  btn-sm btn-outline-primary" (click)="openAddBlockDialog()">Add Paragraph</div>
+<app-layout-2col
+  [breadcrumb]="breadcrumb"
+  [title]="title"
+  [leftColumn]="leftPanel"
+  [rightColumn]="rightPanel"
+>
+</app-layout-2col>
 
-        </ul>
-      </div>
-      <div class="col-8">
-        <h3>{{doc.title}}</h3>
-        <div class="container">
-          <div class="row" *ngFor="let block of doc.blocks">
-            <app-block [block]="block" [documentId]="doc.storyDocId"></app-block>
-          </div>
-        </div>
+<ng-template #breadcrumb>
+  <div *ngIf="doc$ | async as doc; else loading">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{doc.title}}</li>
+      </ol>
+    </nav>
+  </div>
+</ng-template>
+
+<ng-template #title>
+  <div *ngIf="doc$ | async as doc; else loading">
+    <h3>Story: {{doc.title}}</h3>
+  </div>
+</ng-template>
+
+<ng-template #leftPanel>
+  <div *ngIf="doc$ | async as doc; else loading">
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let block of doc.blocks">
+        {{numbering(block)}} {{block.title}}
+      </li>
+      <div class="btn  btn-sm btn-outline-primary" (click)="openAddBlockDialog()">Add Paragraph</div>
+
+    </ul>
+  </div>
+</ng-template>
+
+<ng-template #rightPanel>
+  <div *ngIf="doc$ | async as doc; else loading">
+    <div class="container">
+      <div class="row" *ngFor="let block of doc.blocks">
+        <app-block [block]="block" [documentId]="doc.storyDocId" (onBlockChanged)="refresh()"></app-block>
       </div>
     </div>
   </div>
-</div>
+</ng-template>
 
 <jw-modal id="add-block-dialog">
-  <app-create-block-dialog [input]="createBlockDialogInput" (onConfirm)="confirmAddBlockDialog($event)" (onCancel)="cancelAddBlockDialog()"></app-create-block-dialog>
+  <app-create-block-dialog [input]="createBlockDialogInput" (onConfirm)="confirmAddBlockDialog($event)"
+                           (onCancel)="cancelAddBlockDialog()"></app-create-block-dialog>
 </jw-modal>
 
 <ng-template #loading>loading...</ng-template>

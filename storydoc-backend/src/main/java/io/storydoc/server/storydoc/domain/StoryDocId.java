@@ -6,6 +6,8 @@ public class StoryDocId {
 
     private String id;
 
+    private StoryDocId() {};
+
     public StoryDocId(String id) {
         this.id = id;
     }
