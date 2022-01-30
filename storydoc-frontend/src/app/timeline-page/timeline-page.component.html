@@ -1,0 +1,50 @@
+<app-layout-1col
+  [breadcrumb]="breadcrumb"
+  [title]="title"
+  [middle]="itemList">
+</app-layout-1col>
+
+<ng-template #breadcrumb>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+      <ng-container *ngIf="timeLineModel$ | async as timeLineModel">
+        <li class="breadcrumb-item"><a
+          [routerLink]="link.toStoryDoc(timeLineModel.storyDocSummary)">{{timeLineModel.storyDocSummary.name}}</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">{{timeLineModel.name}}</li>
+      </ng-container>
+    </ol>
+  </nav>
+</ng-template>
+
+<ng-template #title>
+  <div *ngIf="timeLineModel$ | async as timeLineModel">
+    <h3>Timeline: {{timeLineModel.name}}</h3>
+  </div>
+</ng-template>
+
+<ng-template #itemList>
+  <div class="container-fluid">
+    <div class="row">
+    </div>
+    <div class="row">
+      <div *ngIf="timeLineModel$ | async as timeLineModel ; else loading">
+        <ul class="list-group">
+          <li *ngFor="let item of timeLineModel.timeLines['default'].items" class="list-group-item">
+            {{item.description}}
+          </li>
+        </ul>
+      </div>
+      <div class="btn  btn-sm btn-outline-primary" (click)="openAddItemDialog()">Add Timeline item</div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #loading>loading...</ng-template>
+
+<jw-modal [id]="getDialogId()">
+  <app-create-item-dialog [input]="dialogInput" (onConfirm)="confirmDialog($event)"
+                                (onCancel)="cancelDialog()"></app-create-item-dialog>
+</jw-modal>
+

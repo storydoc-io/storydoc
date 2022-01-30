@@ -49,4 +49,10 @@ public interface StoryDocStorage {
     void addItemToBinaryCollection(AddToBinaryCollectionAction action);
 
     InputStream getBinaryFromCollection(ArtifactBlockCoordinate coordinate, ArtifactId artifactId, ItemId itemId) throws WorkspaceException;
+
+    void removeDocument(StoryDocId storyDocId);
+
+    void renameDocument(StoryDocId id, String new_name);
+
+    void renameBlock(ArtifactBlockCoordinate blockCoordinate, String new_name);
 }

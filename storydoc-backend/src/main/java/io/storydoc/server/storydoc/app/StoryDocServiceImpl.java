@@ -29,6 +29,17 @@ public class StoryDocServiceImpl implements StoryDocService {
     }
 
     @Override
+    public void removeDocument(StoryDocId storyDocId) {
+        domainService.removeDocument(storyDocId);
+    }
+
+    @Override
+    public void renameDocument(StoryDocId storyDocId, String new_name) {
+        StoryDoc storyDoc = domainService.getDocument(storyDocId);
+        storyDoc.rename(new_name);
+    }
+
+    @Override
     public BlockId addArtifactBlock(StoryDocId storyDocId, String name) {
 
         StoryDoc storyDoc = domainService.getDocument(storyDocId);
@@ -36,6 +47,12 @@ public class StoryDocServiceImpl implements StoryDocService {
 
         return storyDoc.addBlock(blockId, name);
 
+    }
+
+    @Override
+    public void renameBlock(ArtifactBlockCoordinate blockCoordinate, String new_name) {
+        StoryDoc storyDoc = domainService.getDocument(blockCoordinate.getStoryDocId());
+        storyDoc.renameBlock(blockCoordinate, new_name);
     }
 
     @Override
@@ -85,7 +102,7 @@ public class StoryDocServiceImpl implements StoryDocService {
 
     @Override
     public <A extends Artifact> A loadArtifact(ArtifactLoadContext context) {
-        StoryDoc storyDoc = domainService.getDocument(context.getStoryDocId());
+        StoryDoc storyDoc = domainService.getDocument(context.getBlockCoordinate().getStoryDocId());
         return storyDoc.loadArtifact(context);
     }
 

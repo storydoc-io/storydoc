@@ -11,6 +11,7 @@ import {
 import {CreateBlockDialogData, CreateBlockDialogInput} from "./create-block-dialog/create-block-dialog.component";
 import {ModalService} from "../common/modal-service";
 import {StoryDocRestControllerService} from "../api/services/story-doc-rest-controller.service";
+import {share} from "rxjs/operators";
 
 @Component({
   selector: 'app-document',
@@ -38,8 +39,8 @@ export class DocumentComponent implements OnInit {
     });
   }
 
-  private refresh() {
-    this.doc$ = this.documentDataService.getDocument(this.id)
+  public refresh() {
+    this.doc$ = this.documentDataService.getDocument(this.id).pipe(share())
   }
 
   numbering(block: BlockDto): string {

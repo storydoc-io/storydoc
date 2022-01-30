@@ -1,5 +1,6 @@
 package io.storydoc.server.ui.app;
 
+import io.storydoc.server.storydoc.app.dto.StoryDocSummaryDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,10 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class ScreenShotCollectionDTO {
+
+    private String name;
+
+    private StoryDocSummaryDTO storyDocSummary;
 
     private List<ScreenShotDTO> screenShots;
 

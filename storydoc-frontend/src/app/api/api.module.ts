@@ -5,8 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { CodeRestControllerService } from './services/code-rest-controller.service';
-import { FileControllerService } from './services/file-controller.service';
 import { StoryDocRestControllerService } from './services/story-doc-rest-controller.service';
+import { TimeLineControllerService } from './services/time-line-controller.service';
 import { UiRestControllerService } from './services/ui-rest-controller.service';
 import { WorkspaceRestControllerService } from './services/workspace-rest-controller.service';
 
@@ -19,8 +19,8 @@ import { WorkspaceRestControllerService } from './services/workspace-rest-contro
   declarations: [],
   providers: [
     CodeRestControllerService,
-    FileControllerService,
     StoryDocRestControllerService,
+    TimeLineControllerService,
     UiRestControllerService,
     WorkspaceRestControllerService,
     ApiConfiguration

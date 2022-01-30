@@ -12,10 +12,12 @@ import java.util.List;
 
 public interface StoryDocQueryService {
     List<StoryDocSummaryDTO> getStoryDocs();
+    StoryDocSummaryDTO getStoryDocSummary(StoryDocId storyDocId);
     StoryDocDTO getDocument(StoryDocId storyDocId);
-    FolderURN getArtifactBlockFolder(StoryDocId storyDocId, BlockId blockId);
+    FolderURN getArtifactBlockFolder(ArtifactBlockCoordinate blockCoordinate);
     List<ArtifactId> getArtifactsByType(ArtifactBlockCoordinate coordinate, String artifactType);
     ArtifactMetaData getArtifactMetaData(ArtifactBlockCoordinate coordinate, ArtifactId artifactId);
     ArtifactDTO getArtifact(ArtifactBlockCoordinate coordinate, ArtifactId asArtifactId);
     InputStream getBinaryFromCollection(ArtifactBlockCoordinate coordinate, ArtifactId asArtifactId, ItemId asItemId) throws WorkspaceException;
+
 }

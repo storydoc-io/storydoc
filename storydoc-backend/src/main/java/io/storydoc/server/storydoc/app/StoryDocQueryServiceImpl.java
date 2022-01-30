@@ -2,9 +2,9 @@ package io.storydoc.server.storydoc.app;
 
 import io.storydoc.server.storydoc.app.dto.*;
 import io.storydoc.server.storydoc.domain.*;
-import io.storydoc.server.storydoc.infra.store.model.*;
 import io.storydoc.server.storydoc.infra.store.model.Artifact;
 import io.storydoc.server.storydoc.infra.store.model.StoryDoc;
+import io.storydoc.server.storydoc.infra.store.model.*;
 import io.storydoc.server.workspace.domain.FolderURN;
 import io.storydoc.server.workspace.domain.WorkspaceException;
 import org.springframework.stereotype.Service;
@@ -27,11 +27,24 @@ public class StoryDocQueryServiceImpl implements StoryDocQueryService {
     @Override
     public List<StoryDocSummaryDTO> getStoryDocs() {
         return storyDocStorage.loadDocuments().getStoryDocs().stream()
-            .map((metaData)-> StoryDocSummaryDTO.builder()
+            .map(this::toSummary)
+            .collect(Collectors.toList());
+    }
+
+    private StoryDocSummaryDTO toSummary(StoryDocMetaData metaData) {
+        return StoryDocSummaryDTO.builder()
                 .storyDocId(StoryDocId.fromString(metaData.getId()))
                 .name(metaData.getName())
-                .build())
-            .collect(Collectors.toList());
+                .build();
+    }
+
+    @Override
+    public StoryDocSummaryDTO getStoryDocSummary(StoryDocId storyDocId) {
+        return storyDocStorage.loadDocuments().getStoryDocs().stream()
+                .filter(metaData -> metaData.getId().equals(storyDocId.getId()))
+                .findFirst()
+                .map(this::toSummary)
+                .orElse(null);
     }
 
     @Override
@@ -40,21 +53,24 @@ public class StoryDocQueryServiceImpl implements StoryDocQueryService {
         StoryDocMetaData storyDocMetaData = storyDocStorage.loadDocuments().getStoryDocs().stream()
                 .filter(metaData -> metaData.getId().equals(storyDocId.getId()))
                 .findFirst()
-                .get();
+                .orElse(null);
 
-        StoryDoc storyDoc = storyDocStorage.loadDocument(storyDocId);
+        if (storyDocMetaData==null) {
+            return null;
+        } else {
+            StoryDoc storyDoc = storyDocStorage.loadDocument(storyDocId);
 
-        List<BlockDTO> blockDTOList = new ArrayList<>();
-        addBlocks(storyDoc.getBlocks(), blockDTOList, null, new int[]{});
+            List<BlockDTO> blockDTOList = new ArrayList<>();
+            addBlocks(storyDoc.getBlocks(), blockDTOList, null, new int[]{});
 
 
-        return StoryDocDTO.builder()
-                .storyDocId(storyDocId)
-                .urn(storyDocStorage.getStoryDocUrn(storyDocId))
-                .blocks(blockDTOList)
-                .title(storyDocMetaData.getName())
-                .build();
-
+            return StoryDocDTO.builder()
+                    .storyDocId(storyDocId)
+                    .urn(storyDocStorage.getStoryDocUrn(storyDocId))
+                    .blocks(blockDTOList)
+                    .title(storyDocMetaData.getName())
+                    .build();
+        }
     }
 
     private void addBlocks(List<Block> blocks, List<BlockDTO> blockDTOList, BlockId parentBlockId, int[] parentNumbering) {
@@ -123,8 +139,8 @@ public class StoryDocQueryServiceImpl implements StoryDocQueryService {
     }
 
     @Override
-    public FolderURN getArtifactBlockFolder(StoryDocId storyDocId, BlockId blockId) {
-        return storyDocStorage.getArtifactBlockFolder(storyDocId, blockId);
+    public FolderURN getArtifactBlockFolder(ArtifactBlockCoordinate blockCoordinate) {
+        return storyDocStorage.getArtifactBlockFolder(blockCoordinate.getStoryDocId(), blockCoordinate.getBlockId());
     }
 
     @Override

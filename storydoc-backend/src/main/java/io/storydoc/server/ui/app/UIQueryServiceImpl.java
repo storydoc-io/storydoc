@@ -2,11 +2,13 @@ package io.storydoc.server.ui.app;
 
 import io.storydoc.server.storydoc.app.StoryDocQueryService;
 import io.storydoc.server.storydoc.app.dto.ArtifactDTO;
-import io.storydoc.server.storydoc.domain.ArtifactBlockCoordinate;
+import io.storydoc.server.storydoc.app.dto.StoryDocSummaryDTO;
 import io.storydoc.server.storydoc.domain.ArtifactMetaData;
+import io.storydoc.server.storydoc.domain.StoryDocId;
+import io.storydoc.server.timeline.domain.TimeLineItemId;
 import io.storydoc.server.ui.domain.*;
-import io.storydoc.server.ui.infra.json.MockUI;
-import io.storydoc.server.ui.infra.json.Screenshot;
+import io.storydoc.server.ui.infra.json.ScreenshotTimeLineItem;
+import io.storydoc.server.ui.infra.json.UIScenario;
 import io.storydoc.server.workspace.domain.WorkspaceException;
 import org.springframework.stereotype.Service;
 
@@ -27,18 +29,39 @@ public class UIQueryServiceImpl implements UIQueryService {
     }
 
     @Override
-    public MockUIDTO getMockUIDTO(ArtifactBlockCoordinate coordinate, MockUIId mockUIId) {
-        ArtifactMetaData metaData = storyDocQueryService.getArtifactMetaData(coordinate, mockUIId.asArtifactId());
-        List<ScreenShotCollectionId> associatedCollectionIds = storyDocQueryService.getArtifactsByType(coordinate, ScreenShotCollection.ARTIFACT_TYPE).stream()
-            .map((a)->ScreenShotCollectionId.fromString(a.getId()))
+    public UIScenarioDTO getUIScenario(UIScenarioCoordinate scenarioCoordinate) {
+        ArtifactMetaData metaData = getUIScenarioMetaData(scenarioCoordinate);
+        List<ScreenshotCollectionCoordinate> defaultAssociatedScreenshotCollections = storyDocQueryService.getArtifactsByType(scenarioCoordinate.getBlockCoordinate(), ScreenShotCollection.ARTIFACT_TYPE).stream()
+                .map(artifactId -> ScreenshotCollectionCoordinate.builder()
+                        .blockCoordinate(scenarioCoordinate.getBlockCoordinate())
+                        .screenShotCollectionId(ScreenShotCollectionId.fromString(artifactId.getId()))
+                        .build())
+                .collect(Collectors.toList());
+
+        List<ScreenshotCollectionSummaryDTO> collectionSummaryDTOList = defaultAssociatedScreenshotCollections.stream()
+            .map((collectionCoordinate)-> ScreenshotCollectionSummaryDTO.builder()
+                .name(getScreenshotCollectionMetaData(collectionCoordinate).getName())
+                .collectionCoordinate(collectionCoordinate)
+                .build()
+            )
             .collect(Collectors.toList());
-        return toDTO(uiStorage.loadMockUI(coordinate, mockUIId), metaData, associatedCollectionIds);
+        return toDTO(scenarioCoordinate, uiStorage.loadUIScenario(scenarioCoordinate), metaData, collectionSummaryDTOList);
+    }
+
+    private ArtifactMetaData getUIScenarioMetaData(UIScenarioCoordinate scenarioCoordinate) {
+        return storyDocQueryService.getArtifactMetaData(scenarioCoordinate.getBlockCoordinate(), scenarioCoordinate.getUiScenarioId().asArtifactId());
+    }
+
+    private ArtifactMetaData getScreenshotCollectionMetaData(ScreenshotCollectionCoordinate collectionCoordinate) {
+        return storyDocQueryService.getArtifactMetaData(collectionCoordinate.getBlockCoordinate(), collectionCoordinate.getScreenShotCollectionId().asArtifactId());
     }
 
     @Override
-    public ScreenShotCollectionDTO getScreenShotCollection(ArtifactBlockCoordinate coordinate, ScreenShotCollectionId screenShotCollectionId) {
-        ArtifactDTO artifactDTO = storyDocQueryService.getArtifact(coordinate, screenShotCollectionId.asArtifactId());
+    public ScreenShotCollectionDTO getScreenShotCollection(ScreenshotCollectionCoordinate collectionCoordinate) {
+        ArtifactDTO artifactDTO = storyDocQueryService.getArtifact(collectionCoordinate.getBlockCoordinate(), collectionCoordinate.getScreenShotCollectionId().asArtifactId());
         return ScreenShotCollectionDTO.builder()
+            .storyDocSummary(getStoryDocSummary(collectionCoordinate.getBlockCoordinate().getStoryDocId()))
+            .name(artifactDTO.getName())
             .screenShots(artifactDTO.getItems().stream()
                 .map(item -> ScreenShotDTO.builder()
                     .id(ScreenShotId.fromString(item.getId()))
@@ -50,39 +73,34 @@ public class UIQueryServiceImpl implements UIQueryService {
             .build();
     }
 
-    @Override
-    public ScreenShotDTO getScreenshotDTO(ArtifactBlockCoordinate coordinate, MockUIId id) {
-        return null; //toDTO(uiStorage.loadMockUI(coordinate, id));
+    private StoryDocSummaryDTO getStoryDocSummary(StoryDocId storyDocId) {
+        return storyDocQueryService.getStoryDocSummary(storyDocId);
     }
 
-    @Override
-    public List<ScreenShotId> getScreenshots(ArtifactBlockCoordinate coordinate) {
-
-        return storyDocQueryService.getArtifactsByType(coordinate, io.storydoc.server.ui.domain.Screenshot.ARTIFACT_TYPE).stream()
-                .map(artifactId -> new ScreenShotId(artifactId.getId()))
-                .collect(Collectors.toList());
-    }
-
-    private MockUIDTO toDTO(MockUI mockUI, ArtifactMetaData metaData, List<ScreenShotCollectionId> associatedCollectionIds) {
-        return MockUIDTO.builder()
-                .id(MockUIId.fromString(mockUI.getId()))
+    private UIScenarioDTO toDTO(UIScenarioCoordinate scenarioCoordinate, UIScenario uiScenario, ArtifactMetaData metaData, List<ScreenshotCollectionSummaryDTO> associatedCollectionRefs) {
+        return UIScenarioDTO.builder()
+                .id(UIScenarioId.fromString(uiScenario.getId()))
+                .storyDocSummary(getStoryDocSummary(scenarioCoordinate.getBlockCoordinate().getStoryDocId()))
                 .name(metaData.getName())
-                .screenshots(mockUI.getScreenshots().stream()
-                    .map( (screenshot) -> toDTO(screenshot))
+                .timeLineModelCoordinate(uiScenario.getTimeLineModelCoordinate())
+                .timeLineId(uiScenario.getTimeLineId())
+                .screenshots(uiScenario.getScreenshots().stream()
+                    .map(this::toDTO)
                     .collect(Collectors.toList())
                 )
-                .associatedCollections(associatedCollectionIds)
+                .associatedCollections(associatedCollectionRefs)
                 .build();
     }
 
-    private ScreenShotDTO toDTO(Screenshot screenshot) {
-        return ScreenShotDTO.builder()
-                .id(new ScreenShotId(screenshot.getScreenshotId()))
+    private ScreenShotTimeLineItemDTO toDTO(ScreenshotTimeLineItem screenshot) {
+        return ScreenShotTimeLineItemDTO.builder()
+                .screenshotCoordinate(screenshot.getScreenshotCoordinate())
+                .timeLineItemId(TimeLineItemId.fromString(screenshot.getTimeLineItemId()))
                 .build();
     }
 
     @Override
-    public InputStream getScreenshot(ArtifactBlockCoordinate coordinate, ScreenShotCollectionId screenShotCollectionId, ScreenShotId screenShotId) throws WorkspaceException {
-        return storyDocQueryService.getBinaryFromCollection(coordinate, screenShotCollectionId.asArtifactId(), screenShotId.asItemId());
+    public InputStream getScreenshot(ScreenshotCollectionCoordinate collectionCoordinate, ScreenShotId screenShotId) throws WorkspaceException {
+        return storyDocQueryService.getBinaryFromCollection(collectionCoordinate.getBlockCoordinate(), collectionCoordinate.getScreenShotCollectionId().asArtifactId(), screenShotId.asItemId());
     }
 }

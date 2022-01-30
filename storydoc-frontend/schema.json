@@ -23,12 +23,12 @@
       "description": "Code Rest Controller"
     },
     {
-      "name": "file-controller",
-      "description": "File Controller"
-    },
-    {
       "name": "story-doc-rest-controller",
       "description": "Story Doc Rest Controller"
+    },
+    {
+      "name": "time-line-controller",
+      "description": "Time Line Controller"
     },
     {
       "name": "ui-rest-controller",
@@ -57,41 +57,6 @@
                 }
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/files/{file_name}": {
-      "get": {
-        "tags": [
-          "file-controller"
-        ],
-        "summary": "getFile",
-        "operationId": "getFileUsingGET",
-        "parameters": [
-          {
-            "name": "file_name",
-            "in": "path",
-            "description": "file_name",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
           },
           "401": {
             "description": "Unauthorized"
@@ -360,13 +325,13 @@
         }
       }
     },
-    "/api/ui/mockui": {
-      "get": {
+    "/api/timeline/timelineitem": {
+      "post": {
         "tags": [
-          "ui-rest-controller"
+          "time-line-controller"
         ],
-        "summary": "getMockUI",
-        "operationId": "getMockUIUsingGET",
+        "summary": "createTimeLineItem",
+        "operationId": "createTimeLineItemUsingPOST",
         "parameters": [
           {
             "name": "storyDocId",
@@ -389,9 +354,19 @@
             }
           },
           {
-            "name": "id",
+            "name": "timeLineModelId",
             "in": "query",
-            "description": "id",
+            "description": "timeLineModelId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "name",
             "required": false,
             "style": "form",
             "schema": {
@@ -405,7 +380,190 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MockUIDTO"
+                  "$ref": "#/components/schemas/TimeLineItemId"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/timeline/timelinemodel": {
+      "get": {
+        "tags": [
+          "time-line-controller"
+        ],
+        "summary": "getTimeLineModel",
+        "operationId": "getTimeLineModelUsingGET",
+        "parameters": [
+          {
+            "name": "storyDocId",
+            "in": "query",
+            "description": "storyDocId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blockId",
+            "in": "query",
+            "description": "blockId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timeLineModelId",
+            "in": "query",
+            "description": "timeLineModelId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TimeLineModelDTO"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "time-line-controller"
+        ],
+        "summary": "createTimeLineModel",
+        "operationId": "createTimeLineModelUsingPOST",
+        "parameters": [
+          {
+            "name": "storyDocId",
+            "in": "query",
+            "description": "storyDocId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blockId",
+            "in": "query",
+            "description": "blockId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "name",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TimeLineModelCoordinate"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/timeline/timelinemodelsummaries": {
+      "get": {
+        "tags": [
+          "time-line-controller"
+        ],
+        "summary": "getTimeLineModelSummaries",
+        "operationId": "getTimeLineModelSummariesUsingGET",
+        "parameters": [
+          {
+            "name": "storyDocId",
+            "in": "query",
+            "description": "storyDocId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blockId",
+            "in": "query",
+            "description": "blockId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TimeLineModelSummaryDTO"
+                  }
                 }
               }
             }
@@ -423,66 +581,6 @@
       }
     },
     "/api/ui/screenshot": {
-      "get": {
-        "tags": [
-          "ui-rest-controller"
-        ],
-        "summary": "getScreenshot",
-        "operationId": "getScreenshotUsingGET",
-        "parameters": [
-          {
-            "name": "storyDocId",
-            "in": "query",
-            "description": "storyDocId",
-            "required": false,
-            "style": "form",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "blockId",
-            "in": "query",
-            "description": "blockId",
-            "required": false,
-            "style": "form",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "id",
-            "in": "query",
-            "description": "id",
-            "required": false,
-            "style": "form",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ScreenShotDTO"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      },
       "post": {
         "tags": [
           "ui-rest-controller"
@@ -747,12 +845,72 @@
       }
     },
     "/api/ui/uiscenario": {
+      "get": {
+        "tags": [
+          "ui-rest-controller"
+        ],
+        "summary": "getMockUI",
+        "operationId": "getMockUIUsingGET",
+        "parameters": [
+          {
+            "name": "storyDocId",
+            "in": "query",
+            "description": "storyDocId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blockId",
+            "in": "query",
+            "description": "blockId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "description": "id",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UIScenarioDTO"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
       "post": {
         "tags": [
           "ui-rest-controller"
         ],
-        "summary": "createMockUI",
-        "operationId": "createMockUIUsingPOST",
+        "summary": "createUIScenario",
+        "operationId": "createUIScenarioUsingPOST",
         "parameters": [
           {
             "name": "storyDocId",
@@ -791,7 +949,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MockUIId"
+                  "$ref": "#/components/schemas/UIScenarioId"
                 }
               }
             }
@@ -816,8 +974,8 @@
         "tags": [
           "ui-rest-controller"
         ],
-        "summary": "addScreenshotToUISceanrio",
-        "operationId": "addScreenshotToUISceanrioUsingPOST",
+        "summary": "addScreenshotToUIScenario",
+        "operationId": "addScreenshotToUIScenarioUsingPOST",
         "parameters": [
           {
             "name": "storyDocId",
@@ -840,9 +998,39 @@
             }
           },
           {
-            "name": "mockUiId",
+            "name": "uiScenarioId",
             "in": "query",
-            "description": "mockUiId",
+            "description": "uiScenarioId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "screenshotStoryDocId",
+            "in": "query",
+            "description": "screenshotStoryDocId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "screenshotBlockId",
+            "in": "query",
+            "description": "screenshotBlockId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "screenshotCollectionId",
+            "in": "query",
+            "description": "screenshotCollectionId",
             "required": false,
             "style": "form",
             "schema": {
@@ -853,6 +1041,114 @@
             "name": "screenshotId",
             "in": "query",
             "description": "screenshotId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timeLineItemId",
+            "in": "query",
+            "description": "timeLineItemId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/ui/uiscenariotimeline": {
+      "post": {
+        "tags": [
+          "ui-rest-controller"
+        ],
+        "summary": "setUIScenarioTimeLine",
+        "operationId": "setUIScenarioTimeLineUsingPOST",
+        "parameters": [
+          {
+            "name": "storyDocId",
+            "in": "query",
+            "description": "storyDocId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blockId",
+            "in": "query",
+            "description": "blockId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "uiScenarioId",
+            "in": "query",
+            "description": "uiScenarioId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timeLineModelStoryDocId",
+            "in": "query",
+            "description": "timeLineModelStoryDocId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timeLineModelBlockId",
+            "in": "query",
+            "description": "timeLineModelBlockId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timeLineModelId",
+            "in": "query",
+            "description": "timeLineModelId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timeLineId",
+            "in": "query",
+            "description": "timeLineId",
             "required": false,
             "style": "form",
             "schema": {
@@ -1046,6 +1342,18 @@
   },
   "components": {
     "schemas": {
+      "ArtifactBlockCoordinate": {
+        "title": "ArtifactBlockCoordinate",
+        "type": "object",
+        "properties": {
+          "blockId": {
+            "$ref": "#/components/schemas/BlockId"
+          },
+          "storyDocId": {
+            "$ref": "#/components/schemas/StoryDocId"
+          }
+        }
+      },
       "ArtifactDTO": {
         "title": "ArtifactDTO",
         "type": "object",
@@ -1263,39 +1571,6 @@
         "title": "Iterable«Path»",
         "type": "object"
       },
-      "MockUIDTO": {
-        "title": "MockUIDTO",
-        "type": "object",
-        "properties": {
-          "associatedCollections": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ScreenShotCollectionId"
-            }
-          },
-          "id": {
-            "$ref": "#/components/schemas/MockUIId"
-          },
-          "name": {
-            "type": "string"
-          },
-          "screenshots": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ScreenShotDTO"
-            }
-          }
-        }
-      },
-      "MockUIId": {
-        "title": "MockUIId",
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          }
-        }
-      },
       "Path": {
         "title": "Path",
         "type": "object",
@@ -1337,11 +1612,17 @@
         "title": "ScreenShotCollectionDTO",
         "type": "object",
         "properties": {
+          "name": {
+            "type": "string"
+          },
           "screenShots": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ScreenShotDTO"
             }
+          },
+          "storyDocSummary": {
+            "$ref": "#/components/schemas/StoryDocSummaryDTO"
           }
         }
       },
@@ -1375,6 +1656,54 @@
         "properties": {
           "id": {
             "type": "string"
+          }
+        }
+      },
+      "ScreenShotTimeLineItemDTO": {
+        "title": "ScreenShotTimeLineItemDTO",
+        "type": "object",
+        "properties": {
+          "screenshotCoordinate": {
+            "$ref": "#/components/schemas/ScreenshotCoordinate"
+          },
+          "timeLineItemId": {
+            "$ref": "#/components/schemas/TimeLineItemId"
+          }
+        }
+      },
+      "ScreenshotCollectionCoordinate": {
+        "title": "ScreenshotCollectionCoordinate",
+        "type": "object",
+        "properties": {
+          "blockCoordinate": {
+            "$ref": "#/components/schemas/ArtifactBlockCoordinate"
+          },
+          "screenShotCollectionId": {
+            "$ref": "#/components/schemas/ScreenShotCollectionId"
+          }
+        }
+      },
+      "ScreenshotCollectionSummaryDTO": {
+        "title": "ScreenshotCollectionSummaryDTO",
+        "type": "object",
+        "properties": {
+          "collectionCoordinate": {
+            "$ref": "#/components/schemas/ScreenshotCollectionCoordinate"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "ScreenshotCoordinate": {
+        "title": "ScreenshotCoordinate",
+        "type": "object",
+        "properties": {
+          "collectionCoordinate": {
+            "$ref": "#/components/schemas/ScreenshotCollectionCoordinate"
+          },
+          "screenShotId": {
+            "$ref": "#/components/schemas/ScreenShotId"
           }
         }
       },
@@ -1417,6 +1746,150 @@
           },
           "storyDocId": {
             "$ref": "#/components/schemas/StoryDocId"
+          }
+        }
+      },
+      "TimeLineDTO": {
+        "title": "TimeLineDTO",
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TimeLineItemDTO"
+            }
+          },
+          "name": {
+            "type": "string"
+          },
+          "timeLineId": {
+            "$ref": "#/components/schemas/TimeLineId"
+          }
+        }
+      },
+      "TimeLineId": {
+        "title": "TimeLineId",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "TimeLineItemDTO": {
+        "title": "TimeLineItemDTO",
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "itemId": {
+            "$ref": "#/components/schemas/TimeLineItemId"
+          }
+        }
+      },
+      "TimeLineItemId": {
+        "title": "TimeLineItemId",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "TimeLineModelCoordinate": {
+        "title": "TimeLineModelCoordinate",
+        "type": "object",
+        "properties": {
+          "blockCoordinate": {
+            "$ref": "#/components/schemas/ArtifactBlockCoordinate"
+          },
+          "timeLineModelId": {
+            "$ref": "#/components/schemas/TimeLineModelId"
+          }
+        }
+      },
+      "TimeLineModelDTO": {
+        "title": "TimeLineModelDTO",
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "storyDocSummary": {
+            "$ref": "#/components/schemas/StoryDocSummaryDTO"
+          },
+          "timeLineModelId": {
+            "$ref": "#/components/schemas/TimeLineModelId"
+          },
+          "timeLines": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/TimeLineDTO"
+            }
+          }
+        }
+      },
+      "TimeLineModelId": {
+        "title": "TimeLineModelId",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "TimeLineModelSummaryDTO": {
+        "title": "TimeLineModelSummaryDTO",
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "timeLineModelCoordinate": {
+            "$ref": "#/components/schemas/TimeLineModelCoordinate"
+          }
+        }
+      },
+      "UIScenarioDTO": {
+        "title": "UIScenarioDTO",
+        "type": "object",
+        "properties": {
+          "associatedCollections": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScreenshotCollectionSummaryDTO"
+            }
+          },
+          "id": {
+            "$ref": "#/components/schemas/UIScenarioId"
+          },
+          "name": {
+            "type": "string"
+          },
+          "screenshots": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScreenShotTimeLineItemDTO"
+            }
+          },
+          "storyDocSummary": {
+            "$ref": "#/components/schemas/StoryDocSummaryDTO"
+          },
+          "timeLineId": {
+            "$ref": "#/components/schemas/TimeLineId"
+          },
+          "timeLineModelCoordinate": {
+            "$ref": "#/components/schemas/TimeLineModelCoordinate"
+          }
+        }
+      },
+      "UIScenarioId": {
+        "title": "UIScenarioId",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
           }
         }
       },

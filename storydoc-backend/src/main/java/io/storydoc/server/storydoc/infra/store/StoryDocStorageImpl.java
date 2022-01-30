@@ -126,6 +126,14 @@ public class StoryDocStorageImpl implements StoryDocStorage {
         return block;
     }
 
+    @Override
+    public void renameBlock(ArtifactBlockCoordinate blockCoordinate, String new_name) {
+        StoryDoc storyDoc = loadDocument(blockCoordinate.getStoryDocId());
+        Block block = lookupBlock(blockCoordinate.getBlockId(), storyDoc);
+        block.setName(new_name);
+        saveDocument(storyDoc);
+    }
+
     // todo merge with createBinaryCollectionArtifact()
     @Override
     public void addArtifact(StoryDocId storyDocId, BlockId blockId, ArtifactId artifactId, ArtifactMetaData metaData) {
@@ -226,17 +234,26 @@ public class StoryDocStorageImpl implements StoryDocStorage {
 
 
     @Override
-    public void removeBlock(StoryDocId storyDocId, BlockId blockId) {
-        StoryDoc storyDoc = loadDocument(storyDocId);
+    public void removeBlock(StoryDocId storyDocId, BlockId blockId) throws StoryDocException {
+        try {
+            StoryDoc storyDoc = loadDocument(storyDocId);
 
-        Block block = storyDoc.getBlocks().stream()
-                .filter(b->b.getId().equals(blockId.getId().toString()))
-                .findFirst()
-                .orElseThrow(() -> new StoryDocException("cannot delete block with id " + blockId + " no such block found"));
+            Block block = storyDoc.getBlocks().stream()
+                    .filter(b -> b.getId().equals(blockId.getId()))
+                    .findFirst()
+                    .orElseThrow(() -> new StoryDocException("cannot delete block with id " + blockId + " no such block found"));
 
-        storyDoc.getBlocks().remove(block);
+            storyDoc.getBlocks().remove(block);
 
-        saveDocument(storyDoc);
+            saveDocument(storyDoc);
+
+            if (block instanceof ArtifactBlock) {
+                FolderURN artifactBlockFolder = getArtifactBlockFolder(storyDocId, blockId);
+                workspaceService.deleteFolder(artifactBlockFolder, true);
+            }
+        } catch (WorkspaceException e) {
+            throw new StoryDocException("could not remove block", e);
+        }
     }
 
     @Override
@@ -244,7 +261,7 @@ public class StoryDocStorageImpl implements StoryDocStorage {
         StoryDoc storyDoc = loadDocument(storyDocId);
 
         Section section = new Section();
-        section.setId(sectionId.getId().toString());
+        section.setId(sectionId.getId());
         section.setBlocks(new ArrayList<>());
 
         storyDoc.getBlocks().add(section);
@@ -312,6 +329,36 @@ public class StoryDocStorageImpl implements StoryDocStorage {
         }
     }
 
+    @Override
+    public void removeDocument(StoryDocId storyDocId) throws StoryDocException{
+        try {
+            StoryDocs storyDocs = loadDocuments();
+            StoryDocMetaData toRemove = getStoryDocMetaData(storyDocId, storyDocs);
+            storyDocs.getStoryDocs().remove(toRemove);
+            saveDocuments(storyDocs);
+
+            workspaceService.deleteResource(getStoryDocUrn(storyDocId));
+            workspaceService.deleteFolder(getStoryDocFolder(storyDocId), true);
+        } catch(WorkspaceException e) {
+            throw new StoryDocException("could not remove document " + storyDocId, e);
+        }
+    }
+
+    private StoryDocMetaData getStoryDocMetaData(StoryDocId storyDocId, StoryDocs storyDocs) {
+        return storyDocs.getStoryDocs().stream()
+                .filter(metaData -> metaData.getId().equals(storyDocId.getId()))
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
+    public void renameDocument(StoryDocId storyDocId, String new_name) {
+        StoryDocs storyDocs = loadDocuments();
+        StoryDocMetaData toRename = getStoryDocMetaData(storyDocId, storyDocs);
+        toRename.setName(new_name);
+        saveDocuments(storyDocs);
+    }
+
     private void saveDocuments(StoryDocs storyDocs) throws StoryDocException {
         try {
             workspaceService.saveResource(new ResourceSaveContext() {
@@ -374,7 +421,7 @@ public class StoryDocStorageImpl implements StoryDocStorage {
             return workspaceService.loadResource(new ResourceLoadContext() {
                 @Override
                 public ResourceUrn getResourceUrn() {
-                    return getArtifactBlockFolder(context.getStoryDocId(), context.getBlockId()).resolve(context.getRelativeUrn());
+                    return getArtifactBlockFolder(context.getBlockCoordinate().getStoryDocId(), context.getBlockCoordinate().getBlockId()).resolve(context.getRelativeUrn());
                 }
 
                 @Override

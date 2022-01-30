@@ -1,0 +1,33 @@
+<app-border>
+  <form [formGroup]="formGroup">
+    <label for="timeLineModel" class="form-label">Timeline Model</label>
+    <div class="input-group mb-3">
+      <select id="timeLineModel" formControlName="timeLineModel" class="form-select" (change)="onTimeLineModelChange()">
+        <option selected>--select--</option>
+        <ng-container *ngIf="timeLineModelSummaries$|async as timeLineModelSummaries">
+          <option *ngFor="let tlModel of timeLineModelSummaries"
+                  [ngValue]="tlModel.timeLineModelCoordinate">{{tlModel.name}}</option>
+        </ng-container>
+      </select>
+      <button class="btn btn-outline-secondary" type="button">
+        <fa-icon [icon]="cogIcon"></fa-icon>
+      </button>
+    </div>
+    <div class="mb-3">
+      <label for="timeLine" class="form-label">Timeline</label>
+      <select id="timeLine" formControlName="timeLine" class="form-select" (change)="onTimeLineChange()">
+        <option selected>--select--</option>
+        <ng-container *ngIf="timeLineModel$|async as timeLineModel">
+          <option *ngFor="let timeLine of asArray(timeLineModel.timeLines)"
+                  [ngValue]="timeLine.timeLineId">{{timeLine.name}}</option>
+        </ng-container>
+      </select>
+      <div class="form-text">Select a timeline.</div>
+    </div>
+  </form>
+</app-border>
+
+<jw-modal [id]="getDialogId()">
+  <app-time-line-model-selection-dialog [input]="dialogInput" (onConfirm)="confirmDialog($event)"
+                                        (onCancel)="cancelDialog()"></app-time-line-model-selection-dialog>
+</jw-modal>

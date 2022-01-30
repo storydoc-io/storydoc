@@ -12,13 +12,13 @@ import io.storydoc.server.storydoc.domain.ArtifactId;
 import io.storydoc.server.storydoc.domain.ItemId;
 import io.storydoc.server.storydoc.domain.action.ArtifactLoadContext;
 import io.storydoc.server.storydoc.domain.action.ArtifactSaveContext;
-import io.storydoc.server.storydoc.domain.action.SaveBinaryArtifactContext;
+import io.storydoc.server.timeline.domain.TimeLineCoordinate;
+import io.storydoc.server.timeline.domain.TimeLineItemId;
 import io.storydoc.server.ui.domain.*;
 import io.storydoc.server.ui.domain.action.CreateScreenShotCollectionArtifactAction;
 import io.storydoc.server.ui.domain.action.UploadScreenShotToCollectionAction;
 import io.storydoc.server.workspace.domain.FolderURN;
 import io.storydoc.server.workspace.domain.ResourceUrn;
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -50,14 +50,14 @@ public class UIStorageImpl implements UIStorage {
     }
 
     @Override
-    public void createMockUI(ArtifactBlockCoordinate coordinate, MockUIId uiId, String name) {
-        MockUI mockUI = new MockUI();
-        mockUI.setId(uiId.getId());
-        mockUI.setScreenshots(new ArrayList<>());
+    public void createUIScenario(UIScenarioCoordinate scenarioCoordinate, String name) {
+        UIScenario UIScenario = new UIScenario();
+        UIScenario.setId(scenarioCoordinate.getUiScenarioId().getId());
+        UIScenario.setScreenshots(new ArrayList<>());
 
-        storyDocService.addArtifact(coordinate.getStoryDocId(), coordinate.getBlockId(), ArtifactId.fromString(uiId.getId()),
-                io.storydoc.server.ui.domain.MockUI.ARTIFACT_TYPE, name);
-        save(coordinate, mockUI);
+        storyDocService.addArtifact(scenarioCoordinate.getBlockCoordinate().getStoryDocId(), scenarioCoordinate.getBlockCoordinate().getBlockId(), ArtifactId.fromString(scenarioCoordinate.getUiScenarioId().getId()),
+                io.storydoc.server.ui.domain.UIScenario.ARTIFACT_TYPE, name);
+        save(scenarioCoordinate, UIScenario);
     }
 
     @Override
@@ -68,56 +68,51 @@ public class UIStorageImpl implements UIStorage {
 
     @Override
     public void uploadScreenShot(UploadScreenShotToCollectionAction action) {
-        ItemId itemId = storyDocService.addItemToBinaryCollection(action.getCoordinate(), action.getCollectionId().asArtifactId(), action.getName(), action.getInputStream());
+        ItemId itemId = storyDocService.addItemToBinaryCollection(action.getCollectionCoordinate().getBlockCoordinate(), action.getCollectionCoordinate().getScreenShotCollectionId().asArtifactId(), action.getName(), action.getInputStream());
         action.setScreenshotId(ScreenShotId.fromString(itemId.getId()));
     }
 
     @Override
-    @SneakyThrows
-    public void createScreenshot(ArtifactBlockCoordinate coordinate, ScreenShotId screenshotId, InputStream inputStream, String name) {
-        storyDocService.addArtifact(coordinate.getStoryDocId(), coordinate.getBlockId(), screenshotId.asArtifactId(),
-                io.storydoc.server.ui.domain.Screenshot.ARTIFACT_TYPE, name);
-        storyDocService.saveBinaryArtifact(SaveBinaryArtifactContext.builder()
-                .coordinate(coordinate)
-                .artifactId(screenshotId.asArtifactId())
-                .inputStream(inputStream)
-                .build());
-
+    public void addScreenshot(UIScenarioCoordinate scenarioCoordinate, ScreenshotCoordinate screenshotCoordinate, TimeLineItemId timeLineItemId) {
+        UIScenario uiScenario = loadUIScenario(scenarioCoordinate);
+        uiScenario.getScreenshots().add(new ScreenshotTimeLineItem(screenshotCoordinate, timeLineItemId.getId()));
+        save(scenarioCoordinate, uiScenario);
     }
 
     @Override
-    public void addScreenshot(ArtifactBlockCoordinate coordinate, MockUIId mockUIId, ScreenShotId screenshotId) {
-        MockUI mockUI = loadMockUI(coordinate, mockUIId);
-        mockUI.getScreenshots().add(new io.storydoc.server.ui.infra.json.Screenshot(screenshotId.getId()));
-        save(coordinate, mockUI);
+    public void setTimeLine(UIScenarioCoordinate scenarioCoordinate, TimeLineCoordinate timeLineCoordinate) {
+        UIScenario uiScenario = loadUIScenario(scenarioCoordinate);
+        uiScenario.setTimeLineModelCoordinate(timeLineCoordinate.getTimeLineModelCoordinate());
+        uiScenario.setTimeLineId(timeLineCoordinate.getTimeLineId());
+        save(scenarioCoordinate, uiScenario);
     }
 
-    private void save(ArtifactBlockCoordinate coordinate, MockUI mockUI) {
+    private void save(UIScenarioCoordinate scenarioCoordinate, UIScenario UIScenario) {
         storyDocService.saveArtifact(ArtifactSaveContext.builder()
-            .storyDocId(coordinate.getStoryDocId())
-            .blockId(coordinate.getBlockId())
-            .relativeUrn(getRelativeUIArtifactResourceUrn(MockUIId.fromString(mockUI.getId())))
-            .serializer((OutputStream os) -> { write(mockUI, os);})
+            .storyDocId(scenarioCoordinate.getBlockCoordinate().getStoryDocId())
+            .blockId(scenarioCoordinate.getBlockCoordinate().getBlockId())
+            .relativeUrn(getRelativeUIArtifactResourceUrn(UIScenarioId.fromString(UIScenario.getId())))
+            .serializer((OutputStream os) -> { write(UIScenario, os);})
             .build());
     }
 
-    private void write(MockUI mockUI,  OutputStream outputStream) throws IOException {
-        objectMapper.writerWithDefaultPrettyPrinter().writeValue(outputStream, mockUI);
+    private void write(UIScenario UIScenario, OutputStream outputStream) throws IOException {
+        objectMapper.writerWithDefaultPrettyPrinter().writeValue(outputStream, UIScenario);
     }
 
-    public ResourceUrn getUIArtifactResourceUrn(ArtifactBlockCoordinate coordinate, MockUIId mockUIId) {
-        return storyDocQueryService.getArtifactBlockFolder(coordinate.getStoryDocId(), coordinate.getBlockId()).resolve(getRelativeUIArtifactResourceUrn(mockUIId));
+    public ResourceUrn getUIScenarioUrn(UIScenarioCoordinate scenarioCoordinate) {
+        return storyDocQueryService.getArtifactBlockFolder(scenarioCoordinate.getBlockCoordinate()).resolve(getRelativeUIArtifactResourceUrn(scenarioCoordinate.getUiScenarioId()));
     }
 
     @Override
-    public ResourceUrn getScreenshotArtifactResourceUrn(ArtifactBlockCoordinate coordinate, ScreenShotId screenshotId) {
-        return storyDocQueryService.getArtifactBlockFolder(coordinate.getStoryDocId(), coordinate.getBlockId()).resolve(getRelativeScreenshotArtifactResourceUrn(screenshotId));
+    public ResourceUrn getScreenshotUrn(ArtifactBlockCoordinate blockCoordinate, ScreenShotId screenshotId) {
+        return storyDocQueryService.getArtifactBlockFolder(blockCoordinate).resolve(getRelativeScreenshotArtifactResourceUrn(screenshotId));
     }
 
 
 
-    private ResourceUrn getRelativeUIArtifactResourceUrn(MockUIId mockUIId) {
-        return new ResourceUrn( new FolderURN(List.of()), mockUIId.getId() + ".json");
+    private ResourceUrn getRelativeUIArtifactResourceUrn(UIScenarioId UIScenarioId) {
+        return new ResourceUrn( new FolderURN(List.of()), UIScenarioId.getId() + ".json");
     }
 
     private ResourceUrn getRelativeScreenshotArtifactResourceUrn(ScreenShotId screenshotId) {
@@ -125,17 +120,16 @@ public class UIStorageImpl implements UIStorage {
     }
 
     @Override
-    public MockUI loadMockUI(ArtifactBlockCoordinate coordinate, MockUIId mockUIId) {
+    public UIScenario loadUIScenario(UIScenarioCoordinate scenarioCoordinate) {
         return storyDocService.loadArtifact(ArtifactLoadContext.builder()
-                .relativeUrn(getRelativeUIArtifactResourceUrn(mockUIId))
-                .storyDocId(coordinate.getStoryDocId())
-                .blockId(coordinate.getBlockId())
+                .relativeUrn(getRelativeUIArtifactResourceUrn(scenarioCoordinate.getUiScenarioId()))
+                .blockCoordinate(scenarioCoordinate.getBlockCoordinate())
                 .deserializer(this::read)
                 .build());
     }
 
-    private MockUI read(InputStream inputStream) throws IOException {
-        return objectMapper.readValue(inputStream, MockUI.class);
+    private UIScenario read(InputStream inputStream) throws IOException {
+        return objectMapper.readValue(inputStream, UIScenario.class);
     }
 
 }

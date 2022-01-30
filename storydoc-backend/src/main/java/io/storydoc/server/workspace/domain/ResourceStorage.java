@@ -14,4 +14,6 @@ public interface ResourceStorage {
     List<ResourceDTO> listResources(FolderURN folderURN);
 
     InputStream getInputStream(ResourceUrn urn) throws WorkspaceException;
+
+    void delete(ResourceUrn resourceUrn) throws WorkspaceException;
 }

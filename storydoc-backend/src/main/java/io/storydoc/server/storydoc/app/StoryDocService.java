@@ -12,6 +12,8 @@ public interface StoryDocService {
 
     StoryDocId createDocument(String story_name);
 
+    void removeDocument(StoryDocId storyDocId);
+
     BlockId addArtifactBlock(StoryDocId storyDocId, String name);
 
     BlockId addArtifactBlock(StoryDocId storyDocId, SectionId sectionId);
@@ -34,4 +36,7 @@ public interface StoryDocService {
 
     ItemId addItemToBinaryCollection(ArtifactBlockCoordinate coordinate, ArtifactId artifactId, String itemName, InputStream inputStream);
 
+    void renameDocument(StoryDocId storyDocId, String new_name);
+
+    void renameBlock(ArtifactBlockCoordinate blockCoordinate, String new_name);
 }

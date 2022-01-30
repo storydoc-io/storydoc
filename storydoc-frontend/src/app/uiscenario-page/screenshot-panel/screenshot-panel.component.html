@@ -1,0 +1,17 @@
+<app-border>
+  <form [formGroup]="formGroup">
+    <div class="mb-3">
+      <label for="collection" class="form-label">Screenshot collection</label>
+      <select id="collection" formControlName="collection" class="form-select" (change)="onCollectionChange()">
+        <option selected>--select--</option>
+          <option *ngFor="let collection of collections"
+                  [ngValue]="collection">{{collection.name}}</option>
+      </select>
+      <div class="form-text">Select a screenshot collection.</div>
+    </div>
+  </form>
+  <ng-container *ngIf="(screenshotCollection$|async) as screenshotCollection" >
+      <app-screenshot-thumbnail draggable="true" (dragstart)="drag($event, screenshot.id)" *ngFor="let screenshot of screenshotCollection.screenShots"
+            [screenshotCoordinate]="screenshotCoordinate(screenshot.id)" ></app-screenshot-thumbnail>
+  </ng-container>
+</app-border>

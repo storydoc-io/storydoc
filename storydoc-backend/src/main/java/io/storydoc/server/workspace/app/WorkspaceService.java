@@ -6,5 +6,7 @@ public interface WorkspaceService {
     void createFolder(FolderURN folderURN);
     FolderURN addFolder(FolderURN folderURN, String folderName);
     void saveResource(ResourceSaveContext context) throws WorkspaceException;
+    void deleteResource(ResourceUrn resourceUrn) throws WorkspaceException;
     <R extends WorkspaceResource> R loadResource(ResourceLoadContext context) throws WorkspaceException;
+    void deleteFolder(FolderURN storyDocFolder, boolean recursive) throws WorkspaceException;
 }

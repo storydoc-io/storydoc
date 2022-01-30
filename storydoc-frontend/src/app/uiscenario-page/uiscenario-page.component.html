@@ -1,0 +1,44 @@
+<app-layout-2col
+  [breadcrumb]="breadcrumb"
+  [leftColumn]="leftPanel"
+  [rightColumn]="rightPanel"
+>
+</app-layout-2col>
+
+<ng-template #breadcrumb>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+      <ng-container *ngIf="uiScenario$ | async as uiScenario">
+        <li class="breadcrumb-item"><a
+          [routerLink]="link.toStoryDoc(uiScenario.storyDocSummary)">{{uiScenario.storyDocSummary.name}}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{uiScenario.name}}</li>
+      </ng-container>
+    </ol>
+  </nav>
+</ng-template>
+
+<ng-template #leftPanel>
+  <app-time-line-selection-panel [blockCoordinate]="blockCoordinate()" (onTimeLineSelection)="selectTimeLine($event)"></app-time-line-selection-panel>
+  <app-screenshot-panel [collections]="(uiScenario$|async)?.associatedCollections "></app-screenshot-panel>
+</ng-template>
+
+<ng-template #rightPanel>
+  <ng-container *ngIf="uiScenario$ | async as uiScenario">
+    <ng-container *ngIf="timeLineModelDto">
+      <div  *ngIf="uiScenario$ | async as uiScenario ; else loading">
+        <div style="height: 100px; margin: 10px;" *ngFor="let timeLineItem of timeLineModelDto.timeLines['default'].items; let idx=index ">
+          <span>{{timeLineItem.description}}</span>
+          <ng-container *ngIf="screenshotCoord(uiScenario, timeLineItem.itemId)">
+            <app-screenshot-thumbnail [screenshotCoordinate]="screenshotCoord(uiScenario, timeLineItem.itemId)"></app-screenshot-thumbnail>
+          </ng-container>
+          <ng-container *ngIf="!screenshotCoord(uiScenario,timeLineItem.itemId)">
+            <span style="width: 120px ; height: 100px; border: dotted 1px red" (dragover)="allowDrop($event)" (drop)="doDrop($event, timeLineItem.itemId)"  >[drop image here]</span>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</ng-template>
+
+<ng-template #loading>loading...</ng-template>

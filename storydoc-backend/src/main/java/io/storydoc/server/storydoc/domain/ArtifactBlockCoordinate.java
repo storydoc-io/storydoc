@@ -1,14 +1,21 @@
 package io.storydoc.server.storydoc.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Value
+@Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ArtifactBlockCoordinate {
 
     private StoryDocId storyDocId;
-    private SectionId sectionId;
     private BlockId blockId;
+
+    public static ArtifactBlockCoordinate of (StoryDocId storyDocId, BlockId blockId) {
+        return new ArtifactBlockCoordinate(storyDocId, blockId);
+    }
 
 }

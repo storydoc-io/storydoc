@@ -1,6 +1,5 @@
 package io.storydoc.server.ui.domain;
 
-import io.storydoc.server.storydoc.domain.ArtifactId;
 import io.storydoc.server.storydoc.domain.ItemId;
 
 import java.util.Objects;
@@ -8,6 +7,8 @@ import java.util.Objects;
 public class ScreenShotId {
 
     private String id;
+
+    private ScreenShotId(){}
 
     public ScreenShotId(String id) {
         this.id = id;
@@ -36,11 +37,6 @@ public class ScreenShotId {
 
     public static ScreenShotId fromString(String id) {
         return new ScreenShotId(id);
-    }
-
-    @Deprecated
-    public ArtifactId asArtifactId() {
-        return new ArtifactId(id);
     }
 
     public ItemId asItemId() {

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {BlockDto} from "../../api/models/block-dto";
 import {StoryDocId} from "../../api/models/story-doc-id";
 
@@ -16,6 +16,13 @@ export class BlockComponent implements OnInit {
 
   @Input()
   documentId: StoryDocId
+
+  @Output()
+  onBlockChanged = new EventEmitter()
+
+  refresh() {
+    this.onBlockChanged.emit()
+  }
 
   ngOnInit(): void {
   }

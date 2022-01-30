@@ -41,6 +41,15 @@ public class ResourceStorageImpl implements ResourceStorage {
     }
 
     @Override
+    public void delete(ResourceUrn resourceUrn) throws WorkspaceException {
+        try {
+            getFile(resourceUrn).delete();
+        } catch(Exception e) {
+            throw new WorkspaceException("could not delete resource " + resourceUrn, e);
+        }
+    }
+
+    @Override
     public InputStream getInputStream(ResourceUrn urn) throws WorkspaceException {
         try {
             return new FileInputStream(getFile(urn));

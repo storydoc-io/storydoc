@@ -8,6 +8,8 @@ public class ScreenShotCollectionId {
 
     private String id;
 
+    private ScreenShotCollectionId() {}
+
     public ScreenShotCollectionId(String id) {
         this.id = id;
     }
