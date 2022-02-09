@@ -14,10 +14,10 @@ public interface StoryDocQueryService {
     List<StoryDocSummaryDTO> getStoryDocs();
     StoryDocSummaryDTO getStoryDocSummary(StoryDocId storyDocId);
     StoryDocDTO getDocument(StoryDocId storyDocId);
-    FolderURN getArtifactBlockFolder(ArtifactBlockCoordinate blockCoordinate);
-    List<ArtifactId> getArtifactsByType(ArtifactBlockCoordinate coordinate, String artifactType);
-    ArtifactMetaData getArtifactMetaData(ArtifactBlockCoordinate coordinate, ArtifactId artifactId);
-    ArtifactDTO getArtifact(ArtifactBlockCoordinate coordinate, ArtifactId asArtifactId);
-    InputStream getBinaryFromCollection(ArtifactBlockCoordinate coordinate, ArtifactId asArtifactId, ItemId asItemId) throws WorkspaceException;
+    FolderURN getArtifactBlockFolder(BlockCoordinate blockCoordinate);
+    List<ArtifactId> getArtifactsByType(BlockCoordinate coordinate, String artifactType);
+    ArtifactMetaData getArtifactMetaData(BlockCoordinate coordinate, ArtifactId artifactId);
+    ArtifactDTO getArtifact(BlockCoordinate coordinate, ArtifactId asArtifactId);
+    InputStream getBinaryFromCollection(BlockCoordinate coordinate, ArtifactId asArtifactId, ItemId asItemId) throws WorkspaceException;
 
 }

@@ -1,13 +1,15 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 
-export interface CreateBlockDialogData {
+export interface BlockDialogData {
   name?: string
 }
 
-export interface CreateBlockDialogInput {
+export interface BlockDialogSpec {
   mode: 'UPDATE' | 'NEW'
-  data: CreateBlockDialogData
+  data: BlockDialogData
+  confirm: (BlockDialogData) => void
+  cancel: ()=> void
 }
 
 @Component({
@@ -18,11 +20,11 @@ export interface CreateBlockDialogInput {
 export class CreateBlockDialogComponent implements OnChanges {
 
   @Input()
-  input: CreateBlockDialogInput
+  spec: BlockDialogSpec
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.input != null) {
-      this.formGroup.setValue(this.input.data)
+    if (this.spec != null) {
+      this.formGroup.setValue(this.spec.data)
     }
   }
 
@@ -30,17 +32,12 @@ export class CreateBlockDialogComponent implements OnChanges {
     name: new FormControl(null, Validators.required)
   })
 
-  @Output()
-  private onConfirm = new EventEmitter()
-
-  @Output()
-  private onCancel = new EventEmitter()
-
   cancel() {
-    this.onCancel.emit()
+    this.spec.cancel.apply(this, [])
   }
 
-  save() {
-    this.onConfirm.emit(this.formGroup.value)
+  confirm() {
+    this.spec.confirm.apply(this, [this.formGroup.value])
   }
+
 }

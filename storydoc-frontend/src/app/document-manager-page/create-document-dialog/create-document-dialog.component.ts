@@ -1,13 +1,15 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 
-export interface CreateDocumentDialogData {
+export interface DocumentDialogData {
   name?: string
 }
 
-export interface CreateDocumentDialogInput {
+export interface DocumentDialogSpec {
   mode: 'UPDATE' | 'NEW'
-  data: CreateDocumentDialogData
+  data: DocumentDialogData
+  cancel: () => void
+  confirm: (data: DocumentDialogData) => void
 }
 
 
@@ -19,7 +21,7 @@ export interface CreateDocumentDialogInput {
 export class CreateDocumentDialogComponent implements OnChanges {
 
   @Input()
-  input: CreateDocumentDialogInput
+  input: DocumentDialogSpec
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.input != null) {
@@ -38,10 +40,10 @@ export class CreateDocumentDialogComponent implements OnChanges {
   private onCancel = new EventEmitter()
 
   cancel() {
-    this.onCancel.emit()
+    this.input.cancel.apply(this.input.cancel,[])
   }
 
-  save() {
-    this.onConfirm.emit(this.formGroup.value)
+  confirm() {
+    this.input.confirm.apply(this.input.confirm, [this.formGroup.value])
   }
 }

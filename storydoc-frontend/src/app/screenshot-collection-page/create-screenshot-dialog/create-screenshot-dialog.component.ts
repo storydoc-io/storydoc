@@ -42,6 +42,9 @@ export class CreateScreenshotDialogComponent  {
       this.formGroup.patchValue({
         fileSource: file
       });
+      if (!this.formGroup.get('name').value) {
+        this.formGroup.get('name').setValue(file.name)
+      }
     }
   }
 

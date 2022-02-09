@@ -50,7 +50,7 @@ public class StoryDocServiceImpl implements StoryDocService {
     }
 
     @Override
-    public void renameBlock(ArtifactBlockCoordinate blockCoordinate, String new_name) {
+    public void renameBlock(BlockCoordinate blockCoordinate, String new_name) {
         StoryDoc storyDoc = domainService.getDocument(blockCoordinate.getStoryDocId());
         storyDoc.renameBlock(blockCoordinate, new_name);
     }
@@ -60,6 +60,12 @@ public class StoryDocServiceImpl implements StoryDocService {
         StoryDoc storyDoc = domainService.getDocument(storyDocId);
         BlockId blockId = new BlockId(idGenerator.generateID("BLOCK"));
         return storyDoc.addBlock(blockId, sectionId);
+    }
+
+    @Override
+    public void moveBlock(BlockCoordinate blockToMove, BlockCoordinate newParent, int childIndexInParent) {
+        StoryDoc storyDoc = domainService.getDocument(blockToMove.getStoryDocId());
+        storyDoc.moveBlock(blockToMove, newParent, childIndexInParent);
     }
 
     @Override
@@ -107,13 +113,20 @@ public class StoryDocServiceImpl implements StoryDocService {
     }
 
     @Override
+    public void renameArtifact(BlockCoordinate blockCoordinate, ArtifactId artifactId, String new_name) {
+        StoryDoc storyDoc = domainService.getDocument(blockCoordinate.getStoryDocId());
+        storyDoc.renameArtifact(blockCoordinate, artifactId, new_name);
+
+    }
+
+    @Override
     public void saveBinaryArtifact(SaveBinaryArtifactContext context) throws IOException {
         StoryDoc storyDoc = domainService.getDocument(context.getCoordinate().getStoryDocId());
         storyDoc.saveBinaryArtifact(context);
     }
 
     @Override
-    public ArtifactId createBinaryCollectionArtifact(ArtifactBlockCoordinate coordinate, String artifactType, String binaryType, String name) {
+    public ArtifactId createBinaryCollectionArtifact(BlockCoordinate coordinate, String artifactType, String binaryType, String name) {
         ArtifactId artifactId = ArtifactId.fromString(idGenerator.generateID(artifactType));
         CreateBinaryCollectionArtifactAction action = CreateBinaryCollectionArtifactAction.builder()
             .coordinate(coordinate)
@@ -129,7 +142,7 @@ public class StoryDocServiceImpl implements StoryDocService {
 
     // todo add filename generator
     @Override
-    public ItemId addItemToBinaryCollection(ArtifactBlockCoordinate coordinate, ArtifactId artifactId, String itemName, InputStream inputStream) {
+    public ItemId addItemToBinaryCollection(BlockCoordinate coordinate, ArtifactId artifactId, String itemName, InputStream inputStream) {
         ItemId itemId = ItemId.fromString(idGenerator.generateID("item"));
         AddToBinaryCollectionAction action = AddToBinaryCollectionAction.builder()
             .coordinate(coordinate)

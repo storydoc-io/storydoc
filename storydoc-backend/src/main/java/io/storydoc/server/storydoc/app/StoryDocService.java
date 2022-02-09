@@ -18,6 +18,8 @@ public interface StoryDocService {
 
     BlockId addArtifactBlock(StoryDocId storyDocId, SectionId sectionId);
 
+    void moveBlock(BlockCoordinate blockToMove, BlockCoordinate newParent, int childIndexInParent);
+
     void removeBlock(StoryDocId storyDocId, BlockId blockId1);
 
     SectionId addSection(StoryDocId storyDocId);
@@ -32,11 +34,13 @@ public interface StoryDocService {
 
     void saveBinaryArtifact(SaveBinaryArtifactContext context) throws IOException;
 
-    ArtifactId createBinaryCollectionArtifact(ArtifactBlockCoordinate coordinate, String artifactType, String binaryType, String name);
+    ArtifactId createBinaryCollectionArtifact(BlockCoordinate coordinate, String artifactType, String binaryType, String name);
 
-    ItemId addItemToBinaryCollection(ArtifactBlockCoordinate coordinate, ArtifactId artifactId, String itemName, InputStream inputStream);
+    ItemId addItemToBinaryCollection(BlockCoordinate coordinate, ArtifactId artifactId, String itemName, InputStream inputStream);
 
     void renameDocument(StoryDocId storyDocId, String new_name);
 
-    void renameBlock(ArtifactBlockCoordinate blockCoordinate, String new_name);
+    void renameBlock(BlockCoordinate blockCoordinate, String new_name);
+
+    void renameArtifact(BlockCoordinate blockCoordinate, ArtifactId artifactId, String new_name);
 }

@@ -1,6 +1,6 @@
 package io.storydoc.server.ui.app;
 
-import io.storydoc.server.storydoc.domain.ArtifactBlockCoordinate;
+import io.storydoc.server.storydoc.domain.BlockCoordinate;
 import io.storydoc.server.ui.domain.*;
 import org.springframework.stereotype.Component;
 
@@ -15,13 +15,13 @@ public class UITestUtils {
         this.uiService = uiService;
     }
 
-    public UIScenarioCoordinate createUIScenario(ArtifactBlockCoordinate blockCoordinate) {
+    public UIScenarioCoordinate createUIScenario(BlockCoordinate blockCoordinate) {
         UIScenarioId uiScenarioId = uiService.createUIScenario(blockCoordinate, "uiscenario");
         UIScenarioCoordinate scenarioCoordinate = UIScenarioCoordinate.of(blockCoordinate, uiScenarioId);
         return scenarioCoordinate;
     }
 
-    public ScreenshotCollectionCoordinate createScreenshotCollection(ArtifactBlockCoordinate blockCoordinate) {
+    public ScreenshotCollectionCoordinate createScreenshotCollection(BlockCoordinate blockCoordinate) {
         String screenshots_artifact_name = "screenshots";
         ScreenShotCollectionId screenShotCollectionId = uiService.createScreenShotCollection(blockCoordinate, screenshots_artifact_name);
         ScreenshotCollectionCoordinate collectionCoordinate = ScreenshotCollectionCoordinate.of(blockCoordinate, screenShotCollectionId);

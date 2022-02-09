@@ -1,7 +1,7 @@
 package io.storydoc.server.timeline.app;
 
 import io.storydoc.server.infra.IDGenerator;
-import io.storydoc.server.storydoc.domain.ArtifactBlockCoordinate;
+import io.storydoc.server.storydoc.domain.BlockCoordinate;
 import io.storydoc.server.timeline.domain.*;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +17,7 @@ public class TimeLineServiceImpl implements TimeLineService {
     }
 
     @Override
-    public TimeLineModelCoordinate createTimeLineModel(ArtifactBlockCoordinate blockCoordinate, String name) {
+    public TimeLineModelCoordinate createTimeLineModel(BlockCoordinate blockCoordinate, String name) {
         TimeLineModelId timeLineModelId = TimeLineModelId.fromString(idGenerator.generateID("TIMELINE-MODEL"));
         TimeLineItemId defaultTimeLineId = TimeLineItemId.fromString(idGenerator.generateID("TIMELINE"));
         return timeLineDomainService.createTimeLineModel(blockCoordinate, timeLineModelId, defaultTimeLineId, name);

@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Component
 public class StoryDocStorageImpl implements StoryDocStorage {
@@ -72,7 +73,7 @@ public class StoryDocStorageImpl implements StoryDocStorage {
         return new FolderURN(List.of(storyDocId.getId(), blockId.getId()));
     }
 
-    public FolderURN getArtifactBlockFolder(ArtifactBlockCoordinate coordinate) {
+    public FolderURN getArtifactBlockFolder(BlockCoordinate coordinate) {
         return getArtifactBlockFolder(coordinate.getStoryDocId(), coordinate.getBlockId());
     }
 
@@ -127,10 +128,37 @@ public class StoryDocStorageImpl implements StoryDocStorage {
     }
 
     @Override
-    public void renameBlock(ArtifactBlockCoordinate blockCoordinate, String new_name) {
+    public void renameBlock(BlockCoordinate blockCoordinate, String new_name) {
         StoryDoc storyDoc = loadDocument(blockCoordinate.getStoryDocId());
         Block block = lookupBlock(blockCoordinate.getBlockId(), storyDoc);
         block.setName(new_name);
+        saveDocument(storyDoc);
+    }
+
+    @Override
+    public void renameArtifact(BlockCoordinate blockCoordinate, ArtifactId artifactId, String new_name) {
+        StoryDoc storyDoc = loadDocument(blockCoordinate.getStoryDocId());
+        Block block = lookupBlock(blockCoordinate.getBlockId(), storyDoc);
+        ArtifactBlock artifactBlock = (ArtifactBlock) block;
+        io.storydoc.server.storydoc.infra.store.model.Artifact artifact = artifactBlock.getArtifacts().stream()
+                .filter(a -> a.getArtifactId().equals(artifactId.getId()))
+                .findFirst()
+                .get();
+        artifact.setName(new_name);
+        saveDocument(storyDoc);
+    }
+
+    @Override
+    public void moveBlock(BlockCoordinate coordinateBlockToMove, BlockCoordinate coordinateNewParent, int indexInNewParent) {
+        StoryDoc storyDoc = loadDocument(coordinateBlockToMove.getStoryDocId());
+        CompositeBlock currentParentBlock = lookupParentBlock(coordinateBlockToMove.getBlockId(), storyDoc);
+        CompositeBlock newParentBlock = (CompositeBlock) lookupBlock(coordinateNewParent.getBlockId(), storyDoc);
+        Block blockToMove = lookupBlock(coordinateBlockToMove.getBlockId(), currentParentBlock);
+        int indexInCurrentParent = IntStream.range(0, currentParentBlock.getBlocks().size())
+                .filter(idx -> currentParentBlock.getBlocks().get(idx).getId().equals(blockToMove.getId()))
+                .findFirst().getAsInt();
+        currentParentBlock.getBlocks().remove(indexInCurrentParent);
+        newParentBlock.getBlocks().add(indexInNewParent, blockToMove);
         saveDocument(storyDoc);
     }
 
@@ -181,7 +209,7 @@ public class StoryDocStorageImpl implements StoryDocStorage {
     }
 
     @Override
-    public ArtifactMetaData getArtifactMetaData(ArtifactBlockCoordinate coordinate, ArtifactId artifactId) {
+    public ArtifactMetaData getArtifactMetaData(BlockCoordinate coordinate, ArtifactId artifactId) {
         StoryDoc storyDoc = loadDocument(coordinate.getStoryDocId());
         ArtifactBlock block = (ArtifactBlock) lookupBlock(coordinate.getBlockId(), storyDoc);
         io.storydoc.server.storydoc.infra.store.model.Artifact artifact = block.getArtifacts().stream()
@@ -208,29 +236,37 @@ public class StoryDocStorageImpl implements StoryDocStorage {
         return null;
     }
 
-    public Block getBlock(ArtifactBlockCoordinate coordinate) {
+    public Block getBlock(BlockCoordinate coordinate) {
         StoryDoc storyDoc = loadDocument(coordinate.getStoryDocId());
         return lookupBlock(coordinate.getBlockId(), storyDoc);
     }
 
-    private Block lookupBlock(BlockId blockId, StoryDoc storyDoc) {
-        return lookupBlock(blockId, storyDoc.getBlocks());
-    }
-
-    private Block lookupBlock(BlockId blockId, List<Block> blocks) {
-        for (Block block: blocks) {
-            if (block instanceof Section) {
-                Section section = (Section) block;
-                Block subBlock = lookupBlock(blockId, section.getBlocks());
-                if (subBlock != null) return subBlock;
-            } else {  // (!(block instanceof Section))
-                if (block.getId().equals(blockId.getId().toString())) {
-                    return block;
-                }
+    private Block lookupBlock(BlockId blockId, Block block) {
+        if (block.getId().equals(blockId.getId())) return block;
+        if (block instanceof CompositeBlock) {
+            CompositeBlock compositeBlock = (CompositeBlock) block;
+            for (Block subBlock : compositeBlock.getBlocks()) {
+                Block foundBlock = lookupBlock(blockId, subBlock);
+                if (foundBlock != null) return foundBlock;
             }
         }
         return null;
     }
+
+    private CompositeBlock lookupParentBlock(BlockId blockId, Block block) {
+        if (block instanceof CompositeBlock) {
+            CompositeBlock parentBlock = (CompositeBlock) block;
+            for (Block childBlock : parentBlock.getBlocks()) {
+                if (childBlock.getId().equals(blockId.getId())) {
+                    return parentBlock;
+                }
+                CompositeBlock foundParentBlock = lookupParentBlock(blockId, childBlock);
+                if (foundParentBlock != null) return foundParentBlock;
+            }
+        }
+        return null;
+    }
+
 
 
     @Override
@@ -238,12 +274,9 @@ public class StoryDocStorageImpl implements StoryDocStorage {
         try {
             StoryDoc storyDoc = loadDocument(storyDocId);
 
-            Block block = storyDoc.getBlocks().stream()
-                    .filter(b -> b.getId().equals(blockId.getId()))
-                    .findFirst()
-                    .orElseThrow(() -> new StoryDocException("cannot delete block with id " + blockId + " no such block found"));
-
-            storyDoc.getBlocks().remove(block);
+            CompositeBlock parentBlock = lookupParentBlock(blockId, storyDoc);
+            Block block = lookupBlock(blockId, parentBlock);
+            parentBlock.getBlocks().remove(block);
 
             saveDocument(storyDoc);
 
@@ -277,7 +310,7 @@ public class StoryDocStorageImpl implements StoryDocStorage {
         saveDocument(storyDoc);
     }
 
-    public List<ArtifactId> getArtifacts(ArtifactBlockCoordinate coordinate, Function<ArtifactMetaData, Boolean> filter) {
+    public List<ArtifactId> getArtifacts(BlockCoordinate coordinate, Function<ArtifactMetaData, Boolean> filter) {
         StoryDoc storyDoc = loadDocument(coordinate.getStoryDocId());
         ArtifactBlock block = (ArtifactBlock)lookupBlock(coordinate.getBlockId(), storyDoc);
         return block.getArtifacts().stream()
@@ -475,7 +508,7 @@ public class StoryDocStorageImpl implements StoryDocStorage {
                 @Override
                 public ResourceUrn getResourceUrn() {
                     ItemId itemId = action.getItemId();
-                    ArtifactBlockCoordinate coordinate = action.getCoordinate();
+                    BlockCoordinate coordinate = action.getCoordinate();
                     return StoryDocStorageImpl.this.getItemResourceUrn(coordinate, itemId);
                 }
 
@@ -490,13 +523,13 @@ public class StoryDocStorageImpl implements StoryDocStorage {
         }
     }
 
-    private ResourceUrn getItemResourceUrn(ArtifactBlockCoordinate coordinate, ItemId itemId) {
+    private ResourceUrn getItemResourceUrn(BlockCoordinate coordinate, ItemId itemId) {
         ResourceUrn relativeItemResourceUrn = ResourceUrn.of(itemId.getId());
         return getArtifactBlockFolder(coordinate).resolve(relativeItemResourceUrn);
     }
 
     @Override
-    public InputStream getBinaryFromCollection(ArtifactBlockCoordinate coordinate, ArtifactId artifactId, ItemId itemId) throws WorkspaceException {
+    public InputStream getBinaryFromCollection(BlockCoordinate coordinate, ArtifactId artifactId, ItemId itemId) throws WorkspaceException {
         ResourceUrn urn = getItemResourceUrn(coordinate, itemId);
         return workspaceQueryService.getInputStream(urn);
     }

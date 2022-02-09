@@ -110,6 +110,52 @@
           }
         }
       },
+      "put": {
+        "tags": [
+          "story-doc-rest-controller"
+        ],
+        "summary": "changeDocumentName",
+        "operationId": "changeDocumentNameUsingPUT",
+        "parameters": [
+          {
+            "name": "storyDocId",
+            "in": "query",
+            "description": "storyDocId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "name",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
       "post": {
         "tags": [
           "story-doc-rest-controller"
@@ -150,6 +196,39 @@
           },
           "404": {
             "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "story-doc-rest-controller"
+        ],
+        "summary": "removeDocument",
+        "operationId": "removeDocumentUsingDELETE",
+        "parameters": [
+          {
+            "name": "storyDocId",
+            "in": "query",
+            "description": "storyDocId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       }
@@ -209,17 +288,151 @@
       }
     },
     "/api/storydoc/removeblock": {
-      "post": {
+      "delete": {
         "tags": [
           "story-doc-rest-controller"
         ],
         "summary": "removeBlock",
-        "operationId": "removeBlockUsingPOST",
+        "operationId": "removeBlockUsingDELETE",
         "parameters": [
           {
-            "name": "id",
+            "name": "storyDocId",
             "in": "query",
-            "required": false,
+            "description": "storyDocId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blockId",
+            "in": "query",
+            "description": "blockId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/storydoc/renameartifact": {
+      "put": {
+        "tags": [
+          "story-doc-rest-controller"
+        ],
+        "summary": "renameArtifact",
+        "operationId": "renameArtifactUsingPUT",
+        "parameters": [
+          {
+            "name": "storyDocId",
+            "in": "query",
+            "description": "storyDocId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blockId",
+            "in": "query",
+            "description": "blockId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "artifactId",
+            "in": "query",
+            "description": "artifactId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "name",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/storydoc/renameblock": {
+      "put": {
+        "tags": [
+          "story-doc-rest-controller"
+        ],
+        "summary": "renameBlock",
+        "operationId": "renameBlockUsingPUT",
+        "parameters": [
+          {
+            "name": "storyDocId",
+            "in": "query",
+            "description": "storyDocId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blockId",
+            "in": "query",
+            "description": "blockId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "name",
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"
@@ -591,6 +804,11 @@
           "content": {
             "multipart/form-data": {
               "schema": {
+                "required": [
+                  "blockId",
+                  "screenshotCollectionId",
+                  "storyDocId"
+                ],
                 "type": "object",
                 "properties": {
                   "blockId": {
@@ -731,7 +949,7 @@
             "name": "storyDocId",
             "in": "query",
             "description": "storyDocId",
-            "required": false,
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"
@@ -741,7 +959,7 @@
             "name": "blockId",
             "in": "query",
             "description": "blockId",
-            "required": false,
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"
@@ -751,7 +969,7 @@
             "name": "id",
             "in": "query",
             "description": "id",
-            "required": false,
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"
@@ -791,7 +1009,7 @@
             "name": "storyDocId",
             "in": "query",
             "description": "storyDocId",
-            "required": false,
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"
@@ -801,7 +1019,7 @@
             "name": "blockId",
             "in": "query",
             "description": "blockId",
-            "required": false,
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"
@@ -856,7 +1074,7 @@
             "name": "storyDocId",
             "in": "query",
             "description": "storyDocId",
-            "required": false,
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"
@@ -866,7 +1084,7 @@
             "name": "blockId",
             "in": "query",
             "description": "blockId",
-            "required": false,
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"
@@ -876,7 +1094,7 @@
             "name": "id",
             "in": "query",
             "description": "id",
-            "required": false,
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"
@@ -916,7 +1134,7 @@
             "name": "storyDocId",
             "in": "query",
             "description": "storyDocId",
-            "required": false,
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"
@@ -926,7 +1144,7 @@
             "name": "blockId",
             "in": "query",
             "description": "blockId",
-            "required": false,
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"
@@ -936,7 +1154,7 @@
             "name": "name",
             "in": "query",
             "description": "name",
-            "required": false,
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"
@@ -981,7 +1199,7 @@
             "name": "storyDocId",
             "in": "query",
             "description": "storyDocId",
-            "required": false,
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"
@@ -991,7 +1209,7 @@
             "name": "blockId",
             "in": "query",
             "description": "blockId",
-            "required": false,
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"
@@ -1001,7 +1219,7 @@
             "name": "uiScenarioId",
             "in": "query",
             "description": "uiScenarioId",
-            "required": false,
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"
@@ -1011,7 +1229,7 @@
             "name": "screenshotStoryDocId",
             "in": "query",
             "description": "screenshotStoryDocId",
-            "required": false,
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"
@@ -1021,7 +1239,7 @@
             "name": "screenshotBlockId",
             "in": "query",
             "description": "screenshotBlockId",
-            "required": false,
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"
@@ -1031,7 +1249,7 @@
             "name": "screenshotCollectionId",
             "in": "query",
             "description": "screenshotCollectionId",
-            "required": false,
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"
@@ -1041,7 +1259,7 @@
             "name": "screenshotId",
             "in": "query",
             "description": "screenshotId",
-            "required": false,
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"
@@ -1051,7 +1269,7 @@
             "name": "timeLineItemId",
             "in": "query",
             "description": "timeLineItemId",
-            "required": false,
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"
@@ -1089,7 +1307,7 @@
             "name": "storyDocId",
             "in": "query",
             "description": "storyDocId",
-            "required": false,
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"
@@ -1099,7 +1317,7 @@
             "name": "blockId",
             "in": "query",
             "description": "blockId",
-            "required": false,
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"
@@ -1109,7 +1327,7 @@
             "name": "uiScenarioId",
             "in": "query",
             "description": "uiScenarioId",
-            "required": false,
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"
@@ -1119,7 +1337,7 @@
             "name": "timeLineModelStoryDocId",
             "in": "query",
             "description": "timeLineModelStoryDocId",
-            "required": false,
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"
@@ -1129,7 +1347,7 @@
             "name": "timeLineModelBlockId",
             "in": "query",
             "description": "timeLineModelBlockId",
-            "required": false,
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"
@@ -1139,7 +1357,7 @@
             "name": "timeLineModelId",
             "in": "query",
             "description": "timeLineModelId",
-            "required": false,
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"
@@ -1149,7 +1367,7 @@
             "name": "timeLineId",
             "in": "query",
             "description": "timeLineId",
-            "required": false,
+            "required": true,
             "style": "form",
             "schema": {
               "type": "string"

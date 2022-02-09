@@ -9,13 +9,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArtifactBlockCoordinate {
+public class BlockCoordinate {
 
     private StoryDocId storyDocId;
     private BlockId blockId;
 
-    public static ArtifactBlockCoordinate of (StoryDocId storyDocId, BlockId blockId) {
-        return new ArtifactBlockCoordinate(storyDocId, blockId);
+    public static BlockCoordinate of (StoryDocId storyDocId, BlockId blockId) {
+        return new BlockCoordinate(storyDocId, blockId);
     }
 
 }

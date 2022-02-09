@@ -1,73 +1,121 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {ModalService} from "../common/modal-service";
-import {
-  CreateDocumentDialogData,
-  CreateDocumentDialogInput
-} from './create-document-dialog/create-document-dialog.component'
-import {StoryDocRestControllerService} from "../api/services/story-doc-rest-controller.service";
+import {DocumentDialogData, DocumentDialogSpec} from './create-document-dialog/create-document-dialog.component'
 import {StoryDocSummaryDto} from "../api/models/story-doc-summary-dto";
-import {Observable} from "rxjs";
 import {PopupMenuComponent} from "../common/popup-menu/popup-menu.component";
-import {share} from "rxjs/operators";
+import {ConfirmationDialogSpec} from "../common/confirmation-dialog/confirmation-dialog.component";
+import {DocumentManagerService} from "./document-manager.service";
 
 @Component({
   selector: 'app-story-manager-page',
   templateUrl: './document-manager-page.component.html',
   styleUrls: ['./document-manager-page.component.scss']
 })
-export class DocumentManagerPageComponent implements OnInit {
+export class DocumentManagerPageComponent {
 
-  constructor(private modalservice: ModalService, private storyDocRestControllerService: StoryDocRestControllerService) { }
+  constructor(private modalservice: ModalService, private documentManagerService: DocumentManagerService) { }
 
+  // document list
 
-  // list documents
+  summaries$ =  this.documentManagerService.summaries$
 
-  summaries$: Observable<StoryDocSummaryDto[]>
+  // document dialog
 
-  ngOnInit(): void {
-    this.refresh();
+  documentDialogSpec: DocumentDialogSpec
+
+  documentDialogId(): string {
+    return 'document-dialog'
   }
 
-  private refresh() {
-    this.summaries$ = this.storyDocRestControllerService.getDocumentsUsingGet().pipe(share())
+  private openDocumentDialog(spec: DocumentDialogSpec) {
+    this.documentDialogSpec = spec
+    this.modalservice.open(this.documentDialogId())
   }
 
-// create storydoc dialog
-
-  createDocumentDialogInput: CreateDocumentDialogInput
-
-  openAddDocumentDialog() {
-    this.createDocumentDialogInput = {
-      mode: 'NEW',
-      data: {
-        name: null
-      }
-    }
-    this.modalservice.open("add-document-dialog")
+  private closeDocumentDialog() {
+    this.modalservice.close(this.documentDialogId())
   }
 
-  confirmAddDocumentDialog(data: CreateDocumentDialogData) {
-    console.log('data:', data)
-    this.storyDocRestControllerService.createDocumentUsingPost({ name : data.name }).subscribe({
-      next: value => this.refresh()
-    })
+  // confirmation dialog
 
-    this.modalservice.close("add-document-dialog")
+  confirmationDialogSpec : ConfirmationDialogSpec
+
+  confirmationDialogId(): string {
+    return 'confirmation-dialog'
   }
 
-  cancelAddDocumentDialog() {
-    this.modalservice.close("add-document-dialog")
+  private openConfirmationDialog(spec: ConfirmationDialogSpec) {
+    this.confirmationDialogSpec = spec
+    this.modalservice.open(this.confirmationDialogId())
   }
+
+  private closeConfirmationDialog() {
+    this.modalservice.close(this.confirmationDialogId())
+  }
+
+  // popup menu
 
   @ViewChild(PopupMenuComponent) menu:PopupMenuComponent
 
-  openMenu(e) {
+  storyDoc: StoryDocSummaryDto
+
+  openMenu(e, storyDoc: StoryDocSummaryDto) {
+    this.storyDoc = storyDoc
     this.menu.open(e)
     return false
   }
 
-  itemSelected(item:number) {
-    console.log("Item", item)
+  // add document
+
+  addDocument() {
+    this.openDocumentDialog({
+      mode: 'NEW',
+      data: {
+        name: null
+      },
+      confirm: (data) => { this.closeDocumentDialog(); this.confirmAddDocument(data)},
+      cancel: () => { this.closeDocumentDialog() }
+    });
   }
+
+  confirmAddDocument(data: DocumentDialogData) {
+    this.documentManagerService.addDocument(data.name)
+  }
+
+  // rename document
+
+  renameDocument() {
+    this.openDocumentDialog({
+      mode: 'UPDATE',
+      data: {
+        name: this.storyDoc.name
+      },
+      confirm: (data) => { this.closeDocumentDialog(); this.confirmRenameDocument(data)},
+      cancel: () => { this.closeDocumentDialog() }
+    })
+  }
+
+  confirmRenameDocument(data: DocumentDialogData) {
+    this.documentManagerService.renameDocument({
+      storyDocId: this.storyDoc.storyDocId,
+      name: data.name
+    })
+  }
+
+  // delete document
+
+  deleteDocument() {
+    this.openConfirmationDialog({
+      title: 'Confirmation',
+      message: `Delete  '${this.storyDoc.name}' ?`,
+      confirm: () => { this.closeConfirmationDialog(); this.confirmDeleteDocument() },
+      cancel: () => this.closeConfirmationDialog()
+    })
+  }
+
+  confirmDeleteDocument() {
+    this.documentManagerService.deleteDocument(this.storyDoc.storyDocId)
+  }
+
 
 }

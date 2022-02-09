@@ -1,6 +1,6 @@
 package io.storydoc.server.timeline.app;
 
-import io.storydoc.server.storydoc.domain.ArtifactBlockCoordinate;
+import io.storydoc.server.storydoc.domain.BlockCoordinate;
 import io.storydoc.server.storydoc.domain.BlockId;
 import io.storydoc.server.storydoc.domain.StoryDocId;
 import io.storydoc.server.timeline.domain.*;
@@ -27,13 +27,13 @@ public class TimeLineController {
 
     @PostMapping(value = "/timelinemodel", produces = MediaType.APPLICATION_JSON_VALUE)
     public TimeLineModelCoordinate createTimeLineModel(String storyDocId, String blockId, String name) {
-        ArtifactBlockCoordinate coordinate = ArtifactBlockCoordinate.of(new StoryDocId(storyDocId), new BlockId(blockId));
+        BlockCoordinate coordinate = BlockCoordinate.of(new StoryDocId(storyDocId), new BlockId(blockId));
         return timeLineService.createTimeLineModel(coordinate, name);
     }
 
     @PostMapping(value = "/timelineitem", produces = MediaType.APPLICATION_JSON_VALUE)
     public TimeLineItemId createTimeLineItem(String storyDocId, String blockId, String timeLineModelId, String name) {
-        ArtifactBlockCoordinate blockCoordinate = ArtifactBlockCoordinate.of(new StoryDocId(storyDocId), new BlockId(blockId));
+        BlockCoordinate blockCoordinate = BlockCoordinate.of(new StoryDocId(storyDocId), new BlockId(blockId));
         TimeLineModelCoordinate modelCoordinate = TimeLineModelCoordinate.of(blockCoordinate, TimeLineModelId.fromString(timeLineModelId));
         TimeLineId defaultTimeLineId = timeLineQueryService.getTimeLineModel(modelCoordinate).getTimeLines().get("default").getTimeLineId();
         TimeLineCoordinate timeLineCoordinate = TimeLineCoordinate.of(modelCoordinate, defaultTimeLineId);
@@ -42,14 +42,14 @@ public class TimeLineController {
 
     @GetMapping(value="/timelinemodel", produces = MediaType.APPLICATION_JSON_VALUE)
     public TimeLineModelDTO getTimeLineModel(String storyDocId, String blockId, String timeLineModelId) {
-        ArtifactBlockCoordinate blockCoordinate = ArtifactBlockCoordinate.of(new StoryDocId(storyDocId), new BlockId(blockId));
+        BlockCoordinate blockCoordinate = BlockCoordinate.of(new StoryDocId(storyDocId), new BlockId(blockId));
         TimeLineModelCoordinate modelCoordinate = TimeLineModelCoordinate.of(blockCoordinate, TimeLineModelId.fromString(timeLineModelId));
         return timeLineQueryService.getTimeLineModel(modelCoordinate);
     }
 
     @GetMapping(value = "/timelinemodelsummaries", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<TimeLineModelSummaryDTO> getTimeLineModelSummaries(String storyDocId, String blockId) {
-        ArtifactBlockCoordinate blockCoordinate = ArtifactBlockCoordinate.of(new StoryDocId(storyDocId), new BlockId(blockId));
+        BlockCoordinate blockCoordinate = BlockCoordinate.of(new StoryDocId(storyDocId), new BlockId(blockId));
         return timeLineQueryService.getTimeLineModelSummaries(blockCoordinate);
     }
 

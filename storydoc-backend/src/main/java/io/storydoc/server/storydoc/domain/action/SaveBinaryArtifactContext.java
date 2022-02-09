@@ -1,6 +1,6 @@
 package io.storydoc.server.storydoc.domain.action;
 
-import io.storydoc.server.storydoc.domain.ArtifactBlockCoordinate;
+import io.storydoc.server.storydoc.domain.BlockCoordinate;
 import io.storydoc.server.storydoc.domain.ArtifactId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +14,7 @@ import java.io.InputStream;
 @AllArgsConstructor
 public class SaveBinaryArtifactContext {
 
-    private ArtifactBlockCoordinate coordinate;
+    private BlockCoordinate coordinate;
     private ArtifactId artifactId;
     private InputStream inputStream;
 

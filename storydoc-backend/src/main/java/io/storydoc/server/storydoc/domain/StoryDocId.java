@@ -36,4 +36,8 @@ public class StoryDocId {
     public void setId(String id) {
         this.id = id;
     }
+
+    public BlockId asBlockId() {
+        return new BlockId(id);
+    }
 }

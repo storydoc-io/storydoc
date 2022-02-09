@@ -26,10 +26,10 @@
 <ng-template #leftPanel>
   <div *ngIf="doc$ | async as doc; else loading">
     <ul class="list-group">
-      <li class="list-group-item" *ngFor="let block of doc.blocks">
+      <li class="list-group-item" [class.selected]="isSelected(block)"  *ngFor="let block of doc.blocks" (click)="selectBlock(block)"  (select)="selectBlock(block)" (contextmenu)="openMenu($event, block)">
         {{numbering(block)}} {{block.title}}
       </li>
-      <div class="btn  btn-sm btn-outline-primary" (click)="openAddBlockDialog()">Add Paragraph</div>
+      <div class="btn  btn-sm btn-outline-primary" (click)="addBlock()">Add Paragraph</div>
 
     </ul>
   </div>
@@ -39,15 +39,22 @@
   <div *ngIf="doc$ | async as doc; else loading">
     <div class="container">
       <div class="row" *ngFor="let block of doc.blocks">
-        <app-block [block]="block" [documentId]="doc.storyDocId" (onBlockChanged)="refresh()"></app-block>
+        <app-block [block]="block" [documentId]="doc.storyDocId"></app-block>
       </div>
     </div>
   </div>
 </ng-template>
 
-<jw-modal id="add-block-dialog">
-  <app-create-block-dialog [input]="createBlockDialogInput" (onConfirm)="confirmAddBlockDialog($event)"
-                           (onCancel)="cancelAddBlockDialog()"></app-create-block-dialog>
+<app-popup-menu></app-popup-menu>
+
+<jw-modal [id]="blockDialogId">
+  <app-create-block-dialog [spec]="blockDialogSpec"></app-create-block-dialog>
 </jw-modal>
+
+
+<jw-modal [id]="confirmationDialogId">
+  <app-confirmation-dialog [spec]="confirmationDialogSpec"></app-confirmation-dialog>
+</jw-modal>
+
 
 <ng-template #loading>loading...</ng-template>

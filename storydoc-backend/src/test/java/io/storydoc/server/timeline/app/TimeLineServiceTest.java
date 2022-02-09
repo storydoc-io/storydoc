@@ -2,7 +2,7 @@ package io.storydoc.server.timeline.app;
 
 import io.storydoc.server.TestBase;
 import io.storydoc.server.storydoc.StoryDocTestUtils;
-import io.storydoc.server.storydoc.domain.ArtifactBlockCoordinate;
+import io.storydoc.server.storydoc.domain.BlockCoordinate;
 import io.storydoc.server.timeline.domain.TimeLineCoordinate;
 import io.storydoc.server.timeline.domain.TimeLineId;
 import io.storydoc.server.timeline.domain.TimeLineItemId;
@@ -34,7 +34,7 @@ public class TimeLineServiceTest extends TestBase {
     @Test
     public void create_timeline_model() {
         // given a storydoc with an artifact paragraph
-        ArtifactBlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
 
         // when I create a timeline model
         String timeline_model_name = "timeline_model";
@@ -66,7 +66,7 @@ public class TimeLineServiceTest extends TestBase {
     @Test
     public void add_item_to_timeline() {
         // given a storydoc with an artifact paragraph
-        ArtifactBlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
         // given a timeline model
         TimeLineModelCoordinate modelCoordinate = timeLineTestUtils.createTimeLineModel(blockCoordinate);
 
