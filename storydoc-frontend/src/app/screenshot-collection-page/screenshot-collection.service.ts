@@ -1,10 +1,9 @@
-import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable} from "rxjs";
-import {ScreenShotCollectionDto} from "../api/models/screen-shot-collection-dto";
-import {map, share, tap} from "rxjs/operators";
-import {UiRestControllerService} from "../api/services/ui-rest-controller.service";
+import {Injectable} from '@angular/core';
+import {BehaviorSubject} from "rxjs";
+import {map, tap} from "rxjs/operators";
 import {HttpClient} from "@angular/common/http";
-import {ScreenshotCollectionCoordinate} from "../api/models/screenshot-collection-coordinate";
+import {ScreenshotCollectionCoordinate, ScreenShotCollectionDto} from "@storydoc/models";
+import {UiRestControllerService} from "@storydoc/services";
 
 interface State {
   coord?: ScreenshotCollectionCoordinate
@@ -29,7 +28,7 @@ export class ScreenshotCollectionService {
   )
 
   public initId(coord: ScreenshotCollectionCoordinate) {
-    this.store.next({ coord})
+    this.store.next({coord})
     this.load()
   }
 
@@ -52,14 +51,15 @@ export class ScreenshotCollectionService {
       storyDocId: this.collectionCoord.blockCoordinate.storyDocId.id,
       blockId: this.collectionCoord.blockCoordinate.blockId.id,
       id: this.collectionCoord.screenShotCollectionId.id
-    }).subscribe({ next:
-          dto => {
-            console.log('received: ', dto)
-            this.store.next({
-              ... this.store.getValue(),
-              screenShotCollection: dto,
-            })
-          }
+    }).subscribe({
+      next:
+        dto => {
+          console.log('received: ', dto)
+          this.store.next({
+            ...this.store.getValue(),
+            screenShotCollection: dto,
+          })
+        }
     })
 
   }

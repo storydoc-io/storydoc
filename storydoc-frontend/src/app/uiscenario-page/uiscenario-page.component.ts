@@ -1,14 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {UiScenarioDto} from "../api/models/ui-scenario-dto";
 import {Observable} from "rxjs";
 import {ActivatedRoute} from '@angular/router';
-import {ModalService} from "../common/modal-service";
-import {ScreenShotCollectionDto} from "../api/models/screen-shot-collection-dto";
-import {LinkService} from "../common/link.service";
-import {ArtifactBlockCoordinate} from "../api/models/artifact-block-coordinate";
+import {LinkService, ModalService} from "@storydoc/common";
+import {ArtifactBlockCoordinate, ScreenShotCollectionDto, ScreenshotCoordinate, TimeLineItemId, TimeLineModelDto, UiScenarioDto} from "@storydoc/models";
 import {TimeLineSelection} from "./time-line-selection-panel/time-line-selection-panel.component";
-import {TimeLineModelDto} from "../api/models/time-line-model-dto";
-import {ScreenshotCoordinate, TimeLineItemId} from "../api/models";
 import {UIScenarioService} from "./uiscenario.service";
 
 
@@ -24,8 +19,7 @@ export class UIScenarioPageComponent implements OnInit {
     private route: ActivatedRoute,
     public link: LinkService,
     private uiScenarioService: UIScenarioService
-
-    ) {
+  ) {
   }
 
   uiScenario$: Observable<UiScenarioDto> = this.uiScenarioService.uiScenario$
@@ -40,19 +34,18 @@ export class UIScenarioPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      this.documentId  = params.get('documentId')
+      this.documentId = params.get('documentId')
       this.blockId = params.get('blockId')
       this.id = params.get('artifactId')
       if (this.id) {
         this.uiScenarioService.loadUIScenario({
-          storyDocId: { id: this.documentId},
-          blockId: { id: this.blockId},
+          storyDocId: {id: this.documentId},
+          blockId: {id: this.blockId},
           uiScenarioId: this.id
         })
       }
     });
   }
-
 
 
   // timeline selection
@@ -64,8 +57,8 @@ export class UIScenarioPageComponent implements OnInit {
 
   blockCoordinate() {
     return <ArtifactBlockCoordinate>{
-      blockId: { id : this.blockId} ,
-      storyDocId: { id: this.documentId}
+      blockId: {id: this.blockId},
+      storyDocId: {id: this.documentId}
     }
   }
 
@@ -76,13 +69,13 @@ export class UIScenarioPageComponent implements OnInit {
   doDrop(ev: any, timeLineItemId: TimeLineItemId) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
-    let screenshotCoordinate: ScreenshotCoordinate = <ScreenshotCoordinate> JSON.parse(data)
+    let screenshotCoordinate: ScreenshotCoordinate = <ScreenshotCoordinate>JSON.parse(data)
     this.uiScenarioService.addScreenshotToScenario(screenshotCoordinate, timeLineItemId)
   }
 
   screenshotCoord(uiScenario: UiScenarioDto, itemId: TimeLineItemId): ScreenshotCoordinate {
     return uiScenario.screenshots
-      .find( screenshot => screenshot.timeLineItemId.id==itemId.id)
+      .find(screenshot => screenshot.timeLineItemId.id == itemId.id)
       ?.screenshotCoordinate;
   }
 }

@@ -9,19 +9,20 @@
         <div class="mb-3">
           <label for="type" class="form-label">Type</label>
           <select formControlName="artifactType" class="form-select" aria-label="Default select example">
-            <option *ngFor="let descriptor of descriptors()" [value]="descriptor.key" >{{descriptor.label}}</option>
+            <option *ngFor="let descriptor of descriptors()" [value]="descriptor.key">{{descriptor.label}}</option>
           </select>
           <div id="type" class="form-text">Select artifact type.</div>
         </div>
         <div class="mb-3">
           <label for="name" class="form-label">Name</label>
-          <input formControlName="name" type="text" class="form-control" >
+          <input formControlName="name" type="text" class="form-control">
           <div id="name" class="form-text">Enter a name for the artifact.</div>
         </div>
       </form>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-primary" (click)="confirm()" [disabled]="!formGroup.valid">Save changes</button>
+      <button type="button" class="btn btn-primary" (click)="confirm()" [disabled]="!formGroup.valid">Save changes
+      </button>
       <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
     </div>
   </div>

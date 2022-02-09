@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 export interface DocumentDialogData {
@@ -30,7 +30,7 @@ export class CreateDocumentDialogComponent implements OnChanges {
   }
 
   formGroup: FormGroup = new FormGroup({
-    name: new FormControl(null , Validators.required)
+    name: new FormControl(null, Validators.required)
   })
 
   @Output()
@@ -40,7 +40,7 @@ export class CreateDocumentDialogComponent implements OnChanges {
   private onCancel = new EventEmitter()
 
   cancel() {
-    this.input.cancel.apply(this.input.cancel,[])
+    this.input.cancel.apply(this.input.cancel, [])
   }
 
   confirm() {

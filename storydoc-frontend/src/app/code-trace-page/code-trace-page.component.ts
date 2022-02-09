@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CodeRestControllerService} from "../api/services/code-rest-controller.service";
 import {Observable} from "rxjs";
 import {CodeTraceDto} from "../api/models/code-trace-dto";
@@ -11,11 +11,12 @@ import {CodeTraceItemDto} from "../api/models/code-trace-item-dto";
 })
 export class CodeTracePageComponent implements OnInit {
 
-  constructor(private codeRestControllerService : CodeRestControllerService) {}
+  constructor(private codeRestControllerService: CodeRestControllerService) {
+  }
 
   selectedItem: CodeTraceItemDto
 
-  codeTrace$ : Observable<CodeTraceDto>
+  codeTrace$: Observable<CodeTraceDto>
 
   ngOnInit(): void {
     this.codeTrace$ = this.codeRestControllerService.traceUsingGet({})

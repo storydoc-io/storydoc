@@ -1,7 +1,5 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {StoryDocSummaryDto} from "../api/models/story-doc-summary-dto";
-import {ScreenShotDto} from "../api/models/screen-shot-dto";
-import {ScreenShotId} from "../api/models/screen-shot-id";
 import {ScreenshotCoordinate} from "../api/models/screenshot-coordinate";
 
 @Injectable({
@@ -9,7 +7,8 @@ import {ScreenshotCoordinate} from "../api/models/screenshot-coordinate";
 })
 export class LinkService {
 
-  constructor() { }
+  constructor() {
+  }
 
   public toStoryDoc(storyDocSummary: StoryDocSummaryDto): string[] {
     return ['/document', storyDocSummary.storyDocId.id]

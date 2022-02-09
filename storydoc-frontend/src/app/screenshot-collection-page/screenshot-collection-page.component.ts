@@ -1,13 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {ModalService} from "../common/modal-service";
+import {LinkService, ModalService} from "@storydoc/common";
+import {ScreenshotCoordinate, ScreenShotDto} from "@storydoc/models";
 import {
   CreateScreenshotDialogData,
   CreateScreenshotDialogInput
 } from "./create-screenshot-dialog/create-screenshot-dialog.component";
-import {ScreenShotDto} from "../api/models/screen-shot-dto";
-import {LinkService} from "../common/link.service";
-import {ScreenshotCoordinate} from "../api/models/screenshot-coordinate";
 import {ScreenshotCollectionService} from "./screenshot-collection.service";
 
 @Component({

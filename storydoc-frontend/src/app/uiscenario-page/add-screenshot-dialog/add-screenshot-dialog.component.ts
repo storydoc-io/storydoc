@@ -1,8 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {ScreenShotDto} from "../../api/models/screen-shot-dto";
-import {Observable} from "rxjs";
-import {ScreenShotCollectionDto} from "../../api/models/screen-shot-collection-dto";
+import {ScreenShotCollectionDto} from "@storydoc/models";
 
 export interface AddScreenshotDialogData {
   screenshot: string,
@@ -27,7 +25,7 @@ export class AddScreenshotDialogComponent {
   screenshotCollectionDTO: ScreenShotCollectionDto
 
   formGroup: FormGroup = new FormGroup({
-    screenshot: new FormControl(null , Validators.required),
+    screenshot: new FormControl(null, Validators.required),
   })
 
   @Output()

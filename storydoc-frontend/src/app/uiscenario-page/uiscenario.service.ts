@@ -1,20 +1,22 @@
 import {Injectable, OnDestroy} from '@angular/core';
-import {UiScenarioDto} from "../api/models/ui-scenario-dto";
-import {BehaviorSubject, Observable, Subscription} from "rxjs";
+import {
+  ArtifactBlockCoordinate,
+  BlockId,
+  ScreenshotCoordinate,
+  StoryDocId,
+  TimeLineId,
+  TimeLineItemId,
+  TimeLineModelCoordinate,
+  TimeLineModelDto,
+  TimeLineModelId,
+  TimeLineModelSummaryDto,
+  UiScenarioDto
+} from "@storydoc/models";
+import {BehaviorSubject, Subscription} from "rxjs";
 import {distinctUntilChanged, map, tap} from "rxjs/operators";
 import {UiRestControllerService} from "../api/services/ui-rest-controller.service";
-import {StoryDocId} from "../api/models/story-doc-id";
-import {BlockId} from "../api/models/block-id";
-import {TimeLineModelCoordinate} from "../api/models/time-line-model-coordinate";
-import {TimeLineId} from "../api/models/time-line-id";
 import {TimeLineControllerService} from "../api/services/time-line-controller.service";
-import {TimeLineModelDto} from "../api/models/time-line-model-dto";
 import {TimeLineSelection} from "./time-line-selection-panel/time-line-selection-panel.component";
-import {ScreenshotCoordinate} from "../api/models/screenshot-coordinate";
-import {TimeLineItemId} from "../api/models/time-line-item-id";
-import {TimeLineModelSummaryDto} from "../api/models/time-line-model-summary-dto";
-import {TimeLineModelId} from "../api/models/time-line-model-id";
-import {ArtifactBlockCoordinate} from "../api/models/artifact-block-coordinate";
 
 interface TimelineModelSelectionState {
   selectedTimeLineModelSummary?: TimeLineModelSummaryDto,
@@ -26,7 +28,7 @@ interface UIScenarioState {
   blockId?: BlockId,
   uiScenarioId?: string,
   uiScenarioDto?: UiScenarioDto,
-  timelineModelSelectionState? : TimelineModelSelectionState
+  timelineModelSelectionState?: TimelineModelSelectionState
   selectedTimeLineModelDto?: TimeLineModelDto,
 }
 
@@ -42,7 +44,7 @@ export class UIScenarioService implements OnDestroy {
     this.init()
   }
 
-  private store = new BehaviorSubject<UIScenarioState>({ })
+  private store = new BehaviorSubject<UIScenarioState>({})
   private state$ = this.store.asObservable()
 
   public get storyDocId() {
@@ -84,7 +86,7 @@ export class UIScenarioService implements OnDestroy {
     this.subscriptions.forEach(s => s.unsubscribe())
   }
 
-  loadUIScenario(params: {storyDocId: StoryDocId, blockId: BlockId, uiScenarioId: string} ) {
+  loadUIScenario(params: { storyDocId: StoryDocId, blockId: BlockId, uiScenarioId: string }) {
     this.store.next(params)
     this.reloadScenario()
   }
@@ -107,15 +109,17 @@ export class UIScenarioService implements OnDestroy {
       blockId: this.blockId.id,
       uiScenarioId: this.uiScenarioId,
       timeLineModelStoryDocId: selection.timeLineModelCoordinate.blockCoordinate.storyDocId.id,
-      timeLineModelBlockId:    selection.timeLineModelCoordinate.blockCoordinate.blockId.id,
-      timeLineModelId:         selection.timeLineModelCoordinate.timeLineModelId.id,
-      timeLineId:              selection.timeLineId.id
+      timeLineModelBlockId: selection.timeLineModelCoordinate.blockCoordinate.blockId.id,
+      timeLineModelId: selection.timeLineModelCoordinate.timeLineModelId.id,
+      timeLineId: selection.timeLineId.id
     }).subscribe({
-      next: value => { this.reloadScenario() }
+      next: value => {
+        this.reloadScenario()
+      }
     })
   }
 
-  public addScreenshotToScenario(screenshotCoordinate: ScreenshotCoordinate, timeLineItemId: TimeLineItemId ) {
+  public addScreenshotToScenario(screenshotCoordinate: ScreenshotCoordinate, timeLineItemId: TimeLineItemId) {
     this.uiRestControllerService.addScreenshotToUiScenarioUsingPost({
       storyDocId: this.storyDocId.id,
       blockId: this.blockId.id,
@@ -137,26 +141,30 @@ export class UIScenarioService implements OnDestroy {
       id: this.uiScenarioId
     }).subscribe({
       next: dto => this.store.next({
-        ... this.store.getValue(),
+        ...this.store.getValue(),
         uiScenarioDto: dto
       })
     })
   }
 
   private refreshTimeLineModelWhenScenarioUpdates(): Subscription {
-    return this.uiScenario$.subscribe({ next: uiScenario => {
+    return this.uiScenario$.subscribe({
+      next: uiScenario => {
         if (uiScenario) {
           this.reloadTimeLineModel(uiScenario.timeLineModelCoordinate, uiScenario.timeLineId)
         }
-      }})
+      }
+    })
   }
 
-  private refreshTimeLineModelSummariesWhenScenarioUpdates() : Subscription{
-    return this.uiScenario$.subscribe({ next: uiScenario => {
+  private refreshTimeLineModelSummariesWhenScenarioUpdates(): Subscription {
+    return this.uiScenario$.subscribe({
+      next: uiScenario => {
         if (uiScenario) {
           this.reloadTimelineModelSummaries(uiScenario)
         }
-      }})
+      }
+    })
   }
 
   private reloadTimeLineModel(timeLineModelCoordinate: TimeLineModelCoordinate, timeLineId: TimeLineId) {
@@ -166,7 +174,7 @@ export class UIScenarioService implements OnDestroy {
       timeLineModelId: timeLineModelCoordinate.timeLineModelId.id
     }).subscribe({
       next: dto => this.store.next({
-        ... this.store.getValue(),
+        ...this.store.getValue(),
         selectedTimeLineModelDto: dto
       })
     })
@@ -178,7 +186,7 @@ export class UIScenarioService implements OnDestroy {
       blockId: this.blockId.id
     }).subscribe({
       next: (summaries => this.store.next({
-        ... this.store.getValue(),
+        ...this.store.getValue(),
         timelineModelSelectionState: {
           timeLineModelSummaries: summaries,
           selectedTimeLineModelSummary: summaries.find(summary => this.equalTimeLineModelCoord(summary.timeLineModelCoordinate, uiScenario.timeLineModelCoordinate)),
@@ -193,18 +201,18 @@ export class UIScenarioService implements OnDestroy {
   }
 
   private equalTimeLineModelCoord(coord1: TimeLineModelCoordinate, coord2: TimeLineModelCoordinate): boolean {
-     return this.equalTimeLineModelId(coord1.timeLineModelId, coord2.timeLineModelId) && this.equalBlockCoordinate(coord1.blockCoordinate, coord2.blockCoordinate)
+    return this.equalTimeLineModelId(coord1.timeLineModelId, coord2.timeLineModelId) && this.equalBlockCoordinate(coord1.blockCoordinate, coord2.blockCoordinate)
   }
 
-  private equalTimeLineId(id1: TimeLineId, id2: TimeLineId):boolean {
+  private equalTimeLineId(id1: TimeLineId, id2: TimeLineId): boolean {
     return id1?.id === id2?.id;
   }
 
-  private equalTimeLineModelId(id1: TimeLineModelId, id2: TimeLineModelId):boolean {
+  private equalTimeLineModelId(id1: TimeLineModelId, id2: TimeLineModelId): boolean {
     return id1?.id === id2?.id;
   }
 
-  private equalBlockCoordinate(coord1: ArtifactBlockCoordinate, coord2: ArtifactBlockCoordinate):boolean {
+  private equalBlockCoordinate(coord1: ArtifactBlockCoordinate, coord2: ArtifactBlockCoordinate): boolean {
     return coord1.storyDocId?.id === coord2?.storyDocId.id && coord1?.blockId.id === coord2?.blockId.id;
   }
 }

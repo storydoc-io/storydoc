@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {BlockDto} from "../../api/models/block-dto";
-import {StoryDocId} from "../../api/models/story-doc-id";
+import {BlockDto, StoryDocId} from "@storydoc/models";
 
 @Component({
   selector: 'app-block',
@@ -9,7 +8,8 @@ import {StoryDocId} from "../../api/models/story-doc-id";
 })
 export class BlockComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
   @Input()
   block: BlockDto
@@ -29,9 +29,9 @@ export class BlockComponent implements OnInit {
 
   numbering(): string {
     if (!this.block) return ''
-    let val =  ''
-    for(let nr of this.block.numbering) {
-      val += (val.length==0 ? '' :'.') + nr
+    let val = ''
+    for (let nr of this.block.numbering) {
+      val += (val.length == 0 ? '' : '.') + nr
     }
     return val
   }

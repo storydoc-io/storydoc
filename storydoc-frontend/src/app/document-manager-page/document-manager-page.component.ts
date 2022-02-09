@@ -1,9 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
-import {ModalService} from "../common/modal-service";
+import {ConfirmationDialogSpec, ModalService, PopupMenuComponent} from "@storydoc/common";
+import {StoryDocSummaryDto} from "@storydoc/models";
 import {DocumentDialogData, DocumentDialogSpec} from './create-document-dialog/create-document-dialog.component'
-import {StoryDocSummaryDto} from "../api/models/story-doc-summary-dto";
-import {PopupMenuComponent} from "../common/popup-menu/popup-menu.component";
-import {ConfirmationDialogSpec} from "../common/confirmation-dialog/confirmation-dialog.component";
 import {DocumentManagerService} from "./document-manager.service";
 
 @Component({
@@ -13,11 +11,12 @@ import {DocumentManagerService} from "./document-manager.service";
 })
 export class DocumentManagerPageComponent {
 
-  constructor(private modalservice: ModalService, private documentManagerService: DocumentManagerService) { }
+  constructor(private modalservice: ModalService, private documentManagerService: DocumentManagerService) {
+  }
 
   // document list
 
-  summaries$ =  this.documentManagerService.summaries$
+  summaries$ = this.documentManagerService.summaries$
 
   // document dialog
 
@@ -38,7 +37,7 @@ export class DocumentManagerPageComponent {
 
   // confirmation dialog
 
-  confirmationDialogSpec : ConfirmationDialogSpec
+  confirmationDialogSpec: ConfirmationDialogSpec
 
   confirmationDialogId(): string {
     return 'confirmation-dialog'
@@ -55,7 +54,7 @@ export class DocumentManagerPageComponent {
 
   // popup menu
 
-  @ViewChild(PopupMenuComponent) menu:PopupMenuComponent
+  @ViewChild(PopupMenuComponent) menu: PopupMenuComponent
 
   storyDoc: StoryDocSummaryDto
 
@@ -73,8 +72,13 @@ export class DocumentManagerPageComponent {
       data: {
         name: null
       },
-      confirm: (data) => { this.closeDocumentDialog(); this.confirmAddDocument(data)},
-      cancel: () => { this.closeDocumentDialog() }
+      confirm: (data) => {
+        this.closeDocumentDialog();
+        this.confirmAddDocument(data)
+      },
+      cancel: () => {
+        this.closeDocumentDialog()
+      }
     });
   }
 
@@ -90,8 +94,13 @@ export class DocumentManagerPageComponent {
       data: {
         name: this.storyDoc.name
       },
-      confirm: (data) => { this.closeDocumentDialog(); this.confirmRenameDocument(data)},
-      cancel: () => { this.closeDocumentDialog() }
+      confirm: (data) => {
+        this.closeDocumentDialog();
+        this.confirmRenameDocument(data)
+      },
+      cancel: () => {
+        this.closeDocumentDialog()
+      }
     })
   }
 
@@ -108,7 +117,10 @@ export class DocumentManagerPageComponent {
     this.openConfirmationDialog({
       title: 'Confirmation',
       message: `Delete  '${this.storyDoc.name}' ?`,
-      confirm: () => { this.closeConfirmationDialog(); this.confirmDeleteDocument() },
+      confirm: () => {
+        this.closeConfirmationDialog();
+        this.confirmDeleteDocument()
+      },
       cancel: () => this.closeConfirmationDialog()
     })
   }

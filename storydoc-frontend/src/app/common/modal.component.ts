@@ -1,6 +1,6 @@
-import { Component, ViewEncapsulation, ElementRef, Input, OnInit, OnDestroy } from '@angular/core';
+import {Component, ElementRef, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
-import { ModalService } from './modal-service';
+import {ModalService} from './modal-service';
 
 // based on https://github.com/cornflourblue/angular-10-custom-modal
 // licence MIT

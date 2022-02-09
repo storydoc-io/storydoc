@@ -9,9 +9,10 @@
         <div class="mb-3">
           <label for="name" class="form-label">Screenshot</label>
           <select formControlName="screenshot" class="form-select" aria-label="Default select example">
-              <ng-container *ngIf="screenshotCollectionDTO">
-                <option *ngFor="let screenshot of screenshotCollectionDTO.screenShots" [value]="screenshot.id.id" >{{screenshot.name}}</option>
-              </ng-container>
+            <ng-container *ngIf="screenshotCollectionDTO">
+              <option *ngFor="let screenshot of screenshotCollectionDTO.screenShots"
+                      [value]="screenshot.id.id">{{screenshot.name}}</option>
+            </ng-container>
           </select>
           <div id="name" class="form-text">Select screenshot.</div>
         </div>

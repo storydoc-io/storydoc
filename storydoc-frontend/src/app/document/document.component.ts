@@ -1,19 +1,11 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {DocumentDataService} from "./document-data.service";
-import {Observable, Subscription} from "rxjs";
-import {StoryDocDto} from "../api/models/story-doc-dto";
-import {BlockDto} from "../api/models/block-dto";
 import {ActivatedRoute} from "@angular/router";
-import {
-  DocumentDialogData,
-  DocumentDialogSpec
-} from "../document-manager-page/create-document-dialog/create-document-dialog.component";
+import {Subscription} from "rxjs";
+import {ConfirmationDialogSpec, ModalService, PopupMenuComponent} from "@storydoc/common";
+import {BlockDto} from "@storydoc/models";
+import {StoryDocRestControllerService} from "@storydoc/services";
+import {DocumentDataService} from "./document-data.service";
 import {BlockDialogData, BlockDialogSpec} from "./create-block-dialog/create-block-dialog.component";
-import {ModalService} from "../common/modal-service";
-import {StoryDocRestControllerService} from "../api/services/story-doc-rest-controller.service";
-import {share} from "rxjs/operators";
-import {ConfirmationDialogSpec} from "../common/confirmation-dialog/confirmation-dialog.component";
-import {PopupMenuComponent} from "../common/popup-menu/popup-menu.component";
 
 @Component({
   selector: 'app-document',
@@ -26,10 +18,10 @@ export class DocumentComponent implements OnInit, OnDestroy {
     private storyDocRestControllerService: StoryDocRestControllerService,
     private documentDataService: DocumentDataService,
     private route: ActivatedRoute,
-    private modalService: ModalService, ) {
+    private modalService: ModalService,) {
   }
 
-  id : string;
+  id: string;
   doc$ = this.documentDataService.storyDoc$
   selectedBlock$ = this.documentDataService.selectedBlock$
   selectedBlock: BlockDto
@@ -43,7 +35,7 @@ export class DocumentComponent implements OnInit, OnDestroy {
         this.documentDataService.init(this.id);
       }
     });
-    this.subscriptions.push(this.selectedBlock$.subscribe({ next: value => this.selectedBlock = value}))
+    this.subscriptions.push(this.selectedBlock$.subscribe({next: value => this.selectedBlock = value}))
   }
 
   ngOnDestroy(): void {
@@ -52,16 +44,16 @@ export class DocumentComponent implements OnInit, OnDestroy {
 
   numbering(block: BlockDto): string {
     if (!block) return ''
-    let val =  ''
-    for(let nr of block.numbering) {
-      val += (val.length==0 ? '' :'.') + nr
+    let val = ''
+    for (let nr of block.numbering) {
+      val += (val.length == 0 ? '' : '.') + nr
     }
     return val
   }
 
   // left panel
 
-  @ViewChild(PopupMenuComponent) menu:PopupMenuComponent
+  @ViewChild(PopupMenuComponent) menu: PopupMenuComponent
 
   openMenu(event: MouseEvent, block: BlockDto) {
     this.selectBlock(block)
@@ -70,7 +62,8 @@ export class DocumentComponent implements OnInit, OnDestroy {
         label: 'Rename',
         onClick: () => this.renameBlock()
       },
-      { label: 'Delete',
+      {
+        label: 'Delete',
         onClick: () => this.deleteBlock()
       }
     ]
@@ -82,7 +75,7 @@ export class DocumentComponent implements OnInit, OnDestroy {
     this.documentDataService.selectBlock(block)
   }
 
-  isSelected(block: BlockDto) : boolean {
+  isSelected(block: BlockDto): boolean {
     return this.selectedBlock?.blockId.id == block.blockId.id
   }
 
@@ -123,7 +116,10 @@ export class DocumentComponent implements OnInit, OnDestroy {
       data: {
         name: null
       },
-      confirm: (data)=> { this.closeBlockDialog(); this.confirmAddBlock(data)},
+      confirm: (data) => {
+        this.closeBlockDialog();
+        this.confirmAddBlock(data)
+      },
       cancel: () => this.closeBlockDialog()
     })
   }
@@ -140,7 +136,10 @@ export class DocumentComponent implements OnInit, OnDestroy {
       data: {
         name: this.selectedBlock.title
       },
-      confirm: (data)=> { this.closeBlockDialog(); this.confirmRenameBlock(data)},
+      confirm: (data) => {
+        this.closeBlockDialog();
+        this.confirmRenameBlock(data)
+      },
       cancel: () => this.closeBlockDialog()
     })
   }
@@ -156,7 +155,10 @@ export class DocumentComponent implements OnInit, OnDestroy {
       title: 'Confirm delete',
       message: `Delete paragraph "${this.selectedBlock.title}" ?`,
       cancel: () => this.closeConfirmationDialog(),
-      confirm: () => { this.closeConfirmationDialog(); this.confirmDeleteBlock() }
+      confirm: () => {
+        this.closeConfirmationDialog();
+        this.confirmDeleteBlock()
+      }
     })
   }
 

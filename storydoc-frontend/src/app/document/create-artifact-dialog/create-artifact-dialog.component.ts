@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, Input, SimpleChanges} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ArtifactDataService, ArtifactDescriptor} from "../block/artifact-block/artifact-data.service";
 
@@ -12,7 +12,7 @@ export interface ArtifactDialogSpec {
   mode: 'UPDATE' | 'NEW'
   data: ArtifactDialogData
   confirm: (ArtifactDialogData) => void
-  cancel: ()=> void
+  cancel: () => void
 }
 
 @Component({
@@ -22,7 +22,8 @@ export interface ArtifactDialogSpec {
 })
 export class CreateArtifactDialogComponent {
 
-  constructor(private artifactDataService: ArtifactDataService) {}
+  constructor(private artifactDataService: ArtifactDataService) {
+  }
 
   @Input()
   spec: ArtifactDialogSpec

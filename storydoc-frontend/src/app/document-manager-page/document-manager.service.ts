@@ -1,9 +1,8 @@
 import {Injectable, OnInit} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
-import {StoryDocSummaryDto} from "../api/models/story-doc-summary-dto";
-import {StoryDocRestControllerService} from "../api/services/story-doc-rest-controller.service";
 import {map} from "rxjs/operators";
-import {StoryDocId} from "../api/models/story-doc-id";
+import {StoryDocId, StoryDocSummaryDto} from "@storydoc/models";
+import {StoryDocRestControllerService} from "@storydoc/services";
 
 interface DocumentManagerState {
   summaries: StoryDocSummaryDto[]
@@ -18,7 +17,7 @@ export class DocumentManagerService implements OnInit {
     this.refreshDocumentList()
   }
 
-  private store = new BehaviorSubject<DocumentManagerState>({ summaries: []})
+  private store = new BehaviorSubject<DocumentManagerState>({summaries: []})
   private state$ = this.store.asObservable()
 
   summaries$ = this.state$.pipe(
@@ -30,16 +29,17 @@ export class DocumentManagerService implements OnInit {
 
   private refreshDocumentList() {
     this.storyDocRestControllerService.getDocumentsUsingGet().subscribe({
-      next: summaries => this.store.next({ summaries })})
+      next: summaries => this.store.next({summaries})
+    })
   }
 
   public addDocument(name: string) {
-    this.storyDocRestControllerService.createDocumentUsingPost({ name }).subscribe({
+    this.storyDocRestControllerService.createDocumentUsingPost({name}).subscribe({
       next: value => this.refreshDocumentList()
     })
   }
 
-  public renameDocument(data: { storyDocId: StoryDocId, name: string}) {
+  public renameDocument(data: { storyDocId: StoryDocId, name: string }) {
     this.storyDocRestControllerService.changeDocumentNameUsingPut({
       storyDocId: data.storyDocId.id,
       name: data.name

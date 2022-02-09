@@ -26,7 +26,8 @@
 <ng-template #leftPanel>
   <div *ngIf="doc$ | async as doc; else loading">
     <ul class="list-group">
-      <li class="list-group-item" [class.selected]="isSelected(block)"  *ngFor="let block of doc.blocks" (click)="selectBlock(block)"  (select)="selectBlock(block)" (contextmenu)="openMenu($event, block)">
+      <li class="list-group-item" [class.selected]="isSelected(block)" *ngFor="let block of doc.blocks"
+          (click)="selectBlock(block)" (select)="selectBlock(block)" (contextmenu)="openMenu($event, block)">
         {{numbering(block)}} {{block.title}}
       </li>
       <div class="btn  btn-sm btn-outline-primary" (click)="addBlock()">Add Paragraph</div>
