@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 export interface CreateItemDialogData {
@@ -28,7 +28,7 @@ export class CreateItemDialogComponent implements OnChanges {
   }
 
   formGroup: FormGroup = new FormGroup({
-    description: new FormControl(null , Validators.required),
+    description: new FormControl(null, Validators.required),
   })
 
   @Output()

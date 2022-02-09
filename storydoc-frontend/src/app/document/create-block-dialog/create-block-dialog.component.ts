@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 export interface BlockDialogData {
@@ -9,7 +9,7 @@ export interface BlockDialogSpec {
   mode: 'UPDATE' | 'NEW'
   data: BlockDialogData
   confirm: (BlockDialogData) => void
-  cancel: ()=> void
+  cancel: () => void
 }
 
 @Component({

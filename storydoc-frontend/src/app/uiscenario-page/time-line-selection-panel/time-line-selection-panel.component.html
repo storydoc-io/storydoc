@@ -2,7 +2,8 @@
   <form [formGroup]="formGroup">
     <label for="timeLineModel" class="form-label">Timeline Model</label>
     <div class="input-group mb-3">
-      <select id="timeLineModel" formControlName="timeLineModel" class="form-select" [compareWith]="compareTimeLineModel"  (change)="onTimeLineModelChange()">
+      <select id="timeLineModel" formControlName="timeLineModel" class="form-select"
+              [compareWith]="compareTimeLineModel" (change)="onTimeLineModelChange()">
         <option selected>--select--</option>
         <ng-container *ngIf="timeLineModelSelection$|async as timeLineModelSelection">
           <option *ngFor="let tlModel of timeLineModelSelection.timeLineModelSummaries"

@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 export interface CreateScreenshotDialogData {
@@ -17,7 +17,7 @@ export interface CreateScreenshotDialogInput {
   templateUrl: './create-screenshot-dialog.component.html',
   styleUrls: ['./create-screenshot-dialog.component.scss']
 })
-export class CreateScreenshotDialogComponent  {
+export class CreateScreenshotDialogComponent {
 
   @Input()
   input: CreateScreenshotDialogInput
@@ -31,7 +31,7 @@ export class CreateScreenshotDialogComponent  {
   }
 
   formGroup: FormGroup = new FormGroup({
-    name: new FormControl(null , Validators.required),
+    name: new FormControl(null, Validators.required),
     file: new FormControl('', [Validators.required]),
     fileSource: new FormControl('', [Validators.required])
   })

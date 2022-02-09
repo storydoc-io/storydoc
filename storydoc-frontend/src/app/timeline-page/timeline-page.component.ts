@@ -1,18 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import {BehaviorSubject, Observable} from "rxjs";
-import {ScreenShotCollectionDto} from "../api/models/screen-shot-collection-dto";
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {TimeLineModelDto} from "../api/models/time-line-model-dto";
-import {TimeLineControllerService} from "../api/services/time-line-controller.service";
-import {LinkService} from "../common/link.service";
-import {
-  CreateScreenshotDialogData,
-  CreateScreenshotDialogInput
-} from "../screenshot-collection-page/create-screenshot-dialog/create-screenshot-dialog.component";
-import {ModalService} from "../common/modal-service";
+import {Observable} from "rxjs";
+import {share} from "rxjs/operators";
+import {LinkService, ModalService} from "@storydoc/common";
+import {TimeLineId, TimeLineModelDto} from "@storydoc/models";
+import {TimeLineControllerService} from "@storydoc/services";
 import {CreateItemDialogData, CreateItemDialogInput} from "./create-item-dialog/create-item-dialog.component";
-import {share, tap} from "rxjs/operators";
-import {TimeLineId} from "../api/models/time-line-id";
 
 @Component({
   selector: 'app-timeline-page',
@@ -38,7 +31,7 @@ export class TimelinePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      this.documentId  = params.get('documentId')
+      this.documentId = params.get('documentId')
       this.blockId = params.get('blockId')
       this.id = params.get('artifactId')
       if (this.id) {

@@ -1,9 +1,9 @@
 <div>
   <div class="d-flex flex-row">
     <div class="p-2" *ngFor="let artifact of artifacts" (contextmenu)="openMenu($event, artifact)">
-      <a [routerLink]="editorUrl(artifact)" >
+      <a [routerLink]="editorUrl(artifact)">
         <img height="50" width="50" [src]="icon(artifact)" alt="image">
-        <div >{{artifact.name}}</div>
+        <div>{{artifact.name}}</div>
       </a>
     </div>
   </div>

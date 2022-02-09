@@ -15,7 +15,12 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@storydoc/common": ["src/app/common/index.ts"],
+      "@storydoc/models": ["src/app/api/models.ts"],
+      "@storydoc/services": ["src/app/api/services.ts"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false

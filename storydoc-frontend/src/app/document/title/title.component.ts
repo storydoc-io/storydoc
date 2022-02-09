@@ -7,7 +7,8 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class TitleComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
   @Input()
   text: string
@@ -20,10 +21,10 @@ export class TitleComponent implements OnInit {
 
   numberingAsString(): string {
     if (!this.numbering) return ''
-    let val =  ''
+    let val = ''
     // @ts-ignore
-    for(let nr of this.numbering) {
-      val += (val.length==0 ? '' :'.') + nr
+    for (let nr of this.numbering) {
+      val += (val.length == 0 ? '' : '.') + nr
     }
     return val
   }

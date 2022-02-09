@@ -1,17 +1,9 @@
 import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
-import {ArtifactDto} from "../../../api/models/artifact-dto";
-import {StoryDocId} from "../../../api/models/story-doc-id";
-import {ModalService} from "../../../common/modal-service";
-import {ArtifactDialogSpec, ArtifactDialogData} from "../../create-artifact-dialog/create-artifact-dialog.component";
-import {BlockId} from "../../../api/models/block-id";
-import {UiRestControllerService} from "../../../api/services/ui-rest-controller.service";
-import {ArtifactDataService, ArtifactDescriptor} from "./artifact-data.service";
-import {TimeLineControllerService} from "../../../api/services/time-line-controller.service";
+import {ConfirmationDialogSpec, ModalService, PopupMenuComponent} from "@storydoc/common";
+import {ArtifactDto, BlockId, StoryDocId} from "@storydoc/models";
 import {DocumentDataService} from "../../document-data.service";
-import {PopupMenuComponent} from "../../../common/popup-menu/popup-menu.component";
-import {BlockDto} from "../../../api/models/block-dto";
-import {BlockDialogSpec} from "../../create-block-dialog/create-block-dialog.component";
-import {ConfirmationDialogSpec} from "../../../common/confirmation-dialog/confirmation-dialog.component";
+import {ArtifactDialogData, ArtifactDialogSpec} from "../../create-artifact-dialog/create-artifact-dialog.component";
+import {ArtifactDataService} from "./artifact-data.service";
 
 @Component({
   selector: 'app-artifact-block',
@@ -56,7 +48,7 @@ export class ArtifactBlockComponent {
 
   icon(artifact: ArtifactDto) {
     let descriptor = this.artifactDataService.descriptor(artifact.artifactType)
-    return descriptor? descriptor.icon : ''
+    return descriptor ? descriptor.icon : ''
   }
 
   // artifact dialog
@@ -64,7 +56,7 @@ export class ArtifactBlockComponent {
   artifactDialogSpec: ArtifactDialogSpec
 
   dialogId(): string {
-    return 'add-artifact-dialog-'+ this.blockId.id
+    return 'add-artifact-dialog-' + this.blockId.id
   };
 
 
@@ -81,6 +73,7 @@ export class ArtifactBlockComponent {
   confirmationDialogId(): string {
     return 'confirmation-dialog-' + this.blockId.id
   }
+
   confirmationDialogSpec: ConfirmationDialogSpec
 
   openConfirmationDialog(confirmationDialogSpec: ConfirmationDialogSpec) {
@@ -93,19 +86,20 @@ export class ArtifactBlockComponent {
   }
 
 
-
   addArtifact() {
     this.openArtifactDialog(
-    this.artifactDialogSpec = {
-      mode: 'NEW',
-      data: {
-        name: null,
-        artifactType: null
-      },
-      confirm: (data) => { this.closeArtifactDialog(), this.confirmAddArtifact(data) },
-      cancel: () => this.closeArtifactDialog()
+      this.artifactDialogSpec = {
+        mode: 'NEW',
+        data: {
+          name: null,
+          artifactType: null
+        },
+        confirm: (data) => {
+          this.closeArtifactDialog(), this.confirmAddArtifact(data)
+        },
+        cancel: () => this.closeArtifactDialog()
 
-    })
+      })
   }
 
   confirmAddArtifact(formData: ArtifactDialogData) {
@@ -116,7 +110,7 @@ export class ArtifactBlockComponent {
     })
   }
 
-  @ViewChild(PopupMenuComponent) menu:PopupMenuComponent
+  @ViewChild(PopupMenuComponent) menu: PopupMenuComponent
 
   openMenu(event: MouseEvent, artifact: ArtifactDto) {
     this.menu.items = [
@@ -124,7 +118,8 @@ export class ArtifactBlockComponent {
         label: 'Rename',
         onClick: () => this.renameArtifact(artifact)
       },
-      { label: 'Delete',
+      {
+        label: 'Delete',
         onClick: () => this.deleteArtifact(artifact)
       }
     ]
@@ -139,7 +134,10 @@ export class ArtifactBlockComponent {
         name: artifact.name,
         artifactType: artifact.artifactType
       },
-      confirm: (data)=> { this.closeArtifactDialog(); this.confirmRenameArtifact(artifact, data)},
+      confirm: (data) => {
+        this.closeArtifactDialog();
+        this.confirmRenameArtifact(artifact, data)
+      },
       cancel: () => this.closeArtifactDialog()
     })
   }
@@ -157,7 +155,9 @@ export class ArtifactBlockComponent {
     this.openConfirmationDialog({
       title: 'Confirm Delete',
       message: `Delete ${artifact.name} ?`,
-      confirm: ()=> { this.closeConfirmationDialog(), this.confirmDeleteArtifact(artifact) },
+      confirm: () => {
+        this.closeConfirmationDialog(), this.confirmDeleteArtifact(artifact)
+      },
       cancel: () => this.closeConfirmationDialog()
     })
   }

@@ -8,7 +8,7 @@ export interface ArtifactDescriptor {
 }
 
 let timeLineModel = {
-  key : 'io.storydoc.server.timeline.domain.TimeLineModel',
+  key: 'io.storydoc.server.timeline.domain.TimeLineModel',
   icon: '/assets/timeline.png',
   label: 'Timeline',
   editorUrl: '/timeline'
@@ -16,7 +16,7 @@ let timeLineModel = {
 } as ArtifactDescriptor
 
 let uiScenario = {
-  key : 'io.storydoc.server.ui.domain.UIScenario',
+  key: 'io.storydoc.server.ui.domain.UIScenario',
   icon: '/assets/artifact-ui-scenario.png',
   label: 'UI Scenario',
   editorUrl: '/ui-scenario'
@@ -24,16 +24,16 @@ let uiScenario = {
 } as ArtifactDescriptor
 
 let uiScreenshotCollection = {
-  key : 'io.storydoc.server.ui.domain.ScreenShotCollection',
+  key: 'io.storydoc.server.ui.domain.ScreenShotCollection',
   icon: '/assets/artifact-ui-design.png',
   label: 'UI Screenshot collection',
   editorUrl: '/ui-screenshot-collection'
 } as ArtifactDescriptor
 
-let map : {[key: string]: ArtifactDescriptor} = {
-  'io.storydoc.server.timeline.domain.TimeLineModel' : timeLineModel,
-  'io.storydoc.server.ui.domain.UIScenario' : uiScenario,
-  'io.storydoc.server.ui.domain.ScreenShotCollection' : uiScreenshotCollection,
+let map: { [key: string]: ArtifactDescriptor } = {
+  'io.storydoc.server.timeline.domain.TimeLineModel': timeLineModel,
+  'io.storydoc.server.ui.domain.UIScenario': uiScenario,
+  'io.storydoc.server.ui.domain.ScreenShotCollection': uiScreenshotCollection,
 }
 
 let list: ArtifactDescriptor[] = [
@@ -51,7 +51,7 @@ export class ArtifactDataService {
     return map[artifactType]
   }
 
-  list() : ArtifactDescriptor[] {
+  list(): ArtifactDescriptor[] {
     return list
   }
 

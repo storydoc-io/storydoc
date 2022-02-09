@@ -10,15 +10,16 @@
     <div class="col-md-3">
       <div *ngIf="codeTrace$ | async as codeTrace ; else loading">
         <ul class="list-group">
-          <li class="list-group-item" [class.active]="item==selectedItem" *ngFor="let item of codeTrace.items, let idx = index" (click)="selectItem(item)">
-              {{idx}} {{ getClassName(item)}} {{item.methodName}}
+          <li class="list-group-item" [class.active]="item==selectedItem"
+              *ngFor="let item of codeTrace.items, let idx = index" (click)="selectItem(item)">
+            {{idx}} {{ getClassName(item)}} {{item.methodName}}
           </li>
         </ul>
       </div>
     </div>
     <div class="col-md-9">
       <ng-container *ngIf="selectedItem!=null">
-          {{selectedItem }}{{ selectedItem.params}} {{selectedItem.resultValue}}
+        {{selectedItem }}{{ selectedItem.params}} {{selectedItem.resultValue}}
       </ng-container>
     </div>
   </div>

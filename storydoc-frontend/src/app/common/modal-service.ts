@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 // based on https://github.com/cornflourblue/angular-10-custom-modal
 // licence MIT
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class ModalService {
   private modals: any[] = [];
 

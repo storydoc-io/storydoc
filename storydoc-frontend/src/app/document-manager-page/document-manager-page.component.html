@@ -15,8 +15,9 @@
 <ng-template #middle>
   <div *ngIf="summaries$ | async as summaries; else loading">
     <ul class="list-group">
-      <li *ngFor="let summary of summaries" class="list-group-item" >
-        <a (contextmenu)="openMenu($event, summary)" routerLink="/document/{{summary.storyDocId.id}}">{{summary.name}}</a>
+      <li *ngFor="let summary of summaries" class="list-group-item">
+        <a (contextmenu)="openMenu($event, summary)"
+           routerLink="/document/{{summary.storyDocId.id}}">{{summary.name}}</a>
       </li>
       <app-popup-menu2>
         <div class="items">

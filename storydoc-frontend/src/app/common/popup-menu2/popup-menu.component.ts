@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, HostListener, Input } from '@angular/core';
+import {Component, HostBinding, HostListener, Input, OnInit} from '@angular/core';
 
 // based on https://mobiarch.wordpress.com/2018/07/07/create-a-popup-menu-in-angular/
 
@@ -13,12 +13,13 @@ export class PopupMenuComponent2 implements OnInit {
   @HostBinding("style.visibility") visibility = "hidden"
   @Input() @HostBinding("style.width") width = "200px"
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }
 
-  open(e:MouseEvent) {
+  open(e: MouseEvent) {
     this.x = `${e.pageX}px`
     this.y = `${e.pageY}px`
 

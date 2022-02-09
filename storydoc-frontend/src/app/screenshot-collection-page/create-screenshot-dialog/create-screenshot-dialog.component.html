@@ -8,12 +8,12 @@
       <form [formGroup]="formGroup">
         <div class="mb-3">
           <label for="file" class="form-label">File</label>
-          <input formControlName="file" type="file" (change)="onFileChange($event)" class="form-control" >
+          <input formControlName="file" type="file" (change)="onFileChange($event)" class="form-control">
           <div id="file" class="form-text">select a file for containing the screenshot.</div>
         </div>
         <div class="mb-3">
           <label for="name" class="form-label">Name</label>
-          <input formControlName="name" type="text" class="form-control" >
+          <input formControlName="name" type="text" class="form-control">
           <div id="name" class="form-text">Enter a name for the screenshot.</div>
         </div>
       </form>

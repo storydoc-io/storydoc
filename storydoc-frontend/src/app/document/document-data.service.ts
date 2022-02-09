@@ -1,14 +1,8 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
-import {StoryDocDto} from "../api/models/story-doc-dto";
-import {StoryDocRestControllerService} from "../api/services/story-doc-rest-controller.service";
 import {map} from "rxjs/operators";
-import {BlockId} from "../api/models/block-id";
-import {BlockDto} from "../api/models/block-dto";
-import {UiRestControllerService} from "../api/services/ui-rest-controller.service";
-import {TimeLineControllerService} from "../api/services/time-line-controller.service";
-import {ArtifactId} from "../api/models/artifact-id";
-import {StoryDocId} from "../api/models/story-doc-id";
+import {ArtifactId, BlockDto, BlockId, StoryDocDto, StoryDocId} from "@storydoc/models";
+import {StoryDocRestControllerService, TimeLineControllerService, UiRestControllerService} from "@storydoc/services";
 
 interface DocumentState {
   id?: string
@@ -114,17 +108,17 @@ export class DocumentDataService {
         })
         break
       }
-   }
+    }
   }
 
   renameArtifact(params: { blockId: BlockId; name: string; artifactId: ArtifactId; storyDocId: StoryDocId }) {
-     this.storyDocRestControllerService.renameArtifactUsingPut({
-       storyDocId: params.storyDocId.id,
-       blockId: params.blockId.id,
-       artifactId: params.artifactId.id,
-       name: params.name
-     }).subscribe( {
-       next: value => this.refresh()
-     })
+    this.storyDocRestControllerService.renameArtifactUsingPut({
+      storyDocId: params.storyDocId.id,
+      blockId: params.blockId.id,
+      artifactId: params.artifactId.id,
+      name: params.name
+    }).subscribe({
+      next: value => this.refresh()
+    })
   }
 }
