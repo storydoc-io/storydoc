@@ -84,6 +84,79 @@ export class StoryDocRestControllerService extends BaseService {
   }
 
   /**
+   * Path part for operation changeDocumentNameUsingPut
+   */
+  static readonly ChangeDocumentNameUsingPutPath = '/api/storydoc/';
+
+  /**
+   * changeDocumentName.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `changeDocumentNameUsingPut()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  changeDocumentNameUsingPut$Response(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * name
+     */
+    name: string;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, StoryDocRestControllerService.ChangeDocumentNameUsingPutPath, 'put');
+    if (params) {
+      rb.query('storyDocId', params.storyDocId, {"style":"form"});
+      rb.query('name', params.name, {"style":"form"});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * changeDocumentName.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `changeDocumentNameUsingPut$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  changeDocumentNameUsingPut(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * name
+     */
+    name: string;
+  }): Observable<void> {
+
+    return this.changeDocumentNameUsingPut$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
    * Path part for operation createDocumentUsingPost
    */
   static readonly CreateDocumentUsingPostPath = '/api/storydoc/';
@@ -142,6 +215,68 @@ export class StoryDocRestControllerService extends BaseService {
 
     return this.createDocumentUsingPost$Response(params).pipe(
       map((r: StrictHttpResponse<StoryDocId>) => r.body as StoryDocId)
+    );
+  }
+
+  /**
+   * Path part for operation removeDocumentUsingDelete
+   */
+  static readonly RemoveDocumentUsingDeletePath = '/api/storydoc/';
+
+  /**
+   * removeDocument.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `removeDocumentUsingDelete()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  removeDocumentUsingDelete$Response(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, StoryDocRestControllerService.RemoveDocumentUsingDeletePath, 'delete');
+    if (params) {
+      rb.query('storyDocId', params.storyDocId, {"style":"form"});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * removeDocument.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `removeDocumentUsingDelete$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  removeDocumentUsingDelete(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+  }): Observable<void> {
+
+    return this.removeDocumentUsingDelete$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
@@ -211,9 +346,9 @@ export class StoryDocRestControllerService extends BaseService {
   }
 
   /**
-   * Path part for operation removeBlockUsingPost
+   * Path part for operation removeBlockUsingDelete
    */
-  static readonly RemoveBlockUsingPostPath = '/api/storydoc/removeblock';
+  static readonly RemoveBlockUsingDeletePath = '/api/storydoc/removeblock';
 
   /**
    * removeBlock.
@@ -221,17 +356,27 @@ export class StoryDocRestControllerService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `removeBlockUsingPost()` instead.
+   * To access only the response body, use `removeBlockUsingDelete()` instead.
    *
    * This method doesn't expect any request body.
    */
-  removeBlockUsingPost$Response(params?: {
-    id?: string;
+  removeBlockUsingDelete$Response(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * blockId
+     */
+    blockId: string;
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, StoryDocRestControllerService.RemoveBlockUsingPostPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, StoryDocRestControllerService.RemoveBlockUsingDeletePath, 'delete');
     if (params) {
-      rb.query('id', params.id, {"style":"form"});
+      rb.query('storyDocId', params.storyDocId, {"style":"form"});
+      rb.query('blockId', params.blockId, {"style":"form"});
     }
 
     return this.http.request(rb.build({
@@ -251,15 +396,203 @@ export class StoryDocRestControllerService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `removeBlockUsingPost$Response()` instead.
+   * To access the full response (for headers, for example), `removeBlockUsingDelete$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  removeBlockUsingPost(params?: {
-    id?: string;
+  removeBlockUsingDelete(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * blockId
+     */
+    blockId: string;
   }): Observable<void> {
 
-    return this.removeBlockUsingPost$Response(params).pipe(
+    return this.removeBlockUsingDelete$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation renameArtifactUsingPut
+   */
+  static readonly RenameArtifactUsingPutPath = '/api/storydoc/renameartifact';
+
+  /**
+   * renameArtifact.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `renameArtifactUsingPut()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  renameArtifactUsingPut$Response(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * blockId
+     */
+    blockId: string;
+
+    /**
+     * artifactId
+     */
+    artifactId: string;
+
+    /**
+     * name
+     */
+    name: string;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, StoryDocRestControllerService.RenameArtifactUsingPutPath, 'put');
+    if (params) {
+      rb.query('storyDocId', params.storyDocId, {"style":"form"});
+      rb.query('blockId', params.blockId, {"style":"form"});
+      rb.query('artifactId', params.artifactId, {"style":"form"});
+      rb.query('name', params.name, {"style":"form"});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * renameArtifact.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `renameArtifactUsingPut$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  renameArtifactUsingPut(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * blockId
+     */
+    blockId: string;
+
+    /**
+     * artifactId
+     */
+    artifactId: string;
+
+    /**
+     * name
+     */
+    name: string;
+  }): Observable<void> {
+
+    return this.renameArtifactUsingPut$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation renameBlockUsingPut
+   */
+  static readonly RenameBlockUsingPutPath = '/api/storydoc/renameblock';
+
+  /**
+   * renameBlock.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `renameBlockUsingPut()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  renameBlockUsingPut$Response(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * blockId
+     */
+    blockId: string;
+
+    /**
+     * name
+     */
+    name: string;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, StoryDocRestControllerService.RenameBlockUsingPutPath, 'put');
+    if (params) {
+      rb.query('storyDocId', params.storyDocId, {"style":"form"});
+      rb.query('blockId', params.blockId, {"style":"form"});
+      rb.query('name', params.name, {"style":"form"});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * renameBlock.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `renameBlockUsingPut$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  renameBlockUsingPut(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * blockId
+     */
+    blockId: string;
+
+    /**
+     * name
+     */
+    name: string;
+  }): Observable<void> {
+
+    return this.renameBlockUsingPut$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }

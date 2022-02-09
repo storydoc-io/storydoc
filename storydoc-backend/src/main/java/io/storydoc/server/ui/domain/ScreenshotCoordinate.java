@@ -1,6 +1,8 @@
 package io.storydoc.server.ui.domain;
 
-import io.storydoc.server.storydoc.domain.ArtifactBlockCoordinate;
+import io.storydoc.server.storydoc.domain.BlockCoordinate;
+import io.storydoc.server.storydoc.domain.BlockId;
+import io.storydoc.server.storydoc.domain.StoryDocId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,8 +17,12 @@ public class ScreenshotCoordinate {
     ScreenshotCollectionCoordinate collectionCoordinate;
     ScreenShotId screenShotId;
 
-    static public ScreenshotCoordinate of(ArtifactBlockCoordinate blockCoordinate, ScreenShotCollectionId screenShotCollectionId, ScreenShotId screenShotId) {
-        return new ScreenshotCoordinate(ScreenshotCollectionCoordinate.of(blockCoordinate, screenShotCollectionId), screenShotId);
+    static public ScreenshotCoordinate of(StoryDocId storyDocId, BlockId blockId, ScreenShotCollectionId screenShotCollectionId, ScreenShotId screenShotId) {
+        return of(BlockCoordinate.of(storyDocId, blockId), screenShotCollectionId, screenShotId);
+    }
+
+    static public ScreenshotCoordinate of(BlockCoordinate blockCoordinate, ScreenShotCollectionId screenShotCollectionId, ScreenShotId screenShotId) {
+        return of(ScreenshotCollectionCoordinate.of(blockCoordinate, screenShotCollectionId), screenShotId);
     }
 
     static public ScreenshotCoordinate of(ScreenshotCollectionCoordinate collectionCoordinate, ScreenShotId screenShotId) {

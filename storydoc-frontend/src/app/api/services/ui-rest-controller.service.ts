@@ -46,7 +46,7 @@ export class UiRestControllerService extends BaseService {
    * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
    */
   addScreenshotToCollectionUsingPost$Response(params?: {
-    body?: { 'blockId'?: string, 'name'?: string, 'screenshotCollectionId'?: string, 'storyDocId'?: string }
+    body?: { 'blockId': string, 'name'?: string, 'screenshotCollectionId': string, 'storyDocId': string }
   }): Observable<StrictHttpResponse<ScreenShotId>> {
 
     const rb = new RequestBuilder(this.rootUrl, UiRestControllerService.AddScreenshotToCollectionUsingPostPath, 'post');
@@ -76,7 +76,7 @@ export class UiRestControllerService extends BaseService {
    * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
    */
   addScreenshotToCollectionUsingPost(params?: {
-    body?: { 'blockId'?: string, 'name'?: string, 'screenshotCollectionId'?: string, 'storyDocId'?: string }
+    body?: { 'blockId': string, 'name'?: string, 'screenshotCollectionId': string, 'storyDocId': string }
   }): Observable<ScreenShotId> {
 
     return this.addScreenshotToCollectionUsingPost$Response(params).pipe(
@@ -194,22 +194,22 @@ export class UiRestControllerService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getScreenShotCollectionUsingGet$Response(params?: {
+  getScreenShotCollectionUsingGet$Response(params: {
 
     /**
      * storyDocId
      */
-    storyDocId?: string;
+    storyDocId: string;
 
     /**
      * blockId
      */
-    blockId?: string;
+    blockId: string;
 
     /**
      * id
      */
-    id?: string;
+    id: string;
   }): Observable<StrictHttpResponse<ScreenShotCollectionDto>> {
 
     const rb = new RequestBuilder(this.rootUrl, UiRestControllerService.GetScreenShotCollectionUsingGetPath, 'get');
@@ -240,22 +240,22 @@ export class UiRestControllerService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getScreenShotCollectionUsingGet(params?: {
+  getScreenShotCollectionUsingGet(params: {
 
     /**
      * storyDocId
      */
-    storyDocId?: string;
+    storyDocId: string;
 
     /**
      * blockId
      */
-    blockId?: string;
+    blockId: string;
 
     /**
      * id
      */
-    id?: string;
+    id: string;
   }): Observable<ScreenShotCollectionDto> {
 
     return this.getScreenShotCollectionUsingGet$Response(params).pipe(
@@ -278,17 +278,17 @@ export class UiRestControllerService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  createScreenShotCollectionUsingPost$Response(params?: {
+  createScreenShotCollectionUsingPost$Response(params: {
 
     /**
      * storyDocId
      */
-    storyDocId?: string;
+    storyDocId: string;
 
     /**
      * blockId
      */
-    blockId?: string;
+    blockId: string;
 
     /**
      * name
@@ -324,17 +324,17 @@ export class UiRestControllerService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  createScreenShotCollectionUsingPost(params?: {
+  createScreenShotCollectionUsingPost(params: {
 
     /**
      * storyDocId
      */
-    storyDocId?: string;
+    storyDocId: string;
 
     /**
      * blockId
      */
-    blockId?: string;
+    blockId: string;
 
     /**
      * name
@@ -362,22 +362,22 @@ export class UiRestControllerService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getMockUiUsingGet$Response(params?: {
+  getMockUiUsingGet$Response(params: {
 
     /**
      * storyDocId
      */
-    storyDocId?: string;
+    storyDocId: string;
 
     /**
      * blockId
      */
-    blockId?: string;
+    blockId: string;
 
     /**
      * id
      */
-    id?: string;
+    id: string;
   }): Observable<StrictHttpResponse<UiScenarioDto>> {
 
     const rb = new RequestBuilder(this.rootUrl, UiRestControllerService.GetMockUiUsingGetPath, 'get');
@@ -408,22 +408,22 @@ export class UiRestControllerService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getMockUiUsingGet(params?: {
+  getMockUiUsingGet(params: {
 
     /**
      * storyDocId
      */
-    storyDocId?: string;
+    storyDocId: string;
 
     /**
      * blockId
      */
-    blockId?: string;
+    blockId: string;
 
     /**
      * id
      */
-    id?: string;
+    id: string;
   }): Observable<UiScenarioDto> {
 
     return this.getMockUiUsingGet$Response(params).pipe(
@@ -446,22 +446,22 @@ export class UiRestControllerService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  createUiScenarioUsingPost$Response(params?: {
+  createUiScenarioUsingPost$Response(params: {
 
     /**
      * storyDocId
      */
-    storyDocId?: string;
+    storyDocId: string;
 
     /**
      * blockId
      */
-    blockId?: string;
+    blockId: string;
 
     /**
      * name
      */
-    name?: string;
+    name: string;
   }): Observable<StrictHttpResponse<UiScenarioId>> {
 
     const rb = new RequestBuilder(this.rootUrl, UiRestControllerService.CreateUiScenarioUsingPostPath, 'post');
@@ -492,22 +492,22 @@ export class UiRestControllerService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  createUiScenarioUsingPost(params?: {
+  createUiScenarioUsingPost(params: {
 
     /**
      * storyDocId
      */
-    storyDocId?: string;
+    storyDocId: string;
 
     /**
      * blockId
      */
-    blockId?: string;
+    blockId: string;
 
     /**
      * name
      */
-    name?: string;
+    name: string;
   }): Observable<UiScenarioId> {
 
     return this.createUiScenarioUsingPost$Response(params).pipe(
@@ -530,47 +530,47 @@ export class UiRestControllerService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  addScreenshotToUiScenarioUsingPost$Response(params?: {
+  addScreenshotToUiScenarioUsingPost$Response(params: {
 
     /**
      * storyDocId
      */
-    storyDocId?: string;
+    storyDocId: string;
 
     /**
      * blockId
      */
-    blockId?: string;
+    blockId: string;
 
     /**
      * uiScenarioId
      */
-    uiScenarioId?: string;
+    uiScenarioId: string;
 
     /**
      * screenshotStoryDocId
      */
-    screenshotStoryDocId?: string;
+    screenshotStoryDocId: string;
 
     /**
      * screenshotBlockId
      */
-    screenshotBlockId?: string;
+    screenshotBlockId: string;
 
     /**
      * screenshotCollectionId
      */
-    screenshotCollectionId?: string;
+    screenshotCollectionId: string;
 
     /**
      * screenshotId
      */
-    screenshotId?: string;
+    screenshotId: string;
 
     /**
      * timeLineItemId
      */
-    timeLineItemId?: string;
+    timeLineItemId: string;
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, UiRestControllerService.AddScreenshotToUiScenarioUsingPostPath, 'post');
@@ -606,47 +606,47 @@ export class UiRestControllerService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  addScreenshotToUiScenarioUsingPost(params?: {
+  addScreenshotToUiScenarioUsingPost(params: {
 
     /**
      * storyDocId
      */
-    storyDocId?: string;
+    storyDocId: string;
 
     /**
      * blockId
      */
-    blockId?: string;
+    blockId: string;
 
     /**
      * uiScenarioId
      */
-    uiScenarioId?: string;
+    uiScenarioId: string;
 
     /**
      * screenshotStoryDocId
      */
-    screenshotStoryDocId?: string;
+    screenshotStoryDocId: string;
 
     /**
      * screenshotBlockId
      */
-    screenshotBlockId?: string;
+    screenshotBlockId: string;
 
     /**
      * screenshotCollectionId
      */
-    screenshotCollectionId?: string;
+    screenshotCollectionId: string;
 
     /**
      * screenshotId
      */
-    screenshotId?: string;
+    screenshotId: string;
 
     /**
      * timeLineItemId
      */
-    timeLineItemId?: string;
+    timeLineItemId: string;
   }): Observable<void> {
 
     return this.addScreenshotToUiScenarioUsingPost$Response(params).pipe(
@@ -669,42 +669,42 @@ export class UiRestControllerService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  setUiScenarioTimeLineUsingPost$Response(params?: {
+  setUiScenarioTimeLineUsingPost$Response(params: {
 
     /**
      * storyDocId
      */
-    storyDocId?: string;
+    storyDocId: string;
 
     /**
      * blockId
      */
-    blockId?: string;
+    blockId: string;
 
     /**
      * uiScenarioId
      */
-    uiScenarioId?: string;
+    uiScenarioId: string;
 
     /**
      * timeLineModelStoryDocId
      */
-    timeLineModelStoryDocId?: string;
+    timeLineModelStoryDocId: string;
 
     /**
      * timeLineModelBlockId
      */
-    timeLineModelBlockId?: string;
+    timeLineModelBlockId: string;
 
     /**
      * timeLineModelId
      */
-    timeLineModelId?: string;
+    timeLineModelId: string;
 
     /**
      * timeLineId
      */
-    timeLineId?: string;
+    timeLineId: string;
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, UiRestControllerService.SetUiScenarioTimeLineUsingPostPath, 'post');
@@ -739,42 +739,42 @@ export class UiRestControllerService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  setUiScenarioTimeLineUsingPost(params?: {
+  setUiScenarioTimeLineUsingPost(params: {
 
     /**
      * storyDocId
      */
-    storyDocId?: string;
+    storyDocId: string;
 
     /**
      * blockId
      */
-    blockId?: string;
+    blockId: string;
 
     /**
      * uiScenarioId
      */
-    uiScenarioId?: string;
+    uiScenarioId: string;
 
     /**
      * timeLineModelStoryDocId
      */
-    timeLineModelStoryDocId?: string;
+    timeLineModelStoryDocId: string;
 
     /**
      * timeLineModelBlockId
      */
-    timeLineModelBlockId?: string;
+    timeLineModelBlockId: string;
 
     /**
      * timeLineModelId
      */
-    timeLineModelId?: string;
+    timeLineModelId: string;
 
     /**
      * timeLineId
      */
-    timeLineId?: string;
+    timeLineId: string;
   }): Observable<void> {
 
     return this.setUiScenarioTimeLineUsingPost$Response(params).pipe(

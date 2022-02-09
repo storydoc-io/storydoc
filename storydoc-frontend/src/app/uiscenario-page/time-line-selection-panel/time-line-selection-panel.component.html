@@ -2,16 +2,13 @@
   <form [formGroup]="formGroup">
     <label for="timeLineModel" class="form-label">Timeline Model</label>
     <div class="input-group mb-3">
-      <select id="timeLineModel" formControlName="timeLineModel" class="form-select" (change)="onTimeLineModelChange()">
+      <select id="timeLineModel" formControlName="timeLineModel" class="form-select" [compareWith]="compareTimeLineModel"  (change)="onTimeLineModelChange()">
         <option selected>--select--</option>
-        <ng-container *ngIf="timeLineModelSummaries$|async as timeLineModelSummaries">
-          <option *ngFor="let tlModel of timeLineModelSummaries"
+        <ng-container *ngIf="timeLineModelSelection$|async as timeLineModelSelection">
+          <option *ngFor="let tlModel of timeLineModelSelection.timeLineModelSummaries"
                   [ngValue]="tlModel.timeLineModelCoordinate">{{tlModel.name}}</option>
         </ng-container>
       </select>
-      <button class="btn btn-outline-secondary" type="button">
-        <fa-icon [icon]="cogIcon"></fa-icon>
-      </button>
     </div>
     <div class="mb-3">
       <label for="timeLine" class="form-label">Timeline</label>
@@ -26,8 +23,3 @@
     </div>
   </form>
 </app-border>
-
-<jw-modal [id]="getDialogId()">
-  <app-time-line-model-selection-dialog [input]="dialogInput" (onConfirm)="confirmDialog($event)"
-                                        (onCancel)="cancelDialog()"></app-time-line-model-selection-dialog>
-</jw-modal>

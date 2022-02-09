@@ -1,6 +1,6 @@
 package io.storydoc.server.timeline.domain;
 
-import io.storydoc.server.storydoc.domain.ArtifactBlockCoordinate;
+import io.storydoc.server.storydoc.domain.BlockCoordinate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,10 +12,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class TimeLineModelCoordinate {
 
-    private ArtifactBlockCoordinate blockCoordinate;
+    private BlockCoordinate blockCoordinate;
     private TimeLineModelId timeLineModelId;
 
-    public static TimeLineModelCoordinate of(ArtifactBlockCoordinate blockCoordinate, TimeLineModelId timeLineModelId) {
+    public static TimeLineModelCoordinate of(BlockCoordinate blockCoordinate, TimeLineModelId timeLineModelId) {
         return new TimeLineModelCoordinate(blockCoordinate, timeLineModelId);
     }
 }

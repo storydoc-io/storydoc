@@ -15,6 +15,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.InputStream;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.junit.Assert.*;
 
@@ -67,7 +70,7 @@ public class StoryDocServiceTest extends TestBase {
     @Test
     public void removeDocument() {
         // given a storydoc
-        ArtifactBlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
         StoryDocId storyDocId = blockCoordinate.getStoryDocId();
 
         workspaceTestUtils.logFolderStructure("before remove ");
@@ -89,7 +92,7 @@ public class StoryDocServiceTest extends TestBase {
     @Test
     public void renameDocument() {
         // given a storydoc
-        ArtifactBlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
         StoryDocId storyDocId = blockCoordinate.getStoryDocId();
 
         // when I rename the document
@@ -100,6 +103,7 @@ public class StoryDocServiceTest extends TestBase {
         assertEquals(new_name, storyDocQueryService.getStoryDocSummary(storyDocId).getName());
         assertEquals(new_name, storyDocQueryService.getDocument(storyDocId).getTitle());
     }
+
 
     @Test
     public void addArtifactBlock() {
@@ -122,14 +126,14 @@ public class StoryDocServiceTest extends TestBase {
         assertEquals(blockId, blockDTO.getBlockId());
 
         workspaceTestUtils.logFolderStructure("after add block ");
-        workspaceTestUtils.logResourceContent("storydoc",storyDocQueryService.getDocument(storyDocId).getUrn());
+        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
 
     }
 
     @Test
     public void renameArtifactBlock() {
         // given a storydoc with an artifact block
-        ArtifactBlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
 
         // when I rename the artifact block
         String new_name = "new_name";
@@ -137,6 +141,30 @@ public class StoryDocServiceTest extends TestBase {
 
         // then the document has been renamed
         assertEquals(new_name, storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getBlocks().get(0).getTitle());
+    }
+
+    @Test
+    public void moveBlock() {
+        // given a storydoc with 3  blocks block_0, block_1, block_2
+        StoryDocId storyDocId = storyDocTestUtils.create_storydoc();
+        List<BlockId> blockIds = IntStream.range(0, 3)
+                .mapToObj(i ->  storyDocTestUtils.add_artifact_block(storyDocId).getBlockId())
+                .collect(Collectors.toList());
+
+        // when I move block_2 to index 0
+        BlockCoordinate blockToMove = BlockCoordinate.of(storyDocId, blockIds.get(2));
+        BlockCoordinate parentBlock = BlockCoordinate.of(storyDocId, storyDocId.asBlockId());
+
+        workspaceTestUtils.logResourceContent("before move", storyDocQueryService.getDocument(storyDocId).getUrn());
+        storyDocService.moveBlock(blockToMove, parentBlock, 0);
+        workspaceTestUtils.logResourceContent("after move", storyDocQueryService.getDocument(storyDocId).getUrn());
+
+        // then block_2 has index 0, block_0 index 1, block_1 index 2
+        StoryDocDTO storyDocDTO = storyDocQueryService.getDocument(storyDocId);
+        assertEquals(blockIds.get(2), storyDocDTO.getBlocks().get(0).getBlockId());
+        assertEquals(blockIds.get(0), storyDocDTO.getBlocks().get(1).getBlockId());
+        assertEquals(blockIds.get(1), storyDocDTO.getBlocks().get(2).getBlockId());
+
     }
 
     @Test
@@ -148,7 +176,7 @@ public class StoryDocServiceTest extends TestBase {
         String block_name = "block";
         BlockId blockId = storyDocService.addArtifactBlock(storyDocId, block_name);
 
-        ArtifactBlockCoordinate coordinate = ArtifactBlockCoordinate.builder().storyDocId(storyDocId).blockId(blockId).build();
+        BlockCoordinate coordinate = BlockCoordinate.builder().storyDocId(storyDocId).blockId(blockId).build();
         String artifact_name = "artifact";
 
         // when I add a binary collection artifact
@@ -174,7 +202,7 @@ public class StoryDocServiceTest extends TestBase {
         assertEquals(0, artifactDTO.getItems().size());
 
         workspaceTestUtils.logFolderStructure("after add block ");
-        workspaceTestUtils.logResourceContent("storydoc",storyDocQueryService.getDocument(storyDocId).getUrn());
+        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
 
     }
 
@@ -188,7 +216,7 @@ public class StoryDocServiceTest extends TestBase {
         String block_name = "block";
         BlockId blockId = storyDocService.addArtifactBlock(storyDocId, block_name);
 
-        ArtifactBlockCoordinate coordinate = ArtifactBlockCoordinate.builder().storyDocId(storyDocId).blockId(blockId).build();
+        BlockCoordinate coordinate = BlockCoordinate.builder().storyDocId(storyDocId).blockId(blockId).build();
 
         String artifact_name = "artifact";
         ArtifactId artifactId = storyDocService.createBinaryCollectionArtifact(coordinate, "art_type", "binary_type", artifact_name);
@@ -199,7 +227,7 @@ public class StoryDocServiceTest extends TestBase {
         storyDocService.addItemToBinaryCollection(coordinate, artifactId, item_name, inputStream);
 
         workspaceTestUtils.logFolderStructure("after add binary resource ");
-        workspaceTestUtils.logResourceContent("storydoc",storyDocQueryService.getDocument(storyDocId).getUrn());
+        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
 
         // then the resource is added to the list of items in the collection
         StoryDocDTO storyDocDTO = storyDocQueryService.getDocument(storyDocId);
@@ -213,7 +241,6 @@ public class StoryDocServiceTest extends TestBase {
 
 
     }
-
 
 
     @Test

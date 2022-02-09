@@ -3,12 +3,9 @@ package io.storydoc.server.storydoc.infra.store.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
-public class Section extends Block {
+public class Section extends CompositeBlock {
 
-    List<Block> blocks;
 
 }

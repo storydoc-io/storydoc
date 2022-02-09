@@ -2,7 +2,7 @@ package io.storydoc.server.timeline.app;
 
 import io.storydoc.server.storydoc.app.StoryDocQueryService;
 import io.storydoc.server.storydoc.app.dto.StoryDocSummaryDTO;
-import io.storydoc.server.storydoc.domain.ArtifactBlockCoordinate;
+import io.storydoc.server.storydoc.domain.BlockCoordinate;
 import io.storydoc.server.storydoc.domain.ArtifactId;
 import io.storydoc.server.storydoc.domain.ArtifactMetaData;
 import io.storydoc.server.storydoc.domain.StoryDocId;
@@ -33,7 +33,7 @@ public class TimeLineQueryServiceImpl implements TimeLineQueryService {
     }
 
     @Override
-    public List<TimeLineModelSummaryDTO> getTimeLineModelSummaries(ArtifactBlockCoordinate blockCoordinate) {
+    public List<TimeLineModelSummaryDTO> getTimeLineModelSummaries(BlockCoordinate blockCoordinate) {
         List<ArtifactId> artifacts = storyDocQueryService.getArtifactsByType(blockCoordinate, io.storydoc.server.timeline.domain.TimeLineModel.ARTIFACT_TYPE);
         return artifacts.stream()
                 .map(artifact -> {

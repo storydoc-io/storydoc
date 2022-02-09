@@ -1,6 +1,6 @@
 package io.storydoc.server.timeline.app;
 
-import io.storydoc.server.storydoc.domain.ArtifactBlockCoordinate;
+import io.storydoc.server.storydoc.domain.BlockCoordinate;
 import io.storydoc.server.timeline.domain.*;
 import io.storydoc.server.workspace.domain.ResourceUrn;
 import org.springframework.stereotype.Component;
@@ -24,7 +24,7 @@ public class TimeLineTestUtils {
         return timeLineStore.getUrn(timeLineModelCoordinate);
     }
 
-    public TimeLineModelCoordinate createTimeLineModel(ArtifactBlockCoordinate blockCoordinate) {
+    public TimeLineModelCoordinate createTimeLineModel(BlockCoordinate blockCoordinate) {
         String timeline_model_name = "timeline_model";
         return timeLineService.createTimeLineModel(blockCoordinate, timeline_model_name);
     }

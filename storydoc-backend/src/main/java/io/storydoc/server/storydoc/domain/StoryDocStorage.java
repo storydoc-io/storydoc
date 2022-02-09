@@ -22,7 +22,7 @@ public interface StoryDocStorage {
     void addArtifactBlock(StoryDocId storyDocId, BlockId blockId, String name);
     void addArtifactBlock(StoryDocId id, BlockId blockId, SectionId sectionId);
     void removeBlock(StoryDocId id, BlockId blockId);
-    Block getBlock(ArtifactBlockCoordinate coordinate);
+    Block getBlock(BlockCoordinate coordinate);
 
     void addSection(StoryDocId id, SectionId sectionId);
 
@@ -36,11 +36,11 @@ public interface StoryDocStorage {
 
     FolderURN getArtifactBlockFolder(StoryDocId storyDocId, BlockId blockId);
 
-    List<ArtifactId> getArtifacts(ArtifactBlockCoordinate coordinate, Function<ArtifactMetaData, Boolean> filter);
+    List<ArtifactId> getArtifacts(BlockCoordinate coordinate, Function<ArtifactMetaData, Boolean> filter);
 
     void saveBinaryArtifact(SaveBinaryArtifactContext context);
 
-    ArtifactMetaData getArtifactMetaData(ArtifactBlockCoordinate coordinate, ArtifactId artifactId);
+    ArtifactMetaData getArtifactMetaData(BlockCoordinate coordinate, ArtifactId artifactId);
 
     StoryDocs loadDocuments();
 
@@ -48,11 +48,15 @@ public interface StoryDocStorage {
 
     void addItemToBinaryCollection(AddToBinaryCollectionAction action);
 
-    InputStream getBinaryFromCollection(ArtifactBlockCoordinate coordinate, ArtifactId artifactId, ItemId itemId) throws WorkspaceException;
+    InputStream getBinaryFromCollection(BlockCoordinate coordinate, ArtifactId artifactId, ItemId itemId) throws WorkspaceException;
 
     void removeDocument(StoryDocId storyDocId);
 
     void renameDocument(StoryDocId id, String new_name);
 
-    void renameBlock(ArtifactBlockCoordinate blockCoordinate, String new_name);
+    void renameBlock(BlockCoordinate blockCoordinate, String new_name);
+
+    void renameArtifact(BlockCoordinate blockCoordinate, ArtifactId artifactId, String new_name);
+
+    void moveBlock(BlockCoordinate blockToMove, BlockCoordinate newParent, int childIndexInParent);
 }

@@ -139,22 +139,22 @@ public class StoryDocQueryServiceImpl implements StoryDocQueryService {
     }
 
     @Override
-    public FolderURN getArtifactBlockFolder(ArtifactBlockCoordinate blockCoordinate) {
+    public FolderURN getArtifactBlockFolder(BlockCoordinate blockCoordinate) {
         return storyDocStorage.getArtifactBlockFolder(blockCoordinate.getStoryDocId(), blockCoordinate.getBlockId());
     }
 
     @Override
-    public List<ArtifactId> getArtifactsByType(ArtifactBlockCoordinate coordinate, String artifactType) {
+    public List<ArtifactId> getArtifactsByType(BlockCoordinate coordinate, String artifactType) {
         return storyDocStorage.getArtifacts(coordinate, (metaData)-> metaData.getType().equals(artifactType) );
     }
 
     @Override
-    public ArtifactMetaData getArtifactMetaData(ArtifactBlockCoordinate coordinate, ArtifactId artifactId) {
+    public ArtifactMetaData getArtifactMetaData(BlockCoordinate coordinate, ArtifactId artifactId) {
         return storyDocStorage.getArtifactMetaData(coordinate, artifactId);
     }
 
     @Override
-    public ArtifactDTO getArtifact(ArtifactBlockCoordinate coordinate, ArtifactId artifactId) {
+    public ArtifactDTO getArtifact(BlockCoordinate coordinate, ArtifactId artifactId) {
         ArtifactBlock artifactBlock = (ArtifactBlock) storyDocStorage.getBlock(coordinate);
         Artifact artifact = artifactBlock.getArtifacts().stream()
             .filter(a -> a.getArtifactId().equals(artifactId.getId()))
@@ -165,7 +165,7 @@ public class StoryDocQueryServiceImpl implements StoryDocQueryService {
     }
 
     @Override
-    public InputStream getBinaryFromCollection(ArtifactBlockCoordinate coordinate, ArtifactId artifactId, ItemId itemId) throws WorkspaceException {
+    public InputStream getBinaryFromCollection(BlockCoordinate coordinate, ArtifactId artifactId, ItemId itemId) throws WorkspaceException {
         return storyDocStorage.getBinaryFromCollection(coordinate, artifactId, itemId);
     }
 }

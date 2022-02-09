@@ -1,15 +1,21 @@
 <div>
   <div class="d-flex flex-row">
-    <div class="p-2" *ngFor="let artifact of artifacts">
+    <div class="p-2" *ngFor="let artifact of artifacts" (contextmenu)="openMenu($event, artifact)">
       <a [routerLink]="editorUrl(artifact)" >
         <img height="50" width="50" [src]="icon(artifact)" alt="image">
         <div >{{artifact.name}}</div>
       </a>
     </div>
   </div>
-  <div class="btn  btn-sm btn-outline-primary" (click)="openAddArtifactDialog()">Add..</div>
+  <div class="btn  btn-sm btn-outline-primary" (click)="addArtifact()">Add..</div>
 </div>
 
+<app-popup-menu></app-popup-menu>
+
 <jw-modal [id]="dialogId()">
-  <app-create-artifact-dialog [input]="createArtifactDialogInput" (onConfirm)="confirmAddArtifactDialog($event)" (onCancel)="cancelAddArtifactDialog()"></app-create-artifact-dialog>
+  <app-create-artifact-dialog [spec]="artifactDialogSpec"></app-create-artifact-dialog>
+</jw-modal>
+
+<jw-modal [id]="confirmationDialogId()">
+  <app-confirmation-dialog [spec]="confirmationDialogSpec"></app-confirmation-dialog>
 </jw-modal>

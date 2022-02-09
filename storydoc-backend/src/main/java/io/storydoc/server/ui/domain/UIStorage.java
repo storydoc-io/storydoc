@@ -1,6 +1,6 @@
 package io.storydoc.server.ui.domain;
 
-import io.storydoc.server.storydoc.domain.ArtifactBlockCoordinate;
+import io.storydoc.server.storydoc.domain.BlockCoordinate;
 import io.storydoc.server.timeline.domain.TimeLineCoordinate;
 import io.storydoc.server.timeline.domain.TimeLineItemId;
 import io.storydoc.server.ui.domain.action.CreateScreenShotCollectionArtifactAction;
@@ -12,7 +12,7 @@ public interface UIStorage {
 
     void createScreenshotCollection(CreateScreenShotCollectionArtifactAction action);
     void uploadScreenShot(UploadScreenShotToCollectionAction action);
-    ResourceUrn getScreenshotUrn(ArtifactBlockCoordinate blockCoordinate, ScreenShotId screenshotId);
+    ResourceUrn getScreenshotUrn(BlockCoordinate blockCoordinate, ScreenShotId screenshotId);
 
     void createUIScenario(UIScenarioCoordinate scenarioCoordinate, String name);
     UIScenario loadUIScenario(UIScenarioCoordinate scenarioCoordinate);

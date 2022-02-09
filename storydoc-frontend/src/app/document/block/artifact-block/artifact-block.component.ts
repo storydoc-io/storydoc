@@ -1,12 +1,17 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {ArtifactDto} from "../../../api/models/artifact-dto";
 import {StoryDocId} from "../../../api/models/story-doc-id";
 import {ModalService} from "../../../common/modal-service";
-import {CreateArtifactDialogInput, CreateArtifactDialogData} from "../../create-artifact-dialog/create-artifact-dialog.component";
+import {ArtifactDialogSpec, ArtifactDialogData} from "../../create-artifact-dialog/create-artifact-dialog.component";
 import {BlockId} from "../../../api/models/block-id";
 import {UiRestControllerService} from "../../../api/services/ui-rest-controller.service";
 import {ArtifactDataService, ArtifactDescriptor} from "./artifact-data.service";
 import {TimeLineControllerService} from "../../../api/services/time-line-controller.service";
+import {DocumentDataService} from "../../document-data.service";
+import {PopupMenuComponent} from "../../../common/popup-menu/popup-menu.component";
+import {BlockDto} from "../../../api/models/block-dto";
+import {BlockDialogSpec} from "../../create-block-dialog/create-block-dialog.component";
+import {ConfirmationDialogSpec} from "../../../common/confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'app-artifact-block',
@@ -17,10 +22,9 @@ export class ArtifactBlockComponent {
 
   constructor(
     private modalservice: ModalService,
-    private uiRestControllerService : UiRestControllerService,
+    private documentDataService: DocumentDataService,
     private artifactDataService: ArtifactDataService,
-    private timeLineControllerService : TimeLineControllerService
-    ) {
+  ) {
   }
 
   @Input()
@@ -55,68 +59,111 @@ export class ArtifactBlockComponent {
     return descriptor? descriptor.icon : ''
   }
 
-  // create artifact dialog
+  // artifact dialog
 
-  createArtifactDialogInput: CreateArtifactDialogInput
+  artifactDialogSpec: ArtifactDialogSpec
 
   dialogId(): string {
     return 'add-artifact-dialog-'+ this.blockId.id
   };
 
-  openAddArtifactDialog() {
-    this.createArtifactDialogInput = {
+
+  openArtifactDialog(artifactDialogSpec: ArtifactDialogSpec) {
+    this.artifactDialogSpec = artifactDialogSpec
+    this.modalservice.open(this.dialogId())
+  }
+
+  closeArtifactDialog() {
+    this.modalservice.close(this.dialogId())
+  }
+
+  // confirmation dialog
+  confirmationDialogId(): string {
+    return 'confirmation-dialog-' + this.blockId.id
+  }
+  confirmationDialogSpec: ConfirmationDialogSpec
+
+  openConfirmationDialog(confirmationDialogSpec: ConfirmationDialogSpec) {
+    this.confirmationDialogSpec = confirmationDialogSpec
+    this.modalservice.open(this.confirmationDialogId())
+  }
+
+  closeConfirmationDialog() {
+    this.modalservice.close(this.confirmationDialogId())
+  }
+
+
+
+  addArtifact() {
+    this.openArtifactDialog(
+    this.artifactDialogSpec = {
       mode: 'NEW',
       data: {
         name: null,
         artifactType: null
-      }
-    }
-    this.modalservice.open(this.dialogId())
+      },
+      confirm: (data) => { this.closeArtifactDialog(), this.confirmAddArtifact(data) },
+      cancel: () => this.closeArtifactDialog()
+
+    })
   }
 
-  confirmAddArtifactDialog(formData: CreateArtifactDialogData) {
-    console.log('formData: ', formData)
-    switch (formData.artifactType) {
-      case 'io.storydoc.server.timeline.domain.TimeLineModel': {
-        console.log("timeline model")
-        this.timeLineControllerService.createTimeLineModelUsingPost({
-          storyDocId: this.documentId.id,
-          blockId: this.blockId.id,
-          name: formData.name
-        }).subscribe({
-          next: value => this.refresh()
-        })
-        break
-      }
-      case 'io.storydoc.server.ui.domain.UIScenario': {
-        console.log("ui scenario")
-        this.uiRestControllerService.createUiScenarioUsingPost({
-          storyDocId: this.documentId.id,
-          blockId: this.blockId.id,
-          name: formData.name
-        }).subscribe({
-          next: value => this.refresh()
-        })
-        break
-      }
-      case 'io.storydoc.server.ui.domain.ScreenShotCollection': {
-        console.log("screenshots")
-        this.uiRestControllerService.createScreenShotCollectionUsingPost({
-            storyDocId: this.documentId.id,
-            blockId: this.blockId.id,
-            name: formData.name
-        }).subscribe({
-          next: value => this.refresh()
-        })
-        break
-      }
-
-    }
-    this.modalservice.close(this.dialogId())
+  confirmAddArtifact(formData: ArtifactDialogData) {
+    this.documentDataService.addArtifact({
+      artifactType: formData.artifactType,
+      blockId: this.blockId.id,
+      name: formData.name
+    })
   }
 
-  cancelAddArtifactDialog() {
-    this.modalservice.close(this.dialogId())
+  @ViewChild(PopupMenuComponent) menu:PopupMenuComponent
+
+  openMenu(event: MouseEvent, artifact: ArtifactDto) {
+    this.menu.items = [
+      {
+        label: 'Rename',
+        onClick: () => this.renameArtifact(artifact)
+      },
+      { label: 'Delete',
+        onClick: () => this.deleteArtifact(artifact)
+      }
+    ]
+    this.menu.open(event)
+    return false
   }
 
+  private renameArtifact(artifact: ArtifactDto) {
+    this.openArtifactDialog({
+      mode: 'UPDATE',
+      data: {
+        name: artifact.name,
+        artifactType: artifact.artifactType
+      },
+      confirm: (data)=> { this.closeArtifactDialog(); this.confirmRenameArtifact(artifact, data)},
+      cancel: () => this.closeArtifactDialog()
+    })
+  }
+
+  private confirmRenameArtifact(artifact: ArtifactDto, data: ArtifactDialogData) {
+    this.documentDataService.renameArtifact({
+      storyDocId: this.documentId,
+      blockId: this.blockId,
+      artifactId: artifact.artifactId,
+      name: data.name
+    })
+  }
+
+  private deleteArtifact(artifact: ArtifactDto) {
+    this.openConfirmationDialog({
+      title: 'Confirm Delete',
+      message: `Delete ${artifact.name} ?`,
+      confirm: ()=> { this.closeConfirmationDialog(), this.confirmDeleteArtifact(artifact) },
+      cancel: () => this.closeConfirmationDialog()
+    })
+  }
+
+
+  private confirmDeleteArtifact(artifact: ArtifactDto) {
+
+  }
 }

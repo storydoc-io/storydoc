@@ -1,21 +1,19 @@
 package io.storydoc.server.ui.app;
 
 import io.storydoc.server.TestBase;
-import io.storydoc.server.storydoc.StoryDocPageStub;
 import io.storydoc.server.storydoc.StoryDocTestUtils;
 import io.storydoc.server.storydoc.app.StoryDocQueryService;
 import io.storydoc.server.storydoc.app.StoryDocService;
 import io.storydoc.server.storydoc.app.dto.ArtifactDTO;
 import io.storydoc.server.storydoc.app.dto.BlockDTO;
 import io.storydoc.server.storydoc.app.dto.StoryDocDTO;
-import io.storydoc.server.storydoc.domain.ArtifactBlockCoordinate;
+import io.storydoc.server.storydoc.domain.BlockCoordinate;
 import io.storydoc.server.storydoc.domain.BlockId;
 import io.storydoc.server.storydoc.domain.StoryDocId;
 import io.storydoc.server.timeline.app.TimeLineTestUtils;
 import io.storydoc.server.timeline.domain.TimeLineCoordinate;
 import io.storydoc.server.timeline.domain.TimeLineItemId;
 import io.storydoc.server.timeline.domain.TimeLineModelCoordinate;
-import io.storydoc.server.ui.UIPageStub;
 import io.storydoc.server.ui.domain.*;
 import io.storydoc.server.workspace.WorkspaceTestUtils;
 import io.storydoc.server.workspace.domain.WorkspaceException;
@@ -51,13 +49,6 @@ public class UIServiceTest extends TestBase {
     @Autowired
     private UITestUtils uiTestUtils;
 
-    @Autowired
-    UIPageStub uiPage;
-
-    @Autowired
-    StoryDocPageStub storyDocPage;
-    private ScreenshotCoordinate screenshotCoordinate;
-
     @Test
     public void createMockUI() {
         // given a storydoc with a artifact block
@@ -66,7 +57,7 @@ public class UIServiceTest extends TestBase {
 
         String block_name = "block";
         BlockId blockId = storyDocService.addArtifactBlock(storyDocId, block_name);
-        ArtifactBlockCoordinate coordinate = ArtifactBlockCoordinate.builder()
+        BlockCoordinate coordinate = BlockCoordinate.builder()
                 .storyDocId(storyDocId)
                 .blockId(blockId)
                 .build();
@@ -109,7 +100,7 @@ public class UIServiceTest extends TestBase {
 
         String block_name = "block";
         BlockId blockId = storyDocService.addArtifactBlock(storyDocId, block_name);
-        ArtifactBlockCoordinate coordinate = ArtifactBlockCoordinate.builder()
+        BlockCoordinate coordinate = BlockCoordinate.builder()
                 .storyDocId(storyDocId)
                 .blockId(blockId)
                 .build();
@@ -127,7 +118,7 @@ public class UIServiceTest extends TestBase {
     public void addScreenShotToCollection() throws WorkspaceException {
         // given  a storydoc with an artifact block
         // given a storydoc with an artifact paragraph
-        ArtifactBlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
 
         // given a screenshot collection artifact
         String screenshots_artifact_name = "screenshots";
@@ -163,7 +154,7 @@ public class UIServiceTest extends TestBase {
     @Test
     public void UIScenario_Has_Default_Associated_Snapshot_Collection () {
         // given a storydoc with an artifact paragraph
-        ArtifactBlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
         // given a screenshot collection artifact in that paragraph
         ScreenshotCollectionCoordinate collectionCoordinate = uiTestUtils.createScreenshotCollection(blockCoordinate);
         // given  a screenshot is uploaded to the collection
@@ -199,7 +190,7 @@ public class UIServiceTest extends TestBase {
     public void associate_timeline_to_ui_scenario() {
 
         // given a storydoc with an artifact paragraph
-        ArtifactBlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
 
         // given a ui scenario
         UIScenarioCoordinate scenarioCoordinate = uiTestUtils.createUIScenario(blockCoordinate);
@@ -225,7 +216,7 @@ public class UIServiceTest extends TestBase {
     public void add_screenshot_to_ui_scenario() {
 
         // given a storydoc with an artifact paragraph
-        ArtifactBlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
 
         // given a screenshot collection artifact in that paragraph
         ScreenshotCollectionCoordinate collectionCoordinate = uiTestUtils.createScreenshotCollection(blockCoordinate);
@@ -247,7 +238,7 @@ public class UIServiceTest extends TestBase {
 
         // when I add the screenshot to the UI scenario
 
-        screenshotCoordinate = ScreenshotCoordinate.of(collectionCoordinate, screenShotId);
+        ScreenshotCoordinate screenshotCoordinate = ScreenshotCoordinate.of(collectionCoordinate, screenShotId);
         uiService.addScreenShotToUIScenario(scenarioCoordinate, screenshotCoordinate, timeLineItemId);
 
         // then the UI scenario has the screenshot

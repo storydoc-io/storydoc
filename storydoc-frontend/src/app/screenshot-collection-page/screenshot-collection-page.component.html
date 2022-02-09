@@ -37,7 +37,7 @@
     <div class="row">
       <div *ngIf="(screenshotCollection$ | async) as screenshotCollection ; else loading">
         <ul class="list-group">
-          <li *ngFor="let screenshot of screenshotCollection.screenShots" class="list-group-item">
+          <li *ngFor="let screenshot of screenshotCollection.screenShots; trackBy: screenshotTracker" class="list-group-item">
             <div style="width: 120px;height: 100px;overflow: hidden;border: 1px solid blue; ">
               <img [src]="getScreenshotUrl(screenshot)" height="100px" width="auto">
             </div>

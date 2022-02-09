@@ -2,15 +2,17 @@ import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges} from '@an
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ArtifactDataService, ArtifactDescriptor} from "../block/artifact-block/artifact-data.service";
 
-export interface CreateArtifactDialogData {
+export interface ArtifactDialogData {
   name?: string
   file?: string
   artifactType: string
 }
 
-export interface CreateArtifactDialogInput {
+export interface ArtifactDialogSpec {
   mode: 'UPDATE' | 'NEW'
-  data: CreateArtifactDialogData
+  data: ArtifactDialogData
+  confirm: (ArtifactDialogData) => void
+  cancel: ()=> void
 }
 
 @Component({
@@ -23,11 +25,11 @@ export class CreateArtifactDialogComponent {
   constructor(private artifactDataService: ArtifactDataService) {}
 
   @Input()
-  input: CreateArtifactDialogInput
+  spec: ArtifactDialogSpec
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.input != null) {
-      this.formGroup.setValue(this.input.data)
+    if (this.spec != null) {
+      this.formGroup.setValue(this.spec.data)
     }
   }
 
@@ -40,18 +42,12 @@ export class CreateArtifactDialogComponent {
     return this.artifactDataService.list()
   }
 
-  @Output()
-  private onConfirm = new EventEmitter()
-
-  @Output()
-  private onCancel = new EventEmitter()
-
   cancel() {
-    this.onCancel.emit()
+    this.spec.cancel.apply(this, [])
   }
 
-  save() {
-    this.onConfirm.emit(this.formGroup.value)
+  confirm() {
+    this.spec.confirm.apply(this, [this.formGroup.value])
   }
 
 }

@@ -1,0 +1,15 @@
+<div *ngIf="spec" class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">{{spec.title}}</h5>
+      <button type="button" class="btn-close" (click)="cancel()"></button>
+    </div>
+    <div class="modal-body">
+      <p>{{spec.message}}</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="confirm()">Yes</button>
+      <button type="button" class="btn btn-secondary" (click)="cancel()">No</button>
+    </div>
+  </div>
+</div>

@@ -24,6 +24,7 @@ export class ScreenshotPanelComponent implements OnInit {
   collectionCoordinate: ScreenshotCollectionCoordinate
   screenshotCollection$ : Observable<ScreenShotCollectionDto>
 
+
   @Input()
   collections: Array<ScreenshotCollectionSummaryDto>
 

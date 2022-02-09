@@ -1,16 +1,16 @@
 .title {
   margin: 0px;
   padding: 10px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgb(13, 110, 253);
 }
 
 .items p {
   margin: 0px;
-  padding: 10px;
-  border-bottom: 1px solid black;
+  padding: 5px;
+  border-bottom: 1px solid rgb(13, 110, 253);
 }
 
 .items p:hover {
   color: white;
-  background: black;
+  background: rgb(13, 110, 253);
 }

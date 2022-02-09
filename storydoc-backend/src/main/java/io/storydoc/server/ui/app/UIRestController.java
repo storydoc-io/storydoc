@@ -1,6 +1,6 @@
 package io.storydoc.server.ui.app;
 
-import io.storydoc.server.storydoc.domain.ArtifactBlockCoordinate;
+import io.storydoc.server.storydoc.domain.BlockCoordinate;
 import io.storydoc.server.storydoc.domain.BlockId;
 import io.storydoc.server.storydoc.domain.StoryDocId;
 import io.storydoc.server.timeline.domain.*;
@@ -28,69 +28,60 @@ public class UIRestController {
     }
 
     @GetMapping(value="/uiscenario", produces = MediaType.APPLICATION_JSON_VALUE)
-    public UIScenarioDTO getMockUI(String storyDocId, String blockId, String id) {
-        ArtifactBlockCoordinate blockCoordinate = ArtifactBlockCoordinate.of(new StoryDocId(storyDocId), new BlockId(blockId));
-        UIScenarioCoordinate scenarioCoordinate = UIScenarioCoordinate.of(blockCoordinate,  new UIScenarioId(id));
+    public UIScenarioDTO getMockUI(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId, @RequestParam("id") UIScenarioId id) {
+        UIScenarioCoordinate scenarioCoordinate = UIScenarioCoordinate.of(storyDocId, blockId,  id);
         return uiQueryService.getUIScenario(scenarioCoordinate);
     }
 
     @PostMapping(value = "/uiscenario", produces = MediaType.APPLICATION_JSON_VALUE)
-    public UIScenarioId createUIScenario(String storyDocId, String blockId, String name) {
-        ArtifactBlockCoordinate coordinate = ArtifactBlockCoordinate.of(new StoryDocId(storyDocId), new BlockId(blockId));
-        return uiService.createUIScenario(coordinate, name);
+    public UIScenarioId createUIScenario(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId, @RequestParam("name") String name) {
+        BlockCoordinate blockCoordinate = BlockCoordinate.of(storyDocId, blockId);
+        return uiService.createUIScenario(blockCoordinate, name);
     }
 
     @PostMapping(value = "/uiscenariotimeline", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void setUIScenarioTimeLine(String storyDocId, String blockId, String uiScenarioId, String timeLineModelStoryDocId, String timeLineModelBlockId, String timeLineModelId, String timeLineId ) {
-        ArtifactBlockCoordinate uiScenarioBlockCoordinate = ArtifactBlockCoordinate.of(new StoryDocId(storyDocId), new BlockId(blockId));
-        UIScenarioCoordinate scenarioCoordinate = UIScenarioCoordinate.of(uiScenarioBlockCoordinate, UIScenarioId.fromString(uiScenarioId));
-
-        ArtifactBlockCoordinate timeLineModelBlockCoordinate = ArtifactBlockCoordinate.of(StoryDocId.fromString(timeLineModelStoryDocId), BlockId.fromString(timeLineModelBlockId));
-        TimeLineModelCoordinate timeLineModelCoordinate = TimeLineModelCoordinate.of(timeLineModelBlockCoordinate, TimeLineModelId.fromString(timeLineModelId));
-        TimeLineCoordinate timeLineCoordinate = TimeLineCoordinate.of(timeLineModelCoordinate, TimeLineId.fromString(timeLineId));
-
+    public void setUIScenarioTimeLine(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId, @RequestParam("uiScenarioId") UIScenarioId uiScenarioId,
+                                      @RequestParam("timeLineModelStoryDocId") StoryDocId timeLineModelStoryDocId, @RequestParam("timeLineModelBlockId") BlockId timeLineModelBlockId, @RequestParam("timeLineModelId") TimeLineModelId timeLineModelId, @RequestParam("timeLineId") TimeLineId timeLineId ) {
+        UIScenarioCoordinate scenarioCoordinate = UIScenarioCoordinate.of(storyDocId, blockId, uiScenarioId);
+        TimeLineCoordinate timeLineCoordinate = TimeLineCoordinate.of(timeLineModelStoryDocId, timeLineModelBlockId, timeLineModelId, timeLineId);
         uiService.setTimeLineForUIScenario(scenarioCoordinate,timeLineCoordinate);
     }
 
 
     @PostMapping(value = "/uiscenarioscreenshot", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void addScreenshotToUIScenario(String storyDocId, String blockId, String uiScenarioId, String screenshotStoryDocId, String screenshotBlockId, String screenshotCollectionId, String screenshotId, String timeLineItemId) {
-        ArtifactBlockCoordinate uiScenarioBlockCoordinate = ArtifactBlockCoordinate.of(new StoryDocId(storyDocId), new BlockId(blockId));
-        UIScenarioCoordinate scenarioCoordinate = UIScenarioCoordinate.of(uiScenarioBlockCoordinate, UIScenarioId.fromString(uiScenarioId));
+    public void addScreenshotToUIScenario(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId, @RequestParam("uiScenarioId") UIScenarioId uiScenarioId,
+                                          @RequestParam("screenshotStoryDocId") StoryDocId screenshotStoryDocId, @RequestParam("screenshotBlockId") BlockId screenshotBlockId, @RequestParam("screenshotCollectionId") ScreenShotCollectionId screenshotCollectionId, @RequestParam("screenshotId") ScreenShotId screenshotId,
+                                          @RequestParam("timeLineItemId") TimeLineItemId timeLineItemId) {
+        UIScenarioCoordinate scenarioCoordinate = UIScenarioCoordinate.of(storyDocId, blockId, uiScenarioId);
+        ScreenshotCoordinate screenshotCoordinate = ScreenshotCoordinate.of(screenshotStoryDocId, screenshotBlockId, screenshotCollectionId, screenshotId);
 
-        ArtifactBlockCoordinate screenshotBlockCoordinate = ArtifactBlockCoordinate.of(StoryDocId.fromString(screenshotStoryDocId), BlockId.fromString(screenshotBlockId));
-        ScreenshotCoordinate screenshotCoordinate = ScreenshotCoordinate.of(screenshotBlockCoordinate, ScreenShotCollectionId.fromString(screenshotCollectionId), ScreenShotId.fromString(screenshotId));
-
-        uiService.addScreenShotToUIScenario(scenarioCoordinate, screenshotCoordinate, TimeLineItemId.fromString(timeLineItemId));
+        uiService.addScreenShotToUIScenario(scenarioCoordinate, screenshotCoordinate, timeLineItemId);
     }
 
 
     @PostMapping(value = "/screenshotcollection", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ScreenShotCollectionId createScreenShotCollection(String storyDocId, String blockId, String name) {
-        ArtifactBlockCoordinate coordinate = ArtifactBlockCoordinate.of(new StoryDocId(storyDocId), new BlockId(blockId));
+    public ScreenShotCollectionId createScreenShotCollection(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId, String name) {
+        BlockCoordinate coordinate = BlockCoordinate.of(storyDocId, blockId);
         return uiService.createScreenShotCollection(coordinate, name);
     }
 
     @GetMapping(value="/screenshotcollection", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ScreenShotCollectionDTO getScreenShotCollection(String storyDocId, String blockId, String id) {
-        ArtifactBlockCoordinate blockCoordinate = ArtifactBlockCoordinate.of(new StoryDocId(storyDocId), new BlockId(blockId));
-        return uiQueryService.getScreenShotCollection(ScreenshotCollectionCoordinate.of(blockCoordinate, ScreenShotCollectionId.fromString(id)));
+    public ScreenShotCollectionDTO getScreenShotCollection(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId, @RequestParam("id") ScreenShotCollectionId id) {
+        return uiQueryService.getScreenShotCollection(ScreenshotCollectionCoordinate.of(storyDocId, blockId, id));
     }
 
     @PostMapping(value = "/screenshot", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @SneakyThrows
-    public ScreenShotId addScreenshotToCollection(MultipartFile file, String storyDocId, String blockId, String screenshotCollectionId, String name) {
-        ArtifactBlockCoordinate blockCoordinate = ArtifactBlockCoordinate.of(new StoryDocId(storyDocId), new BlockId(blockId));
-        ScreenshotCollectionCoordinate collectionCoordinate = ScreenshotCollectionCoordinate.of(blockCoordinate, ScreenShotCollectionId.fromString(screenshotCollectionId));
+    public ScreenShotId addScreenshotToCollection(MultipartFile file, @RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId, @RequestParam("screenshotCollectionId") ScreenShotCollectionId screenshotCollectionId, String name) {
+        ScreenshotCollectionCoordinate collectionCoordinate = ScreenshotCollectionCoordinate.of(storyDocId, blockId, screenshotCollectionId);
         return uiService.uploadScreenShotToCollection(collectionCoordinate, file.getInputStream(), name);
     }
 
     @SneakyThrows
     @GetMapping("/screenshot/{storyDocId}/{blockId}/{screenshotCollectionId}/{screenshotId}")
-    public void downloadScreenshot(HttpServletResponse httpServletResponse, @PathVariable("storyDocId") String storyDocId, @PathVariable("blockId") String blockId, @PathVariable("screenshotCollectionId") String screenshotCollectionId, @PathVariable("screenshotId") String screenshotId)  {
-        ArtifactBlockCoordinate blockCoordinate = ArtifactBlockCoordinate.of(new StoryDocId(storyDocId), new BlockId(blockId));
-        ScreenshotCollectionCoordinate collectionCoordinate = ScreenshotCollectionCoordinate.of(blockCoordinate, ScreenShotCollectionId.fromString(screenshotCollectionId));
-        InputStream inputStream = uiQueryService.getScreenshot(collectionCoordinate, ScreenShotId.fromString(screenshotId));
+    public void downloadScreenshot(HttpServletResponse httpServletResponse, @PathVariable("storyDocId") StoryDocId storyDocId, @PathVariable("blockId") BlockId blockId, @PathVariable("screenshotCollectionId") ScreenShotCollectionId screenshotCollectionId, @PathVariable("screenshotId") ScreenShotId screenshotId)  {
+        ScreenshotCollectionCoordinate collectionCoordinate = ScreenshotCollectionCoordinate.of(storyDocId, blockId, screenshotCollectionId);
+        InputStream inputStream = uiQueryService.getScreenshot(collectionCoordinate, screenshotId);
         ServletOutputStream outputStream = httpServletResponse.getOutputStream();
         inputStream.transferTo(outputStream);
         outputStream.flush();

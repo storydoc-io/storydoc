@@ -69,7 +69,15 @@ public class StoryDoc {
         storage.renameDocument(id, new_name);
     }
 
-    public void renameBlock(ArtifactBlockCoordinate blockCoordinate, String new_name) {
+    public void renameBlock(BlockCoordinate blockCoordinate, String new_name) {
         storage.renameBlock(blockCoordinate, new_name);
+    }
+
+    public void renameArtifact(BlockCoordinate blockCoordinate, ArtifactId artifactId, String new_name) {
+        storage.renameArtifact(blockCoordinate, artifactId, new_name);
+    }
+
+    public void moveBlock(BlockCoordinate blockToMove, BlockCoordinate newParent, int childIndexInParent) {
+        storage.moveBlock(blockToMove, newParent, childIndexInParent);
     }
 }

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import io.storydoc.server.storydoc.app.StoryDocQueryService;
 import io.storydoc.server.storydoc.app.StoryDocService;
-import io.storydoc.server.storydoc.domain.ArtifactBlockCoordinate;
+import io.storydoc.server.storydoc.domain.BlockCoordinate;
 import io.storydoc.server.storydoc.domain.ArtifactId;
 import io.storydoc.server.storydoc.domain.ItemId;
 import io.storydoc.server.storydoc.domain.action.ArtifactLoadContext;
@@ -105,7 +105,7 @@ public class UIStorageImpl implements UIStorage {
     }
 
     @Override
-    public ResourceUrn getScreenshotUrn(ArtifactBlockCoordinate blockCoordinate, ScreenShotId screenshotId) {
+    public ResourceUrn getScreenshotUrn(BlockCoordinate blockCoordinate, ScreenShotId screenshotId) {
         return storyDocQueryService.getArtifactBlockFolder(blockCoordinate).resolve(getRelativeScreenshotArtifactResourceUrn(screenshotId));
     }
 

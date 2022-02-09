@@ -2,13 +2,12 @@ package io.storydoc.server.storydoc.app;
 
 import io.storydoc.server.storydoc.app.dto.StoryDocDTO;
 import io.storydoc.server.storydoc.app.dto.StoryDocSummaryDTO;
+import io.storydoc.server.storydoc.domain.BlockCoordinate;
+import io.storydoc.server.storydoc.domain.ArtifactId;
 import io.storydoc.server.storydoc.domain.BlockId;
 import io.storydoc.server.storydoc.domain.StoryDocId;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,13 +39,35 @@ public class StoryDocRestController {
         return storyDocService.createDocument(name);
     }
 
+    @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void changeDocumentName(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("name") String name) {
+        storyDocService.renameDocument(storyDocId,name);
+    }
+
+    @DeleteMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void removeDocument(@RequestParam("storyDocId") StoryDocId storyDocId) {
+        storyDocService.removeDocument(storyDocId);
+    }
+
     @PostMapping(value = "/addblock", produces = MediaType.APPLICATION_JSON_VALUE)
     public BlockId addBlock(StoryDocId storyDocId, String name) {
         return storyDocService.addArtifactBlock(storyDocId, name);
     }
 
-    @PostMapping(value = "/removeblock", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void removeBlock(StoryDocId storyDocId, BlockId blockId1) {
+    @PutMapping(value = "/renameblock", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void renameBlock(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId")  BlockId blockId, @RequestParam("name") String name) {
+        BlockCoordinate blockCoordinate = BlockCoordinate.of(storyDocId,blockId);
+        storyDocService.renameBlock(blockCoordinate, name);
+    }
+
+    @PutMapping(value = "/renameartifact", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void renameArtifact(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId")  BlockId blockId, @RequestParam("artifactId") ArtifactId artifactId, @RequestParam("name") String name) {
+        BlockCoordinate blockCoordinate = BlockCoordinate.of(storyDocId,blockId);
+        storyDocService.renameArtifact(blockCoordinate, artifactId, name);
+    }
+
+    @DeleteMapping(value = "/removeblock", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void removeBlock(@RequestParam("storyDocId")  StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId1) {
         storyDocService.removeBlock(storyDocId, blockId1);
     }
 

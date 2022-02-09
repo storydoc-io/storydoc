@@ -20,17 +20,18 @@ import { ScreenshotCollectionPageComponent } from './screenshot-collection-page/
 import { CreateScreenshotDialogComponent } from './screenshot-collection-page/create-screenshot-dialog/create-screenshot-dialog.component';
 import { AddScreenshotDialogComponent } from './uiscenario-page/add-screenshot-dialog/add-screenshot-dialog.component';
 import { PopupMenuComponent } from './common/popup-menu/popup-menu.component';
+import { PopupMenuComponent2 } from './common/popup-menu2/popup-menu.component';
 import { Layout2ColComponent } from './common/layout-2col/layout-2col.component';
 import { Layout1ColComponent } from './common/layout-1col/layout-1col.component';
 import { TimelinePageComponent } from './timeline-page/timeline-page.component';
 import { CreateItemDialogComponent } from './timeline-page/create-item-dialog/create-item-dialog.component';
 import { TimeLineSelectionPanelComponent } from './uiscenario-page/time-line-selection-panel/time-line-selection-panel.component';
-import { TimeLineModelSelectionDialogComponent } from './uiscenario-page/time-line-model-selection-dialog/time-line-model-selection-dialog.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BorderComponent } from './common/border/border.component';
 import { ScreenshotPanelComponent } from './uiscenario-page/screenshot-panel/screenshot-panel.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ScreenshotThumbnailComponent } from './uiscenario-page/screenshot-thumbnail/screenshot-thumbnail.component';
+import { ConfirmationDialogComponent } from './common/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -51,15 +52,16 @@ import { ScreenshotThumbnailComponent } from './uiscenario-page/screenshot-thumb
     CreateScreenshotDialogComponent,
     AddScreenshotDialogComponent,
     PopupMenuComponent,
+    PopupMenuComponent2,
     Layout2ColComponent,
     Layout1ColComponent,
     TimelinePageComponent,
     CreateItemDialogComponent,
     TimeLineSelectionPanelComponent,
-    TimeLineModelSelectionDialogComponent,
     BorderComponent,
     ScreenshotPanelComponent,
     ScreenshotThumbnailComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [
     DragDropModule,

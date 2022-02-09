@@ -16,26 +16,27 @@
   <div *ngIf="summaries$ | async as summaries; else loading">
     <ul class="list-group">
       <li *ngFor="let summary of summaries" class="list-group-item" >
-        <a (contextmenu)="openMenu($event)" routerLink="/document/{{summary.storyDocId.id}}">{{summary.name}}</a>
+        <a (contextmenu)="openMenu($event, summary)" routerLink="/document/{{summary.storyDocId.id}}">{{summary.name}}</a>
       </li>
-      <app-popup-menu>
-        <p class="title"><b>Choose an item</b></p>
+      <app-popup-menu2>
         <div class="items">
-          <p (click)="itemSelected(1)">Item One</p>
-          <p (click)="itemSelected(2)">Item Two</p>
-          <p (click)="itemSelected(3)">Item Three</p>
-          <p (click)="itemSelected(4)">Item Four</p>
+          <p (click)="renameDocument()">Rename</p>
+          <p (click)="deleteDocument()">Delete</p>
         </div>
-      </app-popup-menu>
+      </app-popup-menu2>
     </ul>
   </div>
-  <div class="btn  btn-sm btn-outline-primary" (click)="openAddDocumentDialog()">Add Story</div>
+  <div class="btn  btn-sm btn-outline-primary" (click)="addDocument()">Add Story</div>
 </ng-template>
 
 <ng-template #loading>
   <ul class="list-group"></ul>
 </ng-template>
 
-<jw-modal id="add-document-dialog">
-  <app-create-document-dialog [input]="createDocumentDialogInput" (onConfirm)="confirmAddDocumentDialog($event)" (onCancel)="cancelAddDocumentDialog()"></app-create-document-dialog>
+<jw-modal [id]="documentDialogId()">
+  <app-create-document-dialog [input]="documentDialogSpec"></app-create-document-dialog>
+</jw-modal>
+
+<jw-modal [id]="confirmationDialogId()">
+  <app-confirmation-dialog [spec]="confirmationDialogSpec"></app-confirmation-dialog>
 </jw-modal>
