@@ -7,9 +7,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import io.storydoc.server.storydoc.app.StoryDocQueryService;
 import io.storydoc.server.storydoc.app.StoryDocService;
-import io.storydoc.server.storydoc.domain.ArtifactId;
-import io.storydoc.server.storydoc.domain.action.ArtifactLoadContext;
-import io.storydoc.server.storydoc.domain.action.ArtifactSaveContext;
 import io.storydoc.server.timeline.domain.TimeLineCoordinate;
 import io.storydoc.server.timeline.domain.TimeLineItemId;
 import io.storydoc.server.timeline.domain.TimeLineModelCoordinate;
@@ -61,8 +58,8 @@ public class TimeLineStoreImpl implements TimeLineStore {
         timeLineModel.setId(timeLineModelCoordinate.getTimeLineModelId().getId());
         timeLineModel.setTimeLines(timeLines);
 
-        storyDocService.addArtifact(timeLineModelCoordinate.getBlockCoordinate().getStoryDocId(), timeLineModelCoordinate.getBlockCoordinate().getBlockId(), ArtifactId.fromString(timeLineModelCoordinate.getTimeLineModelId().getId()),
-                io.storydoc.server.timeline.domain.TimeLineModel.ARTIFACT_TYPE, name);
+        storyDocService.addArtifact(timeLineModelCoordinate.getBlockCoordinate(), timeLineModelCoordinate.getTimeLineModelId().asArtifactId(),
+                io.storydoc.server.timeline.domain.TimeLineModel.ARTIFACT_TYPE, name );
         save(timeLineModelCoordinate, timeLineModel);
 
     }
@@ -84,12 +81,8 @@ public class TimeLineStoreImpl implements TimeLineStore {
     }
 
     private void save(TimeLineModelCoordinate timeLineModelCoordinate, TimeLineModel timeLineModel) {
-        storyDocService.saveArtifact(ArtifactSaveContext.builder()
-                .storyDocId(timeLineModelCoordinate.getBlockCoordinate().getStoryDocId())
-                .blockId(timeLineModelCoordinate.getBlockCoordinate().getBlockId())
-                .relativeUrn(getRelativeUrn(timeLineModelCoordinate))
-                .serializer((OutputStream os) -> { write(timeLineModel, os);})
-                .build());
+        storyDocService.saveArtifact(timeLineModelCoordinate.asArtifactCoordinate(),
+                (OutputStream os) -> { write(timeLineModel, os);});
     }
 
     private void write(TimeLineModel timeLineModel, OutputStream outputStream) throws IOException {
@@ -109,11 +102,7 @@ public class TimeLineStoreImpl implements TimeLineStore {
 
     @Override
     public TimeLineModel loadTimeLineModel(TimeLineModelCoordinate timeLineModelCoordinate) {
-        return storyDocService.loadArtifact(ArtifactLoadContext.builder()
-                .blockCoordinate(timeLineModelCoordinate.getBlockCoordinate())
-                .relativeUrn(getRelativeUrn(timeLineModelCoordinate))
-                .deserializer(this::read)
-                .build());
+        return storyDocService.loadArtifact(timeLineModelCoordinate.asArtifactCoordinate(),this::read);
     }
 
     private TimeLineModel read(InputStream inputStream) throws IOException {

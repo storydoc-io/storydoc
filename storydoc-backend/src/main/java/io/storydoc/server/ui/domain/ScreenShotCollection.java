@@ -1,8 +1,9 @@
 package io.storydoc.server.ui.domain;
 
-import io.storydoc.server.ui.domain.action.UploadScreenShotToCollectionAction;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+
+import java.io.InputStream;
 
 @Builder
 @AllArgsConstructor
@@ -12,7 +13,7 @@ public class ScreenShotCollection {
     private final ScreenshotCollectionCoordinate collectionCoordinate;
     private final UIStorage uiStorage;
 
-    public void uploadScreenShot(UploadScreenShotToCollectionAction action) {
-        uiStorage.uploadScreenShot(action);
+    public ScreenShotId uploadScreenShot(ScreenshotCollectionCoordinate collectionCoordinate, InputStream inputStream, String name) {
+        return uiStorage.uploadScreenShot(collectionCoordinate, inputStream, name);
     }
 }

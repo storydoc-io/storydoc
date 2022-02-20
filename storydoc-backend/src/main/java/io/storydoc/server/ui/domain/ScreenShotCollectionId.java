@@ -6,6 +6,7 @@ import java.util.Objects;
 
 public class ScreenShotCollectionId {
 
+    public static final String ID_PREFIX = "screenshot-collection";
     private String id;
 
     private ScreenShotCollectionId() {}

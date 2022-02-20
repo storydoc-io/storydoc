@@ -28,7 +28,7 @@ public class UIRestController {
     }
 
     @GetMapping(value="/uiscenario", produces = MediaType.APPLICATION_JSON_VALUE)
-    public UIScenarioDTO getMockUI(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId, @RequestParam("id") UIScenarioId id) {
+    public UIScenarioDTO getUIScenario(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId, @RequestParam("id") UIScenarioId id) {
         UIScenarioCoordinate scenarioCoordinate = UIScenarioCoordinate.of(storyDocId, blockId,  id);
         return uiQueryService.getUIScenario(scenarioCoordinate);
     }

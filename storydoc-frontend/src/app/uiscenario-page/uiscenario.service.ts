@@ -1,6 +1,9 @@
+import {environment} from "../../environments/environment";
 import {Injectable, OnDestroy} from '@angular/core';
+import {BehaviorSubject, Subscription} from "rxjs";
+import {distinctUntilChanged, map, tap} from "rxjs/operators";
 import {
-  ArtifactBlockCoordinate,
+  BlockCoordinate,
   BlockId,
   ScreenshotCoordinate,
   StoryDocId,
@@ -12,15 +15,17 @@ import {
   TimeLineModelSummaryDto,
   UiScenarioDto
 } from "@storydoc/models";
-import {BehaviorSubject, Subscription} from "rxjs";
-import {distinctUntilChanged, map, tap} from "rxjs/operators";
-import {UiRestControllerService} from "../api/services/ui-rest-controller.service";
-import {TimeLineControllerService} from "../api/services/time-line-controller.service";
+import {TimeLineControllerService, UiRestControllerService} from "@storydoc/services";
 import {TimeLineSelection} from "./time-line-selection-panel/time-line-selection-panel.component";
 
 interface TimelineModelSelectionState {
-  selectedTimeLineModelSummary?: TimeLineModelSummaryDto,
-  timeLineModelSummaries?: TimeLineModelSummaryDto[]
+  models?: TimeLineModelSummaryDto[]
+  selectedCoord?: TimeLineModelCoordinate,
+}
+
+export interface TimeLineSelectionState {
+  timeLineModel?: TimeLineModelDto,
+  timeLineId?: TimeLineId
 }
 
 interface UIScenarioState {
@@ -28,9 +33,16 @@ interface UIScenarioState {
   blockId?: BlockId,
   uiScenarioId?: string,
   uiScenarioDto?: UiScenarioDto,
-  timelineModelSelectionState?: TimelineModelSelectionState
-  selectedTimeLineModelDto?: TimeLineModelDto,
+  modelSelection?: TimelineModelSelectionState
+  timeLineSelection?: TimeLineSelectionState,
 }
+
+function log(msg?: any, param1?: any, param2?: any) {
+  if (!environment.production) {
+    console.log('UIScenarioService::'+msg, param1, param2)
+  }
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -44,8 +56,8 @@ export class UIScenarioService implements OnDestroy {
     this.init()
   }
 
-  private store = new BehaviorSubject<UIScenarioState>({})
-  private state$ = this.store.asObservable()
+  private store = new BehaviorSubject<UIScenarioState>({ modelSelection: null, timeLineSelection: null})
+  state$ = this.store.asObservable()
 
   public get storyDocId() {
     return this.store.getValue()?.storyDocId;
@@ -61,23 +73,29 @@ export class UIScenarioService implements OnDestroy {
 
   uiScenario$ = this.state$.pipe(
     map(state => state.uiScenarioDto),
-    distinctUntilChanged()
-  )
-
-  timeLineModel$ = this.state$.pipe(
-    map(state => state.selectedTimeLineModelDto),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   )
 
   timeLineModelSelection$ = this.state$.pipe(
-    map(state => state.timelineModelSelectionState),
+    map(state => state.modelSelection),
     distinctUntilChanged(),
-    tap(dto => console.log('timeLineModelSelection$', dto))
+  )
+
+  timeLineSelection$ = this.state$.pipe(
+    map(state => state.timeLineSelection),
+    distinctUntilChanged(),
+  )
+
+  timeLineModel$ = this.state$.pipe(
+    map(state => state.timeLineSelection?.timeLineModel),
+    distinctUntilChanged(),
   )
 
   private subscriptions: Subscription[] = []
 
   init(): void {
+    log('init()')
+    this.subscriptions.push(this.logStateChanges())
     this.subscriptions.push(this.refreshTimeLineModelWhenScenarioUpdates())
     this.subscriptions.push(this.refreshTimeLineModelSummariesWhenScenarioUpdates())
   }
@@ -87,23 +105,27 @@ export class UIScenarioService implements OnDestroy {
   }
 
   loadUIScenario(params: { storyDocId: StoryDocId, blockId: BlockId, uiScenarioId: string }) {
+    log("loadUIScenario(params)", params)
     this.store.next(params)
     this.reloadScenario()
   }
 
   public selectTimeLineModel(coord: TimeLineModelCoordinate) {
+    log("selectTimeLineModel(coord)", coord)
     if (coord) {
-      this.timeLineControllerService.getTimeLineModelUsingGet({
-        storyDocId: coord.blockCoordinate.storyDocId.id,
-        blockId: coord.blockCoordinate.blockId.id,
-        timeLineModelId: coord.timeLineModelId.id
-      }).subscribe({
-        next: (value => this.reloadScenario())
+      this.store.next({
+        ... this.store.getValue(),
+        modelSelection: {
+          ... this.store.getValue().modelSelection,
+          selectedCoord: coord
+        }
       })
+      this.reloadTimeLineModel(coord, null)
     }
   }
 
   public setScenarioTimeLine(selection: TimeLineSelection) {
+    log('setScenarioTimeLine(selection)', selection)
     this.uiRestControllerService.setUiScenarioTimeLineUsingPost({
       storyDocId: this.storyDocId.id,
       blockId: this.blockId.id,
@@ -120,6 +142,7 @@ export class UIScenarioService implements OnDestroy {
   }
 
   public addScreenshotToScenario(screenshotCoordinate: ScreenshotCoordinate, timeLineItemId: TimeLineItemId) {
+    log('addScreenshotToScenario(screenshotCoordinate, timeLineItemId)', screenshotCoordinate, timeLineItemId)
     this.uiRestControllerService.addScreenshotToUiScenarioUsingPost({
       storyDocId: this.storyDocId.id,
       blockId: this.blockId.id,
@@ -135,22 +158,26 @@ export class UIScenarioService implements OnDestroy {
   }
 
   private reloadScenario() {
-    this.uiRestControllerService.getMockUiUsingGet({
+    log('reloadScenario()')
+    this.uiRestControllerService.getUiScenarioUsingGet({
       storyDocId: this.storyDocId.id,
       blockId: this.blockId.id,
       id: this.uiScenarioId
     }).subscribe({
-      next: dto => this.store.next({
-        ...this.store.getValue(),
-        uiScenarioDto: dto
-      })
+      next: dto => {
+        let next = {
+          ...this.store.getValue(),
+          uiScenarioDto: dto,
+        }
+        this.store.next(next)}
     })
   }
 
   private refreshTimeLineModelWhenScenarioUpdates(): Subscription {
     return this.uiScenario$.subscribe({
       next: uiScenario => {
-        if (uiScenario) {
+        log('uiScenario$-->refreshTimeLineModelWhenScenarioUpdates()')
+        if (uiScenario && uiScenario.timeLineModelCoordinate) {
           this.reloadTimeLineModel(uiScenario.timeLineModelCoordinate, uiScenario.timeLineId)
         }
       }
@@ -160,6 +187,7 @@ export class UIScenarioService implements OnDestroy {
   private refreshTimeLineModelSummariesWhenScenarioUpdates(): Subscription {
     return this.uiScenario$.subscribe({
       next: uiScenario => {
+        log('uiScenario$-->refreshTimeLineModelSummariesWhenScenarioUpdates()')
         if (uiScenario) {
           this.reloadTimelineModelSummaries(uiScenario)
         }
@@ -167,31 +195,47 @@ export class UIScenarioService implements OnDestroy {
     })
   }
 
-  private reloadTimeLineModel(timeLineModelCoordinate: TimeLineModelCoordinate, timeLineId: TimeLineId) {
+  private reloadTimeLineModel(coord: TimeLineModelCoordinate, timeLineId: TimeLineId) {
+    log('reloadTimeLineModel(coord)', coord)
     this.timeLineControllerService.getTimeLineModelUsingGet({
-      storyDocId: timeLineModelCoordinate.blockCoordinate.storyDocId.id,
-      blockId: timeLineModelCoordinate.blockCoordinate.blockId.id,
-      timeLineModelId: timeLineModelCoordinate.timeLineModelId.id
+      storyDocId: coord.blockCoordinate.storyDocId.id,
+      blockId: coord.blockCoordinate.blockId.id,
+      timeLineModelId: coord.timeLineModelId.id
     }).subscribe({
-      next: dto => this.store.next({
-        ...this.store.getValue(),
-        selectedTimeLineModelDto: dto
-      })
-    })
+      next: (dto) => {
+        let nextValue = <UIScenarioState>{
+          ...this.store.getValue(),
+          modelSelection: {
+            ... this.store.getValue().modelSelection,
+            selectedCoord2: dto.timeLineModelCoordinate,
+            selectedCoord: dto.timeLineModelCoordinate
+          },
+          timeLineSelection: {
+            ... this.store.getValue().timeLineSelection,
+            timeLineModel:  dto,
+            timeLineId
+          },
+        }
+        this.store.next(nextValue)
+    }})
   }
 
   private reloadTimelineModelSummaries(uiScenario: UiScenarioDto) {
+    log('reloadTimelineModelSummaries(uiScenario)', uiScenario)
     this.timeLineControllerService.getTimeLineModelSummariesUsingGet({
       storyDocId: this.storyDocId.id,
       blockId: this.blockId.id
     }).subscribe({
-      next: (summaries => this.store.next({
-        ...this.store.getValue(),
-        timelineModelSelectionState: {
-          timeLineModelSummaries: summaries,
-          selectedTimeLineModelSummary: summaries.find(summary => this.equalTimeLineModelCoord(summary.timeLineModelCoordinate, uiScenario.timeLineModelCoordinate)),
+      next: (summaries => {
+        let nextValue = {
+          ...this.store.getValue(),
+          modelSelection: {
+            ... this.store.getValue().modelSelection,
+            models: summaries,
+            // selectedCoord: summaries.find(summary => this.equalTimeLineModelCoord(summary.timeLineModelCoordinate, uiScenario.timeLineModelCoordinate))?.timeLineModelCoordinate,
+          }
         }
-      }))
+        this.store.next(nextValue)})
     })
 
   }
@@ -201,7 +245,7 @@ export class UIScenarioService implements OnDestroy {
   }
 
   private equalTimeLineModelCoord(coord1: TimeLineModelCoordinate, coord2: TimeLineModelCoordinate): boolean {
-    return this.equalTimeLineModelId(coord1.timeLineModelId, coord2.timeLineModelId) && this.equalBlockCoordinate(coord1.blockCoordinate, coord2.blockCoordinate)
+    return this.equalTimeLineModelId(coord1?.timeLineModelId, coord2?.timeLineModelId) && this.equalBlockCoordinate(coord1?.blockCoordinate, coord2?.blockCoordinate)
   }
 
   private equalTimeLineId(id1: TimeLineId, id2: TimeLineId): boolean {
@@ -212,7 +256,11 @@ export class UIScenarioService implements OnDestroy {
     return id1?.id === id2?.id;
   }
 
-  private equalBlockCoordinate(coord1: ArtifactBlockCoordinate, coord2: ArtifactBlockCoordinate): boolean {
-    return coord1.storyDocId?.id === coord2?.storyDocId.id && coord1?.blockId.id === coord2?.blockId.id;
+  private equalBlockCoordinate(coord1: BlockCoordinate, coord2: BlockCoordinate): boolean {
+    return coord1?.storyDocId.id === coord2?.storyDocId.id && coord1?.blockId.id === coord2?.blockId.id;
+  }
+
+  private logStateChanges() {
+    return this.state$.subscribe((state)=> { log('   state$ >> ', state) })
   }
 }

@@ -1,7 +1,7 @@
-<div class="modal-dialog">
+<div class="modal-dialog" *ngIf="spec">
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title">Add Paragraph</h5>
+      <h5 class="modal-title">{{spec.mode==='NEW'? 'Create' : 'Edit'}} Block</h5>
       <button type="button" class="btn-close" (click)="cancel()"></button>
     </div>
     <div class="modal-body">
@@ -9,7 +9,7 @@
         <div class="mb-3">
           <label for="name" class="form-label">Name</label>
           <input formControlName="name" type="text" class="form-control">
-          <div id="name" class="form-text">Enter a name for the paragraph.</div>
+          <div id="name" class="form-text">Enter a name for the block.</div>
         </div>
       </form>
     </div>

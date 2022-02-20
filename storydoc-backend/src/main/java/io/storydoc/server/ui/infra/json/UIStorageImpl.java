@@ -8,15 +8,10 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import io.storydoc.server.storydoc.app.StoryDocQueryService;
 import io.storydoc.server.storydoc.app.StoryDocService;
 import io.storydoc.server.storydoc.domain.BlockCoordinate;
-import io.storydoc.server.storydoc.domain.ArtifactId;
 import io.storydoc.server.storydoc.domain.ItemId;
-import io.storydoc.server.storydoc.domain.action.ArtifactLoadContext;
-import io.storydoc.server.storydoc.domain.action.ArtifactSaveContext;
 import io.storydoc.server.timeline.domain.TimeLineCoordinate;
 import io.storydoc.server.timeline.domain.TimeLineItemId;
 import io.storydoc.server.ui.domain.*;
-import io.storydoc.server.ui.domain.action.CreateScreenShotCollectionArtifactAction;
-import io.storydoc.server.ui.domain.action.UploadScreenShotToCollectionAction;
 import io.storydoc.server.workspace.domain.FolderURN;
 import io.storydoc.server.workspace.domain.ResourceUrn;
 import org.springframework.stereotype.Component;
@@ -55,21 +50,20 @@ public class UIStorageImpl implements UIStorage {
         UIScenario.setId(scenarioCoordinate.getUiScenarioId().getId());
         UIScenario.setScreenshots(new ArrayList<>());
 
-        storyDocService.addArtifact(scenarioCoordinate.getBlockCoordinate().getStoryDocId(), scenarioCoordinate.getBlockCoordinate().getBlockId(), ArtifactId.fromString(scenarioCoordinate.getUiScenarioId().getId()),
-                io.storydoc.server.ui.domain.UIScenario.ARTIFACT_TYPE, name);
+        storyDocService.addArtifact(scenarioCoordinate.getBlockCoordinate(), scenarioCoordinate.getUiScenarioId().asArtifactId(),
+                io.storydoc.server.ui.domain.UIScenario.ARTIFACT_TYPE, name) ;
         save(scenarioCoordinate, UIScenario);
     }
 
     @Override
-    public void createScreenshotCollection(CreateScreenShotCollectionArtifactAction action) {
-        ArtifactId artifactId = storyDocService.createBinaryCollectionArtifact(action.getCoordinate(), ScreenShotCollection.ARTIFACT_TYPE, "image", action.getName());
-        action.setCollectionId(ScreenShotCollectionId.fromString(artifactId.getId()));
+    public void createScreenshotCollection(BlockCoordinate coordinate, ScreenShotCollectionId screenShotCollectionId, String name) {
+        storyDocService.createBinaryCollectionArtifact(coordinate, screenShotCollectionId.asArtifactId(), ScreenShotCollection.ARTIFACT_TYPE, "image", name);
     }
 
     @Override
-    public void uploadScreenShot(UploadScreenShotToCollectionAction action) {
-        ItemId itemId = storyDocService.addItemToBinaryCollection(action.getCollectionCoordinate().getBlockCoordinate(), action.getCollectionCoordinate().getScreenShotCollectionId().asArtifactId(), action.getName(), action.getInputStream());
-        action.setScreenshotId(ScreenShotId.fromString(itemId.getId()));
+    public ScreenShotId uploadScreenShot(ScreenshotCollectionCoordinate collectionCoordinate, InputStream inputStream, String name) {
+        ItemId itemId = storyDocService.addItemToBinaryCollection(collectionCoordinate.getBlockCoordinate(), collectionCoordinate.getScreenShotCollectionId().asArtifactId(), name, inputStream);
+        return ScreenShotId.fromString(itemId.getId());
     }
 
     @Override
@@ -88,12 +82,7 @@ public class UIStorageImpl implements UIStorage {
     }
 
     private void save(UIScenarioCoordinate scenarioCoordinate, UIScenario UIScenario) {
-        storyDocService.saveArtifact(ArtifactSaveContext.builder()
-            .storyDocId(scenarioCoordinate.getBlockCoordinate().getStoryDocId())
-            .blockId(scenarioCoordinate.getBlockCoordinate().getBlockId())
-            .relativeUrn(getRelativeUIArtifactResourceUrn(UIScenarioId.fromString(UIScenario.getId())))
-            .serializer((OutputStream os) -> { write(UIScenario, os);})
-            .build());
+        storyDocService.saveArtifact(scenarioCoordinate.asArtifactCoordinate(), (OutputStream os) -> { write(UIScenario, os);});
     }
 
     private void write(UIScenario UIScenario, OutputStream outputStream) throws IOException {
@@ -105,27 +94,30 @@ public class UIStorageImpl implements UIStorage {
     }
 
     @Override
-    public ResourceUrn getScreenshotUrn(BlockCoordinate blockCoordinate, ScreenShotId screenshotId) {
-        return storyDocQueryService.getArtifactBlockFolder(blockCoordinate).resolve(getRelativeScreenshotArtifactResourceUrn(screenshotId));
+    public ResourceUrn getScreenshotUrn(ScreenshotCollectionCoordinate collectionCoordinate, ScreenShotId screenshotId) {
+        return storyDocQueryService.getArtifactItemUrn(collectionCoordinate.asArtifactCoordinate(), screenshotId.asItemId());
     }
-
-
 
     private ResourceUrn getRelativeUIArtifactResourceUrn(UIScenarioId UIScenarioId) {
         return new ResourceUrn( new FolderURN(List.of()), UIScenarioId.getId() + ".json");
     }
 
-    private ResourceUrn getRelativeScreenshotArtifactResourceUrn(ScreenShotId screenshotId) {
-        return new ResourceUrn( new FolderURN(List.of()), screenshotId.getId());
+    private FolderURN getRelativeScreenshotCollectionFolderUrn(ScreenShotCollectionId screenShotCollectionId) {
+        return new FolderURN(List.of(screenShotCollectionId.getId()));
+    }
+
+
+    private ResourceUrn getRelativeScreenshotCollectionUrn(ScreenShotCollectionId screenShotCollectionId) {
+        return new ResourceUrn( new FolderURN(List.of()), screenShotCollectionId.getId());
+    }
+
+    private ResourceUrn getRelativeScreenshotUrn(ScreenShotId screenShotId) {
+        return new ResourceUrn( new FolderURN(List.of()), screenShotId.getId());
     }
 
     @Override
     public UIScenario loadUIScenario(UIScenarioCoordinate scenarioCoordinate) {
-        return storyDocService.loadArtifact(ArtifactLoadContext.builder()
-                .relativeUrn(getRelativeUIArtifactResourceUrn(scenarioCoordinate.getUiScenarioId()))
-                .blockCoordinate(scenarioCoordinate.getBlockCoordinate())
-                .deserializer(this::read)
-                .build());
+        return storyDocService.loadArtifact(scenarioCoordinate.asArtifactCoordinate(), this::read);
     }
 
     private UIScenario read(InputStream inputStream) throws IOException {

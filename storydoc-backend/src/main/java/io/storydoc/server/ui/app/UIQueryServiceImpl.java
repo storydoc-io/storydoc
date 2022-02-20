@@ -101,6 +101,6 @@ public class UIQueryServiceImpl implements UIQueryService {
 
     @Override
     public InputStream getScreenshot(ScreenshotCollectionCoordinate collectionCoordinate, ScreenShotId screenShotId) throws WorkspaceException {
-        return storyDocQueryService.getBinaryFromCollection(collectionCoordinate.getBlockCoordinate(), collectionCoordinate.getScreenShotCollectionId().asArtifactId(), screenShotId.asItemId());
+        return storyDocQueryService.getBinaryFromCollection(collectionCoordinate.asArtifactCoordinate(), screenShotId.asItemId());
     }
 }

@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {CodeRestControllerService} from "../api/services/code-rest-controller.service";
 import {Observable} from "rxjs";
-import {CodeTraceDto} from "../api/models/code-trace-dto";
-import {CodeTraceItemDto} from "../api/models/code-trace-item-dto";
+import {CodeTraceDto, CodeTraceItemDto} from "@storydoc/models";
+import {CodeRestControllerService} from "@storydoc/services";
 
 @Component({
   selector: 'app-code-trace-page',

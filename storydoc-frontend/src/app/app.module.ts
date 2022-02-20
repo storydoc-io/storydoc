@@ -1,6 +1,7 @@
+import {environment} from "../environments/environment";
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {ModalComponent} from './common/modal.component'
+import {ModalComponent} from '@storydoc/common'
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {DocumentComponent} from './document/document.component';
@@ -19,8 +20,7 @@ import {CreateArtifactDialogComponent} from './document/create-artifact-dialog/c
 import {ScreenshotCollectionPageComponent} from './screenshot-collection-page/screenshot-collection-page.component';
 import {CreateScreenshotDialogComponent} from './screenshot-collection-page/create-screenshot-dialog/create-screenshot-dialog.component';
 import {AddScreenshotDialogComponent} from './uiscenario-page/add-screenshot-dialog/add-screenshot-dialog.component';
-import {PopupMenuComponent} from './common/popup-menu/popup-menu.component';
-import {PopupMenuComponent2} from './common/popup-menu2/popup-menu.component';
+import {PopupMenuComponent} from '@storydoc/common';
 import {Layout2ColComponent} from './common/layout-2col/layout-2col.component';
 import {Layout1ColComponent} from './common/layout-1col/layout-1col.component';
 import {TimelinePageComponent} from './timeline-page/timeline-page.component';
@@ -31,10 +31,14 @@ import {BorderComponent} from './common/border/border.component';
 import {ScreenshotPanelComponent} from './uiscenario-page/screenshot-panel/screenshot-panel.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {ScreenshotThumbnailComponent} from './uiscenario-page/screenshot-thumbnail/screenshot-thumbnail.component';
-import {ConfirmationDialogComponent} from './common/confirmation-dialog/confirmation-dialog.component';
+import {ConfirmationDialogComponent} from '@storydoc/common';
+import {ApiModule} from "./api/api.module";
+import { ScenarioPanelComponent } from './uiscenario-page/scenario-panel/scenario-panel.component';
+import {VarDirective} from "./common/ng-var.directive";
 
 @NgModule({
   declarations: [
+    VarDirective,
     ModalComponent,
     AppComponent,
     DocumentComponent,
@@ -52,7 +56,6 @@ import {ConfirmationDialogComponent} from './common/confirmation-dialog/confirma
     CreateScreenshotDialogComponent,
     AddScreenshotDialogComponent,
     PopupMenuComponent,
-    PopupMenuComponent2,
     Layout2ColComponent,
     Layout1ColComponent,
     TimelinePageComponent,
@@ -62,8 +65,10 @@ import {ConfirmationDialogComponent} from './common/confirmation-dialog/confirma
     ScreenshotPanelComponent,
     ScreenshotThumbnailComponent,
     ConfirmationDialogComponent,
+    ScenarioPanelComponent,
   ],
   imports: [
+    ApiModule.forRoot({ rootUrl: 'http://localhost:' + environment.port }),
     DragDropModule,
     HttpClientModule,
     BrowserModule,

@@ -1,5 +1,6 @@
 package io.storydoc.server.ui.domain;
 
+import io.storydoc.server.storydoc.domain.ArtifactCoordinate;
 import io.storydoc.server.storydoc.domain.BlockCoordinate;
 import io.storydoc.server.storydoc.domain.BlockId;
 import io.storydoc.server.storydoc.domain.StoryDocId;
@@ -23,5 +24,9 @@ public class UIScenarioCoordinate {
 
     static public UIScenarioCoordinate of(BlockCoordinate blockCoordinate, UIScenarioId uiScenarioId) {
         return new UIScenarioCoordinate(blockCoordinate, uiScenarioId);
+    }
+
+    public ArtifactCoordinate asArtifactCoordinate() {
+        return ArtifactCoordinate.of(uiScenarioId.asArtifactId(), blockCoordinate);
     }
 }

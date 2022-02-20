@@ -1,7 +1,7 @@
-<div class="modal-dialog">
+<div class="modal-dialog" *ngIf="input">
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title">Create Story</h5>
+      <h5 class="modal-title">{{input.mode==='NEW'? 'Create' : 'Edit'}} Story</h5>
       <button type="button" class="btn-close" (click)="cancel()"></button>
     </div>
     <div class="modal-body">

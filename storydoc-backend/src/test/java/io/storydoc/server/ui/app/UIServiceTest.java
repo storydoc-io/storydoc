@@ -50,7 +50,7 @@ public class UIServiceTest extends TestBase {
     private UITestUtils uiTestUtils;
 
     @Test
-    public void createMockUI() {
+    public void createUIScenario() {
         // given a storydoc with a artifact block
         String story_name = "story";
         StoryDocId storyDocId = storyDocService.createDocument(story_name);

@@ -23,6 +23,10 @@
       "description": "Code Rest Controller"
     },
     {
+      "name": "redirect-to-angular",
+      "description": "Redirect To Angular"
+    },
+    {
       "name": "story-doc-rest-controller",
       "description": "Story Doc Rest Controller"
     },
@@ -66,6 +70,238 @@
           },
           "404": {
             "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/fe/**": {
+      "get": {
+        "tags": [
+          "redirect-to-angular"
+        ],
+        "summary": "redirect",
+        "operationId": "redirectUsingGET",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "redirect-to-angular"
+        ],
+        "summary": "redirect",
+        "operationId": "redirectUsingPUT",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "redirect-to-angular"
+        ],
+        "summary": "redirect",
+        "operationId": "redirectUsingPOST",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "redirect-to-angular"
+        ],
+        "summary": "redirect",
+        "operationId": "redirectUsingDELETE",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "options": {
+        "tags": [
+          "redirect-to-angular"
+        ],
+        "summary": "redirect",
+        "operationId": "redirectUsingOPTIONS",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "head": {
+        "tags": [
+          "redirect-to-angular"
+        ],
+        "summary": "redirect",
+        "operationId": "redirectUsingHEAD",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "redirect-to-angular"
+        ],
+        "summary": "redirect",
+        "operationId": "redirectUsingPATCH",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "trace": {
+        "tags": [
+          "redirect-to-angular"
+        ],
+        "summary": "redirect",
+        "operationId": "redirectUsingTRACE",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       }
@@ -283,6 +519,61 @@
           },
           "404": {
             "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/storydoc/removeartifact": {
+      "delete": {
+        "tags": [
+          "story-doc-rest-controller"
+        ],
+        "summary": "removeArtifact",
+        "operationId": "removeArtifactUsingDELETE",
+        "parameters": [
+          {
+            "name": "storyDocId",
+            "in": "query",
+            "description": "storyDocId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blockId",
+            "in": "query",
+            "description": "blockId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "artifactId",
+            "in": "query",
+            "description": "artifactId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       }
@@ -1067,8 +1358,8 @@
         "tags": [
           "ui-rest-controller"
         ],
-        "summary": "getMockUI",
-        "operationId": "getMockUIUsingGET",
+        "summary": "getUIScenario",
+        "operationId": "getUIScenarioUsingGET",
         "parameters": [
           {
             "name": "storyDocId",
@@ -1560,18 +1851,6 @@
   },
   "components": {
     "schemas": {
-      "ArtifactBlockCoordinate": {
-        "title": "ArtifactBlockCoordinate",
-        "type": "object",
-        "properties": {
-          "blockId": {
-            "$ref": "#/components/schemas/BlockId"
-          },
-          "storyDocId": {
-            "$ref": "#/components/schemas/StoryDocId"
-          }
-        }
-      },
       "ArtifactDTO": {
         "title": "ArtifactDTO",
         "type": "object",
@@ -1611,6 +1890,18 @@
         "properties": {
           "id": {
             "type": "string"
+          }
+        }
+      },
+      "BlockCoordinate": {
+        "title": "BlockCoordinate",
+        "type": "object",
+        "properties": {
+          "blockId": {
+            "$ref": "#/components/schemas/BlockId"
+          },
+          "storyDocId": {
+            "$ref": "#/components/schemas/StoryDocId"
           }
         }
       },
@@ -1894,7 +2185,7 @@
         "type": "object",
         "properties": {
           "blockCoordinate": {
-            "$ref": "#/components/schemas/ArtifactBlockCoordinate"
+            "$ref": "#/components/schemas/BlockCoordinate"
           },
           "screenShotCollectionId": {
             "$ref": "#/components/schemas/ScreenShotCollectionId"
@@ -2020,7 +2311,7 @@
         "type": "object",
         "properties": {
           "blockCoordinate": {
-            "$ref": "#/components/schemas/ArtifactBlockCoordinate"
+            "$ref": "#/components/schemas/BlockCoordinate"
           },
           "timeLineModelId": {
             "$ref": "#/components/schemas/TimeLineModelId"
@@ -2037,8 +2328,8 @@
           "storyDocSummary": {
             "$ref": "#/components/schemas/StoryDocSummaryDTO"
           },
-          "timeLineModelId": {
-            "$ref": "#/components/schemas/TimeLineModelId"
+          "timeLineModelCoordinate": {
+            "$ref": "#/components/schemas/TimeLineModelCoordinate"
           },
           "timeLines": {
             "type": "object",

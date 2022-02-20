@@ -1,9 +1,6 @@
 package io.storydoc.server.storydoc.app;
 
 import io.storydoc.server.storydoc.domain.*;
-import io.storydoc.server.storydoc.domain.action.ArtifactLoadContext;
-import io.storydoc.server.storydoc.domain.action.ArtifactSaveContext;
-import io.storydoc.server.storydoc.domain.action.SaveBinaryArtifactContext;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,23 +17,25 @@ public interface StoryDocService {
 
     void moveBlock(BlockCoordinate blockToMove, BlockCoordinate newParent, int childIndexInParent);
 
-    void removeBlock(StoryDocId storyDocId, BlockId blockId1);
+    void removeBlock(BlockCoordinate blockCoordinate);
 
     SectionId addSection(StoryDocId storyDocId);
 
     void addTag(StoryDocId storyDocId, BlockId blockId, String tag);
 
-    void addArtifact(StoryDocId storyDocId, BlockId blockId, ArtifactId artifactId, String artifactType, String name);
+    void addArtifact(BlockCoordinate blockCoordinate, ArtifactId artifactId, String artifactType, String name);
 
-    void saveArtifact(ArtifactSaveContext context);
+    void saveArtifact(ArtifactCoordinate coordinate, ArtifactSerializer serializer);
 
-    <A extends Artifact> A loadArtifact(ArtifactLoadContext artifactLoadContext);
+    <A extends Artifact> A loadArtifact(ArtifactCoordinate coordinate, ArtifactDeserializer deserializer);
 
-    void saveBinaryArtifact(SaveBinaryArtifactContext context) throws IOException;
+    void saveBinaryArtifact(ArtifactCoordinate artifactCoordinate, InputStream inputStream) throws IOException;
 
-    ArtifactId createBinaryCollectionArtifact(BlockCoordinate coordinate, String artifactType, String binaryType, String name);
+    void createBinaryCollectionArtifact(BlockCoordinate coordinate, ArtifactId artifactId, String artifactType, String binaryType, String name);
 
     ItemId addItemToBinaryCollection(BlockCoordinate coordinate, ArtifactId artifactId, String itemName, InputStream inputStream);
+
+    void removeArtifact(ArtifactCoordinate artifactCoordinate);
 
     void renameDocument(StoryDocId storyDocId, String new_name);
 

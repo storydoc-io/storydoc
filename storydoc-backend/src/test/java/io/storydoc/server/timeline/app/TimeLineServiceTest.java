@@ -51,7 +51,7 @@ public class TimeLineServiceTest extends TestBase {
         // then I get the timeline model from its coordinate
         TimeLineModelDTO dto = timeLineQueryService.getTimeLineModel(timeLineModelCoordinate);
         assertNotNull(dto);
-        assertEquals(timeLineModelCoordinate.getTimeLineModelId(), dto.getTimeLineModelId());
+        assertEquals(timeLineModelCoordinate.getTimeLineModelId(), dto.getTimeLineModelCoordinate().getTimeLineModelId());
         assertEquals(timeline_model_name, dto.getName());
 
         // then the model has a default timeline

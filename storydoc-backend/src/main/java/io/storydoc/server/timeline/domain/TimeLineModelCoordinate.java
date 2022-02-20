@@ -1,5 +1,6 @@
 package io.storydoc.server.timeline.domain;
 
+import io.storydoc.server.storydoc.domain.ArtifactCoordinate;
 import io.storydoc.server.storydoc.domain.BlockCoordinate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,5 +18,9 @@ public class TimeLineModelCoordinate {
 
     public static TimeLineModelCoordinate of(BlockCoordinate blockCoordinate, TimeLineModelId timeLineModelId) {
         return new TimeLineModelCoordinate(blockCoordinate, timeLineModelId);
+    }
+
+    public ArtifactCoordinate asArtifactCoordinate() {
+        return ArtifactCoordinate.of(timeLineModelId.asArtifactId(), blockCoordinate);
     }
 }

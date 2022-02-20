@@ -1,11 +1,16 @@
 package io.storydoc.server.storydoc.domain;
 
+import io.storydoc.server.workspace.domain.ResourceUrn;
 import lombok.Builder;
 import lombok.Value;
 
 @Value
 @Builder
 public class ArtifactMetaData {
-    private String type;
-    private String name;
+    String type;
+    String name;
+    ResourceUrn relativeUrn;
+    boolean collection;
+    boolean binary;
+    String binaryType;
 }

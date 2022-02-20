@@ -48,7 +48,7 @@ public class TimeLineQueryServiceImpl implements TimeLineQueryService {
 
     private TimeLineModelDTO toDTO(TimeLineModelCoordinate timeLineModelCoordinate, TimeLineModel timeLineModel, ArtifactMetaData metaData) {
         return TimeLineModelDTO.builder()
-            .timeLineModelId(TimeLineModelId.fromString(timeLineModel.getId()))
+            .timeLineModelCoordinate(timeLineModelCoordinate)
             .storyDocSummary(getStoryDocSummary(timeLineModelCoordinate.getBlockCoordinate().getStoryDocId()))
             .timeLines(timeLineModel.getTimeLines().entrySet().stream()
                     .collect(Collectors.toMap(

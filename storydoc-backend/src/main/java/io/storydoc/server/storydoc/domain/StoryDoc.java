@@ -1,8 +1,9 @@
 package io.storydoc.server.storydoc.domain;
 
-import io.storydoc.server.storydoc.domain.action.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+
+import java.io.InputStream;
 
 @AllArgsConstructor
 @Builder
@@ -22,8 +23,8 @@ public class StoryDoc {
     }
 
 
-    public void removeBlock(BlockId blockId) {
-        storage.removeBlock(id, blockId);
+    public void removeBlock(BlockCoordinate blockCoordinate) {
+        storage.removeBlock(blockCoordinate);
     }
 
     public SectionId addSection(SectionId sectionId) {
@@ -41,28 +42,24 @@ public class StoryDoc {
         storage.addTag(id, blockId, tag);
     }
 
-    public void saveArtifact(ArtifactSaveContext context) {
-        storage.saveArtifact(context);
+    public void saveArtifact(ArtifactCoordinate coordinate, ArtifactSerializer serializer) {
+        storage.setArtifactContent(coordinate, serializer);
     }
 
-    public <A extends Artifact> A loadArtifact(ArtifactLoadContext context) {
-        return storage.loadArtifact(context);
+    public <A extends Artifact> A loadArtifact(ArtifactCoordinate coordinate, ArtifactDeserializer deserializer) {
+        return storage.getArtifactContent(coordinate, deserializer);
     }
 
-    public void addArtifact(BlockId blockId, ArtifactId artifactId, ArtifactMetaData metaData) {
-        storage.addArtifact(id, blockId, artifactId, metaData);
+    public void addArtifact(BlockCoordinate blockCoordinate, ArtifactId artifactId, ArtifactMetaData metaData) {
+        storage.createArtifact(blockCoordinate, artifactId, metaData);
     }
 
-    public void saveBinaryArtifact(SaveBinaryArtifactContext context) {
-        storage.saveBinaryArtifact(context);
+    public void saveBinaryArtifact(ArtifactCoordinate artifactCoordinate, InputStream inputStream) {
+        storage.saveBinaryArtifact(artifactCoordinate, inputStream);
     }
 
-    public void createBinaryCollectionArtifact(CreateBinaryCollectionArtifactAction action) {
-        storage.createBinaryCollectionArtifact(action);
-    }
-
-    public void addItemToBinaryCollection(AddToBinaryCollectionAction action) {
-        storage.addItemToBinaryCollection(action);
+    public void addItemToBinaryCollection(ArtifactCoordinate coordinate, String itemName, ItemId itemId, InputStream inputStream) {
+        storage.addItemToBinaryCollection(coordinate, itemName, itemId, inputStream);
     }
 
     public void rename(String new_name) {
@@ -79,5 +76,9 @@ public class StoryDoc {
 
     public void moveBlock(BlockCoordinate blockToMove, BlockCoordinate newParent, int childIndexInParent) {
         storage.moveBlock(blockToMove, newParent, childIndexInParent);
+    }
+
+    public void deleteArtifact(ArtifactCoordinate artifactCoordinate) {
+        storage.removeArtifact(artifactCoordinate);
     }
 }
