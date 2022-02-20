@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment'
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {map, tap} from "rxjs/operators";
@@ -39,7 +40,7 @@ export class ScreenshotCollectionService {
     formData.set('blockId', this.collectionCoord.blockCoordinate.blockId.id)
     formData.set('screenshotCollectionId', this.collectionCoord.screenShotCollectionId.id)
     formData.set('name', params.name)
-    this.http.post('http://localhost:4200/api/ui/screenshot', formData).subscribe(value => this.load())
+    this.http.post('http://localhost:'+environment.port+'/api/ui/screenshot' , formData).subscribe(value => this.load())
   }
 
   public get collectionCoord() {

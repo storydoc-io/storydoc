@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
-import { ArtifactBlockCoordinate } from './artifact-block-coordinate';
+import { BlockCoordinate } from './block-coordinate';
 import { ScreenShotCollectionId } from './screen-shot-collection-id';
 export interface ScreenshotCollectionCoordinate {
-  blockCoordinate?: ArtifactBlockCoordinate;
+  blockCoordinate?: BlockCoordinate;
   screenShotCollectionId?: ScreenShotCollectionId;
 }

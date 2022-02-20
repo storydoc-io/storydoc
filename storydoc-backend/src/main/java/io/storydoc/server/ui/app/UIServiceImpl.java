@@ -5,8 +5,6 @@ import io.storydoc.server.storydoc.domain.BlockCoordinate;
 import io.storydoc.server.timeline.domain.TimeLineCoordinate;
 import io.storydoc.server.timeline.domain.TimeLineItemId;
 import io.storydoc.server.ui.domain.*;
-import io.storydoc.server.ui.domain.action.CreateScreenShotCollectionArtifactAction;
-import io.storydoc.server.ui.domain.action.UploadScreenShotToCollectionAction;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
@@ -25,31 +23,22 @@ public class UIServiceImpl implements UIService {
 
     @Override
     public UIScenarioId createUIScenario(BlockCoordinate coordinate, String name) {
-        UIScenarioId uiId = new UIScenarioId(idGenerator.generateID("MOCKUI"));
+        UIScenarioId uiId = new UIScenarioId(idGenerator.generateID(UIScenarioId.ID_PREFIX));
         domainService.createUIScenario(UIScenarioCoordinate.of(coordinate, uiId), name);
         return uiId;
     }
 
     @Override
     public ScreenShotCollectionId createScreenShotCollection(BlockCoordinate coordinate, String name) {
-        CreateScreenShotCollectionArtifactAction action = CreateScreenShotCollectionArtifactAction.builder()
-            .coordinate(coordinate)
-            .name(name)
-            .build();
-        domainService.createScreenShotCollection(action);
-        return action.getCollectionId();
+        ScreenShotCollectionId screenShotCollectionId = new ScreenShotCollectionId(idGenerator.generateID(ScreenShotCollectionId.ID_PREFIX));
+        domainService.createScreenShotCollection(coordinate, screenShotCollectionId, name);
+        return screenShotCollectionId;
     }
 
     @Override
     public ScreenShotId uploadScreenShotToCollection(ScreenshotCollectionCoordinate collectionCoordinate, InputStream inputStream, String name) {
-        UploadScreenShotToCollectionAction action = UploadScreenShotToCollectionAction.builder()
-            .collectionCoordinate(collectionCoordinate)
-            .name(name)
-            .inputStream(inputStream)
-            .build();
         ScreenShotCollection screenShotCollection = domainService.getScreenShotCollection(collectionCoordinate);
-        screenShotCollection.uploadScreenShot(action);
-        return action.getScreenshotId();
+        return screenShotCollection.uploadScreenShot(collectionCoordinate, inputStream, name);
     }
 
     @Override

@@ -3,3 +3,4 @@ export {ConfirmationDialogSpec, ConfirmationDialogComponent} from './confirmatio
 export {ModalComponent} from './modal.component'
 export {ModalService} from './modal-service'
 export {LinkService} from "./link.service";
+export {openFullscreen, closeFullscreen} from './fullscreen.utils'

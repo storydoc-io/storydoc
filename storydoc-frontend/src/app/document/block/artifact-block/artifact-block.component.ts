@@ -13,7 +13,7 @@ import {ArtifactDataService} from "./artifact-data.service";
 export class ArtifactBlockComponent {
 
   constructor(
-    private modalservice: ModalService,
+    private modalService: ModalService,
     private documentDataService: DocumentDataService,
     private artifactDataService: ArtifactDataService,
   ) {
@@ -62,11 +62,11 @@ export class ArtifactBlockComponent {
 
   openArtifactDialog(artifactDialogSpec: ArtifactDialogSpec) {
     this.artifactDialogSpec = artifactDialogSpec
-    this.modalservice.open(this.dialogId())
+    this.modalService.open(this.dialogId())
   }
 
   closeArtifactDialog() {
-    this.modalservice.close(this.dialogId())
+    this.modalService.close(this.dialogId())
   }
 
   // confirmation dialog
@@ -78,11 +78,11 @@ export class ArtifactBlockComponent {
 
   openConfirmationDialog(confirmationDialogSpec: ConfirmationDialogSpec) {
     this.confirmationDialogSpec = confirmationDialogSpec
-    this.modalservice.open(this.confirmationDialogId())
+    this.modalService.open(this.confirmationDialogId())
   }
 
   closeConfirmationDialog() {
-    this.modalservice.close(this.confirmationDialogId())
+    this.modalService.close(this.confirmationDialogId())
   }
 
 
@@ -164,6 +164,10 @@ export class ArtifactBlockComponent {
 
 
   private confirmDeleteArtifact(artifact: ArtifactDto) {
-
+    this.documentDataService.deleteArtifact({
+      storyDocId: this.documentId,
+      blockId: this.blockId,
+      artifactId: artifact.artifactId,
+    })
   }
 }

@@ -8,13 +8,13 @@ import {DocumentManagerPageComponent} from './document-manager-page/document-man
 import {TimelinePageComponent} from "./timeline-page/timeline-page.component";
 
 const routes: Routes = [
-  {path: '', redirectTo: '/documents', pathMatch: 'full'},
-  {path: 'documents', component: DocumentManagerPageComponent},
-  {path: 'document/:id', component: DocumentComponent},
-  {path: 'timeline/d/:documentId/b/:blockId/a/:artifactId', component: TimelinePageComponent},
-  {path: 'ui-scenario/d/:documentId/b/:blockId/a/:artifactId', component: UIScenarioPageComponent},
-  {path: 'ui-screenshot-collection/d/:documentId/b/:blockId/a/:artifactId', component: ScreenshotCollectionPageComponent},
-  {path: 'code-trace/d/:documentId/b/:blockId/a/:artifactId', component: CodeTracePageComponent},
+  {path: '', redirectTo: '/fe/documents', pathMatch: 'full'},
+  {path: 'fe/documents', component: DocumentManagerPageComponent},
+  {path: 'fe/document/:id', component: DocumentComponent},
+  {path: 'fe/timeline/d/:documentId/b/:blockId/a/:artifactId', component: TimelinePageComponent},
+  {path: 'fe/ui-scenario/d/:documentId/b/:blockId/a/:artifactId', component: UIScenarioPageComponent},
+  {path: 'fe/ui-screenshot-collection/d/:documentId/b/:blockId/a/:artifactId', component: ScreenshotCollectionPageComponent},
+  {path: 'fe/code-trace/d/:documentId/b/:blockId/a/:artifactId', component: CodeTracePageComponent},
 ];
 
 

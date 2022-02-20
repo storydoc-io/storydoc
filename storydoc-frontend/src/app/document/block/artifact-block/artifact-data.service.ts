@@ -11,7 +11,7 @@ let timeLineModel = {
   key: 'io.storydoc.server.timeline.domain.TimeLineModel',
   icon: '/assets/timeline.png',
   label: 'Timeline',
-  editorUrl: '/timeline'
+  editorUrl: '/fe/timeline'
 
 } as ArtifactDescriptor
 
@@ -19,7 +19,7 @@ let uiScenario = {
   key: 'io.storydoc.server.ui.domain.UIScenario',
   icon: '/assets/artifact-ui-scenario.png',
   label: 'UI Scenario',
-  editorUrl: '/ui-scenario'
+  editorUrl: '/fe/ui-scenario'
 
 } as ArtifactDescriptor
 
@@ -27,7 +27,7 @@ let uiScreenshotCollection = {
   key: 'io.storydoc.server.ui.domain.ScreenShotCollection',
   icon: '/assets/artifact-ui-design.png',
   label: 'UI Screenshot collection',
-  editorUrl: '/ui-screenshot-collection'
+  editorUrl: '/fe/ui-screenshot-collection'
 } as ArtifactDescriptor
 
 let map: { [key: string]: ArtifactDescriptor } = {

@@ -1,6 +1,5 @@
 package io.storydoc.server.storydoc.domain;
 
-import io.storydoc.server.storydoc.domain.action.*;
 import io.storydoc.server.storydoc.infra.store.model.Block;
 import io.storydoc.server.storydoc.infra.store.model.StoryDoc;
 import io.storydoc.server.storydoc.infra.store.model.StoryDocs;
@@ -13,50 +12,74 @@ import java.util.List;
 import java.util.function.Function;
 
 public interface StoryDocStorage {
-    ResourceUrn getStoryDocUrn(StoryDocId storyDocId);
+
+    // document management level
+
     ResourceUrn getStoryDocsUrn();
-
-    StoryDoc loadDocument(StoryDocId storyDocId);
-    void createDocument(StoryDocId storyDocId, String name);
-
-    void addArtifactBlock(StoryDocId storyDocId, BlockId blockId, String name);
-    void addArtifactBlock(StoryDocId id, BlockId blockId, SectionId sectionId);
-    void removeBlock(StoryDocId id, BlockId blockId);
-    Block getBlock(BlockCoordinate coordinate);
-
-    void addSection(StoryDocId id, SectionId sectionId);
-
-    void addTag(StoryDocId id, BlockId blockId, String tag);
-
-    void saveArtifact(ArtifactSaveContext context);
-
-    <A extends Artifact> A loadArtifact(ArtifactLoadContext context);
-
-    void addArtifact(StoryDocId id, BlockId blockId, ArtifactId artifactId, ArtifactMetaData metaData);
-
-    FolderURN getArtifactBlockFolder(StoryDocId storyDocId, BlockId blockId);
-
-    List<ArtifactId> getArtifacts(BlockCoordinate coordinate, Function<ArtifactMetaData, Boolean> filter);
-
-    void saveBinaryArtifact(SaveBinaryArtifactContext context);
-
-    ArtifactMetaData getArtifactMetaData(BlockCoordinate coordinate, ArtifactId artifactId);
 
     StoryDocs loadDocuments();
 
-    void createBinaryCollectionArtifact(CreateBinaryCollectionArtifactAction action);
+    // document level
 
-    void addItemToBinaryCollection(AddToBinaryCollectionAction action);
+    void createDocument(StoryDocId storyDocId, String name);
 
-    InputStream getBinaryFromCollection(BlockCoordinate coordinate, ArtifactId artifactId, ItemId itemId) throws WorkspaceException;
+    ResourceUrn getStoryDocUrn(StoryDocId storyDocId);
+
+    StoryDoc loadDocument(StoryDocId storyDocId);
 
     void removeDocument(StoryDocId storyDocId);
 
     void renameDocument(StoryDocId id, String new_name);
 
+    // section level
+
+    void addSection(StoryDocId id, SectionId sectionId);
+
+    // block level
+
+    void addArtifactBlock(StoryDocId storyDocId, BlockId blockId, String name);
+
+    void addArtifactBlock(StoryDocId id, BlockId blockId, SectionId sectionId);
+
+    Block getBlock(BlockCoordinate coordinate);
+
+    FolderURN getBlockFolder(StoryDocId storyDocId, BlockId blockId);
+
+    void removeBlock(BlockCoordinate blockCoordinate);
+
     void renameBlock(BlockCoordinate blockCoordinate, String new_name);
+
+    void moveBlock(BlockCoordinate blockToMove, BlockCoordinate newParent, int childIndexInParent);
+
+    void addTag(StoryDocId id, BlockId blockId, String tag);
+
+    // artifact level
+
+    void createArtifact(BlockCoordinate blockCoordinate, ArtifactId artifactId, ArtifactMetaData metaData);
+
+    void setArtifactContent(ArtifactCoordinate coordinate, ArtifactSerializer serializer);
+
+    ArtifactMetaData getArtifactMetaData(BlockCoordinate coordinate, ArtifactId artifactId);
+
+    ResourceUrn getArtifactUrn(ArtifactCoordinate artifactCoordinate);
+
+    <A extends Artifact> A getArtifactContent(ArtifactCoordinate coordinate, ArtifactDeserializer deserializer);
+
+    List<ArtifactId> findArtifacts(BlockCoordinate coordinate, Function<ArtifactMetaData, Boolean> filter);
+
+    void removeArtifact(ArtifactCoordinate artifactCoordinate);
 
     void renameArtifact(BlockCoordinate blockCoordinate, ArtifactId artifactId, String new_name);
 
-    void moveBlock(BlockCoordinate blockToMove, BlockCoordinate newParent, int childIndexInParent);
+    // binary artifact
+
+    void saveBinaryArtifact(ArtifactCoordinate artifactCoordinate, InputStream inputStream);
+
+    InputStream getBinaryFromCollection(ArtifactCoordinate coordinate, ItemId itemId) throws WorkspaceException;
+
+    // collection artifact
+
+    void addItemToBinaryCollection(ArtifactCoordinate coordinate, String itemName, ItemId itemId, InputStream inputStream);
+
+    ResourceUrn getCollectionItemUrn(ArtifactCoordinate artifactCoordinate, ItemId itemId);
 }

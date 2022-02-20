@@ -1,7 +1,7 @@
-<div class="modal-dialog">
+<div class="modal-dialog" *ngIf="spec">
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title">Add Artifact</h5>
+      <h5 class="modal-title">{{spec.mode==='NEW'? 'Add' : 'Edit'}} Artifact</h5>
       <button type="button" class="btn-close" (click)="cancel()"></button>
     </div>
     <div class="modal-body">

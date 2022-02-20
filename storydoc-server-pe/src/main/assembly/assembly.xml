@@ -1,0 +1,21 @@
+<assembly>
+    <id>bin</id>
+    <!-- Specifies that our binary distribution is a zip package -->
+    <formats>
+        <format>zip</format>
+    </formats>
+
+    <fileSets>
+        <fileSet>
+            <directory>src/main/assembly/structure</directory>
+            <outputDirectory></outputDirectory>
+            <filtered>true</filtered>
+        </fileSet>
+    </fileSets>
+    <files>
+        <file>
+            <source>target/${project.build.finalName}-spring-boot.jar</source>
+            <outputDirectory>${project.build.finalName}</outputDirectory>
+        </file>
+    </files>
+</assembly>

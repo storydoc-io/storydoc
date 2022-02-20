@@ -59,6 +59,29 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "development": {
+              "optimization": false,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": true,
+              "extractLicenses": false,
+              "statsJson": true,
+              "progress": false,
+              "vendorChunk": true,
+              "buildOptimizer": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
             }
           }
         },
@@ -70,6 +93,9 @@
           "configurations": {
             "production": {
               "browserTarget": "storydoc-frontend:build:production"
+            },
+            "development": {
+              "browserTarget": "storydoc-frontend:build:development"
             }
           }
         },

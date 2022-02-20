@@ -1,6 +1,6 @@
-export { ArtifactBlockCoordinate } from './models/artifact-block-coordinate';
 export { ArtifactDto } from './models/artifact-dto';
 export { ArtifactId } from './models/artifact-id';
+export { BlockCoordinate } from './models/block-coordinate';
 export { BlockDto } from './models/block-dto';
 export { BlockId } from './models/block-id';
 export { CodeTraceDto } from './models/code-trace-dto';

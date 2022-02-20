@@ -121,4 +121,14 @@ export class DocumentDataService {
       next: value => this.refresh()
     })
   }
+
+  deleteArtifact(params: { blockId: BlockId; artifactId: ArtifactId; storyDocId: StoryDocId }) {
+    this.storyDocRestControllerService.removeArtifactUsingDelete({
+      storyDocId: params.storyDocId.id,
+      blockId: params.blockId.id,
+      artifactId: params.artifactId.id,
+    }).subscribe({
+      next: value => this.refresh()
+    })
+  }
 }

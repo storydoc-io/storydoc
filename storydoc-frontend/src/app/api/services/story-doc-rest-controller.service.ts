@@ -346,6 +346,90 @@ export class StoryDocRestControllerService extends BaseService {
   }
 
   /**
+   * Path part for operation removeArtifactUsingDelete
+   */
+  static readonly RemoveArtifactUsingDeletePath = '/api/storydoc/removeartifact';
+
+  /**
+   * removeArtifact.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `removeArtifactUsingDelete()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  removeArtifactUsingDelete$Response(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * blockId
+     */
+    blockId: string;
+
+    /**
+     * artifactId
+     */
+    artifactId: string;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, StoryDocRestControllerService.RemoveArtifactUsingDeletePath, 'delete');
+    if (params) {
+      rb.query('storyDocId', params.storyDocId, {"style":"form"});
+      rb.query('blockId', params.blockId, {"style":"form"});
+      rb.query('artifactId', params.artifactId, {"style":"form"});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * removeArtifact.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `removeArtifactUsingDelete$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  removeArtifactUsingDelete(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * blockId
+     */
+    blockId: string;
+
+    /**
+     * artifactId
+     */
+    artifactId: string;
+  }): Observable<void> {
+
+    return this.removeArtifactUsingDelete$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
    * Path part for operation removeBlockUsingDelete
    */
   static readonly RemoveBlockUsingDeletePath = '/api/storydoc/removeblock';

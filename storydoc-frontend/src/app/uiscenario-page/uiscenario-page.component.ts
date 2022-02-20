@@ -1,10 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {DOCUMENT} from '@angular/common';
+import {Component, Inject, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
 import {ActivatedRoute} from '@angular/router';
 import {LinkService, ModalService} from "@storydoc/common";
-import {ArtifactBlockCoordinate, ScreenShotCollectionDto, ScreenshotCoordinate, TimeLineItemId, TimeLineModelDto, UiScenarioDto} from "@storydoc/models";
+import {openFullscreen, closeFullscreen} from "@storydoc/common"
+import {BlockCoordinate, ScreenShotCollectionDto, UiScenarioDto} from "@storydoc/models";
 import {TimeLineSelection} from "./time-line-selection-panel/time-line-selection-panel.component";
-import {UIScenarioService} from "./uiscenario.service";
+import {TimeLineSelectionState, UIScenarioService} from "./uiscenario.service";
 
 
 @Component({
@@ -15,6 +17,7 @@ import {UIScenarioService} from "./uiscenario.service";
 export class UIScenarioPageComponent implements OnInit {
 
   constructor(
+    @Inject(DOCUMENT) private document: any,
     private modalService: ModalService,
     private route: ActivatedRoute,
     public link: LinkService,
@@ -22,9 +25,11 @@ export class UIScenarioPageComponent implements OnInit {
   ) {
   }
 
+  presentationMode: boolean = false
+
   uiScenario$: Observable<UiScenarioDto> = this.uiScenarioService.uiScenario$
 
-  timeLineModel$: Observable<TimeLineModelDto> = this.uiScenarioService.timeLineModel$
+  timeLineSelection$: Observable<TimeLineSelectionState> = this.uiScenarioService.timeLineSelection$
 
   screenshotCollection: ScreenShotCollectionDto
 
@@ -45,6 +50,7 @@ export class UIScenarioPageComponent implements OnInit {
         })
       }
     });
+
   }
 
 
@@ -56,26 +62,20 @@ export class UIScenarioPageComponent implements OnInit {
 
 
   blockCoordinate() {
-    return <ArtifactBlockCoordinate>{
+    return <BlockCoordinate>{
       blockId: {id: this.blockId},
       storyDocId: {id: this.documentId}
     }
   }
 
-  allowDrop(ev: DragEvent) {
-    ev.preventDefault();
+
+  togglePresentationMode() {
+    this.presentationMode = !this.presentationMode
+    if (this.presentationMode) {
+      openFullscreen(document)
+    } else {
+      closeFullscreen(document)
+    }
   }
 
-  doDrop(ev: any, timeLineItemId: TimeLineItemId) {
-    ev.preventDefault();
-    var data = ev.dataTransfer.getData("text");
-    let screenshotCoordinate: ScreenshotCoordinate = <ScreenshotCoordinate>JSON.parse(data)
-    this.uiScenarioService.addScreenshotToScenario(screenshotCoordinate, timeLineItemId)
-  }
-
-  screenshotCoord(uiScenario: UiScenarioDto, itemId: TimeLineItemId): ScreenshotCoordinate {
-    return uiScenario.screenshots
-      .find(screenshot => screenshot.timeLineItemId.id == itemId.id)
-      ?.screenshotCoordinate;
-  }
 }

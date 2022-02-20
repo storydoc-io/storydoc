@@ -181,7 +181,8 @@ public class StoryDocServiceTest extends TestBase {
 
         // when I add a binary collection artifact
         String binary_type = "binary_type";
-        ArtifactId artifactId = storyDocService.createBinaryCollectionArtifact(coordinate, "art_type", binary_type, artifact_name);
+        ArtifactId artifactId = ArtifactId.fromString("art-id");
+        storyDocService.createBinaryCollectionArtifact(coordinate, artifactId , "art_type", binary_type, artifact_name);
 
         // then there is a artifact added to the block
         assertNotNull(blockId);
@@ -207,6 +208,37 @@ public class StoryDocServiceTest extends TestBase {
     }
 
     @Test
+    public void removeArtifact() {
+        // given a story with an artifact block
+        String story_name = "story";
+        StoryDocId storyDocId = storyDocService.createDocument(story_name);
+
+        String block_name = "block";
+        BlockId blockId = storyDocService.addArtifactBlock(storyDocId, block_name);
+
+        BlockCoordinate blockCoordinate = BlockCoordinate.of(storyDocId, blockId);
+        String artifact_name = "artifact";
+
+        // given a binary collection artifact
+        String binary_type = "binary_type";
+        ArtifactId artifactId = ArtifactId.fromString("art-id");
+        storyDocService.createBinaryCollectionArtifact(blockCoordinate,artifactId , "art_type", binary_type, artifact_name);
+        ArtifactCoordinate artifactCoordinate = ArtifactCoordinate.of(artifactId, blockCoordinate);
+
+        // when I remove the collection artifact
+        workspaceTestUtils.logFolderStructure("before remove artifact ");
+        storyDocService.removeArtifact(artifactCoordinate);
+        workspaceTestUtils.logFolderStructure("after remove artifact ");
+
+        // then I can no longer find it
+        StoryDocDTO storyDocDTO = storyDocQueryService.getDocument(storyDocId);
+        assertEquals(0, storyDocDTO.getBlocks().get(0).getArtifacts().size());
+        BlockDTO blockDTO = storyDocDTO.getBlocks().get(0);
+        // and it's folders/resources are removed
+        // todo
+    }
+
+    @Test
     public void addResourceToBinaryCollection() {
 
         // given an a binary collection artifact
@@ -219,7 +251,8 @@ public class StoryDocServiceTest extends TestBase {
         BlockCoordinate coordinate = BlockCoordinate.builder().storyDocId(storyDocId).blockId(blockId).build();
 
         String artifact_name = "artifact";
-        ArtifactId artifactId = storyDocService.createBinaryCollectionArtifact(coordinate, "art_type", "binary_type", artifact_name);
+        ArtifactId artifactId = ArtifactId.fromString("art-id");
+        storyDocService.createBinaryCollectionArtifact(coordinate, artifactId , "art_type", "binary_type", artifact_name);
 
         // when I upload a binary resource into the collection
         InputStream inputStream = this.getClass().getResourceAsStream("dummy-image-10x10.png");
@@ -242,7 +275,6 @@ public class StoryDocServiceTest extends TestBase {
 
     }
 
-
     @Test
     public void removeBlock() {
         // given
@@ -262,7 +294,7 @@ public class StoryDocServiceTest extends TestBase {
         workspaceTestUtils.logFolderStructure("before remove block ");
 
         // when
-        storyDocService.removeBlock(storyDocId, blockId1);
+        storyDocService.removeBlock(BlockCoordinate.of(storyDocId, blockId1));
 
         // then
         StoryDocDTO storyDocDTO = storyDocQueryService.getDocument(storyDocId);

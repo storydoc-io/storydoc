@@ -348,21 +348,21 @@ export class UiRestControllerService extends BaseService {
   }
 
   /**
-   * Path part for operation getMockUiUsingGet
+   * Path part for operation getUiScenarioUsingGet
    */
-  static readonly GetMockUiUsingGetPath = '/api/ui/uiscenario';
+  static readonly GetUiScenarioUsingGetPath = '/api/ui/uiscenario';
 
   /**
-   * getMockUI.
+   * getUIScenario.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getMockUiUsingGet()` instead.
+   * To access only the response body, use `getUiScenarioUsingGet()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getMockUiUsingGet$Response(params: {
+  getUiScenarioUsingGet$Response(params: {
 
     /**
      * storyDocId
@@ -380,7 +380,7 @@ export class UiRestControllerService extends BaseService {
     id: string;
   }): Observable<StrictHttpResponse<UiScenarioDto>> {
 
-    const rb = new RequestBuilder(this.rootUrl, UiRestControllerService.GetMockUiUsingGetPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, UiRestControllerService.GetUiScenarioUsingGetPath, 'get');
     if (params) {
       rb.query('storyDocId', params.storyDocId, {"style":"form"});
       rb.query('blockId', params.blockId, {"style":"form"});
@@ -399,16 +399,16 @@ export class UiRestControllerService extends BaseService {
   }
 
   /**
-   * getMockUI.
+   * getUIScenario.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getMockUiUsingGet$Response()` instead.
+   * To access the full response (for headers, for example), `getUiScenarioUsingGet$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getMockUiUsingGet(params: {
+  getUiScenarioUsingGet(params: {
 
     /**
      * storyDocId
@@ -426,7 +426,7 @@ export class UiRestControllerService extends BaseService {
     id: string;
   }): Observable<UiScenarioDto> {
 
-    return this.getMockUiUsingGet$Response(params).pipe(
+    return this.getUiScenarioUsingGet$Response(params).pipe(
       map((r: StrictHttpResponse<UiScenarioDto>) => r.body as UiScenarioDto)
     );
   }

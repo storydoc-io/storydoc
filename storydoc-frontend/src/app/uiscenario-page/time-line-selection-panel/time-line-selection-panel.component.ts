@@ -1,11 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
-import {TimeLineControllerService} from "../../api/services/time-line-controller.service";
-import {TimeLineModelCoordinate} from "../../api/models/time-line-model-coordinate";
-import {TimeLineDto} from "../../api/models/time-line-dto";
-import {TimeLineId} from "../../api/models/time-line-id";
+import {TimeLineDto, TimeLineId, TimeLineModelCoordinate, TimeLineModelSummaryDto} from "@storydoc/models";
+import {TimeLineControllerService} from "@storydoc/services";
 import {UIScenarioService} from "../uiscenario.service";
-import {TimeLineModelSummaryDto} from "../../api/models/time-line-model-summary-dto";
 
 export interface TimeLineSelection {
   timeLineModelCoordinate: TimeLineModelCoordinate
@@ -26,7 +23,8 @@ export class TimeLineSelectionPanelComponent implements OnInit {
   }
 
   timeLineModelSelection$ = this.uiScenarioService.timeLineModelSelection$
-  timeLineModel$ = this.uiScenarioService.timeLineModel$
+
+  timeLineSelection$ = this.uiScenarioService.timeLineSelection$
 
   formGroup: FormGroup = new FormGroup({
     timeLine: new FormControl(),
@@ -34,11 +32,7 @@ export class TimeLineSelectionPanelComponent implements OnInit {
   })
 
   compareTimeLineModel(s1: TimeLineModelSummaryDto, s2: TimeLineModelSummaryDto): boolean {
-//    console.log('s1 ', s1)
-//    console.log('s2 ', s2)
-    let result = s1?.timeLineModelCoordinate?.timeLineModelId.id === s2?.timeLineModelCoordinate?.timeLineModelId.id
-//    console.log('result: ', result)
-    return result
+    return s1?.timeLineModelCoordinate?.timeLineModelId.id === s2?.timeLineModelCoordinate?.timeLineModelId.id
   }
 
   ngOnInit(): void {
@@ -48,16 +42,13 @@ export class TimeLineSelectionPanelComponent implements OnInit {
     })
     this.timeLineModelSelection$.subscribe({
       next: dto => {
-        console.log('setting timeLineModel to ', dto)
-        this.formGroup.get('timeLineModel').setValue(dto?.selectedTimeLineModelSummary.timeLineModelCoordinate)
+        this.formGroup.get('timeLineModel').setValue(dto?.selectedCoord)
       }
     })
   }
 
   onTimeLineModelChange() {
-    console.log('onTimeLineModelChange')
     let coord: TimeLineModelCoordinate = this.formGroup.get('timeLineModel').value;
-    console.log('onTimeLineModelChange value', coord)
     this.uiScenarioService.selectTimeLineModel(coord)
   }
 

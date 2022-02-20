@@ -2,7 +2,6 @@ package io.storydoc.server.storydoc.app;
 
 import io.storydoc.server.infra.IDGenerator;
 import io.storydoc.server.storydoc.domain.*;
-import io.storydoc.server.storydoc.domain.action.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -69,9 +68,9 @@ public class StoryDocServiceImpl implements StoryDocService {
     }
 
     @Override
-    public void removeBlock(StoryDocId storyDocId, BlockId blockId) {
-        StoryDoc storyDoc = domainService.getDocument(storyDocId);
-        storyDoc.removeBlock(blockId);
+    public void removeBlock(BlockCoordinate blockCoordinate) {
+        StoryDoc storyDoc = domainService.getDocument(blockCoordinate.getStoryDocId());
+        storyDoc.removeBlock(blockCoordinate);
 
     }
 
@@ -90,26 +89,29 @@ public class StoryDocServiceImpl implements StoryDocService {
     }
 
     @Override
-    public void addArtifact(StoryDocId storyDocId, BlockId blockId, ArtifactId artifactId, String artifactType, String name) {
+    public void addArtifact(BlockCoordinate blockCoordinate, ArtifactId artifactId, String artifactType, String name) {
         Assert.notNull(name, "name is required");
-        StoryDoc storyDoc = domainService.getDocument(storyDocId);
+        Assert.notNull(artifactType, "artifactType is required");
+        StoryDoc storyDoc = domainService.getDocument(blockCoordinate.getStoryDocId());
         ArtifactMetaData metaData = ArtifactMetaData.builder()
             .type(artifactType)
             .name(name)
+            .collection(false)
+            .binary(false)
             .build();
-        storyDoc.addArtifact(blockId, artifactId, metaData);
+        storyDoc.addArtifact(blockCoordinate, artifactId, metaData);
     }
 
     @Override
-    public void saveArtifact(ArtifactSaveContext context) {
-        StoryDoc storyDoc = domainService.getDocument(context.getStoryDocId());
-        storyDoc.saveArtifact(context);
+    public void saveArtifact(ArtifactCoordinate coordinate, ArtifactSerializer serializer) {
+        StoryDoc storyDoc = domainService.getDocument(coordinate.getBlockCoordinate().getStoryDocId());
+        storyDoc.saveArtifact(coordinate, serializer);
     }
 
     @Override
-    public <A extends Artifact> A loadArtifact(ArtifactLoadContext context) {
-        StoryDoc storyDoc = domainService.getDocument(context.getBlockCoordinate().getStoryDocId());
-        return storyDoc.loadArtifact(context);
+    public <A extends Artifact> A loadArtifact(ArtifactCoordinate coordinate, ArtifactDeserializer deserializer) {
+        StoryDoc storyDoc = domainService.getDocument(coordinate.getBlockCoordinate().getStoryDocId());
+        return storyDoc.loadArtifact(coordinate, deserializer);
     }
 
     @Override
@@ -120,39 +122,38 @@ public class StoryDocServiceImpl implements StoryDocService {
     }
 
     @Override
-    public void saveBinaryArtifact(SaveBinaryArtifactContext context) throws IOException {
-        StoryDoc storyDoc = domainService.getDocument(context.getCoordinate().getStoryDocId());
-        storyDoc.saveBinaryArtifact(context);
+    public void saveBinaryArtifact(ArtifactCoordinate artifactCoordinate, InputStream inputStream) throws IOException {
+        StoryDoc storyDoc = domainService.getDocument(artifactCoordinate.getBlockCoordinate().getStoryDocId());
+        storyDoc.saveBinaryArtifact(artifactCoordinate, inputStream);
     }
 
     @Override
-    public ArtifactId createBinaryCollectionArtifact(BlockCoordinate coordinate, String artifactType, String binaryType, String name) {
-        ArtifactId artifactId = ArtifactId.fromString(idGenerator.generateID(artifactType));
-        CreateBinaryCollectionArtifactAction action = CreateBinaryCollectionArtifactAction.builder()
-            .coordinate(coordinate)
-            .artifactId(artifactId)
-            .artifactName(name)
-            .artifactType(artifactType)
-            .binaryType(binaryType)
-            .build();
+    public void createBinaryCollectionArtifact(BlockCoordinate coordinate, ArtifactId artifactId, String artifactType, String binaryType, String name) {
         StoryDoc storyDoc = domainService.getDocument(coordinate.getStoryDocId());
-        storyDoc.createBinaryCollectionArtifact(action);
-        return artifactId;
+        ArtifactMetaData metaData = ArtifactMetaData.builder()
+                .type(artifactType)
+                .name(name)
+                .binary(true)
+                .collection(true)
+                .binaryType(binaryType)
+                .build();
+        storyDoc.addArtifact(coordinate, artifactId, metaData);
     }
 
-    // todo add filename generator
+    // todo
+    // -  item metadata (filesize..)
+    //  - filename extension
     @Override
     public ItemId addItemToBinaryCollection(BlockCoordinate coordinate, ArtifactId artifactId, String itemName, InputStream inputStream) {
         ItemId itemId = ItemId.fromString(idGenerator.generateID("item"));
-        AddToBinaryCollectionAction action = AddToBinaryCollectionAction.builder()
-            .coordinate(coordinate)
-            .artifactId(artifactId)
-            .itemId(itemId)
-            .itemName(itemName)
-            .inputStream(inputStream)
-            .build();
         StoryDoc storyDoc = domainService.getDocument(coordinate.getStoryDocId());
-        storyDoc.addItemToBinaryCollection(action);
+        storyDoc.addItemToBinaryCollection(ArtifactCoordinate.of(artifactId, coordinate), itemName, itemId, inputStream);
         return itemId;
+    }
+
+    @Override
+    public void removeArtifact(ArtifactCoordinate artifactCoordinate) {
+        StoryDoc storyDoc = domainService.getDocument(artifactCoordinate.getBlockCoordinate().getStoryDocId());
+        storyDoc.deleteArtifact(artifactCoordinate);
     }
 }

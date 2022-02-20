@@ -25,4 +25,12 @@ public class FolderURN {
                         .collect(Collectors.toList())),
                 relativeResourceUrn.getFileName());
     }
+
+    public FolderURN resolve(FolderURN relativeFolderUrn) {
+        return new FolderURN(Stream.of(path, relativeFolderUrn.path)
+                        .flatMap(Collection::stream)
+                        .collect(Collectors.toList()));
+    }
+
+
 }

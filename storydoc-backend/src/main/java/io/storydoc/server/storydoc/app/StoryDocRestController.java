@@ -2,10 +2,7 @@ package io.storydoc.server.storydoc.app;
 
 import io.storydoc.server.storydoc.app.dto.StoryDocDTO;
 import io.storydoc.server.storydoc.app.dto.StoryDocSummaryDTO;
-import io.storydoc.server.storydoc.domain.BlockCoordinate;
-import io.storydoc.server.storydoc.domain.ArtifactId;
-import io.storydoc.server.storydoc.domain.BlockId;
-import io.storydoc.server.storydoc.domain.StoryDocId;
+import io.storydoc.server.storydoc.domain.*;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,9 +63,17 @@ public class StoryDocRestController {
         storyDocService.renameArtifact(blockCoordinate, artifactId, name);
     }
 
+    @DeleteMapping(value = "/removeartifact", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void removeArtifact(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId")  BlockId blockId, @RequestParam("artifactId") ArtifactId artifactId) {
+        BlockCoordinate blockCoordinate = BlockCoordinate.of(storyDocId,blockId);
+        ArtifactCoordinate artifactCoordinate = ArtifactCoordinate.of(artifactId, blockCoordinate);
+        storyDocService.removeArtifact(artifactCoordinate);
+    }
+
     @DeleteMapping(value = "/removeblock", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void removeBlock(@RequestParam("storyDocId")  StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId1) {
-        storyDocService.removeBlock(storyDocId, blockId1);
+    public void removeBlock(@RequestParam("storyDocId")  StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId) {
+        BlockCoordinate blockCoordinate = BlockCoordinate.of(storyDocId, blockId);
+        storyDocService.removeBlock(blockCoordinate);
     }
 
     @PostMapping(value = "/tag", produces = MediaType.APPLICATION_JSON_VALUE)

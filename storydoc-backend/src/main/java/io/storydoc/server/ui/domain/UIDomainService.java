@@ -1,6 +1,6 @@
 package io.storydoc.server.ui.domain;
 
-import io.storydoc.server.ui.domain.action.CreateScreenShotCollectionArtifactAction;
+import io.storydoc.server.storydoc.domain.BlockCoordinate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,8 +23,8 @@ public class UIDomainService {
                 .build();
     }
 
-    public void createScreenShotCollection(CreateScreenShotCollectionArtifactAction action) {
-        storage.createScreenshotCollection(action);
+    public void createScreenShotCollection(BlockCoordinate coordinate, ScreenShotCollectionId screenShotCollectionId, String name) {
+        storage.createScreenshotCollection(coordinate, screenShotCollectionId, name);
     }
 
     public ScreenShotCollection getScreenShotCollection(ScreenshotCollectionCoordinate collectionCoordinate) {

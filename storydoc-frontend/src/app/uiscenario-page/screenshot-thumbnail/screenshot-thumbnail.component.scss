@@ -1,0 +1,25 @@
+.thumbnail-container {
+  width: 120px;
+  height: 100px;
+  overflow: hidden;
+  border: 1px solid lightblue;
+}
+
+.selected {
+  border: 2px solid blue;
+}
+
+.thumbnail-image {
+  height: 100px;
+  width: auto;
+}
+
+.full-width-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.full-width-image {
+//  height: 100px;
+  //width: 100%;
+}

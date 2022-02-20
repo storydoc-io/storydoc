@@ -17,18 +17,14 @@
     <ul class="list-group">
       <li *ngFor="let summary of summaries" class="list-group-item">
         <a (contextmenu)="openMenu($event, summary)"
-           routerLink="/document/{{summary.storyDocId.id}}">{{summary.name}}</a>
+           routerLink="/fe/document/{{summary.storyDocId.id}}">{{summary.name}}</a>
       </li>
-      <app-popup-menu2>
-        <div class="items">
-          <p (click)="renameDocument()">Rename</p>
-          <p (click)="deleteDocument()">Delete</p>
-        </div>
-      </app-popup-menu2>
     </ul>
   </div>
   <div class="btn  btn-sm btn-outline-primary" (click)="addDocument()">Add Story</div>
 </ng-template>
+
+<app-popup-menu></app-popup-menu>
 
 <ng-template #loading>
   <ul class="list-group"></ul>

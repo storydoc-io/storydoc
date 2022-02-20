@@ -6,6 +6,7 @@ import io.storydoc.server.storydoc.infra.store.model.Artifact;
 import io.storydoc.server.storydoc.infra.store.model.StoryDoc;
 import io.storydoc.server.storydoc.infra.store.model.*;
 import io.storydoc.server.workspace.domain.FolderURN;
+import io.storydoc.server.workspace.domain.ResourceUrn;
 import io.storydoc.server.workspace.domain.WorkspaceException;
 import org.springframework.stereotype.Service;
 
@@ -140,12 +141,17 @@ public class StoryDocQueryServiceImpl implements StoryDocQueryService {
 
     @Override
     public FolderURN getArtifactBlockFolder(BlockCoordinate blockCoordinate) {
-        return storyDocStorage.getArtifactBlockFolder(blockCoordinate.getStoryDocId(), blockCoordinate.getBlockId());
+        return storyDocStorage.getBlockFolder(blockCoordinate.getStoryDocId(), blockCoordinate.getBlockId());
+    }
+
+    @Override
+    public ResourceUrn getArtifactUrn(ArtifactCoordinate artifactCoordinate) {
+        return storyDocStorage.getArtifactUrn(artifactCoordinate);
     }
 
     @Override
     public List<ArtifactId> getArtifactsByType(BlockCoordinate coordinate, String artifactType) {
-        return storyDocStorage.getArtifacts(coordinate, (metaData)-> metaData.getType().equals(artifactType) );
+        return storyDocStorage.findArtifacts(coordinate, (metaData)-> metaData.getType().equals(artifactType) );
     }
 
     @Override
@@ -165,7 +171,12 @@ public class StoryDocQueryServiceImpl implements StoryDocQueryService {
     }
 
     @Override
-    public InputStream getBinaryFromCollection(BlockCoordinate coordinate, ArtifactId artifactId, ItemId itemId) throws WorkspaceException {
-        return storyDocStorage.getBinaryFromCollection(coordinate, artifactId, itemId);
+    public InputStream getBinaryFromCollection(ArtifactCoordinate coordinate, ItemId itemId) throws WorkspaceException {
+        return storyDocStorage.getBinaryFromCollection(coordinate, itemId);
+    }
+
+    @Override
+    public ResourceUrn getArtifactItemUrn(ArtifactCoordinate artifactCoordinate, ItemId itemId) {
+        return storyDocStorage.getCollectionItemUrn(artifactCoordinate, itemId);
     }
 }

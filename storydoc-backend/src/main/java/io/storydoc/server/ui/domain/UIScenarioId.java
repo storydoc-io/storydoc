@@ -6,6 +6,7 @@ import java.util.Objects;
 
 public class UIScenarioId {
 
+    public static final String ID_PREFIX = "ui-scenario";
     private String id;
 
     public UIScenarioId(String id) {
