@@ -1,0 +1,1 @@
+java -Dio.storydoc.workspaceFolder=workspace -jar ${project.build.finalName}-spring-boot.jar
