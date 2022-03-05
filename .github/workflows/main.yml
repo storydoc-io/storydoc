@@ -20,3 +20,9 @@ jobs:
 
     - name: Build project with Maven
       run: mvn clean package
+
+    - name: Archive assembly
+      uses: actions/upload-artifact@v3
+      with:
+        name: assembly
+        path: target/storydoc-server-pe-*.zip
