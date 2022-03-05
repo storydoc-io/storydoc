@@ -21,6 +21,9 @@ jobs:
     - name: Build project with Maven
       run: mvn clean package
 
+    - name: Create assembly
+      run: mvn -f storydoc-server-pe/pom.xml assembly:single
+
     - name: Archive assembly
       uses: actions/upload-artifact@v3
       with:
