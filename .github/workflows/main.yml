@@ -19,7 +19,7 @@ jobs:
         java-version: 11
 
     - name: Build project with Maven
-      run: mvn clean package
+      run: mvn clean install
 
     - name: Create assembly
       run: mvn -f storydoc-server-pe/pom.xml assembly:single
