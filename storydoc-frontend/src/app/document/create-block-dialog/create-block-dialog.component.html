@@ -1,15 +1,15 @@
 <div class="modal-dialog" *ngIf="spec">
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title">{{spec.mode==='NEW'? 'Create' : 'Edit'}} Block</h5>
+      <h5 class="modal-title">{{spec.mode==='NEW'? 'Create' : 'Edit'}} Paragraph</h5>
       <button type="button" class="btn-close" (click)="cancel()"></button>
     </div>
     <div class="modal-body">
       <form [formGroup]="formGroup">
         <div class="mb-3">
           <label for="name" class="form-label">Name</label>
-          <input formControlName="name" type="text" class="form-control">
-          <div id="name" class="form-text">Enter a name for the block.</div>
+          <input formControlName="name" type="text" class="form-control" #name>
+          <div id="name" class="form-text">Enter a name for the paragraph.</div>
         </div>
       </form>
     </div>

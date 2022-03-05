@@ -61,6 +61,7 @@ public class UIQueryServiceImpl implements UIQueryService {
         ArtifactDTO artifactDTO = storyDocQueryService.getArtifact(collectionCoordinate.getBlockCoordinate(), collectionCoordinate.getScreenShotCollectionId().asArtifactId());
         return ScreenShotCollectionDTO.builder()
             .storyDocSummary(getStoryDocSummary(collectionCoordinate.getBlockCoordinate().getStoryDocId()))
+            .coordinate(collectionCoordinate)
             .name(artifactDTO.getName())
             .screenShots(artifactDTO.getItems().stream()
                 .map(item -> ScreenShotDTO.builder()
@@ -82,8 +83,8 @@ public class UIQueryServiceImpl implements UIQueryService {
                 .id(UIScenarioId.fromString(uiScenario.getId()))
                 .storyDocSummary(getStoryDocSummary(scenarioCoordinate.getBlockCoordinate().getStoryDocId()))
                 .name(metaData.getName())
+                .state(metaData.getState())
                 .timeLineModelCoordinate(uiScenario.getTimeLineModelCoordinate())
-                .timeLineId(uiScenario.getTimeLineId())
                 .screenshots(uiScenario.getScreenshots().stream()
                     .map(this::toDTO)
                     .collect(Collectors.toList())

@@ -1,0 +1,26 @@
+<div class="modal-dialog" >
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Configure UI Scenario</h5>
+      <button type="button" class="btn-close" (click)="cancel()"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formGroup">
+        <label for="timeLineModel" class="form-label">Timeline Model</label>
+        <div class="input-group mb-3">
+          <select id="timeLineModel" formControlName="timeLineModel" class="form-select"
+                  [compareWith]="compareTimeLineModel" >
+            <ng-container *ngIf="timeLineModels$ | async as timeLineModels">
+              <option *ngFor="let timeLineModel of timeLineModels"
+                      [ngValue]="timeLineModel.timeLineModelCoordinate">{{timeLineModel.name}}</option>
+            </ng-container>
+          </select>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="confirm()" [disabled]="!formGroup.valid">OK</button>
+      <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+    </div>
+  </div>
+</div>

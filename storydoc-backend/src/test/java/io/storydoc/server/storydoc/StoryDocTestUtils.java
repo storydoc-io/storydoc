@@ -1,9 +1,7 @@
 package io.storydoc.server.storydoc;
 
 import io.storydoc.server.storydoc.app.StoryDocService;
-import io.storydoc.server.storydoc.domain.BlockCoordinate;
-import io.storydoc.server.storydoc.domain.BlockId;
-import io.storydoc.server.storydoc.domain.StoryDocId;
+import io.storydoc.server.storydoc.domain.*;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -29,8 +27,14 @@ public class StoryDocTestUtils {
 
     public StoryDocId create_storydoc() {
         String story_name = "story_" + UUID.randomUUID();
-        StoryDocId storyDocId = storyDocService.createDocument(story_name);
-        return storyDocId;
+        return storyDocService.createDocument(story_name);
     }
 
+    public ArtifactCoordinate add_artifact(BlockCoordinate blockCoordinate) {
+        ArtifactId artifactId = new ArtifactId("artifact-"+UUID.randomUUID());
+        String name = "name-" + artifactId.getId();
+        String type= "test-type";
+        storyDocService.addArtifact(blockCoordinate, artifactId, type, name);
+        return ArtifactCoordinate.of(blockCoordinate, artifactId);
+    }
 }

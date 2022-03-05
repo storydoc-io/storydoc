@@ -1,0 +1,7 @@
+<p>dbnavigation-page works!</p>
+
+<div *ngIf="nav$ | async as nav; else loading">
+  {{nav}}
+</div>
+
+<ng-template #loading>loading...</ng-template>

@@ -4,15 +4,15 @@
       <label for="collection" class="form-label">Screenshot collection</label>
       <select id="collection" formControlName="collection" class="form-select" (change)="onCollectionChange()">
         <option selected>--select--</option>
-        <option *ngFor="let collection of collections"
-                [ngValue]="collection">{{collection.name}}</option>
+        <ng-container *ngIf="collections$ | async as collections">
+          <option *ngFor="let collection of collections"
+                  [ngValue]="collection.collectionCoordinate">{{collection.name}}</option>
+        </ng-container>
       </select>
       <div class="form-text">Select a screenshot collection.</div>
     </div>
   </form>
-  <ng-container *ngIf="(screenshotCollection$|async) as screenshotCollection">
-    <app-screenshot-thumbnail draggable="true" (dragstart)="drag($event, screenshot.id)"
-                              *ngFor="let screenshot of screenshotCollection.screenShots"
-                              [screenshotCoordinate]="screenshotCoordinate(screenshot.id)"></app-screenshot-thumbnail>
-  </ng-container>
+  <div  *ngIf="(screenshotCollection$|async)" style="max-height: 400px; overflow-y: scroll;">
+    <app-screenshot-collection-panel  [screenshotCollection$]="screenshotCollection$" ></app-screenshot-collection-panel>
+  </div>
 </app-border>

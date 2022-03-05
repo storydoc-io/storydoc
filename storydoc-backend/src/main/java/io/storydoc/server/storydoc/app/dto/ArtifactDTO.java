@@ -1,6 +1,7 @@
 package io.storydoc.server.storydoc.app.dto;
 
 import io.storydoc.server.storydoc.domain.ArtifactId;
+import io.storydoc.server.storydoc.domain.ArtifactState;
 import io.storydoc.server.workspace.domain.ResourceUrn;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +19,8 @@ public class ArtifactDTO {
     private ArtifactId artifactId;
 
     private String name;
+
+    private ArtifactState state;
 
     private String artifactType;
 

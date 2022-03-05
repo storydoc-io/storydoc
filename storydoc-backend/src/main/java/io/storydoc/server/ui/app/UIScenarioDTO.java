@@ -1,7 +1,7 @@
 package io.storydoc.server.ui.app;
 
 import io.storydoc.server.storydoc.app.dto.StoryDocSummaryDTO;
-import io.storydoc.server.timeline.domain.TimeLineId;
+import io.storydoc.server.storydoc.domain.ArtifactState;
 import io.storydoc.server.timeline.domain.TimeLineModelCoordinate;
 import io.storydoc.server.ui.domain.UIScenarioId;
 import lombok.AllArgsConstructor;
@@ -23,13 +23,12 @@ public class UIScenarioDTO {
 
     private String name;
 
-    private TimeLineModelCoordinate timeLineModelCoordinate;
+    private ArtifactState state;
 
-    private TimeLineId timeLineId;
+    private TimeLineModelCoordinate timeLineModelCoordinate;
 
     private List<ScreenShotTimeLineItemDTO> screenshots;
 
     private List<ScreenshotCollectionSummaryDTO> associatedCollections;
-
 
 }

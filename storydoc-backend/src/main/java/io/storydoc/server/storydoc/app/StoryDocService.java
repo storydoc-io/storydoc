@@ -25,6 +25,8 @@ public interface StoryDocService {
 
     void addArtifact(BlockCoordinate blockCoordinate, ArtifactId artifactId, String artifactType, String name);
 
+    void changeArtifactState(ArtifactCoordinate coordinate, ArtifactState state);
+
     void saveArtifact(ArtifactCoordinate coordinate, ArtifactSerializer serializer);
 
     <A extends Artifact> A loadArtifact(ArtifactCoordinate coordinate, ArtifactDeserializer deserializer);

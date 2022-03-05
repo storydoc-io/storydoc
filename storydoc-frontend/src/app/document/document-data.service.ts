@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {map} from "rxjs/operators";
-import {ArtifactId, BlockDto, BlockId, StoryDocDto, StoryDocId} from "@storydoc/models";
+import {ArtifactId, BlockDto, BlockId, StoryDocDto, StoryDocId, TimeLineModelCoordinate} from "@storydoc/models";
 import {StoryDocRestControllerService, TimeLineControllerService, UiRestControllerService} from "@storydoc/services";
 
 interface DocumentState {
@@ -84,7 +84,7 @@ export class DocumentDataService {
           blockId: param.blockId,
           name: param.name
         }).subscribe({
-          next: value => this.refresh()
+          next: (timeLineModelCoordinate) => this.refresh()
         })
         break
       }
@@ -94,7 +94,7 @@ export class DocumentDataService {
           blockId: param.blockId,
           name: param.name
         }).subscribe({
-          next: value => this.refresh()
+          next: (uiScenarioCoordinate) => this.refresh()
         })
         break
       }

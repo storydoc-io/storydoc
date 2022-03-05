@@ -13,7 +13,7 @@ public class ArtifactCoordinate {
     private ArtifactId artifactId;
     private BlockCoordinate blockCoordinate;
 
-    static public ArtifactCoordinate of(ArtifactId artifactId, BlockCoordinate blockCoordinate) {
+    static public ArtifactCoordinate of(BlockCoordinate blockCoordinate, ArtifactId artifactId) {
         return new ArtifactCoordinate(artifactId, blockCoordinate);
     }
 }

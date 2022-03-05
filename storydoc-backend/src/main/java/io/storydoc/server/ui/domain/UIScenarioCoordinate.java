@@ -27,6 +27,6 @@ public class UIScenarioCoordinate {
     }
 
     public ArtifactCoordinate asArtifactCoordinate() {
-        return ArtifactCoordinate.of(uiScenarioId.asArtifactId(), blockCoordinate);
+        return ArtifactCoordinate.of(blockCoordinate, uiScenarioId.asArtifactId());
     }
 }

@@ -66,7 +66,7 @@ public class StoryDocRestController {
     @DeleteMapping(value = "/removeartifact", produces = MediaType.APPLICATION_JSON_VALUE)
     public void removeArtifact(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId")  BlockId blockId, @RequestParam("artifactId") ArtifactId artifactId) {
         BlockCoordinate blockCoordinate = BlockCoordinate.of(storyDocId,blockId);
-        ArtifactCoordinate artifactCoordinate = ArtifactCoordinate.of(artifactId, blockCoordinate);
+        ArtifactCoordinate artifactCoordinate = ArtifactCoordinate.of(blockCoordinate, artifactId);
         storyDocService.removeArtifact(artifactCoordinate);
     }
 

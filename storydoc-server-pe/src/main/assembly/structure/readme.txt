@@ -14,3 +14,4 @@ to run the application:
         ./run.sh
 
 
+The server runs on http://localhost:8080

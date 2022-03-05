@@ -1,5 +1,6 @@
 package io.storydoc.server.storydoc.infra.store.model;
 
+import io.storydoc.server.storydoc.domain.ArtifactState;
 import io.storydoc.server.workspace.domain.ResourceUrn;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +16,8 @@ public class Artifact {
     private String artifactId;
 
     private String name;
+
+    private ArtifactState state;
 
     private String artifactType;
 

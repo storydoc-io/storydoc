@@ -1,0 +1,24 @@
+<app-layout-1col
+  [breadcrumb]="breadcrumb"
+  [title]="title"
+  [middle]="content"
+>
+</app-layout-1col>
+
+<ng-template #breadcrumb>
+  [breadcrumb]
+</ng-template>
+
+<ng-template #title>
+  [title]
+</ng-template>
+
+<ng-template #content>
+  <div *ngIf="dataSet$ | async as dataSet; else loading">
+
+    <div class="btn  btn-sm btn-outline-primary" (click)="addTableData()">Add</div>
+    {{dataSet.tableDataSets.length}}
+  </div>
+</ng-template>
+
+<ng-template #loading>loading...</ng-template>

@@ -1,11 +1,11 @@
 <ng-container *ngIf="uiScenario$ | async as uiScenario">
   <ng-container *ngIf="timeLineModel$ | async as timeLineModel">
-    <ng-container *ngIf="selectedTimeLine(timeLineModel, uiScenario) as selectedTimeLine">
+    <ng-container *ngIf="timeLine$ | async as timeLine">
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-3">
             <div class="container">
-              <div class="row" *ngFor="let timeLineItem of selectedTimeLine.items; let idx=index " (click)="select(timeLineItem)">
+              <div class="row" *ngFor="let timeLineItem of timeLine.items; let idx=index " (click)="select(timeLineItem)">
                 <div class="col-md-6">
                   <div class="time-line-item-connector"></div>
                   <div class="time-line-item" [class.selected]="isSelected(timeLineItem)">{{timeLineItem.description}}</div>
@@ -13,14 +13,14 @@
                 </div>
                 <div class="col-md-6">
                   <div *ngVar="assignedScreenshot(uiScenario, timeLineItem) as screenshotCoord" style="margin-bottom: 10px;">
-                    <ng-container *ngIf="screenshotCoord">
-                      <app-screenshot-thumbnail [screenshotCoordinate]="screenshotCoord" [selected]="isSelected(timeLineItem)"></app-screenshot-thumbnail>
-                    </ng-container>
-                    <ng-container *ngIf="!screenshotCoord">
-                      <div class="dropzone" (dragover)="allowDrop($event)"
-                           (drop)="doDrop($event, timeLineItem.itemId)">[drop sceenshot here]
-                      </div>
-                    </ng-container>
+                    <div class="dropzone" (dragover)="allowDrop($event)" (drop)="doDrop($event, timeLineItem.itemId)">
+                      <ng-container *ngIf="screenshotCoord">
+                        <app-screenshot-thumbnail [screenshotCoordinate]="screenshotCoord" [selected]="isSelected(timeLineItem)"></app-screenshot-thumbnail>
+                      </ng-container>
+                      <ng-container *ngIf="!screenshotCoord">
+                        <div>[drop sceenshot here]</div>
+                      </ng-container>
+                    </div>
                   </div>
                 </div>
               </div>

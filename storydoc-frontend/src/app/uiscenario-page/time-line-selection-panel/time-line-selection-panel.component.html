@@ -1,23 +1,12 @@
 <app-border>
   <form [formGroup]="formGroup">
-    <label for="timeLineModel" class="form-label">Timeline Model</label>
-    <div class="input-group mb-3">
-      <select id="timeLineModel" formControlName="timeLineModel" class="form-select"
-              [compareWith]="compareTimeLineModel" (change)="onTimeLineModelChange()">
-        <option selected>--select--</option>
-        <ng-container *ngIf="timeLineModelSelection$|async as timeLineModelSelection">
-          <option *ngFor="let tlModel of timeLineModelSelection.models"
-                  [ngValue]="tlModel.timeLineModelCoordinate">{{tlModel.name}}</option>
-        </ng-container>
-      </select>
-    </div>
     <div class="mb-3">
       <label for="timeLine" class="form-label">Timeline</label>
-      <select id="timeLine" formControlName="timeLine" class="form-select" (change)="onTimeLineChange()">
-        <option selected>--select--</option>
-        <ng-container *ngIf="timeLineSelection$|async as timeLineSelection">
-          <option *ngFor="let timeLine of asArray(timeLineSelection.timeLineModel.timeLines)"
-                  [ngValue]="timeLine.timeLineId">{{timeLine.name}}</option>
+      <select id="timeLine" formControlName="timeLine" class="form-select" (change)="onTimeLineChange()" >
+        <option>-- select --</option>
+        <ng-container *ngIf="timeLineModel$|async as timeLineModel">
+          <option *ngFor="let timeLine of timelinesAsArray(timeLineModel.timeLines)"
+                    [ngValue]="timeLine.timeLineId">{{timeLine.name}}</option>
         </ng-container>
       </select>
       <div class="form-text">Select a timeline.</div>

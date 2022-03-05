@@ -52,15 +52,8 @@ public class UIServiceTest extends TestBase {
     @Test
     public void createUIScenario() {
         // given a storydoc with a artifact block
-        String story_name = "story";
-        StoryDocId storyDocId = storyDocService.createDocument(story_name);
-
-        String block_name = "block";
-        BlockId blockId = storyDocService.addArtifactBlock(storyDocId, block_name);
-        BlockCoordinate coordinate = BlockCoordinate.builder()
-                .storyDocId(storyDocId)
-                .blockId(blockId)
-                .build();
+        BlockCoordinate coordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        StoryDocId storyDocId = coordinate.getStoryDocId();
 
         // when I create a uiscenario artifact
         String uiscenario_artifact_name = "uiscenario artifact";
@@ -200,7 +193,7 @@ public class UIServiceTest extends TestBase {
         TimeLineCoordinate defaultTimeLineCoordinate = timeLineTestUtils.getDefaultTimeLine(timeLineModelCoordinate);
 
         // when I associate the timeline with the UI scenario
-        uiService.setTimeLineForUIScenario(scenarioCoordinate, defaultTimeLineCoordinate);
+        uiService.setTimeLineModelForUIScenario(scenarioCoordinate, timeLineModelCoordinate);
 
         // I can find the associated timeline
         UIScenarioDTO dto = uiQueryService.getUIScenario(scenarioCoordinate);
@@ -230,8 +223,9 @@ public class UIServiceTest extends TestBase {
         // given a timeline model in the same paragraph
         TimeLineModelCoordinate timeLineModelCoordinate = timeLineTestUtils.createTimeLineModel(blockCoordinate);
         TimeLineCoordinate defaultTimeLineCoordinate = timeLineTestUtils.getDefaultTimeLine(timeLineModelCoordinate);
-        // given I the timeline is associated with the UI scenario
-        uiService.setTimeLineForUIScenario(scenarioCoordinate, defaultTimeLineCoordinate);
+
+        // given the timeline model is associated with the UI scenario
+        uiService.setTimeLineModelForUIScenario(scenarioCoordinate, timeLineModelCoordinate);
 
         // given a timeLine item is added to the default timeline
         TimeLineItemId timeLineItemId = timeLineTestUtils.addItemToDefaultTimeLine(timeLineModelCoordinate);
@@ -248,6 +242,89 @@ public class UIServiceTest extends TestBase {
         ScreenShotTimeLineItemDTO screenShotDTO = mockUIDTO.getScreenshots().get(0);
         assertEquals(screenshotCoordinate, screenShotDTO.getScreenshotCoordinate());
         assertEquals(timeLineItemId, screenShotDTO.getTimeLineItemId());
+    }
+
+    @Test
+    public void update_screenshot_in_ui_scenario() {
+        // given a storydoc with an artifact paragraph
+        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+
+        // given a screenshot collection artifact in that paragraph
+        ScreenshotCollectionCoordinate collectionCoordinate = uiTestUtils.createScreenshotCollection(blockCoordinate);
+
+        // given  a screenshot is uploaded to the collection
+        ScreenShotId screenShotId = uiTestUtils.upoadScreenShotToCollection(collectionCoordinate);
+        ScreenshotCoordinate screenshotCoordinate = ScreenshotCoordinate.of(collectionCoordinate, screenShotId);
+
+        // given a uiscenario artifact in the same paragraph
+        UIScenarioCoordinate scenarioCoordinate =  uiTestUtils.createUIScenario(blockCoordinate);
+
+        // given a timeline model in the same paragraph
+        TimeLineModelCoordinate timeLineModelCoordinate = timeLineTestUtils.createTimeLineModel(blockCoordinate);
+        TimeLineCoordinate defaultTimeLineCoordinate = timeLineTestUtils.getDefaultTimeLine(timeLineModelCoordinate);
+
+        // given I the timeline is associated with the UI scenario
+        uiService.setTimeLineModelForUIScenario(scenarioCoordinate, timeLineModelCoordinate);
+
+        // given a timeLine item is added to the default timeline
+        TimeLineItemId timeLineItemId = timeLineTestUtils.addItemToDefaultTimeLine(timeLineModelCoordinate);
+
+        // given the screenshot is added to the UI scenario
+        uiService.addScreenShotToUIScenario(scenarioCoordinate, screenshotCoordinate, timeLineItemId);
+
+        // given  another screenshot is uploaded to the collection
+        ScreenShotId screenShotId2 = uiTestUtils.upoadScreenShotToCollection(collectionCoordinate);
+        ScreenshotCoordinate screenshotCoordinate2 = ScreenshotCoordinate.of(collectionCoordinate, screenShotId2);
+
+        // when I add the screenshot to the same timeline item in the UI scenario
+        uiService.addScreenShotToUIScenario(scenarioCoordinate, screenshotCoordinate2, timeLineItemId);
+
+        // then the second  screenshots replaces the first in the UI scenario
+        UIScenarioDTO mockUIDTO = uiQueryService.getUIScenario(scenarioCoordinate);
+
+        assertEquals(1, mockUIDTO.getScreenshots().size());
+        ScreenShotTimeLineItemDTO screenShotDTO = mockUIDTO.getScreenshots().get(0);
+        assertEquals(screenshotCoordinate2, screenShotDTO.getScreenshotCoordinate());
+        assertEquals(timeLineItemId, screenShotDTO.getTimeLineItemId());
+
+    }
+
+    @Test
+    public void remove_screenshot_from_ui_scenario() {
+        // given a storydoc with an artifact paragraph
+        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+
+        // given a screenshot collection artifact in that paragraph
+        ScreenshotCollectionCoordinate collectionCoordinate = uiTestUtils.createScreenshotCollection(blockCoordinate);
+
+        // given  a screenshot is uploaded to the collection
+        ScreenShotId screenShotId = uiTestUtils.upoadScreenShotToCollection(collectionCoordinate);
+        ScreenshotCoordinate screenshotCoordinate = ScreenshotCoordinate.of(collectionCoordinate, screenShotId);
+
+        // given a uiscenario artifact in the same paragraph
+        UIScenarioCoordinate scenarioCoordinate =  uiTestUtils.createUIScenario(blockCoordinate);
+
+        // given a timeline model in the same paragraph
+        TimeLineModelCoordinate timeLineModelCoordinate = timeLineTestUtils.createTimeLineModel(blockCoordinate);
+        TimeLineCoordinate defaultTimeLineCoordinate = timeLineTestUtils.getDefaultTimeLine(timeLineModelCoordinate);
+
+        // given the timeline model is associated with the UI scenario
+        uiService.setTimeLineModelForUIScenario(scenarioCoordinate, timeLineModelCoordinate);
+
+        // given a timeLine item is added to the default timeline
+        TimeLineItemId timeLineItemId = timeLineTestUtils.addItemToDefaultTimeLine(timeLineModelCoordinate);
+
+        // given the screenshot is added to the UI scenario
+        uiService.addScreenShotToUIScenario(scenarioCoordinate, screenshotCoordinate, timeLineItemId);
+
+        // when I delete the screenshot from hte UI scenario
+        uiService.removeScreenshotFromUIScenario(scenarioCoordinate, timeLineItemId);
+
+        // then the UI scenario no longer has the screenshot
+        UIScenarioDTO mockUIDTO = uiQueryService.getUIScenario(scenarioCoordinate);
+
+        assertEquals(0, mockUIDTO.getScreenshots().size());
+
     }
 
 }

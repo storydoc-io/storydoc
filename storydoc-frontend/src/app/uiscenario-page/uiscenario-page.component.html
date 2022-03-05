@@ -1,41 +1,29 @@
-<ng-container *ngIf="presentationMode">
-  <app-layout-1col
-    [title]="presentationModeMenu"
-    [middle]="scenarioPanel"
-  >
-  </app-layout-1col>
+<ng-container *ngIf="uiScenario$ | async as uiScenario">
+  <ng-container *ngIf="uiScenario.state=='CREATED'">
+    <app-layout-1col
+      [breadcrumb]="breadcrumb"
+      [title]="menu"
+      [middle]="configurePanel"
+    >
+    </app-layout-1col>
+  </ng-container>
+  <ng-container *ngIf="uiScenario.state=='READY' && !presentationMode">
+    <app-layout-2col
+      [breadcrumb]="breadcrumb"
+      [title]="menu"
+      [leftColumn]="inputPanels"
+      [rightColumn]="scenarioPanel"
+    >
+    </app-layout-2col>
+  </ng-container>
+  <ng-container *ngIf="uiScenario.state=='READY' && presentationMode">
+      <app-layout-1col
+        [middle]="scenarioPanel"
+        [title]="presentationModeMenu"
+      >
+      </app-layout-1col>
+  </ng-container>
 </ng-container>
-<ng-container *ngIf="!presentationMode">
-  <app-layout-2col
-    [breadcrumb]="breadcrumb"
-    [title]="editModeMenu"
-    [leftColumn]="inputPanels"
-    [rightColumn]="scenarioPanel"
-  >
-  </app-layout-2col>
-</ng-container>
-
-<ng-template #editModeMenu>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-11">[title]</div>
-      <div class="col-md-1">
-        <div class="btn  btn-sm btn-outline-secondary" (click)="togglePresentationMode()">Start Presentation</div>
-      </div>
-    </div>
-  </div>
-</ng-template>
-
-<ng-template #presentationModeMenu>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-11"></div>
-      <div class="col-md-1">
-        <div class="btn  btn-sm btn-outline-primary" (click)="togglePresentationMode()">End Presention</div>
-      </div>
-    </div>
-  </div>
-</ng-template>
 
 <ng-template #breadcrumb>
   <nav aria-label="breadcrumb">
@@ -50,13 +38,77 @@
   </nav>
 </ng-template>
 
+<ng-template #menu>
+  <div class="container-fluid" *ngIf="uiScenario$ | async as uiScenario">
+    <div class="row">
+      <div class="col-md-10">
+        <h3>
+          <app-back-button [routerLink]="link.toStoryDoc(uiScenario.storyDocSummary)"></app-back-button>
+          UI Scenario: {{uiScenario.name}}
+        </h3>
+      </div>
+      <div class="col-md-2">
+        <div class="btn  btn-sm btn-outline-secondary float-right m-2" (click)="configure()">Configure</div>
+        <div *ngIf="uiScenario.state=='READY'" class="btn  btn-sm btn-outline-secondary float-right" (click)="togglePresentationMode()">Start Presentation</div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #configurePanel>
+  <div class="jumbotron vertical-center">
+    <div class="container">
+      <div class="h-100 p-5 bg-light border rounded-3">
+        <h4>The UI Scenario is not ready yet.</h4>
+        <p></p>
+        <p>Click the <a (click)="configure()" href="javascript:void(0);">configure button</a> to set up the scenario's dependencies.</p>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<jw-modal [id]="configurationDialogId()">
+  <app-scenario-config-dialog [spec]="scenarioConfigDialogSpec"></app-scenario-config-dialog>
+</jw-modal>
+
+<ng-template #editModeMenu>
+  <div class="container-fluid" *ngIf="uiScenario$ | async as uiScenario">
+    <div class="row">
+      <div class="col-md-10">
+        <h3>
+          <app-back-button [routerLink]="link.toStoryDoc(uiScenario.storyDocSummary)"></app-back-button>
+          UI Scenario: {{uiScenario.name}}
+        </h3>
+      </div>
+      <div class="col-md-2">
+        <div class="btn  btn-sm btn-outline-secondary float-right m-2" (click)="configure()">Configure</div>
+        <div class="btn  btn-sm btn-outline-secondary float-right" (click)="togglePresentationMode()">Start Presentation</div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
 <ng-template #inputPanels>
   <app-time-line-selection-panel></app-time-line-selection-panel>
-  <app-screenshot-panel [collections]="(uiScenario$|async)?.associatedCollections"></app-screenshot-panel>
+  <app-screenshot-panel></app-screenshot-panel>
 </ng-template>
 
 <ng-template #scenarioPanel>
   <app-scenario-panel></app-scenario-panel>
 </ng-template>
+
+<!-- presentation -->
+<ng-template #presentationModeMenu>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-11"></div>
+      <div class="col-md-1">
+        <div class="btn  btn-sm btn-outline-primary" (click)="togglePresentationMode()">End Presention</div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
 
 <ng-template #loading>loading...</ng-template>

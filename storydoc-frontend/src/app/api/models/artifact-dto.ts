@@ -11,5 +11,6 @@ export interface ArtifactDto {
   collection?: boolean;
   items?: Array<ItemDto>;
   name?: string;
+  state?: 'CREATED' | 'READY';
   urn?: ResourceUrn;
 }

@@ -9,6 +9,7 @@ import lombok.Value;
 public class ArtifactMetaData {
     String type;
     String name;
+    ArtifactState state;
     ResourceUrn relativeUrn;
     boolean collection;
     boolean binary;

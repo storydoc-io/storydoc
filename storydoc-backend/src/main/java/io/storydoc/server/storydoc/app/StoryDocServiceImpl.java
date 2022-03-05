@@ -103,6 +103,12 @@ public class StoryDocServiceImpl implements StoryDocService {
     }
 
     @Override
+    public void changeArtifactState(ArtifactCoordinate coordinate, ArtifactState state) {
+        StoryDoc storyDoc = domainService.getDocument(coordinate.getBlockCoordinate().getStoryDocId());
+        storyDoc.changeArtifactState(coordinate, state);
+    }
+
+    @Override
     public void saveArtifact(ArtifactCoordinate coordinate, ArtifactSerializer serializer) {
         StoryDoc storyDoc = domainService.getDocument(coordinate.getBlockCoordinate().getStoryDocId());
         storyDoc.saveArtifact(coordinate, serializer);
@@ -147,7 +153,7 @@ public class StoryDocServiceImpl implements StoryDocService {
     public ItemId addItemToBinaryCollection(BlockCoordinate coordinate, ArtifactId artifactId, String itemName, InputStream inputStream) {
         ItemId itemId = ItemId.fromString(idGenerator.generateID("item"));
         StoryDoc storyDoc = domainService.getDocument(coordinate.getStoryDocId());
-        storyDoc.addItemToBinaryCollection(ArtifactCoordinate.of(artifactId, coordinate), itemName, itemId, inputStream);
+        storyDoc.addItemToBinaryCollection(ArtifactCoordinate.of(coordinate, artifactId), itemName, itemId, inputStream);
         return itemId;
     }
 

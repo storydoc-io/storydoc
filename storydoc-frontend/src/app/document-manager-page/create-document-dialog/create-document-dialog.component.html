@@ -1,14 +1,14 @@
-<div class="modal-dialog" *ngIf="input">
+<div class="modal-dialog" *ngIf="spec">
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title">{{input.mode==='NEW'? 'Create' : 'Edit'}} Story</h5>
+      <h5 class="modal-title">{{spec.mode==='NEW'? 'Create' : 'Edit'}} Story</h5>
       <button type="button" class="btn-close" (click)="cancel()"></button>
     </div>
     <div class="modal-body">
       <form [formGroup]="formGroup">
         <div class="mb-3">
           <label for="name" class="form-label">Name</label>
-          <input formControlName="name" type="text" class="form-control">
+          <input formControlName="name" type="text" class="form-control" #name>
           <div id="name" class="form-text">Enter a name for the story.</div>
         </div>
       </form>

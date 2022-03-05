@@ -34,17 +34,18 @@ public class UIRestController {
     }
 
     @PostMapping(value = "/uiscenario", produces = MediaType.APPLICATION_JSON_VALUE)
-    public UIScenarioId createUIScenario(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId, @RequestParam("name") String name) {
+    public UIScenarioCoordinate createUIScenario(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId, @RequestParam("name") String name) {
         BlockCoordinate blockCoordinate = BlockCoordinate.of(storyDocId, blockId);
-        return uiService.createUIScenario(blockCoordinate, name);
+        UIScenarioId uiScenarioId = uiService.createUIScenario(blockCoordinate, name);
+        return UIScenarioCoordinate.of(blockCoordinate, uiScenarioId);
     }
 
-    @PostMapping(value = "/uiscenariotimeline", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void setUIScenarioTimeLine(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId, @RequestParam("uiScenarioId") UIScenarioId uiScenarioId,
-                                      @RequestParam("timeLineModelStoryDocId") StoryDocId timeLineModelStoryDocId, @RequestParam("timeLineModelBlockId") BlockId timeLineModelBlockId, @RequestParam("timeLineModelId") TimeLineModelId timeLineModelId, @RequestParam("timeLineId") TimeLineId timeLineId ) {
+    @PostMapping(value = "/uiscenariotimelinemodel", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void setUIScenarioTimeLineModel(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId, @RequestParam("uiScenarioId") UIScenarioId uiScenarioId,
+                                      @RequestParam("timeLineModelStoryDocId") StoryDocId timeLineModelStoryDocId, @RequestParam("timeLineModelBlockId") BlockId timeLineModelBlockId, @RequestParam("timeLineModelId") TimeLineModelId timeLineModelId) {
         UIScenarioCoordinate scenarioCoordinate = UIScenarioCoordinate.of(storyDocId, blockId, uiScenarioId);
-        TimeLineCoordinate timeLineCoordinate = TimeLineCoordinate.of(timeLineModelStoryDocId, timeLineModelBlockId, timeLineModelId, timeLineId);
-        uiService.setTimeLineForUIScenario(scenarioCoordinate,timeLineCoordinate);
+        TimeLineModelCoordinate timeLineModelCoordinate = TimeLineModelCoordinate.of(timeLineModelStoryDocId, timeLineModelBlockId, timeLineModelId);
+        uiService.setTimeLineModelForUIScenario(scenarioCoordinate,timeLineModelCoordinate);
     }
 
 

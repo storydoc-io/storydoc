@@ -1,5 +1,6 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {setFocusOn} from "@storydoc/common";
 
 export interface BlockDialogData {
   name?: string
@@ -19,12 +20,18 @@ export interface BlockDialogSpec {
 })
 export class CreateBlockDialogComponent implements OnChanges {
 
+  constructor(private changeDetector: ChangeDetectorRef) {}
+
   @Input()
   spec: BlockDialogSpec
+
+  @ViewChild('name') nameField: ElementRef
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.spec != null) {
       this.formGroup.setValue(this.spec.data)
+      this.changeDetector.detectChanges()
+      setFocusOn(this.nameField)
     }
   }
 

@@ -7,10 +7,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import io.storydoc.server.storydoc.app.StoryDocQueryService;
 import io.storydoc.server.storydoc.app.StoryDocService;
+import io.storydoc.server.storydoc.domain.ArtifactState;
 import io.storydoc.server.storydoc.domain.BlockCoordinate;
 import io.storydoc.server.storydoc.domain.ItemId;
-import io.storydoc.server.timeline.domain.TimeLineCoordinate;
 import io.storydoc.server.timeline.domain.TimeLineItemId;
+import io.storydoc.server.timeline.domain.TimeLineModelCoordinate;
 import io.storydoc.server.ui.domain.*;
 import io.storydoc.server.workspace.domain.FolderURN;
 import io.storydoc.server.workspace.domain.ResourceUrn;
@@ -21,6 +22,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class UIStorageImpl implements UIStorage {
@@ -67,18 +69,36 @@ public class UIStorageImpl implements UIStorage {
     }
 
     @Override
+    public void setTimeLineModel(UIScenarioCoordinate scenarioCoordinate, TimeLineModelCoordinate timeLineModelCoordinate) {
+        UIScenario uiScenario = loadUIScenario(scenarioCoordinate);
+        uiScenario.setTimeLineModelCoordinate(timeLineModelCoordinate);
+        save(scenarioCoordinate, uiScenario);
+        storyDocService.changeArtifactState(scenarioCoordinate.asArtifactCoordinate(), ArtifactState.READY);
+    }
+
+    @Override
     public void addScreenshot(UIScenarioCoordinate scenarioCoordinate, ScreenshotCoordinate screenshotCoordinate, TimeLineItemId timeLineItemId) {
         UIScenario uiScenario = loadUIScenario(scenarioCoordinate);
+        getScreenshotTimeLineItem(uiScenario, timeLineItemId)
+            .ifPresent(screenshotTimeLineItem -> uiScenario.getScreenshots().remove(screenshotTimeLineItem));
         uiScenario.getScreenshots().add(new ScreenshotTimeLineItem(screenshotCoordinate, timeLineItemId.getId()));
         save(scenarioCoordinate, uiScenario);
     }
 
     @Override
-    public void setTimeLine(UIScenarioCoordinate scenarioCoordinate, TimeLineCoordinate timeLineCoordinate) {
+    public void removeScreenshot(UIScenarioCoordinate scenarioCoordinate, TimeLineItemId timeLineItemId) {
         UIScenario uiScenario = loadUIScenario(scenarioCoordinate);
-        uiScenario.setTimeLineModelCoordinate(timeLineCoordinate.getTimeLineModelCoordinate());
-        uiScenario.setTimeLineId(timeLineCoordinate.getTimeLineId());
-        save(scenarioCoordinate, uiScenario);
+        Optional<ScreenshotTimeLineItem> toRemove = getScreenshotTimeLineItem(uiScenario, timeLineItemId);
+        if (toRemove.isPresent()) {
+            uiScenario.getScreenshots().remove(toRemove.get());
+            save(scenarioCoordinate, uiScenario);
+        }
+    }
+
+    private Optional<ScreenshotTimeLineItem> getScreenshotTimeLineItem(UIScenario uiScenario, TimeLineItemId timeLineItemId) {
+        return uiScenario.getScreenshots().stream()
+                .filter(i -> i.getTimeLineItemId().equals(timeLineItemId.getId()))
+                .findFirst();
     }
 
     private void save(UIScenarioCoordinate scenarioCoordinate, UIScenario UIScenario) {

@@ -177,6 +177,16 @@ public class StoryDocStorageImpl implements StoryDocStorage {
     }
 
     @Override
+    public void changeArtifactState(ArtifactCoordinate coordinate, ArtifactState state) {
+        StoryDoc storyDoc = loadDocument(coordinate.getBlockCoordinate().getStoryDocId());
+        Block block = lookupBlock(coordinate.getBlockCoordinate().getBlockId(), storyDoc);
+        ArtifactBlock artifactBlock = (ArtifactBlock) block;
+        io.storydoc.server.storydoc.infra.store.model.Artifact artifact = lookupArtifact(coordinate.getArtifactId(), artifactBlock);
+        artifact.setState(state);
+        saveDocument(storyDoc);
+    }
+
+    @Override
     public void moveBlock(BlockCoordinate coordinateBlockToMove, BlockCoordinate coordinateNewParent, int indexInNewParent) {
         StoryDoc storyDoc = loadDocument(coordinateBlockToMove.getStoryDocId());
         CompositeBlock currentParentBlock = lookupParentBlock(coordinateBlockToMove.getBlockId(), storyDoc);
@@ -203,10 +213,11 @@ public class StoryDocStorageImpl implements StoryDocStorage {
         artifact.setArtifactId(artifactId.getId());
         artifact.setArtifactType(metaData.getType());
         artifact.setName(metaData.getName());
+        artifact.setState(ArtifactState.CREATED);
         artifact.setCollection(metaData.isCollection());
         if (metaData.isCollection()) {
             artifact.setItems(new ArrayList<>());
-            workspaceService.createFolder(getCollectionFolder(ArtifactCoordinate.of(artifactId, blockCoordinate)));
+            workspaceService.createFolder(getCollectionFolder(ArtifactCoordinate.of(blockCoordinate, artifactId)));
         }
         artifact.setBinary(metaData.isBinary());
         if (metaData.isBinary()) {
@@ -255,6 +266,7 @@ public class StoryDocStorageImpl implements StoryDocStorage {
         return ArtifactMetaData.builder()
                 .name(artifact.getName())
                 .type(artifact.getArtifactType())
+                .state(artifact.getState())
                 .build();
     }
 
@@ -397,7 +409,7 @@ public class StoryDocStorageImpl implements StoryDocStorage {
                 }
             });
         } catch (WorkspaceException e) {
-            throw new StoryDocException("could not load storydoc " + storyDocId);
+            throw new StoryDocException("could not load storydoc " + storyDocId, e);
         }
     }
 

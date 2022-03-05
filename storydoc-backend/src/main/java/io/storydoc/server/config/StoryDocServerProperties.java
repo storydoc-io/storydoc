@@ -11,4 +11,5 @@ public class StoryDocServerProperties {
 
     String workspaceFolder;
 
+    long maxFileSize;
 }

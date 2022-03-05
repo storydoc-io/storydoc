@@ -35,6 +35,12 @@ import {ConfirmationDialogComponent} from '@storydoc/common';
 import {ApiModule} from "./api/api.module";
 import { ScenarioPanelComponent } from './uiscenario-page/scenario-panel/scenario-panel.component';
 import {VarDirective} from "./common/ng-var.directive";
+import { DBNavigationPageComponent } from './dbnavigation-page/dbnavigation-page.component';
+import { DBDataPageComponent } from './dbdata-page/dbdata-page.component';
+import { BackButtonComponent } from './common/back-button/back-button.component';
+import { ScenarioConfigDialogComponent } from './uiscenario-page/scenario-config-dialog/scenario-config-dialog.component';
+import { ScreenshotCollectionPanelComponent } from './screenshot-collection-page/screenshot-collection-panel/screenshot-collection-panel.component';
+import { LoadingDirective } from './common/loading.directive';
 
 @NgModule({
   declarations: [
@@ -66,6 +72,12 @@ import {VarDirective} from "./common/ng-var.directive";
     ScreenshotThumbnailComponent,
     ConfirmationDialogComponent,
     ScenarioPanelComponent,
+    DBNavigationPageComponent,
+    DBDataPageComponent,
+    BackButtonComponent,
+    ScenarioConfigDialogComponent,
+    ScreenshotCollectionPanelComponent,
+    LoadingDirective,
   ],
   imports: [
     ApiModule.forRoot({ rootUrl: 'http://localhost:' + environment.port }),

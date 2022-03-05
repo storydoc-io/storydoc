@@ -12,8 +12,8 @@ import { map, filter } from 'rxjs/operators';
 import { ScreenShotCollectionDto } from '../models/screen-shot-collection-dto';
 import { ScreenShotCollectionId } from '../models/screen-shot-collection-id';
 import { ScreenShotId } from '../models/screen-shot-id';
+import { UiScenarioCoordinate } from '../models/ui-scenario-coordinate';
 import { UiScenarioDto } from '../models/ui-scenario-dto';
-import { UiScenarioId } from '../models/ui-scenario-id';
 
 
 /**
@@ -462,7 +462,7 @@ export class UiRestControllerService extends BaseService {
      * name
      */
     name: string;
-  }): Observable<StrictHttpResponse<UiScenarioId>> {
+  }): Observable<StrictHttpResponse<UiScenarioCoordinate>> {
 
     const rb = new RequestBuilder(this.rootUrl, UiRestControllerService.CreateUiScenarioUsingPostPath, 'post');
     if (params) {
@@ -477,7 +477,7 @@ export class UiRestControllerService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<UiScenarioId>;
+        return r as StrictHttpResponse<UiScenarioCoordinate>;
       })
     );
   }
@@ -508,10 +508,10 @@ export class UiRestControllerService extends BaseService {
      * name
      */
     name: string;
-  }): Observable<UiScenarioId> {
+  }): Observable<UiScenarioCoordinate> {
 
     return this.createUiScenarioUsingPost$Response(params).pipe(
-      map((r: StrictHttpResponse<UiScenarioId>) => r.body as UiScenarioId)
+      map((r: StrictHttpResponse<UiScenarioCoordinate>) => r.body as UiScenarioCoordinate)
     );
   }
 
@@ -655,21 +655,21 @@ export class UiRestControllerService extends BaseService {
   }
 
   /**
-   * Path part for operation setUiScenarioTimeLineUsingPost
+   * Path part for operation setUiScenarioTimeLineModelUsingPost
    */
-  static readonly SetUiScenarioTimeLineUsingPostPath = '/api/ui/uiscenariotimeline';
+  static readonly SetUiScenarioTimeLineModelUsingPostPath = '/api/ui/uiscenariotimelinemodel';
 
   /**
-   * setUIScenarioTimeLine.
+   * setUIScenarioTimeLineModel.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `setUiScenarioTimeLineUsingPost()` instead.
+   * To access only the response body, use `setUiScenarioTimeLineModelUsingPost()` instead.
    *
    * This method doesn't expect any request body.
    */
-  setUiScenarioTimeLineUsingPost$Response(params: {
+  setUiScenarioTimeLineModelUsingPost$Response(params: {
 
     /**
      * storyDocId
@@ -700,14 +700,9 @@ export class UiRestControllerService extends BaseService {
      * timeLineModelId
      */
     timeLineModelId: string;
-
-    /**
-     * timeLineId
-     */
-    timeLineId: string;
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, UiRestControllerService.SetUiScenarioTimeLineUsingPostPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, UiRestControllerService.SetUiScenarioTimeLineModelUsingPostPath, 'post');
     if (params) {
       rb.query('storyDocId', params.storyDocId, {"style":"form"});
       rb.query('blockId', params.blockId, {"style":"form"});
@@ -715,7 +710,6 @@ export class UiRestControllerService extends BaseService {
       rb.query('timeLineModelStoryDocId', params.timeLineModelStoryDocId, {"style":"form"});
       rb.query('timeLineModelBlockId', params.timeLineModelBlockId, {"style":"form"});
       rb.query('timeLineModelId', params.timeLineModelId, {"style":"form"});
-      rb.query('timeLineId', params.timeLineId, {"style":"form"});
     }
 
     return this.http.request(rb.build({
@@ -730,16 +724,16 @@ export class UiRestControllerService extends BaseService {
   }
 
   /**
-   * setUIScenarioTimeLine.
+   * setUIScenarioTimeLineModel.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `setUiScenarioTimeLineUsingPost$Response()` instead.
+   * To access the full response (for headers, for example), `setUiScenarioTimeLineModelUsingPost$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  setUiScenarioTimeLineUsingPost(params: {
+  setUiScenarioTimeLineModelUsingPost(params: {
 
     /**
      * storyDocId
@@ -770,14 +764,9 @@ export class UiRestControllerService extends BaseService {
      * timeLineModelId
      */
     timeLineModelId: string;
-
-    /**
-     * timeLineId
-     */
-    timeLineId: string;
   }): Observable<void> {
 
-    return this.setUiScenarioTimeLineUsingPost$Response(params).pipe(
+    return this.setUiScenarioTimeLineModelUsingPost$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }

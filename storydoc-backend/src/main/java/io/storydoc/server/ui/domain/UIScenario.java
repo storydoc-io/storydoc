@@ -1,7 +1,7 @@
 package io.storydoc.server.ui.domain;
 
-import io.storydoc.server.timeline.domain.TimeLineCoordinate;
 import io.storydoc.server.timeline.domain.TimeLineItemId;
+import io.storydoc.server.timeline.domain.TimeLineModelCoordinate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -19,7 +19,11 @@ public class UIScenario {
         uiStorage.addScreenshot(coordinate, screenshotCoordinate, timeLineItemId);
     }
 
-    public void setTimeLine(TimeLineCoordinate timeLineCoordinate) {
-        uiStorage.setTimeLine(coordinate, timeLineCoordinate);
+    public void removeScreenshot(TimeLineItemId timeLineItemId) {
+        uiStorage.removeScreenshot(coordinate, timeLineItemId);
+    }
+
+    public void setTimeLineModel(TimeLineModelCoordinate timeLineModelCoordinate) {
+        uiStorage.setTimeLineModel(coordinate, timeLineModelCoordinate);
     }
 }

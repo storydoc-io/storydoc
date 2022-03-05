@@ -27,6 +27,6 @@ public class ScreenshotCollectionCoordinate {
     }
 
     public ArtifactCoordinate asArtifactCoordinate() {
-        return ArtifactCoordinate.of(screenShotCollectionId.asArtifactId(), blockCoordinate);
+        return ArtifactCoordinate.of(blockCoordinate, screenShotCollectionId.asArtifactId());
     }
 }

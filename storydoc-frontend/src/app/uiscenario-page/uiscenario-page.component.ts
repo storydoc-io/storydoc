@@ -2,11 +2,10 @@ import {DOCUMENT} from '@angular/common';
 import {Component, Inject, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
 import {ActivatedRoute} from '@angular/router';
-import {LinkService, ModalService} from "@storydoc/common";
-import {openFullscreen, closeFullscreen} from "@storydoc/common"
-import {BlockCoordinate, ScreenShotCollectionDto, UiScenarioDto} from "@storydoc/models";
-import {TimeLineSelection} from "./time-line-selection-panel/time-line-selection-panel.component";
-import {TimeLineSelectionState, UIScenarioService} from "./uiscenario.service";
+import {closeFullscreen, ConfirmationDialogSpec, LinkService, ModalService, openFullscreen} from "@storydoc/common";
+import {BlockCoordinate, ScreenShotCollectionDto, TimeLineId, UiScenarioDto} from "@storydoc/models";
+import {UIScenarioService} from "./uiscenario.service";
+import {ScenarioConfigDialogData, ScenarioConfigDialogSpec} from "./scenario-config-dialog/scenario-config-dialog.component";
 
 
 @Component({
@@ -29,45 +28,21 @@ export class UIScenarioPageComponent implements OnInit {
 
   uiScenario$: Observable<UiScenarioDto> = this.uiScenarioService.uiScenario$
 
-  timeLineSelection$: Observable<TimeLineSelectionState> = this.uiScenarioService.timeLineSelection$
-
-  screenshotCollection: ScreenShotCollectionDto
-
-  documentId: string
-  blockId: string
-  id: string
-
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      this.documentId = params.get('documentId')
-      this.blockId = params.get('blockId')
-      this.id = params.get('artifactId')
-      if (this.id) {
+      let documentId = params.get('documentId')
+      let blockId = params.get('blockId')
+      let id = params.get('artifactId')
+      if (id) {
         this.uiScenarioService.loadUIScenario({
-          storyDocId: {id: this.documentId},
-          blockId: {id: this.blockId},
-          uiScenarioId: this.id
+          storyDocId: {id: documentId},
+          blockId: {id: blockId},
+          uiScenarioId: id
         })
       }
     });
 
   }
-
-
-  // timeline selection
-
-  selectTimeLine(selection: TimeLineSelection) {
-    this.uiScenarioService.setScenarioTimeLine(selection)
-  }
-
-
-  blockCoordinate() {
-    return <BlockCoordinate>{
-      blockId: {id: this.blockId},
-      storyDocId: {id: this.documentId}
-    }
-  }
-
 
   togglePresentationMode() {
     this.presentationMode = !this.presentationMode
@@ -76,6 +51,33 @@ export class UIScenarioPageComponent implements OnInit {
     } else {
       closeFullscreen(document)
     }
+  }
+
+  // configuration dialog
+
+  configurationDialogId(): string {
+    return 'configuration-dialog-id'
+  };
+
+
+  scenarioConfigDialogSpec : ScenarioConfigDialogSpec
+
+  configure() {
+    this.scenarioConfigDialogSpec = {
+      data: null,
+      confirm: (data: ScenarioConfigDialogData) => this.confirmConfig(data),
+      cancel: () => this.cancelConfig()
+    }
+    this.modalService.open(this.configurationDialogId())
+  }
+
+  private confirmConfig(data: ScenarioConfigDialogData) {
+    this.uiScenarioService.selectTimeLineModel(data.timeLineModel)
+    this.modalService.close(this.configurationDialogId())
+  }
+
+  private cancelConfig() {
+    this.modalService.close(this.configurationDialogId())
   }
 
 }

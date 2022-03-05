@@ -20,6 +20,9 @@ export class ScreenshotThumbnailComponent implements OnInit {
   thumbnail: boolean = true
 
   @Input()
+  label: string
+
+  @Input()
   screenshotCoordinate: ScreenshotCoordinate
 
   get containerClass():string {

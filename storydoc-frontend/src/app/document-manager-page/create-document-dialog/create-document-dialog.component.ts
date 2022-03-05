@@ -1,5 +1,6 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {setFocusOn} from "@storydoc/common";
 
 export interface DocumentDialogData {
   name?: string
@@ -18,14 +19,20 @@ export interface DocumentDialogSpec {
   templateUrl: './create-document-dialog.component.html',
   styleUrls: ['./create-document-dialog.component.scss']
 })
-export class CreateDocumentDialogComponent implements OnChanges {
+export class CreateDocumentDialogComponent implements OnChanges{
+
+  constructor(private changeDetector: ChangeDetectorRef) {}
 
   @Input()
-  input: DocumentDialogSpec
+  spec: DocumentDialogSpec
+
+  @ViewChild('name') nameField: ElementRef
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.input != null) {
-      this.formGroup.setValue(this.input.data)
+    if (this.spec != null) {
+      this.formGroup.setValue(this.spec.data)
+      this.changeDetector.detectChanges()
+      setFocusOn(this.nameField)
     }
   }
 
@@ -40,10 +47,10 @@ export class CreateDocumentDialogComponent implements OnChanges {
   private onCancel = new EventEmitter()
 
   cancel() {
-    this.input.cancel.apply(this.input.cancel, [])
+    this.spec.cancel.apply(this.spec.cancel, [])
   }
 
   confirm() {
-    this.input.confirm.apply(this.input.confirm, [this.formGroup.value])
+    this.spec.confirm.apply(this.spec.confirm, [this.formGroup.value])
   }
 }

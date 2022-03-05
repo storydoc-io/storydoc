@@ -81,4 +81,8 @@ public class StoryDoc {
     public void deleteArtifact(ArtifactCoordinate artifactCoordinate) {
         storage.removeArtifact(artifactCoordinate);
     }
+
+    public void changeArtifactState(ArtifactCoordinate coordinate, ArtifactState state) {
+        storage.changeArtifactState(coordinate, state);
+    }
 }

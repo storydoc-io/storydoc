@@ -168,6 +168,21 @@ public class StoryDocServiceTest extends TestBase {
     }
 
     @Test
+    public void add_artifact_to_artifact_block() {
+        // given a story with an artifact block
+        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+
+        // when I add an artifact in the block
+        ArtifactCoordinate artifactCoordinate = storyDocTestUtils.add_artifact(blockCoordinate);
+
+        // Then the artifact is in the created state
+        StoryDocDTO storyDocDTO  = storyDocQueryService.getDocument(blockCoordinate.getStoryDocId());
+        ArtifactDTO artifactDTO = storyDocDTO.getBlocks().get(0).getArtifacts().get(0);
+        assertEquals(ArtifactState.CREATED, artifactDTO.getState());
+
+    }
+
+    @Test
     public void addBinaryCollectionToArtifactBlock() {
         // given a story with an artifact block
         String story_name = "story";
@@ -208,6 +223,26 @@ public class StoryDocServiceTest extends TestBase {
     }
 
     @Test
+    public void change_artifact_state() {
+        // given a story with an artifact block
+        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+
+        // given an artifact
+        ArtifactCoordinate artifactCoordinate = storyDocTestUtils.add_artifact(blockCoordinate);
+        StoryDocDTO storyDocDTOBefore  = storyDocQueryService.getDocument(blockCoordinate.getStoryDocId());
+
+        // When I change the state of the artifact
+        ArtifactState newState = ArtifactState.READY;
+        assertNotEquals(newState, storyDocDTOBefore.getBlocks().get(0).getArtifacts().get(0).getState());
+        storyDocService.changeArtifactState(artifactCoordinate, newState);
+
+        // then the artifact has the new state
+        StoryDocDTO storyDocDTOAfter  = storyDocQueryService.getDocument(blockCoordinate.getStoryDocId());
+        assertEquals(newState, storyDocDTOAfter.getBlocks().get(0).getArtifacts().get(0).getState());
+
+    }
+
+    @Test
     public void removeArtifact() {
         // given a story with an artifact block
         String story_name = "story";
@@ -223,7 +258,7 @@ public class StoryDocServiceTest extends TestBase {
         String binary_type = "binary_type";
         ArtifactId artifactId = ArtifactId.fromString("art-id");
         storyDocService.createBinaryCollectionArtifact(blockCoordinate,artifactId , "art_type", binary_type, artifact_name);
-        ArtifactCoordinate artifactCoordinate = ArtifactCoordinate.of(artifactId, blockCoordinate);
+        ArtifactCoordinate artifactCoordinate = ArtifactCoordinate.of(blockCoordinate, artifactId);
 
         // when I remove the collection artifact
         workspaceTestUtils.logFolderStructure("before remove artifact ");

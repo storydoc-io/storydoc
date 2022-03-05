@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ScreenShotCollectionDto, ScreenshotCoordinate, TimeLineDto, TimeLineItemDto, TimeLineItemId, TimeLineModelDto, UiScenarioDto} from "@storydoc/models";
-import {TimeLineSelectionState, UIScenarioService} from "../uiscenario.service";
+import {UIScenarioService} from "../uiscenario.service";
 import {Observable} from "rxjs";
 
 @Component({
@@ -15,11 +15,14 @@ export class ScenarioPanelComponent implements OnInit {
   ) {
   }
 
+  timeLine$: Observable<TimeLineDto> = this.uiScenarioService.timeLine$
+
   selectedTimeLineItem: TimeLineItemDto = null
 
   uiScenario$: Observable<UiScenarioDto> = this.uiScenarioService.uiScenario$
 
   timeLineModel$: Observable<TimeLineModelDto> = this.uiScenarioService.timeLineModel$
+
 
   screenshotCollection: ScreenShotCollectionDto
 
@@ -43,11 +46,6 @@ export class ScenarioPanelComponent implements OnInit {
     return uiScenario.screenshots
       .find(screenshot => screenshot.timeLineItemId.id == item.itemId.id)
       ?.screenshotCoordinate;
-  }
-
-  selectedTimeLine(timeLineModel: TimeLineModelDto, uiScenario: UiScenarioDto): TimeLineDto {
-    if (!timeLineModel || !uiScenario || !uiScenario.timeLineModelCoordinate || !uiScenario.timeLineId) return null
-    return this.asArray(timeLineModel.timeLines).find(timeLine => timeLine.timeLineId.id === uiScenario.timeLineId?.id)
   }
 
   asArray(timeLines: { [p: string]: TimeLineDto }): TimeLineDto[] {

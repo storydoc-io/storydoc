@@ -71,6 +71,8 @@ public interface StoryDocStorage {
 
     void renameArtifact(BlockCoordinate blockCoordinate, ArtifactId artifactId, String new_name);
 
+    void changeArtifactState(ArtifactCoordinate coordinate, ArtifactState state);
+
     // binary artifact
 
     void saveBinaryArtifact(ArtifactCoordinate artifactCoordinate, InputStream inputStream);
@@ -82,4 +84,5 @@ public interface StoryDocStorage {
     void addItemToBinaryCollection(ArtifactCoordinate coordinate, String itemName, ItemId itemId, InputStream inputStream);
 
     ResourceUrn getCollectionItemUrn(ArtifactCoordinate artifactCoordinate, ItemId itemId);
+
 }

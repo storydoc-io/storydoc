@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import {TimeLineDto, TimeLineId, TimeLineModelCoordinate, TimeLineModelSummaryDto} from "@storydoc/models";
 import {TimeLineControllerService} from "@storydoc/services";
 import {UIScenarioService} from "../uiscenario.service";
+import {Subscription} from "rxjs";
 
 export interface TimeLineSelection {
-  timeLineModelCoordinate: TimeLineModelCoordinate
   timeLineId: TimeLineId
 }
 
@@ -14,7 +14,7 @@ export interface TimeLineSelection {
   templateUrl: './time-line-selection-panel.component.html',
   styleUrls: ['./time-line-selection-panel.component.scss']
 })
-export class TimeLineSelectionPanelComponent implements OnInit {
+export class TimeLineSelectionPanelComponent implements OnInit, OnDestroy{
 
   constructor(
     private timeLineControllerService: TimeLineControllerService,
@@ -22,44 +22,37 @@ export class TimeLineSelectionPanelComponent implements OnInit {
   ) {
   }
 
-  timeLineModelSelection$ = this.uiScenarioService.timeLineModelSelection$
+  timeLineModel$ = this.uiScenarioService.timeLineModel$
 
-  timeLineSelection$ = this.uiScenarioService.timeLineSelection$
+  timeLineId$ = this.uiScenarioService.timeLineId$
+
+  private subscriptions: Subscription[] = []
+
+  ngOnInit(): void {
+    this.subscriptions.push(this.timeLineId$.subscribe(timelineId => {
+      console.log('**** timeLineId: ', timelineId)
+      this.timeLineControl.setValue(timelineId, {onlySelf: true})
+    }))
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(s => s.unsubscribe())
+  }
 
   formGroup: FormGroup = new FormGroup({
     timeLine: new FormControl(),
-    timeLineModel: new FormControl()
   })
 
-  compareTimeLineModel(s1: TimeLineModelSummaryDto, s2: TimeLineModelSummaryDto): boolean {
-    return s1?.timeLineModelCoordinate?.timeLineModelId.id === s2?.timeLineModelCoordinate?.timeLineModelId.id
-  }
-
-  ngOnInit(): void {
-    this.formGroup.setValue({
-      timeLineModel: null,
-      timeLine: null
-    })
-    this.timeLineModelSelection$.subscribe({
-      next: dto => {
-        this.formGroup.get('timeLineModel').setValue(dto?.selectedCoord)
-      }
-    })
-  }
-
-  onTimeLineModelChange() {
-    let coord: TimeLineModelCoordinate = this.formGroup.get('timeLineModel').value;
-    this.uiScenarioService.selectTimeLineModel(coord)
+  private get timeLineControl(): FormControl {
+    return <FormControl> this.formGroup.get('timeLine')
   }
 
   onTimeLineChange() {
-    let timeLineModelCoordinate = this.formGroup.get('timeLineModel').value;
-    let timeLineId = this.formGroup.get('timeLine').value;
-    this.uiScenarioService.setScenarioTimeLine({timeLineModelCoordinate, timeLineId})
+    let timeLineId = this.timeLineControl.value;
+    this.uiScenarioService.setScenarioTimeLine(timeLineId)
   }
 
-
-  asArray(timeLines: { [p: string]: TimeLineDto }): TimeLineDto[] {
+  timelinesAsArray(timeLines: { [p: string]: TimeLineDto }): TimeLineDto[] {
     return Object.keys(timeLines).map(key => timeLines[key])
   }
 

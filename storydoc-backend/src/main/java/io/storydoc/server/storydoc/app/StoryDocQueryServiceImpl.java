@@ -118,6 +118,7 @@ public class StoryDocQueryServiceImpl implements StoryDocQueryService {
                 .artifactId(ArtifactId.fromString(artifact.getArtifactId()))
                 .name(artifact.getName())
                 .artifactType(artifact.getArtifactType())
+                .state(artifact.getState())
                 .binary(artifact.isBinary())
                 .collection(artifact.isCollection())
                 .binaryType(artifact.getBinaryType())

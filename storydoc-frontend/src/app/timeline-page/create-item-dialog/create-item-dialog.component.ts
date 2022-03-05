@@ -1,5 +1,6 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {setFocusOn} from "@storydoc/common";
 
 export interface CreateItemDialogData {
   description: string,
@@ -17,13 +18,18 @@ export interface CreateItemDialogInput {
 })
 export class CreateItemDialogComponent implements OnChanges {
 
+  constructor(private changeDetector: ChangeDetectorRef) {}
+
   @Input()
   input: CreateItemDialogInput
 
+  @ViewChild('description') descriptionField: ElementRef
+
   ngOnChanges(changes: SimpleChanges): void {
     if (this.input != null) {
-      console.log('value: ', this.input.data)
       this.formGroup.setValue(this.input.data)
+      this.changeDetector.detectChanges()
+      setFocusOn(this.descriptionField)
     }
   }
 

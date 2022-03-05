@@ -1,9 +1,9 @@
-<app-layout-2col
+<app-layout-1col
   [breadcrumb]="breadcrumb"
   [title]="title"
-  [leftColumn]="collectionPanel"
+  [middle]="collectionPanel"
 >
-</app-layout-2col>
+</app-layout-1col>
 
 <ng-template #breadcrumb>
   <nav>
@@ -21,7 +21,10 @@
 
 <ng-template #title>
   <div *ngIf="screenshotCollection$ | async as screenshotCollection">
-    <h3>Screenshots: {{screenshotCollection.name}}</h3>
+    <h3>
+      <app-back-button [routerLink]="link.toStoryDoc(screenshotCollection.storyDocSummary)"></app-back-button>
+      Screenshots: {{screenshotCollection.name}}
+    </h3>
   </div>
 </ng-template>
 
@@ -34,24 +37,27 @@
     <div class="row">
     </div>
     <div class="row">
-      <div *ngIf="(screenshotCollection$ | async) as screenshotCollection ; else loading">
-        <ul class="list-group">
-          <li *ngFor="let screenshot of screenshotCollection.screenShots; trackBy: screenshotTracker" class="list-group-item">
-            <div style="width: 120px;height: 100px;overflow: hidden;border: 1px solid blue; ">
-              <img [src]="getScreenshotUrl(screenshot)" height="100px" width="auto">
-            </div>
-            {{screenshot.name}}
-          </li>
-        </ul>
+      <app-screenshot-collection-panel [screenshotCollection$]="screenshotCollection$" [draggable]="false"></app-screenshot-collection-panel>
+      <!--
+      <div class="col" *ngIf="(screenshotCollection$ | async) as screenshotCollection ; else loading">
+        <div class="d-flex flex-wrap" >
+          <div class="p-2" *ngFor="let screenshot of screenshotCollection.screenShots; trackBy: screenshotTracker">
+            <app-screenshot-thumbnail [screenshotCoordinate]="screenshotCoord(screenshot)" [label]="screenshot.name"></app-screenshot-thumbnail>
+          </div>
+        </div>
       </div>
-      <div class="btn  btn-sm btn-outline-primary" (click)="openAddScreenshotDialog()">Add Screenshot</div>
+      -->
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="btn  btn-sm btn-outline-primary" (click)="openAddScreenshotDialog()">Add Screenshot</div>
+      </div>
     </div>
   </div>
 </ng-template>
 
 <jw-modal [id]="getScreenshotDialogId()">
-  <app-create-screenshot-dialog [input]="createScreenshotDialogInput" (onConfirm)="confirmAddScreenshotDialog($event)"
-                                (onCancel)="cancelAddScreenshotDialog()"></app-create-screenshot-dialog>
+  <app-create-screenshot-dialog [spec]="screenshotDialogSpec" ></app-create-screenshot-dialog>
 </jw-modal>
 
 <ng-template #loading>loading...</ng-template>

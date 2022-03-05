@@ -6,6 +6,8 @@ import {ScreenshotCollectionPageComponent} from "./screenshot-collection-page/sc
 import {CodeTracePageComponent} from "./code-trace-page/code-trace-page.component";
 import {DocumentManagerPageComponent} from './document-manager-page/document-manager-page.component';
 import {TimelinePageComponent} from "./timeline-page/timeline-page.component";
+import {DBNavigationPageComponent} from "./dbnavigation-page/dbnavigation-page.component";
+import {DBDataPageComponent} from "./dbdata-page/dbdata-page.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/fe/documents', pathMatch: 'full'},
@@ -15,6 +17,8 @@ const routes: Routes = [
   {path: 'fe/ui-scenario/d/:documentId/b/:blockId/a/:artifactId', component: UIScenarioPageComponent},
   {path: 'fe/ui-screenshot-collection/d/:documentId/b/:blockId/a/:artifactId', component: ScreenshotCollectionPageComponent},
   {path: 'fe/code-trace/d/:documentId/b/:blockId/a/:artifactId', component: CodeTracePageComponent},
+  {path: 'fe/db-navigation', component: DBNavigationPageComponent},
+  {path: 'fe/db-data', component: DBDataPageComponent},
 ];
 
 

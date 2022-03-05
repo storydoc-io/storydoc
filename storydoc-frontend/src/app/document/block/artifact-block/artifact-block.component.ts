@@ -15,7 +15,7 @@ export class ArtifactBlockComponent {
   constructor(
     private modalService: ModalService,
     private documentDataService: DocumentDataService,
-    private artifactDataService: ArtifactDataService,
+    private artifactDataService: ArtifactDataService
   ) {
   }
 
@@ -103,11 +103,13 @@ export class ArtifactBlockComponent {
   }
 
   confirmAddArtifact(formData: ArtifactDialogData) {
-    this.documentDataService.addArtifact({
-      artifactType: formData.artifactType,
-      blockId: this.blockId.id,
-      name: formData.name
-    })
+    this.documentDataService.addArtifact(
+      {
+        artifactType: formData.artifactType,
+        blockId: this.blockId.id,
+        name: formData.name
+      }
+    )
   }
 
   @ViewChild(PopupMenuComponent) menu: PopupMenuComponent
@@ -170,4 +172,5 @@ export class ArtifactBlockComponent {
       artifactId: artifact.artifactId,
     })
   }
+
 }

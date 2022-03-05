@@ -1,0 +1,6 @@
+<div *ngIf="(screenshotCollection$ | async) as screenshotCollection" class="d-flex flex-wrap" >
+  <div class="p-2" *ngFor="let screenshot of screenshotCollection.screenShots; trackBy: screenshotTracker">
+    <app-screenshot-thumbnail [screenshotCoordinate]="screenshotCoordinate(screenshot.id)" [label]="screenshot.name" (dragstart)="dragStart($event, screenshot.id)" >
+    </app-screenshot-thumbnail>
+  </div>
+</div>
