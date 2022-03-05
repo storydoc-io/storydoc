@@ -25,4 +25,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: assembly
-        path: target/storydoc-server-pe-*.zip
+        path: storydoc-server-pe/target/storydoc-server-pe-*.zip
