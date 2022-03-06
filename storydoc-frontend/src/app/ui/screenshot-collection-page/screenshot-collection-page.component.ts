@@ -7,7 +7,7 @@ import {
   CreateScreenshotDialogInput
 } from "./create-screenshot-dialog/create-screenshot-dialog.component";
 import {ScreenshotCollectionService} from "./screenshot-collection.service";
-import {AdminDataService} from "../document/admin-data.service";
+import {AdminDataService} from "../../document/admin-data.service";
 import {Subscription} from "rxjs";
 
 @Component({

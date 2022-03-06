@@ -1,4 +1,4 @@
-<app-border>
+<app-panel>
   <form [formGroup]="formGroup">
     <div class="mb-3">
       <label for="collection" class="form-label">Screenshot collection</label>
@@ -15,4 +15,4 @@
   <div  *ngIf="(screenshotCollection$|async)" style="max-height: 400px; overflow-y: scroll;">
     <app-screenshot-collection-panel  [screenshotCollection$]="screenshotCollection$" ></app-screenshot-collection-panel>
   </div>
-</app-border>
+</app-panel>
