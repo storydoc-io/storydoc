@@ -1,16 +1,15 @@
-<div class="container-fluid">
-  <div class="row breadcrumb">
-    <ng-container *ngTemplateOutlet="breadcrumb"></ng-container>
-  </div>
-  <div class="row title">
+<div class="backdrop">
+  <app-header>
     <ng-container *ngTemplateOutlet="title"></ng-container>
-  </div>
-  <div class="row middle">
-    <div class="col-md-12">
-      <div class="card">
-        <div class="card-body">
-          <ng-container *ngTemplateOutlet="middle"></ng-container>
-        </div>
+  </app-header>
+  <app-header>
+    <ng-container *ngTemplateOutlet="breadcrumb"></ng-container>
+  </app-header>
+
+  <div class="container-fluid">
+    <div class="row middle">
+      <div class="col-md-12">
+        <ng-container *ngTemplateOutlet="middle"></ng-container>
       </div>
     </div>
   </div>

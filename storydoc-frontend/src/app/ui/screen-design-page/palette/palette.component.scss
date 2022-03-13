@@ -1,0 +1,13 @@
+@import "../../../common/variables";
+
+.palette-item {
+  background-color: #0dcaf0;
+  text-align: center;
+  vertical-align: center;
+  width: 120px;
+  height: 50px;
+  overflow: hidden;
+  border: 1px solid $storybook-primary-400;
+  margin-right: 10px;
+
+}

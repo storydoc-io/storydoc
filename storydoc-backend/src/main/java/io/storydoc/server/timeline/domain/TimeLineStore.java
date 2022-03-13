@@ -11,4 +11,8 @@ public interface TimeLineStore {
     TimeLineModel loadTimeLineModel(TimeLineModelCoordinate timeLineModelCoordinate);
 
     void addItemToTimeLine(TimeLineCoordinate timeLineCoordinate, TimeLineItemId timeLineItemId, String name);
+
+    void removeItem(TimeLineCoordinate timeLineCoordinate, TimeLineItemId timeLineItemId);
+
+    void renameItem(TimeLineCoordinate timeLineCoordinate, TimeLineItemId timeLineItemId, String name);
 }

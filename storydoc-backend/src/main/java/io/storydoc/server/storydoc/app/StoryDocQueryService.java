@@ -18,8 +18,10 @@ public interface StoryDocQueryService {
     FolderURN getArtifactBlockFolder(BlockCoordinate blockCoordinate);
     ResourceUrn getArtifactUrn(ArtifactCoordinate artifactCoordinate);
     List<ArtifactId> getArtifactsByType(BlockCoordinate coordinate, String artifactType);
-    ArtifactMetaData getArtifactMetaData(BlockCoordinate coordinate, ArtifactId artifactId);
     ArtifactDTO getArtifact(BlockCoordinate coordinate, ArtifactId artifactId);
+    ArtifactMetaData getArtifactMetaData(BlockCoordinate coordinate, ArtifactId artifactId);
+    ArtifactMetaData getArtifactMetaData(ArtifactCoordinate asArtifactCoordinate);
     InputStream getBinaryFromCollection(ArtifactCoordinate coordinate, ItemId itemId) throws WorkspaceException;
-    ResourceUrn getArtifactItemUrn(ArtifactCoordinate asArtifactCoordinate, ItemId itemId);
+    ResourceUrn getArtifactItemUrn(ArtifactCoordinate artifactCoordinate, ItemId itemId);
+
 }

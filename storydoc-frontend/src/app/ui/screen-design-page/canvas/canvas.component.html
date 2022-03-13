@@ -1,0 +1,25 @@
+<app-panel>
+  <div class="mdbdark  canvas-container"   (dragover)="allowDrop($event)" (drop)="doDrop($event)" #canvasElem>
+    <div *ngIf="screenDesign$ | async as screenDesign">
+      <div style= "position: relative;"  *ngIf="selection$ | async as selection">
+        <div *ngFor="let child of screenDesign.rootContainer.children, let idx = index"
+             [style]="style(child, idx)"   draggable="true" (dragstart)="dragStart($event, child)"
+        >
+          <ng-container *ngIf="child.component as component">
+            <div  [class.canvas-selected]="isSelected(component, selection)" [ngSwitch]="component.type" (click)="select(component)">
+              <div *ngSwitchCase="'BUTTON'">
+                <button  class="btn btn-outline-primary">{{getAttributeValue("value", component)}}</button>
+              </div>
+              <div *ngSwitchCase="'TEXT'">
+                Lorem ipsum
+              </div>
+              <div *ngSwitchCase="'IMAGE'">
+                <img width="150" height="150" src="assets/wireframe-image.png">
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-panel>

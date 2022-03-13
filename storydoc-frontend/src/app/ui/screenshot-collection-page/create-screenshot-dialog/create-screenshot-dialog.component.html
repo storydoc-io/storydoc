@@ -1,11 +1,11 @@
-<div class="modal-dialog">
-  <div class="modal-content">
+<div class="modal-dialog" *ngIf="spec">
+  <div class="modal-content" *ngIf="spec.mode=='NEW'" >
     <div class="modal-header">
       <h5 class="modal-title">Create Screenshot</h5>
       <button type="button" class="btn-close" (click)="cancel()"></button>
     </div>
     <div class="modal-body">
-      <form [formGroup]="formGroup">
+      <form [formGroup]="newFormGroup">
         <div class="mb-3">
           <label for="file" class="form-label">File</label>
           <input formControlName="file" type="file" (change)="onFileChange($event)" class="form-control"
@@ -26,7 +26,26 @@
       </form>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!formGroup.valid">Save changes</button>
+      <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!newFormGroup.valid">Save changes</button>
+      <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+    </div>
+  </div>
+  <div class="modal-content" *ngIf="spec.mode=='UPDATE'">
+    <div class="modal-header">
+      <h5 class="modal-title">Update Screenshot</h5>
+      <button type="button" class="btn-close" (click)="cancel()"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="editFormGroup">
+        <div class="mb-3">
+          <label for="name2" class="form-label">Name</label>
+          <input formControlName="name" type="text" class="form-control">
+          <div id="name2" class="form-text">rename the screenshot.</div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!editFormGroup.valid">Save</button>
       <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
     </div>
   </div>

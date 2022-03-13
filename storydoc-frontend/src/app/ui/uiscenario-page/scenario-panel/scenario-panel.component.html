@@ -1,7 +1,8 @@
 <ng-container *ngIf="uiScenario$ | async as uiScenario">
   <ng-container *ngIf="timeLineModel$ | async as timeLineModel">
     <ng-container *ngIf="timeLine$ | async as timeLine">
-      <div class="container-fluid">
+      <app-panel>
+      <div class="container-fluid to-bottom">
         <div class="row">
           <div class="col-md-3">
             <div class="container">
@@ -33,6 +34,7 @@
           </div>
         </div>
       </div>
+      </app-panel>
     </ng-container>
   </ng-container>
 </ng-container>

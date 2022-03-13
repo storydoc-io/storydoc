@@ -5,10 +5,7 @@ import io.storydoc.server.storydoc.domain.BlockId;
 import io.storydoc.server.storydoc.domain.StoryDocId;
 import io.storydoc.server.timeline.domain.*;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,6 +35,22 @@ public class TimeLineController {
         TimeLineId defaultTimeLineId = timeLineQueryService.getTimeLineModel(modelCoordinate).getTimeLines().get("default").getTimeLineId();
         TimeLineCoordinate timeLineCoordinate = TimeLineCoordinate.of(modelCoordinate, defaultTimeLineId);
         return timeLineService.addItemToTimeLine(timeLineCoordinate, name);
+    }
+
+    @PutMapping(value = "/timelineitem", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void renameTimeLineItem(String storyDocId, String blockId, String timeLineModelId, String timeLineId, String timeLineItemId, String name) {
+        BlockCoordinate blockCoordinate = BlockCoordinate.of(new StoryDocId(storyDocId), new BlockId(blockId));
+        TimeLineModelCoordinate modelCoordinate = TimeLineModelCoordinate.of(blockCoordinate, TimeLineModelId.fromString(timeLineModelId));
+        TimeLineCoordinate timeLineCoordinate = TimeLineCoordinate.of(modelCoordinate, TimeLineId.fromString(timeLineId));
+        timeLineService.renameTimeLineItem(timeLineCoordinate, TimeLineItemId.fromString(timeLineItemId), name);
+    }
+
+    @DeleteMapping(value = "/timelineitem", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void deleteTimeLineItem(String storyDocId, String blockId, String timeLineModelId, String timeLineId, String timeLineItemId) {
+        BlockCoordinate blockCoordinate = BlockCoordinate.of(new StoryDocId(storyDocId), new BlockId(blockId));
+        TimeLineModelCoordinate modelCoordinate = TimeLineModelCoordinate.of(blockCoordinate, TimeLineModelId.fromString(timeLineModelId));
+        TimeLineCoordinate timeLineCoordinate = TimeLineCoordinate.of(modelCoordinate, TimeLineId.fromString(timeLineId));
+        timeLineService.removeTimeLineItem(timeLineCoordinate, TimeLineItemId.fromString(timeLineItemId));
     }
 
     @GetMapping(value="/timelinemodel", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -29,6 +29,12 @@ import static org.junit.Assert.assertNotNull;
 public class UIServiceTest extends TestBase {
 
     @Autowired
+    private StoryDocTestUtils storyDocTestUtils;
+
+    @Autowired
+    private TimeLineTestUtils timeLineTestUtils;
+
+    @Autowired
     private StoryDocService storyDocService;
 
     @Autowired
@@ -145,6 +151,74 @@ public class UIServiceTest extends TestBase {
     }
 
     @Test
+    public void removeScreenShotFromCollection() throws WorkspaceException {
+        // given  a storydoc with an artifact block
+        // given a storydoc with an artifact paragraph
+        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+
+        // given a screenshot collection artifact
+        String screenshots_artifact_name = "screenshots";
+        ScreenShotCollectionId screenShotCollectionId = uiService.createScreenShotCollection(blockCoordinate, screenshots_artifact_name);
+        ScreenshotCollectionCoordinate collectionCoordinate = ScreenshotCollectionCoordinate.of(blockCoordinate, screenShotCollectionId);
+
+        // given a screenshot was added to the collection
+        InputStream inputStream = this.getClass().getResourceAsStream("dummy-image-10x10.png");
+        String screenshot_name = "screenshot";
+        ScreenShotId screenShotId = uiService.uploadScreenShotToCollection(collectionCoordinate, inputStream, screenshot_name);
+
+        workspaceTestUtils.logFolderStructure("before removing screenshot");
+        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
+
+        // when I remove the screenshot from the collection
+        uiService.removeScreenShotFromCollection(ScreenshotCoordinate.of(collectionCoordinate, screenShotId));
+
+        workspaceTestUtils.logFolderStructure("after removing screenshot");
+        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
+
+        // then the screenshot is no longer part of the collection
+        ScreenShotCollectionDTO dto = uiQueryService.getScreenShotCollection(collectionCoordinate);
+        assertNotNull(dto);
+        assertEquals(0, dto.getScreenShots().size());
+
+
+    }
+
+    @Test
+    public void renameScreenShot() throws WorkspaceException {
+        // given  a storydoc with an artifact block
+        // given a storydoc with an artifact paragraph
+        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+
+        // given a screenshot collection artifact
+        String screenshots_artifact_name = "screenshots";
+        ScreenShotCollectionId screenShotCollectionId = uiService.createScreenShotCollection(blockCoordinate, screenshots_artifact_name);
+        ScreenshotCollectionCoordinate collectionCoordinate = ScreenshotCollectionCoordinate.of(blockCoordinate, screenShotCollectionId);
+
+        // given a screenshot was added to the collection
+        InputStream inputStream = this.getClass().getResourceAsStream("dummy-image-10x10.png");
+        String screenshot_name_before = "screenshot_name_before";
+        ScreenShotId screenShotId = uiService.uploadScreenShotToCollection(collectionCoordinate, inputStream, screenshot_name_before);
+
+        workspaceTestUtils.logFolderStructure("before renaming screenshot");
+        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
+
+        // when I rename the screenshot
+        String screenshot_name_after = "screenshot__name_after";
+        uiService.renameScreenShotInCollection(ScreenshotCoordinate.of(collectionCoordinate, screenShotId), screenshot_name_after);
+
+        workspaceTestUtils.logFolderStructure("after renaming screenshot");
+        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
+
+        // then the screenshot is renamed
+        ScreenShotCollectionDTO dto = uiQueryService.getScreenShotCollection(collectionCoordinate);
+        ScreenShotDTO screenShotDTO = dto.getScreenShots().get(0);
+        assertEquals(screenshot_name_after, screenShotDTO.getName());
+
+
+    }
+
+
+    @Test
     public void UIScenario_Has_Default_Associated_Snapshot_Collection () {
         // given a storydoc with an artifact paragraph
         BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
@@ -172,12 +246,6 @@ public class UIServiceTest extends TestBase {
         workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
 
     }
-
-    @Autowired
-    private StoryDocTestUtils storyDocTestUtils;
-
-    @Autowired
-    private TimeLineTestUtils timeLineTestUtils;
 
     @Test
     public void associate_timeline_to_ui_scenario() {

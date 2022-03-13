@@ -11,6 +11,8 @@ import io.storydoc.server.workspace.WorkspaceTestUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.UUID;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -82,5 +84,65 @@ public class TimeLineServiceTest extends TestBase {
         workspaceTestUtils.logResourceContent("timeline model content", timeLineTestUtils.getUrn(modelCoordinate));
 
     }
+
+    @Test
+    public void remove_item_from_timeline() {
+        // given a storydoc with an artifact paragraph
+        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        // given a timeline model
+        TimeLineModelCoordinate modelCoordinate = timeLineTestUtils.createTimeLineModel(blockCoordinate);
+
+        TimeLineModelDTO dto = timeLineQueryService.getTimeLineModel(modelCoordinate);
+        TimeLineId defaultTimeLineId = dto.getTimeLines().get("default").getTimeLineId();
+        TimeLineCoordinate defaultTimeLineCoordinate = TimeLineCoordinate.of(modelCoordinate, defaultTimeLineId);
+
+        // given an item on the timeline
+        String timeline_item_name = "timeline_item_name";
+        TimeLineItemId timeLineItemId = timeLineService.addItemToTimeLine(defaultTimeLineCoordinate, timeline_item_name);
+
+        // when I remove the item
+        timeLineService.removeTimeLineItem(defaultTimeLineCoordinate, timeLineItemId);
+
+        workspaceTestUtils.logFolderStructure("after remove timeline item");
+        workspaceTestUtils.logResourceContent("timeline model content", timeLineTestUtils.getUrn(modelCoordinate));
+
+        // then the item is no longer in the timeline
+        assertEquals(0, timeLineQueryService.getTimeLineModel(modelCoordinate).getTimeLines().get("default").getItems().size());
+
+    }
+
+    @Test
+    public void rename_item_in_timeline() {
+        // given a storydoc with an artifact paragraph
+        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        // given a timeline model
+        TimeLineModelCoordinate modelCoordinate = timeLineTestUtils.createTimeLineModel(blockCoordinate);
+
+        TimeLineModelDTO dto = timeLineQueryService.getTimeLineModel(modelCoordinate);
+        TimeLineId defaultTimeLineId = dto.getTimeLines().get("default").getTimeLineId();
+        TimeLineCoordinate defaultTimeLineCoordinate = TimeLineCoordinate.of(modelCoordinate, defaultTimeLineId);
+
+        // given an item on the timeline
+        String timeline_item_name_before = "name-" + UUID.randomUUID();
+        TimeLineItemId timeLineItemId = timeLineService.addItemToTimeLine(defaultTimeLineCoordinate, timeline_item_name_before);
+
+        workspaceTestUtils.logFolderStructure("before rename timeline item");
+        workspaceTestUtils.logResourceContent("timeline model content", timeLineTestUtils.getUrn(modelCoordinate));
+
+        // when I rename the item
+        String timeline_item_name_after = "name-" + UUID.randomUUID();
+        timeLineService.renameTimeLineItem(defaultTimeLineCoordinate, timeLineItemId, timeline_item_name_after);
+
+        workspaceTestUtils.logFolderStructure("after rename timeline item");
+        workspaceTestUtils.logResourceContent("timeline model content", timeLineTestUtils.getUrn(modelCoordinate));
+
+        // then the item is no longer in the timeline
+        TimeLineItemDTO timeLineItemDTO = timeLineQueryService.getTimeLineModel(modelCoordinate)
+                .getTimeLines().get("default").getItems().get(0);
+        assertEquals(timeline_item_name_after, timeLineItemDTO.getDescription());
+
+
+    }
+
 
 }

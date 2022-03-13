@@ -16,4 +16,12 @@ public class ScreenShotCollection {
     public ScreenShotId uploadScreenShot(ScreenshotCollectionCoordinate collectionCoordinate, InputStream inputStream, String name) {
         return uiStorage.uploadScreenShot(collectionCoordinate, inputStream, name);
     }
+
+    public void removeScreenShot(ScreenshotCoordinate coordinate) {
+        uiStorage.removeScreenShot(coordinate);
+    }
+
+    public void renameScreenShot(ScreenshotCoordinate coordinate, String name) {
+        uiStorage.renameScreenShot(coordinate, name);
+    }
 }

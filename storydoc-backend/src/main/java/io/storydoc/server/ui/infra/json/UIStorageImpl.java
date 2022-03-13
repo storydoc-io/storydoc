@@ -69,6 +69,16 @@ public class UIStorageImpl implements UIStorage {
     }
 
     @Override
+    public void renameScreenShot(ScreenshotCoordinate coordinate, String name) {
+        storyDocService.renameItemFromBinaryCollection(coordinate.getCollectionCoordinate().asArtifactCoordinate(), coordinate.getScreenShotId().asItemId(), name);
+    }
+
+    @Override
+    public void removeScreenShot(ScreenshotCoordinate coordinate) {
+        storyDocService.removeItemFromBinaryCollection(coordinate.getCollectionCoordinate().asArtifactCoordinate(), coordinate.getScreenShotId().asItemId());
+    }
+
+    @Override
     public void setTimeLineModel(UIScenarioCoordinate scenarioCoordinate, TimeLineModelCoordinate timeLineModelCoordinate) {
         UIScenario uiScenario = loadUIScenario(scenarioCoordinate);
         uiScenario.setTimeLineModelCoordinate(timeLineModelCoordinate);

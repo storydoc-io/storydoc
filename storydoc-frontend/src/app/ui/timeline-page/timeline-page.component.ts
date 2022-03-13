@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Observable} from "rxjs";
 import {share} from "rxjs/operators";
-import {LinkService, ModalService} from "@storydoc/common";
-import {TimeLineId, TimeLineModelDto} from "@storydoc/models";
+import {ConfirmationDialogSpec, LinkService, ModalService, PopupMenuComponent} from "@storydoc/common";
+import {ArtifactDto, TimeLineDto, TimeLineId, TimeLineItemDto, TimeLineModelDto} from "@storydoc/models";
 import {TimeLineControllerService} from "@storydoc/services";
-import {CreateItemDialogData, CreateItemDialogInput} from "./create-item-dialog/create-item-dialog.component";
+import {ItemDialogData, ItemDialogSpec} from "./create-item-dialog/create-item-dialog.component";
 
 @Component({
   selector: 'app-timeline-page',
@@ -35,11 +35,6 @@ export class TimelinePageComponent implements OnInit {
       this.blockId = params.get('blockId')
       this.id = params.get('artifactId')
       if (this.id) {
-        console.log('params: ', {
-          storyDocId: this.documentId,
-          blockId: this.blockId,
-          id: this.id
-        })
         this.reload();
       }
     });
@@ -58,25 +53,35 @@ export class TimelinePageComponent implements OnInit {
     })
   }
 
-// create screenshot dialog
-  dialogInput: CreateItemDialogInput
+  // item dialog
+  itemDialogSpec: ItemDialogSpec
 
   getDialogId() {
-    return "create-item-dialog"
+    return "item-dialog"
   }
 
-  openAddItemDialog() {
-    this.dialogInput = {
-      mode: 'NEW',
-      data: {
-        description: null,
-      }
-    }
+  openItemDialog(dialogInput: ItemDialogSpec) {
+    this.itemDialogSpec = dialogInput
     this.modalService.open(this.getDialogId())
   }
 
+  closeItemDialog() {
+    this.modalService.close(this.getDialogId())
+  }
 
-  confirmDialog(data: CreateItemDialogData) {
+  // add item
+  addItem() {
+    this.openItemDialog({
+      mode: 'NEW',
+      data: {
+        description: null,
+      },
+      confirm: (data) => { this.confirmAddItem(data); this.closeItemDialog() },
+      cancel: () => this.closeItemDialog()
+    })
+  }
+
+  confirmAddItem(data: ItemDialogData) {
     this.timeLineControllerService.createTimeLineItemUsingPost({
       storyDocId: this.documentId,
       blockId: this.blockId,
@@ -86,11 +91,86 @@ export class TimelinePageComponent implements OnInit {
     }).subscribe({
       next: value => this.reload()
     })
-    this.modalService.close(this.getDialogId())
   }
 
-  cancelDialog() {
-    this.modalService.close(this.getDialogId())
+  // menu
+  @ViewChild(PopupMenuComponent) menu: PopupMenuComponent
+
+  openMenu(event: MouseEvent, timeLine: TimeLineDto, item: TimeLineItemDto) {
+    this.menu.items = [
+      {
+        label: 'Rename',
+        onClick: () => this.renameItem(timeLine, item)
+      },
+      {
+        label: 'Delete',
+        onClick: () => this.deleteItem(timeLine, item)
+      }
+    ]
+    this.menu.open(event)
+    return false
+  }
+
+  private renameItem(timeLine: TimeLineDto, item: TimeLineItemDto) {
+    this.openItemDialog({
+      mode: 'UPDATE',
+      data: {
+        description: item.description,
+      },
+      confirm: (data) => { this.confirmRenameItem(timeLine, item, data); this.closeItemDialog() },
+      cancel: () => this.closeItemDialog()
+    })
+  }
+
+  private confirmRenameItem(timeLine: TimeLineDto, item: TimeLineItemDto, data: ItemDialogData) {
+    this.timeLineControllerService.renameTimeLineItemUsingPut({
+      storyDocId: this.documentId,
+      blockId: this.blockId,
+      timeLineModelId: this.id,
+      timeLineId: timeLine.timeLineId.id,
+      timeLineItemId: item.itemId.id,
+      name: data.description
+    }).subscribe({
+      next: value => this.reload()
+    })
+  }
+
+  deleteItem(timeLine: TimeLineDto, item: TimeLineItemDto) {
+    this.openConfirmationDialog({
+      title: "Confim Delete",
+      message: `Delete timeline item '${item.description}' ?`,
+      confirm: () => { this.confirmDeleteItem(timeLine, item); this.closeConfirmationDialog() },
+      cancel: () => this.closeConfirmationDialog()
+    })
+  }
+
+  private confirmDeleteItem(timeLine: TimeLineDto, item: TimeLineItemDto) {
+    this.timeLineControllerService.deleteTimeLineItemUsingDelete$Response({
+      storyDocId: this.documentId,
+      blockId: this.blockId,
+      timeLineModelId: this.id,
+      timeLineId: timeLine.timeLineId.id,
+      timeLineItemId: item.itemId.id,
+    }).subscribe({
+      next: value => this.reload()
+    })
+  }
+
+  // confirmation dialog
+
+  confirmationDialogSpec: ConfirmationDialogSpec
+
+  confirmationDialogId(): string {
+    return 'confirmation-dialog-' + this.blockId
+  }
+
+  openConfirmationDialog(confirmationDialogSpec: ConfirmationDialogSpec) {
+    this.confirmationDialogSpec = confirmationDialogSpec
+    this.modalService.open(this.confirmationDialogId())
+  }
+
+  closeConfirmationDialog() {
+    this.modalService.close(this.confirmationDialogId())
   }
 
 }

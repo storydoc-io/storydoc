@@ -2,7 +2,8 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {map} from "rxjs/operators";
 import {ArtifactId, BlockDto, BlockId, StoryDocDto, StoryDocId, TimeLineModelCoordinate} from "@storydoc/models";
-import {StoryDocRestControllerService, TimeLineControllerService, UiRestControllerService} from "@storydoc/services";
+import {CodeRestControllerService, StoryDocRestControllerService, TimeLineControllerService, UiRestControllerService} from "@storydoc/services";
+import {ScreenDesignRestControllerService} from "../../api/services/screen-design-rest-controller.service";
 
 interface DocumentState {
   id?: string
@@ -32,7 +33,9 @@ export class DocumentDataService {
   constructor(
     private storyDocRestControllerService: StoryDocRestControllerService,
     private uiRestControllerService: UiRestControllerService,
-    private timeLineControllerService: TimeLineControllerService
+    private timeLineControllerService: TimeLineControllerService,
+    private codeRestControllerService: CodeRestControllerService,
+    private screenDesignRestControllerService : ScreenDesignRestControllerService,
   ) {
   }
 
@@ -88,6 +91,16 @@ export class DocumentDataService {
         })
         break
       }
+      case 'io.storydoc.server.ui.domain.screendesign.ScreenDesign': {
+        this.screenDesignRestControllerService.createScreenDesignUsingPost({
+          storyDocId: this.getId(),
+          blockId: param.blockId,
+          name: param.name
+        }).subscribe({
+          next: (coordinate) => this.refresh()
+        })
+        break
+      }
       case 'io.storydoc.server.ui.domain.UIScenario': {
         this.uiRestControllerService.createUiScenarioUsingPost({
           storyDocId: this.getId(),
@@ -100,6 +113,16 @@ export class DocumentDataService {
       }
       case 'io.storydoc.server.ui.domain.ScreenShotCollection': {
         this.uiRestControllerService.createScreenShotCollectionUsingPost({
+          storyDocId: this.getId(),
+          blockId: param.blockId,
+          name: param.name
+        }).subscribe({
+          next: value => this.refresh()
+        })
+        break
+      }
+      case 'io.storydoc.server.code.domain.CodeExecution': {
+        this.codeRestControllerService.createCodeExecutionUsingPost({
           storyDocId: this.getId(),
           blockId: param.blockId,
           name: param.name

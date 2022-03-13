@@ -1,9 +1,15 @@
 package io.storydoc.server.code.app;
 
+import io.storydoc.server.code.domain.CodeDomainService;
+import io.storydoc.server.code.domain.CodeExecutionCoordinate;
+import io.storydoc.server.code.domain.CodeExecutionId;
+import io.storydoc.server.code.domain.SourceCodeAccess;
 import io.storydoc.server.code.infra.EnterTraceLine;
 import io.storydoc.server.code.infra.ExitTraceLine;
 import io.storydoc.server.code.infra.LogFileScanner;
 import io.storydoc.server.code.infra.TraceLine;
+import io.storydoc.server.infra.IDGenerator;
+import io.storydoc.server.storydoc.domain.BlockCoordinate;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
@@ -12,6 +18,19 @@ import java.util.stream.Collectors;
 
 @Service
 public class CodeService {
+
+    private final IDGenerator idGenerator;
+
+    private final CodeDomainService domainService;
+
+    private final SourceCodeAccess sourceCodeAccess;
+
+    public CodeService(IDGenerator idGenerator, CodeDomainService codeDomainService, SourceCodeAccess sourceCodeAccess) {
+        this.idGenerator = idGenerator;
+        this.domainService = codeDomainService;
+        this.sourceCodeAccess = sourceCodeAccess;
+    }
+
 
     public CodeTraceDTO getExecution() {
         InputStream inputstream = this.getClass().getResourceAsStream("/json-log-file.log");
@@ -51,4 +70,16 @@ public class CodeService {
             .collect(Collectors.toList());
     }
 
+    public CodeExecutionCoordinate createCodeExecution(BlockCoordinate blockCoordinate, String name) {
+        CodeExecutionId codeExecutionId = new CodeExecutionId(idGenerator.generateID(CodeExecutionId.ID_PREFIX));
+        CodeExecutionCoordinate coordinate = CodeExecutionCoordinate.of(blockCoordinate, codeExecutionId);
+        domainService.createCodeExecution(coordinate, name);
+        return coordinate;
+    }
+
+    public SourceCodeDTO getSource(String className) {
+        return SourceCodeDTO.builder()
+                .lines(sourceCodeAccess.getSource(className))
+                .build();
+    }
 }

@@ -7,5 +7,9 @@ import io.storydoc.server.timeline.domain.TimeLineModelCoordinate;
 
 public interface TimeLineService {
     TimeLineModelCoordinate createTimeLineModel(BlockCoordinate blockCoordinate, String name);
+
     TimeLineItemId addItemToTimeLine(TimeLineCoordinate defaultTimeLineCoordinate, String name);
+    void removeTimeLineItem(TimeLineCoordinate timeLineCoordinate, TimeLineItemId timeLineItemId);
+    void renameTimeLineItem(TimeLineCoordinate timeLineCoordinate,  TimeLineItemId timeLineItemId, String name);
+
 }

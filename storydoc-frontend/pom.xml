@@ -26,7 +26,6 @@
           <npmRegistryURL></npmRegistryURL>
         </configuration>
         <executions>
-          <!--
           <execution>
             <id>install node and npm</id>
             <goals>
@@ -56,7 +55,6 @@
               <arguments>run build</arguments>
             </configuration>
           </execution>
-          -->
         </executions>
       </plugin>
       <plugin>

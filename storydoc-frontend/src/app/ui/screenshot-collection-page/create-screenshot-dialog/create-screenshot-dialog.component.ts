@@ -1,17 +1,17 @@
 import {Component, ElementRef, Input, SimpleChanges, ViewChild} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
 
-export interface CreateScreenshotDialogData {
+export interface ScreenshotDialogData {
   name: string,
   file: string,
   fileSource: any,
   fileSize: number
 }
 
-export interface CreateScreenshotDialogInput {
+export interface ScreenshotDialogSpec {
   mode: 'UPDATE' | 'NEW'
-  data: CreateScreenshotDialogData
-  confirm: (data: CreateScreenshotDialogData) => void
+  data: ScreenshotDialogData
+  confirm: (data: ScreenshotDialogData) => void
   cancel: () => void
   maxFileSize: number
 }
@@ -24,29 +24,34 @@ export interface CreateScreenshotDialogInput {
 export class CreateScreenshotDialogComponent {
 
   @Input()
-  spec: CreateScreenshotDialogInput
+  spec: ScreenshotDialogSpec
 
   @ViewChild('fileElement') fileElement: ElementRef;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.spec != null) {
-      this.formGroup.setValue(this.spec.data)
+      if (this.spec.mode == 'NEW') {
+        this.newFormGroup.setValue(this.spec.data)
+      } else {
+        this.editFormGroup.setValue(this.spec.data)
+      }
     }
   }
 
-  formGroup: FormGroup = new FormGroup({
+  // new
+  newFormGroup: FormGroup = new FormGroup({
     name: new FormControl(null, Validators.required),
     file: new FormControl('', [Validators.required]),
     fileSource: new FormControl('', [Validators.required]),
     fileSize: new FormControl(0, [this.validFileSize()])
   })
 
-  get nameControl(): FormControl {
-    return <FormControl>this.formGroup.get('name')
+  get newNameControl(): FormControl {
+    return <FormControl>this.newFormGroup.get('name')
   }
 
   get fileSizeControl(): FormControl {
-    return <FormControl> this.formGroup.get('fileSize')
+    return <FormControl> this.newFormGroup.get('fileSize')
   }
 
   validFileSize(): ValidatorFn {
@@ -61,26 +66,33 @@ export class CreateScreenshotDialogComponent {
   onFileChange(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0]
-      this.formGroup.patchValue({
+      this.newFormGroup.patchValue({
         fileSource: file
       });
       this.fileSizeControl.setValue(file.size)
-      if (!this.nameControl.value) {
-        this.nameControl.setValue(file.name)
+      if (!this.newNameControl.value) {
+        this.newNameControl.setValue(file.name)
       }
-    console.log('formControl: ', this.formGroup.value)
     }
   }
+
+  // edit
+
+  editFormGroup: FormGroup = new FormGroup({
+    name: new FormControl(null, Validators.required),
+  })
+
+
 
   cancel() {
     this.spec.cancel.apply(this.spec.cancel, [])
   }
 
   save() {
-    this.spec.confirm.apply(this.spec.confirm, [this.formGroup.value])
+    this.spec.confirm.apply(this.spec.confirm, this.spec.mode=='NEW' ? [this.newFormGroup.value] : [this.editFormGroup.value])
   }
 
   invalidFile(): boolean {
-    return !this.formGroup.get('fileSize').valid
+    return !this.newFormGroup.get('fileSize').valid
   }
 }

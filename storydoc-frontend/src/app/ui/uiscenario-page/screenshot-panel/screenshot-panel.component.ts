@@ -27,7 +27,6 @@ export class ScreenshotPanelComponent implements OnInit {
 
   ngOnInit(): void {
     this.screenshotCollectionCoord$.subscribe(coord => {
-      console.log("****** coord: ", coord)
       this.collectionControl.setValue(coord, {onlySelf: true})
       this.collectionCoordinate = coord })
   }

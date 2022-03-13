@@ -1,28 +1,38 @@
-<div class="container-fluid">
-  <div class="row">
+<app-layout-2col
+  [breadcrumb]="breadcrumb"
+  [title]="menu"
+  [leftColumn]="codeTracePanel"
+  [rightColumn]="sourceCodePanel"
+>
+</app-layout-2col>
+
+<ng-template #breadcrumb>
+  <ng-container *ngIf="codeTrace$ | async as codeTrace">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item active" aria-current="page">Home</li>
+        <li class="breadcrumb-item">
+          <app-back-button [routerLink]="link.toStoryDoc(codeTrace.storyDocSummary)"></app-back-button>
+          <a routerLink="/">Home</a>
+        </li>
+        <li class="breadcrumb-item"><a
+          [routerLink]="link.toStoryDoc(codeTrace.storyDocSummary)">{{codeTrace.storyDocSummary.name}}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{codeTrace.name}}</li>
       </ol>
     </nav>
-  </div>
-  <div class="row">
-    <div class="col-md-3">
-      <div *ngIf="codeTrace$ | async as codeTrace ; else loading">
-        <ul class="list-group">
-          <li class="list-group-item" [class.active]="item==selectedItem"
-              *ngFor="let item of codeTrace.items, let idx = index" (click)="selectItem(item)">
-            {{idx}} {{ getClassName(item)}} {{item.methodName}}
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-md-9">
-      <ng-container *ngIf="selectedItem!=null">
-        {{selectedItem }}{{ selectedItem.params}} {{selectedItem.resultValue}}
-      </ng-container>
-    </div>
-  </div>
-</div>
+  </ng-container>
+
+</ng-template>
+
+<ng-template #menu>
+  [menu]
+</ng-template>
+
+<ng-template #codeTracePanel>
+  <app-code-trace-panel></app-code-trace-panel>
+</ng-template>
+
+<ng-template #sourceCodePanel>
+  <app-source-code-panel></app-source-code-panel>
+</ng-template>
 
 <ng-template #loading>loading...</ng-template>

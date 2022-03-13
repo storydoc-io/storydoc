@@ -10,6 +10,7 @@
   <div *ngIf="doc$ | async as doc; else loading">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
+        <app-back-button [routerLink]="'/'"></app-back-button>
         <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{doc.title}}</li>
       </ol>
@@ -18,32 +19,38 @@
 </ng-template>
 
 <ng-template #title>
-  <div *ngIf="doc$ | async as doc; else loading">
-    <h3>Story: {{doc.title}}</h3>
+  <div class="container-fluid" *ngIf="doc$ | async as doc; else loading">
+    <div class="row">
+      <h3>Story: {{doc.title}}</h3>
+    </div>
   </div>
 </ng-template>
 
 <ng-template #leftPanel>
-  <div *ngIf="doc$ | async as doc; else loading">
-    <ul class="list-group">
-      <li class="list-group-item" [class.selected]="isSelected(block)" *ngFor="let block of doc.blocks"
-          (click)="selectBlock(block)" (select)="selectBlock(block)" (contextmenu)="openMenu($event, block)">
-        {{numbering(block)}} {{block.title}}
-      </li>
-      <div class="btn  btn-sm btn-outline-primary" (click)="addBlock()">Add Paragraph</div>
+  <app-panel>
+    <div class="navigation-panel" *ngIf="doc$ | async as doc; else loading">
+      <ul class="list-group">
+        <li class="list-group-item" [class.selected]="isSelected(block)" *ngFor="let block of doc.blocks"
+            (click)="selectBlock(block)" (select)="selectBlock(block)" (contextmenu)="openMenu($event, block)">
+          {{numbering(block)}} {{block.title}}
+        </li>
+        <div class="btn  btn-sm btn-outline-primary" (click)="addBlock()">Add Paragraph</div>
 
-    </ul>
-  </div>
+      </ul>
+    </div>
+  </app-panel>
 </ng-template>
 
 <ng-template #rightPanel>
-  <div *ngIf="doc$ | async as doc; else loading">
-    <div class="container">
-      <div class="row" *ngFor="let block of doc.blocks">
-        <app-block [block]="block" [documentId]="doc.storyDocId"></app-block>
+  <app-panel>
+    <div class="content-panel" *ngIf="doc$ | async as doc; else loading">
+      <div class="container">
+        <div class="row" *ngFor="let block of doc.blocks">
+          <app-block [block]="block" [documentId]="doc.storyDocId"></app-block>
+        </div>
       </div>
     </div>
-  </div>
+  </app-panel>
 </ng-template>
 
 <app-popup-menu></app-popup-menu>

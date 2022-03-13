@@ -30,6 +30,123 @@ export class TimeLineControllerService extends BaseService {
   }
 
   /**
+   * Path part for operation renameTimeLineItemUsingPut
+   */
+  static readonly RenameTimeLineItemUsingPutPath = '/api/timeline/timelineitem';
+
+  /**
+   * renameTimeLineItem.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `renameTimeLineItemUsingPut()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  renameTimeLineItemUsingPut$Response(params?: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId?: string;
+
+    /**
+     * blockId
+     */
+    blockId?: string;
+
+    /**
+     * timeLineModelId
+     */
+    timeLineModelId?: string;
+
+    /**
+     * timeLineId
+     */
+    timeLineId?: string;
+
+    /**
+     * timeLineItemId
+     */
+    timeLineItemId?: string;
+
+    /**
+     * name
+     */
+    name?: string;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, TimeLineControllerService.RenameTimeLineItemUsingPutPath, 'put');
+    if (params) {
+      rb.query('storyDocId', params.storyDocId, {"style":"form"});
+      rb.query('blockId', params.blockId, {"style":"form"});
+      rb.query('timeLineModelId', params.timeLineModelId, {"style":"form"});
+      rb.query('timeLineId', params.timeLineId, {"style":"form"});
+      rb.query('timeLineItemId', params.timeLineItemId, {"style":"form"});
+      rb.query('name', params.name, {"style":"form"});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * renameTimeLineItem.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `renameTimeLineItemUsingPut$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  renameTimeLineItemUsingPut(params?: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId?: string;
+
+    /**
+     * blockId
+     */
+    blockId?: string;
+
+    /**
+     * timeLineModelId
+     */
+    timeLineModelId?: string;
+
+    /**
+     * timeLineId
+     */
+    timeLineId?: string;
+
+    /**
+     * timeLineItemId
+     */
+    timeLineItemId?: string;
+
+    /**
+     * name
+     */
+    name?: string;
+  }): Observable<void> {
+
+    return this.renameTimeLineItemUsingPut$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
    * Path part for operation createTimeLineItemUsingPost
    */
   static readonly CreateTimeLineItemUsingPostPath = '/api/timeline/timelineitem';
@@ -121,6 +238,112 @@ export class TimeLineControllerService extends BaseService {
 
     return this.createTimeLineItemUsingPost$Response(params).pipe(
       map((r: StrictHttpResponse<TimeLineItemId>) => r.body as TimeLineItemId)
+    );
+  }
+
+  /**
+   * Path part for operation deleteTimeLineItemUsingDelete
+   */
+  static readonly DeleteTimeLineItemUsingDeletePath = '/api/timeline/timelineitem';
+
+  /**
+   * deleteTimeLineItem.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteTimeLineItemUsingDelete()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteTimeLineItemUsingDelete$Response(params?: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId?: string;
+
+    /**
+     * blockId
+     */
+    blockId?: string;
+
+    /**
+     * timeLineModelId
+     */
+    timeLineModelId?: string;
+
+    /**
+     * timeLineId
+     */
+    timeLineId?: string;
+
+    /**
+     * timeLineItemId
+     */
+    timeLineItemId?: string;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, TimeLineControllerService.DeleteTimeLineItemUsingDeletePath, 'delete');
+    if (params) {
+      rb.query('storyDocId', params.storyDocId, {"style":"form"});
+      rb.query('blockId', params.blockId, {"style":"form"});
+      rb.query('timeLineModelId', params.timeLineModelId, {"style":"form"});
+      rb.query('timeLineId', params.timeLineId, {"style":"form"});
+      rb.query('timeLineItemId', params.timeLineItemId, {"style":"form"});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * deleteTimeLineItem.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteTimeLineItemUsingDelete$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteTimeLineItemUsingDelete(params?: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId?: string;
+
+    /**
+     * blockId
+     */
+    blockId?: string;
+
+    /**
+     * timeLineModelId
+     */
+    timeLineModelId?: string;
+
+    /**
+     * timeLineId
+     */
+    timeLineId?: string;
+
+    /**
+     * timeLineItemId
+     */
+    timeLineItemId?: string;
+  }): Observable<void> {
+
+    return this.deleteTimeLineItemUsingDelete$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 

@@ -30,16 +30,36 @@ let uiScreenshotCollection = {
   editorUrl: '/fe/ui-screenshot-collection'
 } as ArtifactDescriptor
 
+let uiScreenDesign = {
+  key: 'io.storydoc.server.ui.domain.screendesign.ScreenDesign',
+  icon: '/assets/artifact-ui-design.png',
+  label: 'Screen design',
+  editorUrl: '/fe/ui-screen-design'
+
+} as ArtifactDescriptor
+
+let codeExecution = {
+  key: 'io.storydoc.server.code.domain.CodeExecution',
+  icon: '/assets/test-script.png',
+  label: 'Code Execution',
+  editorUrl: '/fe/code-trace'
+} as ArtifactDescriptor
+
+
 let map: { [key: string]: ArtifactDescriptor } = {
   'io.storydoc.server.timeline.domain.TimeLineModel': timeLineModel,
+  'io.storydoc.server.ui.domain.screendesign.ScreenDesign': uiScreenDesign,
   'io.storydoc.server.ui.domain.UIScenario': uiScenario,
   'io.storydoc.server.ui.domain.ScreenShotCollection': uiScreenshotCollection,
+  'io.storydoc.server.code.domain.CodeExecution': codeExecution
 }
 
 let list: ArtifactDescriptor[] = [
   timeLineModel,
+  uiScreenDesign,
   uiScenario,
-  uiScreenshotCollection
+  uiScreenshotCollection,
+  codeExecution
 ]
 
 @Injectable({

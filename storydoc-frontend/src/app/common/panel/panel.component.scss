@@ -1,10 +1,11 @@
-.border {
-  background-color: none !important;
-  border: 2px dashed #70c1bb !important;
-  border-width: 2px;
+@import '../variables';
+
+.panel-border {
+  background-color: $storybook-white !important;
+  border: 1px solid $storybook-secondary-400 !important;
   margin-bottom: 7px;
 }
 
-.container {
+.panel-container {
   padding: 10px;
 }

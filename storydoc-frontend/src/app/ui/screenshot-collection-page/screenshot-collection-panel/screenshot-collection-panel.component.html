@@ -1,6 +1,27 @@
-<div *ngIf="(screenshotCollection$ | async) as screenshotCollection" class="d-flex flex-wrap" >
-  <div class="p-2" *ngFor="let screenshot of screenshotCollection.screenShots; trackBy: screenshotTracker">
-    <app-screenshot-thumbnail [screenshotCoordinate]="screenshotCoordinate(screenshot.id)" [label]="screenshot.name" (dragstart)="dragStart($event, screenshot.id)" >
-    </app-screenshot-thumbnail>
+<div class="container-fluid">
+  <div class="row">
+    <div *ngIf="(screenshotCollection$ | async) as screenshotCollection" class="d-flex flex-wrap" >
+      <div class="p-2" *ngFor="let screenshot of screenshotCollection.screenShots; trackBy: screenshotTracker" >
+        <div (contextmenu)="!readonly && openMenu($event, screenshot)">
+          <app-screenshot-thumbnail [screenshotCoordinate]="screenshotCoordinate(screenshot.id)" [label]="screenshot.name" (dragstart)="dragStart($event, screenshot.id)" >
+          </app-screenshot-thumbnail>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!readonly" class="row">
+      <div class="col">
+        <div class="btn  btn-sm btn-outline-primary" (click)="addScreenShot()">Add Screenshot</div>
+      </div>
+    </div>
   </div>
 </div>
+
+<app-popup-menu></app-popup-menu>
+
+<jw-modal *ngIf="!readonly" [id]="getScreenshotDialogId()">
+  <app-create-screenshot-dialog [spec]="screenshotDialogSpec" ></app-create-screenshot-dialog>
+</jw-modal>
+
+<jw-modal *ngIf="!readonly" [id]="confirmationDialogId()">
+  <app-confirmation-dialog [spec]="confirmationDialogSpec"></app-confirmation-dialog>
+</jw-modal>

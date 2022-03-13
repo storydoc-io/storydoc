@@ -1,0 +1,8 @@
+<div *ngIf="codeTrace$ | async as codeTrace">
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let item of codeTrace.items, let idx = index"
+        [class.active]="isSelected(item)" (click)="selectItem(item)">
+      {{idx}} {{ getClassName(item)}} {{item.methodName}}
+    </li>
+  </ul>
+</div>

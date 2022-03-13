@@ -62,6 +62,14 @@ public class StoryDoc {
         storage.addItemToBinaryCollection(coordinate, itemName, itemId, inputStream);
     }
 
+    public void renameItemFromBinaryCollection(ArtifactCoordinate artifactCoordinate, ItemId itemId, String name) {
+        storage.renameItemFromBinaryCollection(artifactCoordinate, itemId, name);
+    }
+
+    public void removeItemFromBinaryCollection(ArtifactCoordinate artifactCoordinate, ItemId itemId) {
+        storage.removeItemFromBinaryCollection(artifactCoordinate, itemId);
+    }
+
     public void rename(String new_name) {
         storage.renameDocument(id, new_name);
     }

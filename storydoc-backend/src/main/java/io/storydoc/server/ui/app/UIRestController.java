@@ -59,7 +59,6 @@ public class UIRestController {
         uiService.addScreenShotToUIScenario(scenarioCoordinate, screenshotCoordinate, timeLineItemId);
     }
 
-
     @PostMapping(value = "/screenshotcollection", produces = MediaType.APPLICATION_JSON_VALUE)
     public ScreenShotCollectionId createScreenShotCollection(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId, String name) {
         BlockCoordinate coordinate = BlockCoordinate.of(storyDocId, blockId);
@@ -76,6 +75,20 @@ public class UIRestController {
     public ScreenShotId addScreenshotToCollection(MultipartFile file, @RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId, @RequestParam("screenshotCollectionId") ScreenShotCollectionId screenshotCollectionId, String name) {
         ScreenshotCollectionCoordinate collectionCoordinate = ScreenshotCollectionCoordinate.of(storyDocId, blockId, screenshotCollectionId);
         return uiService.uploadScreenShotToCollection(collectionCoordinate, file.getInputStream(), name);
+    }
+
+    @PutMapping(value = "/screenshot", produces = MediaType.APPLICATION_JSON_VALUE)
+    @SneakyThrows
+    public void renameScreenshotInCollection(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId, @RequestParam("screenshotCollectionId") ScreenShotCollectionId screenshotCollectionId, @RequestParam("screenshotId") ScreenShotId screenShotId, String name) {
+        ScreenshotCollectionCoordinate collectionCoordinate = ScreenshotCollectionCoordinate.of(storyDocId, blockId, screenshotCollectionId);
+        uiService.renameScreenShotInCollection(ScreenshotCoordinate.of(collectionCoordinate, screenShotId), name);
+    }
+
+    @DeleteMapping(value = "/screenshot", produces = MediaType.APPLICATION_JSON_VALUE)
+    @SneakyThrows
+    public void removeScreenshotFromCollection(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId, @RequestParam("screenshotCollectionId") ScreenShotCollectionId screenshotCollectionId, @RequestParam("screenshotId") ScreenShotId screenShotId) {
+        ScreenshotCollectionCoordinate collectionCoordinate = ScreenshotCollectionCoordinate.of(storyDocId, blockId, screenshotCollectionId);
+        uiService.removeScreenShotFromCollection(ScreenshotCoordinate.of(collectionCoordinate, screenShotId));
     }
 
     @SneakyThrows

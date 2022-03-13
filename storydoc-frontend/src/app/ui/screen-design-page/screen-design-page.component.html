@@ -1,0 +1,56 @@
+<app-layout-1col
+  [breadcrumb]="breadcrumb"
+  [title]="title"
+  [middle]="content"
+>
+</app-layout-1col>
+
+<ng-template #breadcrumb>
+  <ng-container *ngIf="screenDesign$ | async as screenDesign">
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <app-back-button [routerLink]="link.toStoryDoc(screenDesign.storyDocSummaryDTO)"></app-back-button>
+          <a routerLink="/">Home</a>
+        </li>
+        <li class="breadcrumb-item"><a
+          [routerLink]="link.toStoryDoc(screenDesign.storyDocSummaryDTO)">{{screenDesign.storyDocSummaryDTO.name}}</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">{{screenDesign.name}}</li>
+      </ol>
+    </nav>
+  </ng-container>
+</ng-template>
+
+<ng-template #title>
+  <div class="container-fluid" *ngIf="screenDesign$ | async as screenDesign">
+    <div class="row">
+      <h3>
+        Screen design: {{screenDesign.name}}
+      </h3>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #content>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col col-md-2">
+      </div>
+      <div class="col col-md-8">
+        <app-palette></app-palette>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col col-md-2">
+        <app-component-tree></app-component-tree>
+      </div>
+      <div class="col col-md-8">
+        <app-canvas></app-canvas>
+      </div>
+      <div class="col col-md-2">
+        <app-component-details></app-component-details>
+      </div>
+    </div>
+  </div>
+</ng-template>

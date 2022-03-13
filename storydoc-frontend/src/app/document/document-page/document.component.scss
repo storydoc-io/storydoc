@@ -1,0 +1,13 @@
+@import '../../common/variables.scss';
+
+.navigation-panel {
+  @include storybook-height-main-section
+}
+
+.content-panel {
+  @include storybook-height-main-section
+}
+
+.selected {
+  background-color: $storybook-secondary-300;
+}

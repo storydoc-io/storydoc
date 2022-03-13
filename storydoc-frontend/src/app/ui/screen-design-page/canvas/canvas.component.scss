@@ -1,0 +1,21 @@
+@import "../../../common/variables";
+
+.canvas-container {
+  min-height: calc(100vh - 200px);
+}
+
+.canvas-selected {
+  border: 2px solid $red-600;
+}
+
+.sketchy {
+    @import 'bootstrap-sketchy.min';
+}
+
+.quartz {
+   @import 'bootstrap-quartz.min';
+}
+
+.mdbdark {
+  @import 'mdb.dark.min';
+}

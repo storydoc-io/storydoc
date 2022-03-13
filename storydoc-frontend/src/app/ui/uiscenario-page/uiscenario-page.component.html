@@ -17,25 +17,24 @@
     </app-layout-2col>
   </ng-container>
   <ng-container *ngIf="uiScenario.state=='READY' && presentationMode">
-      <app-layout-1col
-        [middle]="scenarioPanel"
-        [title]="presentationModeMenu"
-      >
-      </app-layout-1col>
+      <app-scenario-presentation></app-scenario-presentation>
   </ng-container>
 </ng-container>
 
 <ng-template #breadcrumb>
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-      <ng-container *ngIf="uiScenario$ | async as uiScenario">
+  <ng-container *ngIf="uiScenario$ | async as uiScenario">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <app-back-button [routerLink]="link.toStoryDoc(uiScenario.storyDocSummary)"></app-back-button>
+          <a routerLink="/">Home</a>
+        </li>
         <li class="breadcrumb-item"><a
           [routerLink]="link.toStoryDoc(uiScenario.storyDocSummary)">{{uiScenario.storyDocSummary.name}}</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{uiScenario.name}}</li>
-      </ng-container>
-    </ol>
-  </nav>
+      </ol>
+    </nav>
+  </ng-container>
 </ng-template>
 
 <ng-template #menu>
@@ -43,13 +42,12 @@
     <div class="row">
       <div class="col-md-10">
         <h3>
-          <app-back-button [routerLink]="link.toStoryDoc(uiScenario.storyDocSummary)"></app-back-button>
           UI Scenario: {{uiScenario.name}}
         </h3>
       </div>
       <div class="col-md-2">
-        <div class="btn  btn-sm btn-outline-secondary float-right m-2" (click)="configure()">Configure</div>
-        <div *ngIf="uiScenario.state=='READY'" class="btn  btn-sm btn-outline-secondary float-right" (click)="togglePresentationMode()">Start Presentation</div>
+        <div class="btn  btn-sm btn-outline-light float-right m-2" (click)="configure()">Configure</div>
+        <div *ngIf="uiScenario.state=='READY'" class="btn  btn-sm btn-outline-light float-right" (click)="togglePresentationMode()">Start Presentation</div>
       </div>
     </div>
   </div>
@@ -70,23 +68,6 @@
 <jw-modal [id]="configurationDialogId()">
   <app-scenario-config-dialog [spec]="scenarioConfigDialogSpec"></app-scenario-config-dialog>
 </jw-modal>
-
-<ng-template #editModeMenu>
-  <div class="container-fluid" *ngIf="uiScenario$ | async as uiScenario">
-    <div class="row">
-      <div class="col-md-10">
-        <h3>
-          <app-back-button [routerLink]="link.toStoryDoc(uiScenario.storyDocSummary)"></app-back-button>
-          UI Scenario: {{uiScenario.name}}
-        </h3>
-      </div>
-      <div class="col-md-2">
-        <div class="btn  btn-sm btn-outline-secondary float-right m-2" (click)="configure()">Configure</div>
-        <div class="btn  btn-sm btn-outline-secondary float-right" (click)="togglePresentationMode()">Start Presentation</div>
-      </div>
-    </div>
-  </div>
-</ng-template>
 
 <ng-template #inputPanels>
   <app-time-line-selection-panel></app-time-line-selection-panel>

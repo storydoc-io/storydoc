@@ -5,22 +5,27 @@
 </app-layout-2col>
 
 <ng-template #breadcrumb>
-  <nav>
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-      <ng-container *ngIf="timeLineModel$ | async as timeLineModel">
-        <li class="breadcrumb-item"><a
-          [routerLink]="link.toStoryDoc(timeLineModel.storyDocSummary)">{{timeLineModel.storyDocSummary.name}}</a>
+  <ng-container *ngIf="timeLineModel$ | async as timeLineModel">
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <app-back-button [routerLink]="link.toStoryDoc(timeLineModel.storyDocSummary)"></app-back-button>
+          <a routerLink="/">Home</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a [routerLink]="link.toStoryDoc(timeLineModel.storyDocSummary)">{{timeLineModel.storyDocSummary.name}}</a>
         </li>
         <li class="breadcrumb-item active" aria-current="page">{{timeLineModel.name}}</li>
-      </ng-container>
-    </ol>
-  </nav>
+      </ol>
+    </nav>
+  </ng-container>
 </ng-template>
 
 <ng-template #title>
-  <div *ngIf="timeLineModel$ | async as timeLineModel">
-    <h3>Timeline: {{timeLineModel.name}}</h3>
+  <div class="container-fluid" *ngIf="timeLineModel$ | async as timeLineModel">
+    <div class="row">
+      <h3>Timeline: {{timeLineModel.name}}</h3>
+    </div>
   </div>
 </ng-template>
 
@@ -30,21 +35,27 @@
     </div>
     <div class="row">
       <div *ngIf="timeLineModel$ | async as timeLineModel ; else loading">
-        <ul class="list-group">
-          <li *ngFor="let item of timeLineModel.timeLines['default'].items" class="list-group-item">
-            {{item.description}}
-          </li>
-        </ul>
+        <ng-container *ngVar="timeLineModel.timeLines['default'] as timeLine">
+          <ul class="list-group">
+            <li *ngFor="let item of timeLine.items" (contextmenu)="openMenu($event, timeLine, item)" class="list-group-item">
+              {{item.description}}
+            </li>
+          </ul>
+        </ng-container>
       </div>
-      <div class="btn  btn-sm btn-outline-primary" (click)="openAddItemDialog()">Add Timeline item</div>
+      <div class="btn  btn-sm btn-outline-primary" (click)="addItem()">Add Timeline item</div>
     </div>
   </div>
 </ng-template>
 
 <ng-template #loading>loading...</ng-template>
 
+<app-popup-menu></app-popup-menu>
+
 <jw-modal [id]="getDialogId()">
-  <app-create-item-dialog [input]="dialogInput" (onConfirm)="confirmDialog($event)"
-                          (onCancel)="cancelDialog()"></app-create-item-dialog>
+  <app-create-item-dialog [spec]="itemDialogSpec"></app-create-item-dialog>
 </jw-modal>
 
+<jw-modal [id]="confirmationDialogId()">
+  <app-confirmation-dialog [spec]="confirmationDialogSpec"></app-confirmation-dialog>
+</jw-modal>

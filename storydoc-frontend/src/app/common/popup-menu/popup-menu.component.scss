@@ -1,3 +1,5 @@
+@import '../variables';
+
 :host {
   border-top: 1px solid rgb(13, 110, 253);
   border-left: 1px solid rgb(13, 110, 253);
@@ -16,5 +18,5 @@
 
 .items p:hover {
   color: white;
-  background: rgb(13, 110, 253);
+  background: $storybook-primary-300;
 }

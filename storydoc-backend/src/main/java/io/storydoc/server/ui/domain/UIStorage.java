@@ -12,6 +12,8 @@ public interface UIStorage {
 
     void createScreenshotCollection(BlockCoordinate coordinate, ScreenShotCollectionId screenShotCollectionId, String name);
     ScreenShotId uploadScreenShot(ScreenshotCollectionCoordinate collectionCoordinate, InputStream inputStream, String name);
+    void renameScreenShot(ScreenshotCoordinate coordinate, String name);
+    void removeScreenShot(ScreenshotCoordinate coordinate);
     ResourceUrn getScreenshotUrn(ScreenshotCollectionCoordinate collectionCoordinate, ScreenShotId screenshotId);
 
     void createUIScenario(UIScenarioCoordinate scenarioCoordinate, String name);
@@ -19,6 +21,6 @@ public interface UIStorage {
     UIScenario loadUIScenario(UIScenarioCoordinate scenarioCoordinate);
     void setTimeLineModel(UIScenarioCoordinate coordinate, TimeLineModelCoordinate timeLineModelCoordinate);
     void addScreenshot(UIScenarioCoordinate scenarioCoordinate, ScreenshotCoordinate screenshotCoordinate, TimeLineItemId timeLineItemId);
-    void removeScreenshot(UIScenarioCoordinate coordinate, TimeLineItemId timeLineItemId);
 
+    void removeScreenshot(UIScenarioCoordinate coordinate, TimeLineItemId timeLineItemId);
 }

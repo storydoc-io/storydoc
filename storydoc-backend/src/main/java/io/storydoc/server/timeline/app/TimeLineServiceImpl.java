@@ -31,6 +31,20 @@ public class TimeLineServiceImpl implements TimeLineService {
                 .addItemToTimeLine(timeLineCoordinate, timeLineItemId, name);
         return timeLineItemId;
     }
+
+    @Override
+    public void removeTimeLineItem(TimeLineCoordinate timeLineCoordinate, TimeLineItemId timeLineItemId) {
+        timeLineDomainService
+                .getTimeLineModel(timeLineCoordinate.getTimeLineModelCoordinate())
+                .removeItem(timeLineCoordinate, timeLineItemId);
+    }
+
+    @Override
+    public void renameTimeLineItem(TimeLineCoordinate timeLineCoordinate, TimeLineItemId timeLineItemId, String name) {
+        timeLineDomainService
+                .getTimeLineModel(timeLineCoordinate.getTimeLineModelCoordinate())
+                .renameItem(timeLineCoordinate, timeLineItemId, name);
+    }
 }
 
 

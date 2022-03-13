@@ -2,13 +2,15 @@ import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {setFocusOn} from "@storydoc/common";
 
-export interface CreateItemDialogData {
+export interface ItemDialogData {
   description: string,
 }
 
-export interface CreateItemDialogInput {
+export interface ItemDialogSpec {
   mode: 'UPDATE' | 'NEW'
-  data: CreateItemDialogData
+  data: ItemDialogData
+  confirm: (ItemDialogData) => void
+  cancel: () => void
 }
 
 @Component({
@@ -21,13 +23,13 @@ export class CreateItemDialogComponent implements OnChanges {
   constructor(private changeDetector: ChangeDetectorRef) {}
 
   @Input()
-  input: CreateItemDialogInput
+  spec: ItemDialogSpec
 
   @ViewChild('description') descriptionField: ElementRef
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.input != null) {
-      this.formGroup.setValue(this.input.data)
+    if (this.spec != null) {
+      this.formGroup.setValue(this.spec.data)
       this.changeDetector.detectChanges()
       setFocusOn(this.descriptionField)
     }
@@ -37,18 +39,13 @@ export class CreateItemDialogComponent implements OnChanges {
     description: new FormControl(null, Validators.required),
   })
 
-  @Output()
-  private onConfirm = new EventEmitter()
-
-  @Output()
-  private onCancel = new EventEmitter()
 
   cancel() {
-    this.onCancel.emit()
+    this.spec.cancel.apply(this, [])
   }
 
   save() {
-    this.onConfirm.emit(this.formGroup.value)
+    this.spec.confirm.apply(this, [this.formGroup.value])
   }
 
 }

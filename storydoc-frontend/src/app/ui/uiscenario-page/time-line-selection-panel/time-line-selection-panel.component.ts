@@ -30,7 +30,6 @@ export class TimeLineSelectionPanelComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     this.subscriptions.push(this.timeLineId$.subscribe(timelineId => {
-      console.log('**** timeLineId: ', timelineId)
       this.timeLineControl.setValue(timelineId, {onlySelf: true})
     }))
   }

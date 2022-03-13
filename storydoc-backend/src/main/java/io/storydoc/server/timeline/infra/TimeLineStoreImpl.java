@@ -68,16 +68,47 @@ public class TimeLineStoreImpl implements TimeLineStore {
     public void addItemToTimeLine(TimeLineCoordinate timeLineCoordinate, TimeLineItemId itemId, String name) {
         TimeLineModelCoordinate modelCoordinate = timeLineCoordinate.getTimeLineModelCoordinate();
         TimeLineModel timeLineModel = loadTimeLineModel(modelCoordinate);
-        TimeLine timeLine = timeLineModel.getTimeLines().values().stream()
-                .filter(e -> e.getId().equals(timeLineCoordinate.getTimeLineId().getId()))
-                .findFirst()
-                .get();
+        TimeLine timeLine = locateTimeLine(timeLineCoordinate, timeLineModel);
         TimeLineItem item = new TimeLineItem();
         item.setId(itemId.getId());
         item.setDescription(name);
 
         timeLine.getItems().add(item);
         save(modelCoordinate, timeLineModel);
+    }
+
+    @Override
+    public void removeItem(TimeLineCoordinate timeLineCoordinate, TimeLineItemId timeLineItemId) {
+        TimeLineModel timeLineModel = loadTimeLineModel(timeLineCoordinate.getTimeLineModelCoordinate());
+        TimeLine timeLine = locateTimeLine(timeLineCoordinate, timeLineModel);
+        TimeLineItem timeLineItem = locateTimeLineItem(timeLineItemId, timeLine);
+
+        timeLine.getItems().remove(timeLineItem);
+        save(timeLineCoordinate.getTimeLineModelCoordinate(), timeLineModel);
+    }
+
+    @Override
+    public void renameItem(TimeLineCoordinate timeLineCoordinate, TimeLineItemId timeLineItemId, String name) {
+        TimeLineModel timeLineModel = loadTimeLineModel(timeLineCoordinate.getTimeLineModelCoordinate());
+        TimeLine timeLine = locateTimeLine(timeLineCoordinate, timeLineModel);
+        TimeLineItem timeLineItem = locateTimeLineItem(timeLineItemId, timeLine);
+
+        timeLineItem.setDescription(name);
+        save(timeLineCoordinate.getTimeLineModelCoordinate(), timeLineModel);
+    }
+
+    private TimeLine locateTimeLine(TimeLineCoordinate timeLineCoordinate, TimeLineModel timeLineModel) {
+        return timeLineModel.getTimeLines().values().stream()
+                .filter(e -> e.getId().equals(timeLineCoordinate.getTimeLineId().getId()))
+                .findFirst()
+                .get();
+    }
+
+    private TimeLineItem locateTimeLineItem(TimeLineItemId timeLineItemId, TimeLine timeLine) {
+        return timeLine.getItems().stream()
+                .filter(item -> item.getId().equals(timeLineItemId.getId()))
+                .findFirst()
+                .get();
     }
 
     private void save(TimeLineModelCoordinate timeLineModelCoordinate, TimeLineModel timeLineModel) {

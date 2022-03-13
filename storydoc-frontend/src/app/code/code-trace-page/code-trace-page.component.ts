@@ -1,31 +1,23 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from "rxjs";
-import {CodeTraceDto, CodeTraceItemDto} from "@storydoc/models";
-import {CodeRestControllerService} from "@storydoc/services";
+import {CodeService} from "../code.service";
+import {LinkService} from "@storydoc/common";
 
 @Component({
   selector: 'app-code-trace-page',
   templateUrl: './code-trace-page.component.html',
   styleUrls: ['./code-trace-page.component.scss']
 })
-export class CodeTracePageComponent implements OnInit {
+export class CodeTracePageComponent implements OnInit{
 
-  constructor(private codeRestControllerService: CodeRestControllerService) {
+  constructor(
+    public link: LinkService,
+    private codeService: CodeService) {
   }
 
-  selectedItem: CodeTraceItemDto
-
-  codeTrace$: Observable<CodeTraceDto>
+  codeTrace$ = this.codeService.codeTrace$
 
   ngOnInit(): void {
-    this.codeTrace$ = this.codeRestControllerService.traceUsingGet({})
+    this.codeService.loadTrace()
   }
 
-  getClassName(item: CodeTraceItemDto) {
-    return item.className?.split('.').slice(-1)[0]
-  }
-
-  selectItem(item) {
-    this.selectedItem = item
-  }
 }

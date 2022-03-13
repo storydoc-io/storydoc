@@ -1,4 +1,4 @@
-<div>
+<app-panel>
   <div class="d-flex flex-row">
     <div class="p-2" *ngFor="let artifact of artifacts" (contextmenu)="openMenu($event, artifact)">
       <a [routerLink]="editorUrl(artifact)">
@@ -8,7 +8,7 @@
     </div>
   </div>
   <div class="btn  btn-sm btn-outline-primary" (click)="addArtifact()">Add..</div>
-</div>
+</app-panel>
 
 <app-popup-menu></app-popup-menu>
 

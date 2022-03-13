@@ -156,8 +156,14 @@ public class StoryDocQueryServiceImpl implements StoryDocQueryService {
     }
 
     @Override
+    @Deprecated // TODO
     public ArtifactMetaData getArtifactMetaData(BlockCoordinate coordinate, ArtifactId artifactId) {
         return storyDocStorage.getArtifactMetaData(coordinate, artifactId);
+    }
+
+    @Override
+    public ArtifactMetaData getArtifactMetaData(ArtifactCoordinate coordinate) {
+        return getArtifactMetaData(coordinate.getBlockCoordinate(), coordinate.getArtifactId());
     }
 
     @Override

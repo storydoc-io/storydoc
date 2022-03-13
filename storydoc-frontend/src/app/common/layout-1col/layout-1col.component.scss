@@ -1,9 +1,7 @@
-._breadcrumb {
-  background-color: mediumpurple;
-}
+@import '../variables';
 
-._middle {
-  position: absolute;
-  background-color: lighten(lightgrey, 11);
+.backdrop {
+  background-color: $storybook-secondary-100;
   min-height: 100vh;
 }
+

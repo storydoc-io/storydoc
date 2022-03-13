@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {map, tap} from "rxjs/operators";
 import {HttpClient} from "@angular/common/http";
-import {ScreenshotCollectionCoordinate, ScreenShotCollectionDto} from "@storydoc/models";
+import {ScreenshotCollectionCoordinate, ScreenShotCollectionDto, ScreenShotId} from "@storydoc/models";
 import {UiRestControllerService} from "@storydoc/services";
 
 interface State {
@@ -24,7 +24,6 @@ export class ScreenshotCollectionService {
   private store = new BehaviorSubject<State>({})
 
   screenshotCollection$ = this.store.asObservable().pipe(
-    tap(x => console.log('value read: ', x)),
     map(state => state.screenShotCollection)
   )
 
@@ -58,7 +57,6 @@ export class ScreenshotCollectionService {
     }).subscribe({
       next:
         dto => {
-          console.log('received: ', dto)
           this.store.next({
             ...this.store.getValue(),
             screenShotCollection: dto,
@@ -68,4 +66,22 @@ export class ScreenshotCollectionService {
 
   }
 
+  deleteScreenshot(screenShotId: ScreenShotId) {
+    this.uiRestControllerService.removeScreenshotFromCollectionUsingDelete({
+      storyDocId: this.collectionCoord.blockCoordinate.storyDocId.id,
+      blockId: this.collectionCoord.blockCoordinate.blockId.id,
+      screenshotCollectionId: this.collectionCoord.screenShotCollectionId.id,
+      screenshotId: screenShotId.id
+    }).subscribe( next => this.load())
+  }
+
+  renameScreenShot(screenShotId: ScreenShotId, name: string) {
+    this.uiRestControllerService.renameScreenshotInCollectionUsingPut({
+      storyDocId: this.collectionCoord.blockCoordinate.storyDocId.id,
+      blockId: this.collectionCoord.blockCoordinate.blockId.id,
+      screenshotCollectionId: this.collectionCoord.screenShotCollectionId.id,
+      screenshotId: screenShotId.id,
+      name: name
+    }).subscribe( next => this.load())
+  }
 }

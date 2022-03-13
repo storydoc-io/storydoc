@@ -1,0 +1,23 @@
+<app-panel>
+  <div class="component-details-container">
+    <div class="container-fluid" *ngIf="descriptor">
+      <div *ngIf="selection != 'NONE'">
+        <h4>{{selection.name}}</h4>
+        <div class="form-group">
+          <label>x</label>
+          <input class="form-control" type="text" [value]="selection.x" >
+        </div>
+        <div class="form-group">
+          <label>y</label>
+          <input class="form-control" type="text" [value]="selection.y" >
+        </div>
+        <div class="row " *ngFor="let attribute of descriptor.attributes">
+          <div class="form-group">
+            <label>{{attribute.name}}</label>
+            <input class="form-control" type="text" (keyup)="onChange(attribute, $event)">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-panel>

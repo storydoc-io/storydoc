@@ -6,25 +6,29 @@
 </app-layout-1col>
 
 <ng-template #breadcrumb>
-  <nav>
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-      <ng-container *ngIf="screenshotCollection$ | async as screenshotCollection">
+  <ng-container *ngIf="screenshotCollection$ | async as screenshotCollection">
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <app-back-button [routerLink]="link.toStoryDoc(screenshotCollection.storyDocSummary)"></app-back-button>
+          <a routerLink="/">Home</a>
+        </li>
         <li class="breadcrumb-item"><a
           [routerLink]="link.toStoryDoc(screenshotCollection.storyDocSummary)">{{screenshotCollection.storyDocSummary.name}}</a>
         </li>
         <li class="breadcrumb-item active" aria-current="page">{{screenshotCollection.name}}</li>
-      </ng-container>
-    </ol>
-  </nav>
+      </ol>
+    </nav>
+  </ng-container>
 </ng-template>
 
 <ng-template #title>
-  <div *ngIf="screenshotCollection$ | async as screenshotCollection">
-    <h3>
-      <app-back-button [routerLink]="link.toStoryDoc(screenshotCollection.storyDocSummary)"></app-back-button>
-      Screenshots: {{screenshotCollection.name}}
-    </h3>
+  <div class="container-fluid" *ngIf="screenshotCollection$ | async as screenshotCollection">
+    <div class="row">
+      <h3>
+        Screenshots: {{screenshotCollection.name}}
+      </h3>
+    </div>
   </div>
 </ng-template>
 
@@ -37,27 +41,10 @@
     <div class="row">
     </div>
     <div class="row">
-      <app-screenshot-collection-panel [screenshotCollection$]="screenshotCollection$" [draggable]="false"></app-screenshot-collection-panel>
-      <!--
-      <div class="col" *ngIf="(screenshotCollection$ | async) as screenshotCollection ; else loading">
-        <div class="d-flex flex-wrap" >
-          <div class="p-2" *ngFor="let screenshot of screenshotCollection.screenShots; trackBy: screenshotTracker">
-            <app-screenshot-thumbnail [screenshotCoordinate]="screenshotCoord(screenshot)" [label]="screenshot.name"></app-screenshot-thumbnail>
-          </div>
-        </div>
-      </div>
-      -->
-    </div>
-    <div class="row">
-      <div class="col">
-        <div class="btn  btn-sm btn-outline-primary" (click)="openAddScreenshotDialog()">Add Screenshot</div>
-      </div>
+      <app-screenshot-collection-panel [screenshotCollection$]="screenshotCollection$" [readonly]="false"></app-screenshot-collection-panel>
     </div>
   </div>
 </ng-template>
 
-<jw-modal [id]="getScreenshotDialogId()">
-  <app-create-screenshot-dialog [spec]="screenshotDialogSpec" ></app-create-screenshot-dialog>
-</jw-modal>
 
 <ng-template #loading>loading...</ng-template>

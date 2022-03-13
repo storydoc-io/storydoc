@@ -158,6 +158,18 @@ public class StoryDocServiceImpl implements StoryDocService {
     }
 
     @Override
+    public void renameItemFromBinaryCollection(ArtifactCoordinate artifactCoordinate, ItemId itemId, String name) {
+        StoryDoc storyDoc = domainService.getDocument(artifactCoordinate.getBlockCoordinate().getStoryDocId());
+        storyDoc.renameItemFromBinaryCollection(artifactCoordinate, itemId, name);
+    }
+
+    @Override
+    public void removeItemFromBinaryCollection(ArtifactCoordinate artifactCoordinate, ItemId itemId) {
+        StoryDoc storyDoc = domainService.getDocument(artifactCoordinate.getBlockCoordinate().getStoryDocId());
+        storyDoc.removeItemFromBinaryCollection(artifactCoordinate, itemId);
+    }
+
+    @Override
     public void removeArtifact(ArtifactCoordinate artifactCoordinate) {
         StoryDoc storyDoc = domainService.getDocument(artifactCoordinate.getBlockCoordinate().getStoryDocId());
         storyDoc.deleteArtifact(artifactCoordinate);

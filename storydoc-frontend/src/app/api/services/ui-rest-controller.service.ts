@@ -31,6 +31,112 @@ export class UiRestControllerService extends BaseService {
   }
 
   /**
+   * Path part for operation renameScreenshotInCollectionUsingPut
+   */
+  static readonly RenameScreenshotInCollectionUsingPutPath = '/api/ui/screenshot';
+
+  /**
+   * renameScreenshotInCollection.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `renameScreenshotInCollectionUsingPut()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  renameScreenshotInCollectionUsingPut$Response(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * blockId
+     */
+    blockId: string;
+
+    /**
+     * screenshotCollectionId
+     */
+    screenshotCollectionId: string;
+
+    /**
+     * screenshotId
+     */
+    screenshotId: string;
+
+    /**
+     * name
+     */
+    name?: string;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, UiRestControllerService.RenameScreenshotInCollectionUsingPutPath, 'put');
+    if (params) {
+      rb.query('storyDocId', params.storyDocId, {"style":"form"});
+      rb.query('blockId', params.blockId, {"style":"form"});
+      rb.query('screenshotCollectionId', params.screenshotCollectionId, {"style":"form"});
+      rb.query('screenshotId', params.screenshotId, {"style":"form"});
+      rb.query('name', params.name, {"style":"form"});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * renameScreenshotInCollection.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `renameScreenshotInCollectionUsingPut$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  renameScreenshotInCollectionUsingPut(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * blockId
+     */
+    blockId: string;
+
+    /**
+     * screenshotCollectionId
+     */
+    screenshotCollectionId: string;
+
+    /**
+     * screenshotId
+     */
+    screenshotId: string;
+
+    /**
+     * name
+     */
+    name?: string;
+  }): Observable<void> {
+
+    return this.renameScreenshotInCollectionUsingPut$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
    * Path part for operation addScreenshotToCollectionUsingPost
    */
   static readonly AddScreenshotToCollectionUsingPostPath = '/api/ui/screenshot';
@@ -81,6 +187,101 @@ export class UiRestControllerService extends BaseService {
 
     return this.addScreenshotToCollectionUsingPost$Response(params).pipe(
       map((r: StrictHttpResponse<ScreenShotId>) => r.body as ScreenShotId)
+    );
+  }
+
+  /**
+   * Path part for operation removeScreenshotFromCollectionUsingDelete
+   */
+  static readonly RemoveScreenshotFromCollectionUsingDeletePath = '/api/ui/screenshot';
+
+  /**
+   * removeScreenshotFromCollection.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `removeScreenshotFromCollectionUsingDelete()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  removeScreenshotFromCollectionUsingDelete$Response(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * blockId
+     */
+    blockId: string;
+
+    /**
+     * screenshotCollectionId
+     */
+    screenshotCollectionId: string;
+
+    /**
+     * screenshotId
+     */
+    screenshotId: string;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, UiRestControllerService.RemoveScreenshotFromCollectionUsingDeletePath, 'delete');
+    if (params) {
+      rb.query('storyDocId', params.storyDocId, {"style":"form"});
+      rb.query('blockId', params.blockId, {"style":"form"});
+      rb.query('screenshotCollectionId', params.screenshotCollectionId, {"style":"form"});
+      rb.query('screenshotId', params.screenshotId, {"style":"form"});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * removeScreenshotFromCollection.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `removeScreenshotFromCollectionUsingDelete$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  removeScreenshotFromCollectionUsingDelete(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * blockId
+     */
+    blockId: string;
+
+    /**
+     * screenshotCollectionId
+     */
+    screenshotCollectionId: string;
+
+    /**
+     * screenshotId
+     */
+    screenshotId: string;
+  }): Observable<void> {
+
+    return this.removeScreenshotFromCollectionUsingDelete$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 

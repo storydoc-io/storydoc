@@ -16,4 +16,12 @@ public class TimeLineModel {
     public void addItemToTimeLine(TimeLineCoordinate timeLineCoordinate, TimeLineItemId timeLineItemId, String name) {
         timeLineStore.addItemToTimeLine(timeLineCoordinate, timeLineItemId, name);
     }
+
+    public void removeItem(TimeLineCoordinate timeLineCoordinate, TimeLineItemId timeLineItemId) {
+        timeLineStore.removeItem(timeLineCoordinate, timeLineItemId);
+    }
+
+    public void renameItem(TimeLineCoordinate timeLineCoordinate, TimeLineItemId timeLineItemId, String name) {
+        timeLineStore.renameItem(timeLineCoordinate, timeLineItemId, name);
+    }
 }

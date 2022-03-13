@@ -1,0 +1,7 @@
+<app-panel>
+  <div *ngIf="palette$ | async as palette" class="d-flex flex-wrap">
+    <div class="palette-item" *ngFor="let componentDesc of palette; trackBy: componentDescTracker" draggable="true" (dragstart)="dragStart($event, componentDesc)">
+        {{componentDesc.label }}
+    </div>
+  </div>
+</app-panel>

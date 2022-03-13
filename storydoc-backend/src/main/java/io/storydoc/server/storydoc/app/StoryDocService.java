@@ -37,6 +37,10 @@ public interface StoryDocService {
 
     ItemId addItemToBinaryCollection(BlockCoordinate coordinate, ArtifactId artifactId, String itemName, InputStream inputStream);
 
+    void renameItemFromBinaryCollection(ArtifactCoordinate asArtifactCoordinate, ItemId asItemId, String name);
+
+    void removeItemFromBinaryCollection(ArtifactCoordinate artifactCoordinate, ItemId itemId);
+
     void removeArtifact(ArtifactCoordinate artifactCoordinate);
 
     void renameDocument(StoryDocId storyDocId, String new_name);

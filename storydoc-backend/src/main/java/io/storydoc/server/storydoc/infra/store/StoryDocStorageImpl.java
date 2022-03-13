@@ -315,7 +315,12 @@ public class StoryDocStorageImpl implements StoryDocStorage {
         return null;
     }
 
-
+    private ArtifactItem lookupItem(ItemId itemId, io.storydoc.server.storydoc.infra.store.model.Artifact artifact) {
+        return artifact.getItems().stream()
+                .filter(item -> item.getId().equals(itemId.getId()))
+                .findFirst()
+                .get();
+    }
 
     @Override
     public void removeBlock(BlockCoordinate blockCoordinate) throws StoryDocException {
@@ -569,6 +574,27 @@ public class StoryDocStorageImpl implements StoryDocStorage {
         }
     }
 
+    @Override
+    public void renameItemFromBinaryCollection(ArtifactCoordinate artifactCoordinate, ItemId itemId, String name) {
+        BlockCoordinate blockCoordinate = artifactCoordinate.getBlockCoordinate();
+        StoryDoc storyDoc = loadDocument(blockCoordinate.getStoryDocId());
+        ArtifactBlock block = (ArtifactBlock) lookupBlock(blockCoordinate.getBlockId(), storyDoc);
+        io.storydoc.server.storydoc.infra.store.model.Artifact artifact  = lookupArtifact(artifactCoordinate.getArtifactId(), block);
+        ArtifactItem itemToRename = lookupItem(itemId, artifact);
+        itemToRename.setName(name);
+        saveDocument(storyDoc);
+    }
+
+    @Override
+    public void removeItemFromBinaryCollection(ArtifactCoordinate artifactCoordinate, ItemId itemId) {
+        BlockCoordinate blockCoordinate = artifactCoordinate.getBlockCoordinate();
+        StoryDoc storyDoc = loadDocument(blockCoordinate.getStoryDocId());
+        ArtifactBlock block = (ArtifactBlock) lookupBlock(blockCoordinate.getBlockId(), storyDoc);
+        io.storydoc.server.storydoc.infra.store.model.Artifact artifact  = lookupArtifact(artifactCoordinate.getArtifactId(), block);
+        ArtifactItem itemToRemove = lookupItem(itemId, artifact);
+        artifact.getItems().remove(itemToRemove);
+        saveDocument(storyDoc);
+    }
 
     @Override
     public InputStream getBinaryFromCollection(ArtifactCoordinate coordinate, ItemId itemId) throws WorkspaceException {

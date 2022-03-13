@@ -1,13 +1,12 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {LinkService, ModalService} from "@storydoc/common";
-import {ScreenshotCoordinate, ScreenShotDto} from "@storydoc/models";
+import {LinkService, ModalService, AdminDataService, PopupMenuComponent, ConfirmationDialogSpec} from "@storydoc/common";
+import {ScreenshotCoordinate, ScreenShotDto, TimeLineDto, TimeLineItemDto} from "@storydoc/models";
 import {
-  CreateScreenshotDialogData,
-  CreateScreenshotDialogInput
+  ScreenshotDialogData,
+  ScreenshotDialogSpec
 } from "./create-screenshot-dialog/create-screenshot-dialog.component";
 import {ScreenshotCollectionService} from "./screenshot-collection.service";
-import {AdminDataService} from "../../document/admin-data.service";
 import {Subscription} from "rxjs";
 
 @Component({
@@ -19,16 +18,12 @@ export class ScreenshotCollectionPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private screenshotCollectionService: ScreenshotCollectionService,
-    private admin: AdminDataService,
     private route: ActivatedRoute,
     public link: LinkService,
-    private modalService: ModalService,
   ) {
   }
 
   screenshotCollection$ = this.screenshotCollectionService.screenshotCollection$
-  settings$ = this.admin.settings$
-  maxFileSize : number
 
   private subscriptions: Subscription[] = []
 
@@ -47,54 +42,12 @@ export class ScreenshotCollectionPageComponent implements OnInit, OnDestroy {
         });
       }
     }));
-    this.subscriptions.push(this.settings$.subscribe((settings)=> this.maxFileSize = settings?.maxFileSize))
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(s => s.unsubscribe())
   }
 
-// create screenshot dialog
-  screenshotDialogSpec: CreateScreenshotDialogInput
-
-  screenshotTracker(index, item: ScreenShotDto) {
-    return item.id.id;
-  }
-
-  getScreenshotDialogId() {
-    return "create-screenshot-dialog"
-  }
-
-  openAddScreenshotDialog() {
-    this.screenshotDialogSpec = {
-      mode: 'NEW',
-      data: {
-        name: null,
-        file: null,
-        fileSource: null,
-        fileSize: 0
-      },
-      confirm: (data) => this.confirmAddScreenshotDialog(data),
-      cancel: () => this.cancelAddScreenshotDialog(),
-      maxFileSize : this.maxFileSize
-    }
-    this.modalService.open(this.getScreenshotDialogId())
-  }
-
-
-  confirmAddScreenshotDialog(data: CreateScreenshotDialogData) {
-    this.screenshotCollectionService.AddScreenshot({
-      fileSource: data.fileSource,
-      name: data.name
-    }, () => {
-      console.log('callback')
-    })
-    this.modalService.close(this.getScreenshotDialogId())
-  }
-
-  cancelAddScreenshotDialog() {
-    this.modalService.close(this.getScreenshotDialogId())
-  }
 
   getScreenshotUrl(screenshot: ScreenShotDto) {
     let coord = this.screenshotCoord(screenshot);

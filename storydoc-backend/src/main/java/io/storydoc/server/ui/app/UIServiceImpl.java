@@ -34,6 +34,17 @@ public class UIServiceImpl implements UIService {
         return screenShotCollection.uploadScreenShot(collectionCoordinate, inputStream, name);
     }
 
+    @Override
+    public void renameScreenShotInCollection(ScreenshotCoordinate coordinate, String name) {
+        ScreenShotCollection screenShotCollection = domainService.getScreenShotCollection(coordinate.getCollectionCoordinate());
+        screenShotCollection.renameScreenShot(coordinate, name);
+    }
+
+    @Override
+    public void removeScreenShotFromCollection(ScreenshotCoordinate coordinate) {
+        ScreenShotCollection screenShotCollection = domainService.getScreenShotCollection(coordinate.getCollectionCoordinate());
+        screenShotCollection.removeScreenShot(coordinate);
+    }
 
     @Override
     public void setTimeLineModelForUIScenario(UIScenarioCoordinate scenarioCoordinate, TimeLineModelCoordinate timeLineModelCoordinate){

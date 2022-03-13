@@ -31,6 +31,10 @@
       "description": "Redirect To Angular"
     },
     {
+      "name": "screen-design-rest-controller",
+      "description": "Screen Design Rest Controller"
+    },
+    {
       "name": "sqldb-controller",
       "description": "SQLDB Controller"
     },
@@ -96,6 +100,113 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CodeTraceDTO"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/code/codeexecution": {
+      "post": {
+        "tags": [
+          "code-rest-controller"
+        ],
+        "summary": "createCodeExecution",
+        "operationId": "createCodeExecutionUsingPOST",
+        "parameters": [
+          {
+            "name": "storyDocId",
+            "in": "query",
+            "description": "storyDocId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blockId",
+            "in": "query",
+            "description": "blockId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "name",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CodeExecutionCoordinate"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/code/source": {
+      "get": {
+        "tags": [
+          "code-rest-controller"
+        ],
+        "summary": "source",
+        "operationId": "sourceUsingGET",
+        "parameters": [
+          {
+            "name": "className",
+            "in": "query",
+            "description": "className",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SourceCodeDTO"
                 }
               }
             }
@@ -340,6 +451,271 @@
           },
           "403": {
             "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/ui/screendesign/": {
+      "get": {
+        "tags": [
+          "screen-design-rest-controller"
+        ],
+        "summary": "getScreenDesign",
+        "operationId": "getScreenDesignUsingGET",
+        "parameters": [
+          {
+            "name": "storyDocId",
+            "in": "query",
+            "description": "storyDocId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blockId",
+            "in": "query",
+            "description": "blockId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "screenDesignId",
+            "in": "query",
+            "description": "screenDesignId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScreenDesignDTO"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "screen-design-rest-controller"
+        ],
+        "summary": "createScreenDesign",
+        "operationId": "createScreenDesignUsingPOST",
+        "parameters": [
+          {
+            "name": "storyDocId",
+            "in": "query",
+            "description": "storyDocId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blockId",
+            "in": "query",
+            "description": "blockId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "name",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScreenDesignCoordinate"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/ui/screendesign/component": {
+      "post": {
+        "tags": [
+          "screen-design-rest-controller"
+        ],
+        "summary": "createComponent",
+        "operationId": "createComponentUsingPOST",
+        "parameters": [
+          {
+            "name": "storyDocId",
+            "in": "query",
+            "description": "storyDocId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blockId",
+            "in": "query",
+            "description": "blockId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "screenDesignId",
+            "in": "query",
+            "description": "screenDesignId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "containerId",
+            "in": "query",
+            "description": "containerId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "type",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x",
+            "in": "query",
+            "description": "x",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "y",
+            "in": "query",
+            "description": "y",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SDComponentId"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/ui/screendesign/palette": {
+      "get": {
+        "tags": [
+          "screen-design-rest-controller"
+        ],
+        "summary": "getComponentPalette",
+        "operationId": "getComponentPaletteUsingGET",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ComponentDescriptorDTO"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -928,6 +1304,92 @@
       }
     },
     "/api/timeline/timelineitem": {
+      "put": {
+        "tags": [
+          "time-line-controller"
+        ],
+        "summary": "renameTimeLineItem",
+        "operationId": "renameTimeLineItemUsingPUT",
+        "parameters": [
+          {
+            "name": "storyDocId",
+            "in": "query",
+            "description": "storyDocId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blockId",
+            "in": "query",
+            "description": "blockId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timeLineModelId",
+            "in": "query",
+            "description": "timeLineModelId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timeLineId",
+            "in": "query",
+            "description": "timeLineId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timeLineItemId",
+            "in": "query",
+            "description": "timeLineItemId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "name",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
       "post": {
         "tags": [
           "time-line-controller"
@@ -998,6 +1460,79 @@
           },
           "404": {
             "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "time-line-controller"
+        ],
+        "summary": "deleteTimeLineItem",
+        "operationId": "deleteTimeLineItemUsingDELETE",
+        "parameters": [
+          {
+            "name": "storyDocId",
+            "in": "query",
+            "description": "storyDocId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blockId",
+            "in": "query",
+            "description": "blockId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timeLineModelId",
+            "in": "query",
+            "description": "timeLineModelId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timeLineId",
+            "in": "query",
+            "description": "timeLineId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timeLineItemId",
+            "in": "query",
+            "description": "timeLineItemId",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       }
@@ -1183,6 +1718,82 @@
       }
     },
     "/api/ui/screenshot": {
+      "put": {
+        "tags": [
+          "ui-rest-controller"
+        ],
+        "summary": "renameScreenshotInCollection",
+        "operationId": "renameScreenshotInCollectionUsingPUT",
+        "parameters": [
+          {
+            "name": "storyDocId",
+            "in": "query",
+            "description": "storyDocId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blockId",
+            "in": "query",
+            "description": "blockId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "screenshotCollectionId",
+            "in": "query",
+            "description": "screenshotCollectionId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "screenshotId",
+            "in": "query",
+            "description": "screenshotId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "name",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
       "post": {
         "tags": [
           "ui-rest-controller"
@@ -1257,6 +1868,69 @@
           },
           "404": {
             "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ui-rest-controller"
+        ],
+        "summary": "removeScreenshotFromCollection",
+        "operationId": "removeScreenshotFromCollectionUsingDELETE",
+        "parameters": [
+          {
+            "name": "storyDocId",
+            "in": "query",
+            "description": "storyDocId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blockId",
+            "in": "query",
+            "description": "blockId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "screenshotCollectionId",
+            "in": "query",
+            "description": "screenshotCollectionId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "screenshotId",
+            "in": "query",
+            "description": "screenshotId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       }
@@ -2043,15 +2717,42 @@
           }
         }
       },
+      "CodeExecutionCoordinate": {
+        "title": "CodeExecutionCoordinate",
+        "type": "object",
+        "properties": {
+          "blockCoordinate": {
+            "$ref": "#/components/schemas/BlockCoordinate"
+          },
+          "codeExecutionId": {
+            "$ref": "#/components/schemas/CodeExecutionId"
+          }
+        }
+      },
+      "CodeExecutionId": {
+        "title": "CodeExecutionId",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      },
       "CodeTraceDTO": {
         "title": "CodeTraceDTO",
         "type": "object",
         "properties": {
+          "description": {
+            "type": "string"
+          },
           "items": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CodeTraceItemDTO"
             }
+          },
+          "storyDocSummary": {
+            "$ref": "#/components/schemas/StoryDocSummaryDTO"
           }
         }
       },
@@ -2075,6 +2776,52 @@
             "type": "string"
           },
           "threadName": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "ComponentAttributeDTO": {
+        "title": "ComponentAttributeDTO",
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "ComponentAttributeDescriptorDTO": {
+        "title": "ComponentAttributeDescriptorDTO",
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "NUMBER",
+              "STRING"
+            ]
+          }
+        }
+      },
+      "ComponentDescriptorDTO": {
+        "title": "ComponentDescriptorDTO",
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ComponentAttributeDescriptorDTO"
+            }
+          },
+          "label": {
             "type": "string"
           },
           "type": {
@@ -2251,6 +2998,116 @@
           }
         }
       },
+      "SDComponentDTO": {
+        "title": "SDComponentDTO",
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ComponentAttributeDTO"
+            }
+          },
+          "id": {
+            "$ref": "#/components/schemas/SDComponentId"
+          },
+          "label": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "x": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "y": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "SDComponentId": {
+        "title": "SDComponentId",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "SDComponentTypeSelectionDTO": {
+        "title": "SDComponentTypeSelectionDTO",
+        "type": "object",
+        "properties": {
+          "component": {
+            "$ref": "#/components/schemas/SDComponentDTO"
+          },
+          "container": {
+            "$ref": "#/components/schemas/SDContainerDTO"
+          }
+        }
+      },
+      "SDContainerDTO": {
+        "title": "SDContainerDTO",
+        "type": "object",
+        "properties": {
+          "children": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SDComponentTypeSelectionDTO"
+            }
+          },
+          "id": {
+            "$ref": "#/components/schemas/SDComponentId"
+          },
+          "label": {
+            "type": "string"
+          }
+        }
+      },
+      "ScreenDesignCoordinate": {
+        "title": "ScreenDesignCoordinate",
+        "type": "object",
+        "properties": {
+          "blockCoordinate": {
+            "$ref": "#/components/schemas/BlockCoordinate"
+          },
+          "screenDesignId": {
+            "$ref": "#/components/schemas/ScreenDesignId"
+          }
+        }
+      },
+      "ScreenDesignDTO": {
+        "title": "ScreenDesignDTO",
+        "type": "object",
+        "properties": {
+          "coordinate": {
+            "$ref": "#/components/schemas/ScreenDesignCoordinate"
+          },
+          "name": {
+            "type": "string"
+          },
+          "rootContainer": {
+            "$ref": "#/components/schemas/SDContainerDTO"
+          },
+          "storyDocSummaryDTO": {
+            "$ref": "#/components/schemas/StoryDocSummaryDTO"
+          }
+        }
+      },
+      "ScreenDesignId": {
+        "title": "ScreenDesignId",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      },
       "ScreenShotCollectionDTO": {
         "title": "ScreenShotCollectionDTO",
         "type": "object",
@@ -2350,6 +3207,18 @@
           },
           "screenShotId": {
             "$ref": "#/components/schemas/ScreenShotId"
+          }
+        }
+      },
+      "SourceCodeDTO": {
+        "title": "SourceCodeDTO",
+        "type": "object",
+        "properties": {
+          "lines": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         }
       },

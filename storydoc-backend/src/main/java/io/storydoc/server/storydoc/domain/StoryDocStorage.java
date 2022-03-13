@@ -83,6 +83,9 @@ public interface StoryDocStorage {
 
     void addItemToBinaryCollection(ArtifactCoordinate coordinate, String itemName, ItemId itemId, InputStream inputStream);
 
-    ResourceUrn getCollectionItemUrn(ArtifactCoordinate artifactCoordinate, ItemId itemId);
+    void renameItemFromBinaryCollection(ArtifactCoordinate artifactCoordinate, ItemId itemId, String name);
 
+    void removeItemFromBinaryCollection(ArtifactCoordinate artifactCoordinate, ItemId itemId);
+
+    ResourceUrn getCollectionItemUrn(ArtifactCoordinate artifactCoordinate, ItemId itemId);
 }

@@ -16,6 +16,12 @@ import {ScreenshotPanelComponent} from './uiscenario-page/screenshot-panel/scree
 import {ScreenshotThumbnailComponent} from './uiscenario-page/screenshot-thumbnail/screenshot-thumbnail.component';
 import { ScenarioPanelComponent } from './uiscenario-page/scenario-panel/scenario-panel.component';
 import { ScenarioConfigDialogComponent } from './uiscenario-page/scenario-config-dialog/scenario-config-dialog.component';
+import { ScenarioPresentationComponent } from './uiscenario-page/scenario-presentation/scenario-presentation.component';
+import { ScreenDesignPageComponent } from './screen-design-page/screen-design-page.component';
+import { PaletteComponent } from './screen-design-page/palette/palette.component';
+import { ComponentDetailsComponent } from './screen-design-page/component-details/component-details.component';
+import { ComponentTreeComponent } from './screen-design-page/component-tree/component-tree.component';
+import { CanvasComponent } from './screen-design-page/canvas/canvas.component';
 
 
 @NgModule({
@@ -35,6 +41,12 @@ import { ScenarioConfigDialogComponent } from './uiscenario-page/scenario-config
     ScreenshotCollectionPanelComponent,
     CreateItemDialogComponent,
     TimelinePageComponent,
+    ScenarioPresentationComponent,
+    ScreenDesignPageComponent,
+    PaletteComponent,
+    ComponentDetailsComponent,
+    ComponentTreeComponent,
+    CanvasComponent,
   ],
   imports: [
     CoreModule,
