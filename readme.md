@@ -5,6 +5,6 @@
 - STABLE: download [release](https://github.com/storydoc-io/storydoc/releases)
 
 - SNAPSHOT: download [continuous integration build](https://github.com/storydoc-io/storydoc/actions?query=is%3Asuccess). 
--- select the latest succesful build (top of the list, with most recent commit message)
--- Unzip the "assembly" artifact   
+  - select the latest succesful build (top of the list, with most recent commit message)
+  - Unzip the "assembly" artifact   
  
