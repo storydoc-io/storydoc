@@ -27,6 +27,7 @@ public class StoryDocQueryServiceImpl implements StoryDocQueryService {
 
     @Override
     public List<StoryDocSummaryDTO> getStoryDocs() {
+        //StitchConfigSingleton.INSTANCE.getCodeExecutionTracer()
         return storyDocStorage.loadDocuments().getStoryDocs().stream()
             .map(this::toSummary)
             .collect(Collectors.toList());

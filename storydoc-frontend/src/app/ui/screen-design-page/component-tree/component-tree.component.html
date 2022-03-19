@@ -1,6 +1,6 @@
 <app-panel >
   <div class="component-tree-container" *ngIf="screenDesign$ | async as screenDesign">
-    <div *ngFor="let treeItem of tree" [class.itemselected]="isSelected(treeItem)" (click)="select(treeItem)">
+    <div *ngFor="let treeItem of tree" [class.itemselected]="isSelected(treeItem)" (click)="select(treeItem)" (dblclick)="editName(treeItem)" >
       <ng-container *ngIf="treeItem.depth==1">&nbsp;</ng-container>
       <fa-icon *ngIf="treeItem.type==='CONTAINER'" [icon]="faBorderAll"></fa-icon>
       <fa-icon *ngIf="treeItem.type==='COMPONENT'" [icon]="faCube"></fa-icon> {{treeItem.label}}

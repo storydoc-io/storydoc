@@ -44,6 +44,7 @@ public class StoryDocServiceTest extends TestBase {
         workspaceTestUtils = new WorkspaceTestUtils(workspaceQueryService);
     }
 
+
     @Test
     public void createDocument() {
 

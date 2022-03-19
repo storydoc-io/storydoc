@@ -4,6 +4,7 @@ import io.storydoc.server.config.StoryDocServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @Configuration
 @ComponentScan(basePackages={
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
         "io.storydoc.server.ui",
         "io.storydoc.server.infra",
         "io.storydoc.server.timeline" })
+@EnableAspectJAutoProxy
 public class TestConfig {
 
     @Bean

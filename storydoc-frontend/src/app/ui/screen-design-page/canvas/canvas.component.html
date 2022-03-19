@@ -1,12 +1,13 @@
 <app-panel>
-  <div class="mdbdark  canvas-container"   (dragover)="allowDrop($event)" (drop)="doDrop($event)" #canvasElem>
+  <div id="canvas" class="quartz  canvas-container" (mousedown)="lassoSelectBegin($event)" (dragover)="allowDrop($event)" (drop)="doDrop($event)" #canvasElem>
+    <div #lassoSelectElem [style]="lassoSelectStyle()">lasso</div>
     <div *ngIf="screenDesign$ | async as screenDesign">
       <div style= "position: relative;"  *ngIf="selection$ | async as selection">
         <div *ngFor="let child of screenDesign.rootContainer.children, let idx = index"
              [style]="style(child, idx)"   draggable="true" (dragstart)="dragStart($event, child)"
         >
           <ng-container *ngIf="child.component as component">
-            <div  [class.canvas-selected]="isSelected(component, selection)" [ngSwitch]="component.type" (click)="select(component)">
+            <div  [class.canvas-selected]="isSelected(component, selection)" [ngSwitch]="component.type"  (click)="select(component)">
               <div *ngSwitchCase="'BUTTON'">
                 <button  class="btn btn-outline-primary">{{getAttributeValue("value", component)}}</button>
               </div>

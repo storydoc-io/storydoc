@@ -326,6 +326,324 @@ export class ScreenDesignRestControllerService extends BaseService {
   }
 
   /**
+   * Path part for operation deleteComponentUsingDelete
+   */
+  static readonly DeleteComponentUsingDeletePath = '/api/ui/screendesign/component';
+
+  /**
+   * deleteComponent.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteComponentUsingDelete()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteComponentUsingDelete$Response(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * blockId
+     */
+    blockId: string;
+
+    /**
+     * screenDesignId
+     */
+    screenDesignId: string;
+
+    /**
+     * componenId
+     */
+    componenId: string;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ScreenDesignRestControllerService.DeleteComponentUsingDeletePath, 'delete');
+    if (params) {
+      rb.query('storyDocId', params.storyDocId, {"style":"form"});
+      rb.query('blockId', params.blockId, {"style":"form"});
+      rb.query('screenDesignId', params.screenDesignId, {"style":"form"});
+      rb.query('componenId', params.componenId, {"style":"form"});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * deleteComponent.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteComponentUsingDelete$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteComponentUsingDelete(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * blockId
+     */
+    blockId: string;
+
+    /**
+     * screenDesignId
+     */
+    screenDesignId: string;
+
+    /**
+     * componenId
+     */
+    componenId: string;
+  }): Observable<void> {
+
+    return this.deleteComponentUsingDelete$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation updateComponentLocationUsingPut
+   */
+  static readonly UpdateComponentLocationUsingPutPath = '/api/ui/screendesign/component/location';
+
+  /**
+   * updateComponentLocation.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `updateComponentLocationUsingPut()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  updateComponentLocationUsingPut$Response(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * blockId
+     */
+    blockId: string;
+
+    /**
+     * screenDesignId
+     */
+    screenDesignId: string;
+
+    /**
+     * componenId
+     */
+    componenId: string;
+
+    /**
+     * x
+     */
+    'x': number;
+
+    /**
+     * y
+     */
+    'y': number;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ScreenDesignRestControllerService.UpdateComponentLocationUsingPutPath, 'put');
+    if (params) {
+      rb.query('storyDocId', params.storyDocId, {"style":"form"});
+      rb.query('blockId', params.blockId, {"style":"form"});
+      rb.query('screenDesignId', params.screenDesignId, {"style":"form"});
+      rb.query('componenId', params.componenId, {"style":"form"});
+      rb.query('x', params['x'], {"style":"form"});
+      rb.query('y', params['y'], {"style":"form"});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * updateComponentLocation.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `updateComponentLocationUsingPut$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  updateComponentLocationUsingPut(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * blockId
+     */
+    blockId: string;
+
+    /**
+     * screenDesignId
+     */
+    screenDesignId: string;
+
+    /**
+     * componenId
+     */
+    componenId: string;
+
+    /**
+     * x
+     */
+    'x': number;
+
+    /**
+     * y
+     */
+    'y': number;
+  }): Observable<void> {
+
+    return this.updateComponentLocationUsingPut$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation updateComponentNameUsingPut
+   */
+  static readonly UpdateComponentNameUsingPutPath = '/api/ui/screendesign/component/name';
+
+  /**
+   * updateComponentName.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `updateComponentNameUsingPut()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  updateComponentNameUsingPut$Response(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * blockId
+     */
+    blockId: string;
+
+    /**
+     * screenDesignId
+     */
+    screenDesignId: string;
+
+    /**
+     * componenId
+     */
+    componenId: string;
+
+    /**
+     * name
+     */
+    name: string;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ScreenDesignRestControllerService.UpdateComponentNameUsingPutPath, 'put');
+    if (params) {
+      rb.query('storyDocId', params.storyDocId, {"style":"form"});
+      rb.query('blockId', params.blockId, {"style":"form"});
+      rb.query('screenDesignId', params.screenDesignId, {"style":"form"});
+      rb.query('componenId', params.componenId, {"style":"form"});
+      rb.query('name', params.name, {"style":"form"});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * updateComponentName.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `updateComponentNameUsingPut$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  updateComponentNameUsingPut(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * blockId
+     */
+    blockId: string;
+
+    /**
+     * screenDesignId
+     */
+    screenDesignId: string;
+
+    /**
+     * componenId
+     */
+    componenId: string;
+
+    /**
+     * name
+     */
+    name: string;
+  }): Observable<void> {
+
+    return this.updateComponentNameUsingPut$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
    * Path part for operation getComponentPaletteUsingGet
    */
   static readonly GetComponentPaletteUsingGetPath = '/api/ui/screendesign/palette';

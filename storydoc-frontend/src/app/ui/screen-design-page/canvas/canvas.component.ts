@@ -1,4 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { HostListener } from '@angular/core';
 import {ComponentDescriptorDto, SdComponentDto, SdComponentTypeSelectionDto} from "@storydoc/models";
 import {ScreenDesignService} from "../screen-design.service";
 
@@ -30,6 +31,13 @@ export class CanvasComponent implements OnInit {
   constructor(private service: ScreenDesignService) {
   }
 
+  @HostListener('document:keyup', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if(event.key === 'Delete'){
+      this.service.deleteSelection()
+    }
+  }
+
   screenDesign$ = this.service.screenDesign$
 
   selection$ = this.service.selection$
@@ -57,9 +65,11 @@ export class CanvasComponent implements OnInit {
       this.service.addComponent(componentDescriptor, coord)
     }
     else if (request.type==='MOVE_COMPONENT') {
+      let dx = request.move.x0 - ev.clientX
+      let dy = request.move.y0 - ev.clientY
       let coord =  {
-        x: ev.clientX - request.move.x0,
-        y: ev.clientY - request.move.y0
+        x: request.move.component.x - dx,
+        y: request.move.component.y - dy
       }
       this.service.moveComponent(request.move.component, coord)
     }
@@ -95,4 +105,16 @@ export class CanvasComponent implements OnInit {
     }));
 
   }
+
+  lassoSelect: boolean = false
+  lassoSelectBegin(event: any) {
+    if (event.target.id != 'canvas') return
+    this.lassoSelect = true
+    console.log(event)
+  }
+
+  lassoSelectStyle() : string {
+    return this.lassoSelect? "" : "visibility: hidden;"
+  }
+
 }

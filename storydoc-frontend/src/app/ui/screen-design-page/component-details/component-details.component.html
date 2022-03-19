@@ -2,7 +2,10 @@
   <div class="component-details-container">
     <div class="container-fluid" *ngIf="descriptor">
       <div *ngIf="selection != 'NONE'">
-        <h4>{{selection.name}}</h4>
+        <div class="form-group">
+          <label><b>Name</b></label>
+          <input class="form-control" type="text" [value]="selection.name" (keyup)="onNameChange($event)">
+        </div>
         <div class="form-group">
           <label>x</label>
           <input class="form-control" type="text" [value]="selection.x" >

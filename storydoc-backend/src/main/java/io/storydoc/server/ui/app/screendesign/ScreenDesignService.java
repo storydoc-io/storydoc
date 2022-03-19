@@ -8,4 +8,7 @@ public interface ScreenDesignService {
 
     ScreenDesignCoordinate createScreenDesign(BlockCoordinate blockCoordinate, String name);
     SDComponentId addComponent(ScreenDesignCoordinate screenDesignCoordinate, SDComponentId rootContainerId, String type, int x, int y);
+    void moveComponent(ScreenDesignCoordinate screenDesignCoordinate, SDComponentId componentId, int x, int y);
+    void deleteComponent(ScreenDesignCoordinate screenDesignCoordinate, SDComponentId componentId);
+    void renameComponent(ScreenDesignCoordinate screenDesignCoordinate, SDComponentId componentId, String name);
 }

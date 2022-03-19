@@ -34,4 +34,22 @@ public class ScreenDesignServiceImpl implements ScreenDesignService {
         ScreenDesign screenDesign = domainService.getScreenDesign(screenDesignCoordinate.getScreenDesignId());
         return screenDesign.addComponent(screenDesignCoordinate, parentContainerId, type, descriptorDTO, x, y);
     }
+
+    @Override
+    public void moveComponent(ScreenDesignCoordinate screenDesignCoordinate, SDComponentId componentId, int x, int y) {
+        ScreenDesign screenDesign = domainService.getScreenDesign(screenDesignCoordinate.getScreenDesignId());
+        screenDesign.moveComponent(screenDesignCoordinate, componentId, x, y);
+    }
+
+    @Override
+    public void deleteComponent(ScreenDesignCoordinate screenDesignCoordinate, SDComponentId componentId) {
+        ScreenDesign screenDesign = domainService.getScreenDesign(screenDesignCoordinate.getScreenDesignId());
+        screenDesign.deleteComponent(screenDesignCoordinate, componentId);
+    }
+
+    @Override
+    public void renameComponent(ScreenDesignCoordinate screenDesignCoordinate, SDComponentId componentId, String name) {
+        ScreenDesign screenDesign = domainService.getScreenDesign(screenDesignCoordinate.getScreenDesignId());
+        screenDesign.renameComponent(screenDesignCoordinate, componentId, name);
+    }
 }

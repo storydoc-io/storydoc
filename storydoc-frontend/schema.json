@@ -685,6 +685,237 @@
             "description": "Not Found"
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "screen-design-rest-controller"
+        ],
+        "summary": "deleteComponent",
+        "operationId": "deleteComponentUsingDELETE",
+        "parameters": [
+          {
+            "name": "storyDocId",
+            "in": "query",
+            "description": "storyDocId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blockId",
+            "in": "query",
+            "description": "blockId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "screenDesignId",
+            "in": "query",
+            "description": "screenDesignId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "componenId",
+            "in": "query",
+            "description": "componenId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/ui/screendesign/component/location": {
+      "put": {
+        "tags": [
+          "screen-design-rest-controller"
+        ],
+        "summary": "updateComponentLocation",
+        "operationId": "updateComponentLocationUsingPUT",
+        "parameters": [
+          {
+            "name": "storyDocId",
+            "in": "query",
+            "description": "storyDocId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blockId",
+            "in": "query",
+            "description": "blockId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "screenDesignId",
+            "in": "query",
+            "description": "screenDesignId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "componenId",
+            "in": "query",
+            "description": "componenId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x",
+            "in": "query",
+            "description": "x",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "y",
+            "in": "query",
+            "description": "y",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/ui/screendesign/component/name": {
+      "put": {
+        "tags": [
+          "screen-design-rest-controller"
+        ],
+        "summary": "updateComponentName",
+        "operationId": "updateComponentNameUsingPUT",
+        "parameters": [
+          {
+            "name": "storyDocId",
+            "in": "query",
+            "description": "storyDocId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blockId",
+            "in": "query",
+            "description": "blockId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "screenDesignId",
+            "in": "query",
+            "description": "screenDesignId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "componenId",
+            "in": "query",
+            "description": "componenId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "name",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
       }
     },
     "/api/ui/screendesign/palette": {

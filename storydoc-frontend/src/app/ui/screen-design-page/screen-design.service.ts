@@ -43,6 +43,10 @@ export class ScreenDesignService implements  OnDestroy{
     return this.store.getValue().selectedContainer
   }
 
+  get selectedComponent():SdComponentDto | 'NONE' {
+    return this.store.getValue().selection
+  }
+
   get coord():ScreenDesignCoordinate {
     return this.store.getValue().coord
   }
@@ -104,9 +108,34 @@ export class ScreenDesignService implements  OnDestroy{
   }
 
   moveComponent(component: SdComponentDto, coord: { x: number; y: number }) {
-
+    this.screenDesignRestControllerService.updateComponentLocationUsingPut({
+      storyDocId: this.coord.blockCoordinate.storyDocId.id,
+      blockId: this.coord.blockCoordinate.blockId.id,
+      screenDesignId: this.coord.screenDesignId.id,
+      componenId: component.id.id,
+      x: coord.x,
+      y: coord.y
+    }).subscribe(()=> this.reload())
   }
 
+  renameComponent(component: SdComponentDto, name: string) {
+    this.screenDesignRestControllerService.updateComponentNameUsingPut({
+      storyDocId: this.coord.blockCoordinate.storyDocId.id,
+      blockId: this.coord.blockCoordinate.blockId.id,
+      screenDesignId: this.coord.screenDesignId.id,
+      componenId: component.id.id,
+      name
+    }).subscribe(()=> this.reload())
+  }
+
+  deleteComponent(component: SdComponentDto) {
+    this.screenDesignRestControllerService.deleteComponentUsingDelete({
+      storyDocId: this.coord.blockCoordinate.storyDocId.id,
+      blockId: this.coord.blockCoordinate.blockId.id,
+      screenDesignId: this.coord.screenDesignId.id,
+      componenId: component.id.id,
+    }).subscribe(()=> this.reload())
+  }
 
   selectComponent(component: SdComponentDto) {
     this.store.next({
@@ -135,4 +164,15 @@ export class ScreenDesignService implements  OnDestroy{
     })
   }
 
+  deleteSelection() {
+    if (this.selectedComponent != 'NONE' ) {
+      this.deleteComponent(this.selectedComponent)
+    }
+  }
+
+  renameSelectedComponent(name: string) {
+    if (this.selectedComponent != 'NONE'){
+      this.renameComponent(this.selectedComponent, name);
+    }
+  }
 }

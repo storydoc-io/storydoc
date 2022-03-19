@@ -39,6 +39,32 @@ public class ScreenDesignRestController {
         return screenDesignService.addComponent(screenDesignCoordinate, containerId, type, x, y);
     }
 
+    @PutMapping(value = "/component/location", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void updateComponentLocation(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId,
+                                         @RequestParam("screenDesignId") ScreenDesignId screenDesignId, @RequestParam("componenId") SDComponentId componentId,
+                                         @RequestParam("x") int x, @RequestParam("y") int y) {
+        BlockCoordinate blockCoordinate = BlockCoordinate.of(storyDocId, blockId);
+        ScreenDesignCoordinate screenDesignCoordinate = ScreenDesignCoordinate.of(blockCoordinate, screenDesignId);
+        screenDesignService.moveComponent(screenDesignCoordinate, componentId, x, y);
+    }
+
+    @PutMapping(value = "/component/name", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void updateComponentName(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId,
+                                        @RequestParam("screenDesignId") ScreenDesignId screenDesignId, @RequestParam("componenId") SDComponentId componentId,
+                                        @RequestParam("name") String name) {
+        BlockCoordinate blockCoordinate = BlockCoordinate.of(storyDocId, blockId);
+        ScreenDesignCoordinate screenDesignCoordinate = ScreenDesignCoordinate.of(blockCoordinate, screenDesignId);
+        screenDesignService.renameComponent(screenDesignCoordinate, componentId, name);
+    }
+
+    @DeleteMapping(value = "/component", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void deleteComponent(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId,
+                                    @RequestParam("screenDesignId") ScreenDesignId screenDesignId, @RequestParam("componenId") SDComponentId componentId) {
+        BlockCoordinate blockCoordinate = BlockCoordinate.of(storyDocId, blockId);
+        ScreenDesignCoordinate screenDesignCoordinate = ScreenDesignCoordinate.of(blockCoordinate, screenDesignId);
+        screenDesignService.deleteComponent(screenDesignCoordinate, componentId);
+    }
+
     @GetMapping(value="/palette", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<ComponentDescriptorDTO> getComponentPalette() {
         return screenDesignQueryService.getComponentPalette();

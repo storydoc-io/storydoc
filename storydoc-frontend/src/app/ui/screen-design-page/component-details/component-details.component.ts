@@ -47,4 +47,8 @@ export class ComponentDetailsComponent implements OnInit, OnDestroy {
     this.service.setAttribute(this.selection, attribute, value)
   }
 
+  onNameChange($event: any) {
+    let value = $event.target.value
+    this.service.renameSelectedComponent(value)
+  }
 }

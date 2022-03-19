@@ -73,6 +73,62 @@ public class ScreenDesignStorageImpl implements ScreenDesignStorage {
         return componentId;
     }
 
+    @Override
+    public void moveComponent(ScreenDesignCoordinate screenDesignCoordinate, SDComponentId componentId, int x, int y) {
+        ScreenDesign screenDesign = loadScreenDesign(screenDesignCoordinate);
+        Component component  = locateComponent(screenDesign.getRootContainer(), componentId);
+        component.setX(x);
+        component.setY(y);
+        save(screenDesignCoordinate, screenDesign);
+    }
+
+    @Override
+    public void deleteComponent(ScreenDesignCoordinate screenDesignCoordinate, SDComponentId componentId) {
+        ScreenDesign screenDesign = loadScreenDesign(screenDesignCoordinate);
+        Container parentContainer  = locateParentContainer(screenDesign.getRootContainer(), componentId);
+        Component component  = locateComponent(screenDesign.getRootContainer(), componentId);
+        parentContainer.getChildren().remove(component);
+        save(screenDesignCoordinate, screenDesign);
+    }
+
+    private Container locateParentContainer(Container container, SDComponentId componentId) {
+        List<Component> subComponents = getSubComponents(container);
+        for (Component subComponent: subComponents) {
+            if (subComponent.getId().equals(componentId.getId())) {
+                return container;
+            }
+        }
+        List<Container> subContainers = getSubContainers(container);
+        for(Container subContainer: subContainers) {
+            Container locatedContainer = locateParentContainer(subContainer, componentId);
+            if (locatedContainer!= null) return locatedContainer;
+        }
+        return null;
+    }
+
+    @Override
+    public void renameComponent(ScreenDesignCoordinate screenDesignCoordinate, SDComponentId componentId, String name) {
+        ScreenDesign screenDesign = loadScreenDesign(screenDesignCoordinate);
+        Component component  = locateComponent(screenDesign.getRootContainer(), componentId);
+        component.setName(name);
+        save(screenDesignCoordinate, screenDesign);
+    }
+
+    private Component locateComponent(Container container, SDComponentId componentId) {
+        List<Component> subComponents = getSubComponents(container);
+        for (Component subComponent: subComponents) {
+            if (subComponent.getId().equals(componentId.getId())) {
+                return subComponent;
+            }
+        }
+        List<Container> subContainers = getSubContainers(container);
+        for(Container subContainer: subContainers) {
+            Component subSubComponent = locateComponent(subContainer, componentId);
+            if (subSubComponent!= null) return subSubComponent;
+        }
+        return null;
+    }
+
     private int getCount(AbstractComponent aComponent, String type) {
         if (aComponent instanceof Component)  {
             Component component = (Component)aComponent;
@@ -90,16 +146,31 @@ public class ScreenDesignStorageImpl implements ScreenDesignStorage {
         if (containerId.getId().equals(container.getId())) {
             return container;
         }
-        List<Container> subContainers = container.getChildren().stream()
-                .filter(child -> child instanceof Container)
-                .map(child -> (Container) child)
-                .collect(Collectors.toList());
+        List<Container> subContainers = getSubContainers(container);
         for(Container subContainer: subContainers) {
             Container found = locateContainer(subContainer, containerId);
             if (found!=null) return found;
         }
         return null;
     }
+
+    private List<Container> getSubContainers(Container container) {
+        List<Container> subContainers = container.getChildren().stream()
+                .filter(child -> child instanceof Container)
+                .map(child -> (Container) child)
+                .collect(Collectors.toList());
+        return subContainers;
+    }
+
+    private List<Component> getSubComponents(Container container) {
+        List<Component> subComponents = container.getChildren().stream()
+                .filter(child -> child instanceof Component)
+                .map(child -> (Component) child)
+                .collect(Collectors.toList());
+        return subComponents;
+    }
+
+
 
     private SDComponentId createComponentId() {
         return new SDComponentId(UUID.randomUUID().toString());

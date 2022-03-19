@@ -1,7 +1,10 @@
 package io.storydoc.server;
 
 import io.storydoc.server.config.StoryDocServerProperties;
+import io.storydoc.server.infra.StitchFactory;
 import io.storydoc.server.workspace.app.WorkspaceQueryService;
+import io.storydoc.stitch.CodeExecutionTracer;
+import io.storydoc.stitch.ScenarioTracer;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Rule;
@@ -21,9 +24,13 @@ import java.io.IOException;
 @Slf4j
 abstract public class TestBase {
 
+    ScenarioTracer scenarioTracer = StitchFactory.getScenarioTracer();
+    public CodeExecutionTracer executionTracer = StitchFactory.getCodeExecutionTracer();
+
     @Rule
     public TestRule watcher = new TestWatcher() {
         protected void starting(Description description) {
+            scenarioTracer.beginTestCase(description.getClassName() + " " + description.getDisplayName());
             log.debug("**");
             log.debug("* Test: " + description.getClassName() + "." + description.getMethodName());
             log.debug("**");

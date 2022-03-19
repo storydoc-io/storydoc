@@ -80,5 +80,17 @@ export class ComponentTreeComponent implements OnInit {
 
   select(treeItem: item) {
     this.service.selectComponent(treeItem.component)
+    this.editName(treeItem)
   }
+
+  editing: SdComponentDto
+
+  editName(treeItem: item) {
+    this.editing = treeItem.component
+  }
+
+  isEditing(treeItem: item) {
+    return this.editing && this.editing.id.id===treeItem.id?.id
+  }
+
 }

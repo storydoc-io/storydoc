@@ -16,4 +16,16 @@ public class ScreenDesign {
     public SDComponentId addComponent(ScreenDesignCoordinate screenDesignCoordinate, SDComponentId parentContainerId, String type, ComponentDescriptorDTO descriptorDTO, int x, int y) {
         return storage.addComponent(screenDesignCoordinate, parentContainerId, type, descriptorDTO, x, y);
     }
+
+    public void moveComponent(ScreenDesignCoordinate screenDesignCoordinate, SDComponentId componentId, int x, int y) {
+        storage.moveComponent(screenDesignCoordinate, componentId, x, y);
+    }
+
+    public void deleteComponent(ScreenDesignCoordinate screenDesignCoordinate, SDComponentId componentId) {
+        storage.deleteComponent(screenDesignCoordinate, componentId);
+    }
+
+    public void renameComponent(ScreenDesignCoordinate screenDesignCoordinate, SDComponentId componentId, String name) {
+        storage.renameComponent(screenDesignCoordinate, componentId, name);
+    }
 }
