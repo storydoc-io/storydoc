@@ -19,7 +19,6 @@ public class StitchFactory {
 
     private StitchFactory() {
          config = StitchConfig.builder()
-                .dir("abc")
                 .build();
          stitchEngine = new StitchEngine(config);
 

@@ -6,5 +6,4 @@ import lombok.Getter;
 @Builder
 @Getter
 public class StitchConfig {
-    String dir;
 }

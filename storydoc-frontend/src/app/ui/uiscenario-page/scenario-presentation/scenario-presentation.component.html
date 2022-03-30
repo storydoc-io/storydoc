@@ -1,17 +1,19 @@
-<div class="container-fluid presentation-container">
+<app-presentation-layout
+  [top]="top"
+  [center]="center"
+  [bottom]="bottom"
+>
+</app-presentation-layout>
 
-  <div class="row border-row">
-    [top row]
-  </div>
+<ng-template #top>
+  [top row]
+</ng-template>
 
-  <div class="row main-section">
-    [main row]
+<ng-template #center>
+  [main row]
+</ng-template>
 
-    <app-player-panel></app-player-panel>
-  </div>
+<ng-template #bottom>
+  <app-player-panel></app-player-panel>
+</ng-template>
 
-  <div class="row border-row">
-    [bottom row]
-  </div>
-
-</div>

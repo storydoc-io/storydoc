@@ -21,7 +21,7 @@ public class StitchEngine {
         return active;
     }
 
-    public void add(String line) {
-        log.info(line);
+    public void add(String modelName, String eventName, String jsonValue) {
+        log.info(String.format("%s|%s|%s", modelName, eventName, jsonValue));
     }
 }

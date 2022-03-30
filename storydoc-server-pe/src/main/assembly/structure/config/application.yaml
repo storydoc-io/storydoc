@@ -1,0 +1,9 @@
+server:
+  port : 8081
+
+spring:
+  banner:
+    location: classpath:/banner.txt
+
+io.storydoc:
+  max-file-size: 10000000

@@ -3,12 +3,14 @@ package io.storydoc.server.infra;
 import io.storydoc.stitch.CodeExecutionTracer;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
-//@Aspect
-//@Component
+@Aspect
+@Component
 public class StitchAspect {
 
     private CodeExecutionTracer tracer = StitchFactory.INSTANCE.getCodeExecutionTracer();
@@ -44,22 +46,7 @@ public class StitchAspect {
     private void enterJoinPoint(ProceedingJoinPoint joinPoint, String cid) {
         String typeName = joinPoint.getSignature().getDeclaringTypeName();
         String methodName = joinPoint.getSignature().getName();
-        int lineNr = 0;
-            lineNr = getLineNr(typeName, methodName);
-        tracer.enter(typeName, methodName, lineNr);
-    }
-
-    private int getLineNr(String className, String methodName) {
-        try {
-            throw new Exception();
-        } catch (Exception e) {
-            for(StackTraceElement stackTraceElement: e.getStackTrace()) {
-                if (stackTraceElement.getClassName().equals(className) && stackTraceElement.getMethodName().equals(methodName)) {
-                    return stackTraceElement.getLineNumber();
-                }
-            }
-        }
-        return 0;
+        tracer.enter(typeName, methodName);
     }
 
     private void exitJoinPoint(ProceedingJoinPoint joinPoint, String cid, Object result) {

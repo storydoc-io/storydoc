@@ -1,1 +1,16 @@
-<p>presentation-layout works!</p>
+<div class="container-fluid presentation-container" (mousemove)="hideMouseWhenNotMoved()"
+     [class.hide-mouse]="!mouseVisible">
+  <div class="row border-row" (mouseover)="showBorderElements()" (mouseout)="hideBorderElements()">
+    <div [class.hide]="!borderVisible">
+      <ng-container *ngTemplateOutlet="top"></ng-container>
+    </div>
+  </div>
+  <div class="row main-section hide-mouse" >
+    <ng-container  *ngTemplateOutlet="center"></ng-container>
+  </div>
+  <div class="row border-row" (mouseover)="showBorderElements()" (mouseout)="hideBorderElements()">
+    <div [class.hide]="!borderVisible">
+      <ng-container *ngTemplateOutlet="bottom" ></ng-container>
+    </div>
+  </div>
+</div>
