@@ -14,8 +14,12 @@ export class LinkService {
     return ['/fe/document', storyDocSummary.storyDocId.id]
   }
 
+  rootUrl() : string {
+    return environment.production ? '' : ('http://localhost:' + environment.port)
+  }
+
   getScreenshotUrl(coordinate: ScreenshotCoordinate) {
-    return 'http://localhost:'+environment.port+'/api/ui/screenshot'
+    return this.rootUrl() +'/api/ui/screenshot'
       + '/' + coordinate.collectionCoordinate.blockCoordinate.storyDocId.id
       + '/' + coordinate.collectionCoordinate.blockCoordinate.blockId.id
       + '/' + coordinate.collectionCoordinate.screenShotCollectionId.id

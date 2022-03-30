@@ -32,6 +32,10 @@ export class ScreenshotCollectionService {
     this.load()
   }
 
+  rootUrl() : string {
+    return environment.production ? '' : ('http://localhost:' + environment.port)
+  }
+
   public AddScreenshot(params: { fileSource: any, name: string }, callback: (msg: any ) => void) {
     const formData = new FormData();
     formData.append('file', params.fileSource);
@@ -39,7 +43,7 @@ export class ScreenshotCollectionService {
     formData.set('blockId', this.collectionCoord.blockCoordinate.blockId.id)
     formData.set('screenshotCollectionId', this.collectionCoord.screenShotCollectionId.id)
     formData.set('name', params.name)
-    this.http.post('http://localhost:'+environment.port+'/api/ui/screenshot' , formData).subscribe({
+    this.http.post(this.rootUrl() +'/api/ui/screenshot' , formData).subscribe({
       next: value => this.load(),
 //      error: err => callback.apply(this, ['file size limit exceeded'])
     })

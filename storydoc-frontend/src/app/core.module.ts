@@ -15,7 +15,7 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
   declarations: [],
   imports: [
     CommonModule,
-    ApiModule.forRoot({ rootUrl: 'http://localhost:' + environment.port }),
+    ApiModule.forRoot({ rootUrl: environment.production ? '' : ('http://localhost:' + environment.port) }),
     DragDropModule,
     HttpClientModule,
     BrowserModule,
