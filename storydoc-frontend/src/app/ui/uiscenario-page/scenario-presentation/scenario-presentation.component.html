@@ -6,14 +6,30 @@
 </app-presentation-layout>
 
 <ng-template #top>
-  [top row]
+  <div class="container-fluid" *ngIf="uiScenario$ | async as uiScenario">
+    <div class="row">
+      <div class="col-md-11">
+      </div>
+      <div class="col-md-1">
+        <div class="btn  btn-sm btn-outline-light" (click)="endPresentationMode()">End Presentation</div>
+      </div>
+    </div>
+  </div>
 </ng-template>
 
 <ng-template #center>
-  [main row]
+  <app-scenario-panel></app-scenario-panel>
 </ng-template>
 
 <ng-template #bottom>
-  <app-player-panel></app-player-panel>
+  <div class="row">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+      <app-player-panel (first)="toFirst()" (previous)="toPrevious()" (next)="toNext()" (last)="toLast()"></app-player-panel>
+    </div>
+    <div class="col-md-4">
+    </div>
+  </div>
 </ng-template>
 

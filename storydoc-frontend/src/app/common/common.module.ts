@@ -1,4 +1,5 @@
 import {NgModule} from "@angular/core";
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 
 import {CoreModule} from "../core.module";
 
@@ -13,7 +14,6 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { HeaderComponent } from './header/header.component';
 import { PLayerPanelComponent } from './presentation/player-panel/player-panel.component';
 import { PresentationLayoutComponent } from './presentation/presentation-layout/presentation-layout.component';
-
 
 @NgModule({
   declarations: [
@@ -32,7 +32,8 @@ import { PresentationLayoutComponent } from './presentation/presentation-layout/
     PresentationLayoutComponent,
   ],
   imports: [
-    CoreModule
+    CoreModule,
+    BrowserAnimationsModule
   ],
   exports: [
     VarDirective,

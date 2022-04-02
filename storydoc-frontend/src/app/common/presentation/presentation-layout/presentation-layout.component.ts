@@ -1,14 +1,28 @@
 import {Component, Input, OnInit, TemplateRef} from '@angular/core';
+import {animate, style, state, transition, trigger} from "@angular/animations";
+
 
 @Component({
   selector: 'app-presentation-layout',
   templateUrl: './presentation-layout.component.html',
-  styleUrls: ['./presentation-layout.component.scss']
+  styleUrls: ['./presentation-layout.component.scss'],
+  animations: [
+    trigger('showHideAnim', [
+      state('show', style({
+        opacity: 1
+      })),
+      state('hide', style({
+        opacity: 0
+      })),
+      transition('* => *', [
+        animate('0.4s')
+      ]),
+    ])
+  ]
 })
 export class PresentationLayoutComponent {
 
   borderVisible: boolean = false
-  mouseVisible: boolean = false
 
   @Input()
   top: TemplateRef<any>
@@ -19,20 +33,16 @@ export class PresentationLayoutComponent {
   @Input()
   bottom: TemplateRef<any>
 
-  showBorderElements() {
+  showBorder() {
     this.borderVisible = true
   }
 
-  hideBorderElements(){
+  hideBorder(){
     this.borderVisible = false
   }
 
-  timer: any
-  hideMouseWhenNotMoved(){
-    if (this.timer) return
-    this.timer = setTimeout( ()=> {
-      //this.mouseVisible = false
-      this.timer = null
-    }, 3000)
+  get showHideState(): string {
+    return this.borderVisible? "show" : 'hide'
   }
+
 }

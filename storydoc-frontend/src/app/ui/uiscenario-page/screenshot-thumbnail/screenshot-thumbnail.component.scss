@@ -15,11 +15,11 @@
 }
 
 .full-width-container {
-  width: 100%;
+  max-width: 100%;
   overflow: hidden;
 }
 
 .full-width-image {
-//  height: 100px;
+  max-width: 50vw;
   //width: 100%;
 }

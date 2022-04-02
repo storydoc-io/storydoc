@@ -1,16 +1,16 @@
 
 <div>
   <div class="btn-group">
-    <button type="button" class="btn btn-outline-primary">
+    <button type="button" class="btn btn-outline-light" (click)="firstClicked()">
       <fa-icon  [icon]="faFastBackward"></fa-icon> First
     </button>
-    <button type="button" class="btn btn-outline-primary">
+    <button type="button" class="btn btn-outline-light" (click)="previousClicked()">
       <fa-icon  [icon]="faStepBackward"></fa-icon> Previous
     </button>
-    <button type="button" class="btn btn-outline-primary">
+    <button type="button" class="btn btn-outline-light" (click)="nextClicked()">
       Next <fa-icon  [icon]="faStepForward"></fa-icon>
     </button>
-    <button type="button" class="btn btn-outline-primary">
+    <button type="button" class="btn btn-outline-light" (click)="lastClicked()">
       Last <fa-icon  [icon]="faFastForward"></fa-icon>
     </button>
 

@@ -70,13 +70,17 @@ export class TimelinePageComponent implements OnInit {
   }
 
   // add item
-  addItem() {
+  addItem(addMore: boolean = false) {
     this.openItemDialog({
       mode: 'NEW',
       data: {
         description: null,
+        addMore
       },
-      confirm: (data) => { this.confirmAddItem(data); this.closeItemDialog() },
+      confirm: (data) => {
+        this.confirmAddItem(data);
+        this.closeItemDialog()
+      },
       cancel: () => this.closeItemDialog()
     })
   }
@@ -89,7 +93,7 @@ export class TimelinePageComponent implements OnInit {
       // timeLineId: this.timeLineId.id,
       name: data.description
     }).subscribe({
-      next: value => this.reload()
+      next: value => { this.reload(); if (data.addMore) this.addItem(true) }
     })
   }
 
@@ -116,6 +120,7 @@ export class TimelinePageComponent implements OnInit {
       mode: 'UPDATE',
       data: {
         description: item.description,
+        addMore: false
       },
       confirm: (data) => { this.confirmRenameItem(timeLine, item, data); this.closeItemDialog() },
       cancel: () => this.closeItemDialog()

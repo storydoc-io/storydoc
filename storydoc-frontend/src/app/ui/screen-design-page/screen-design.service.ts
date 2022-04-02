@@ -102,8 +102,8 @@ export class ScreenDesignService implements  OnDestroy{
       screenDesignId: this.coord.screenDesignId.id,
       containerId: this.selectedContainer.id.id,
       type: componentDescriptor.type,
-      x,
-      y
+      x: Math.round(x),
+      y: Math.round(y)
     }).subscribe(()=> this.reload())
   }
 

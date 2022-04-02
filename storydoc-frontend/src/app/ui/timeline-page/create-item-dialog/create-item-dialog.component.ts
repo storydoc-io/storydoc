@@ -4,6 +4,7 @@ import {setFocusOn} from "@storydoc/common";
 
 export interface ItemDialogData {
   description: string,
+  addMore: boolean
 }
 
 export interface ItemDialogSpec {
@@ -37,6 +38,7 @@ export class CreateItemDialogComponent implements OnChanges {
 
   formGroup: FormGroup = new FormGroup({
     description: new FormControl(null, Validators.required),
+    addMore: new FormControl(null)
   })
 
 

@@ -1,6 +1,6 @@
 <app-panel>
   <div id="canvas" class="quartz  canvas-container" (mousedown)="lassoSelectBegin($event)" (dragover)="allowDrop($event)" (drop)="doDrop($event)" #canvasElem>
-    <div #lassoSelectElem [style]="lassoSelectStyle()">lasso</div>
+    <!-- <div #lassoSelectElem [style]="lassoSelectStyle()">lasso</div> -->
     <div *ngIf="screenDesign$ | async as screenDesign">
       <div style= "position: relative;"  *ngIf="selection$ | async as selection">
         <div *ngFor="let child of screenDesign.rootContainer.children, let idx = index"

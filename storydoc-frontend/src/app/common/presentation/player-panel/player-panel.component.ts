@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 import { faStepBackward, faStepForward, faFastBackward, faFastForward } from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
   selector: 'app-player-panel',
@@ -11,6 +12,18 @@ export class PLayerPanelComponent implements OnInit {
 
   constructor() { }
 
+  @Output()
+  private first = new EventEmitter()
+
+  @Output()
+  private previous = new EventEmitter()
+
+  @Output()
+  private next = new EventEmitter()
+
+  @Output()
+  private last = new EventEmitter()
+
   faFastBackward=faFastBackward
   faStepBackward=faStepBackward
   faStepForward=faStepForward
@@ -19,4 +32,19 @@ export class PLayerPanelComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  firstClicked() {
+    this.first.emit()
+  }
+
+  previousClicked() {
+    this.previous.emit()
+  }
+
+  nextClicked() {
+    this.next.emit()
+  }
+
+  lastClicked() {
+    this.last.emit()
+  }
 }

@@ -1,15 +1,14 @@
-<div class="container-fluid presentation-container" (mousemove)="hideMouseWhenNotMoved()"
-     [class.hide-mouse]="!mouseVisible">
-  <div class="row border-row" (mouseover)="showBorderElements()" (mouseout)="hideBorderElements()">
-    <div [class.hide]="!borderVisible">
+<div class="container-fluid presentation-container" >
+  <div class="row border-row" (mouseover)="showBorder()" (mouseout)="hideBorder()">
+    <div class="border-container" [@showHideAnim]="showHideState">
       <ng-container *ngTemplateOutlet="top"></ng-container>
     </div>
   </div>
   <div class="row main-section hide-mouse" >
     <ng-container  *ngTemplateOutlet="center"></ng-container>
   </div>
-  <div class="row border-row" (mouseover)="showBorderElements()" (mouseout)="hideBorderElements()">
-    <div [class.hide]="!borderVisible">
+  <div class="row border-row" (mouseover)="showBorder()" (mouseout)="hideBorder()">
+    <div class="border-container" [class.hide]="!borderVisible">
       <ng-container *ngTemplateOutlet="bottom" ></ng-container>
     </div>
   </div>

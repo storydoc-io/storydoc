@@ -18,6 +18,10 @@ import {
 import {log, logChangesToObservable} from "@storydoc/common";
 import {TimeLineControllerService, UiRestControllerService} from "@storydoc/services";
 
+interface PresentationState {
+  presentationMode: boolean
+}
+
 interface ScenarioPanelState {
   uiScenarioCoord?: UiScenarioCoordinate,
   uiScenarioDto?: UiScenarioDto,
@@ -111,6 +115,15 @@ export class UIScenarioService implements OnDestroy {
   private get timeLineModel(): TimeLineModelDto {
     return this.scenarioStore.getValue()?.timeLineModel
   }
+
+  // Presentation state
+
+  private presentationStore = new BehaviorSubject<PresentationState>({presentationMode: false})
+
+  presentationMode$ = this.presentationStore.pipe(
+    map(store => store.presentationMode),
+    distinctUntilChanged()
+  )
 
   private subscriptions: Subscription[] = []
 
@@ -299,4 +312,25 @@ export class UIScenarioService implements OnDestroy {
     return Object.keys(timeLines).map(key => timeLines[key])
   }
 
+  // presentation mode
+
+  togglePresentationMode() {
+    this.presentationStore.next({ presentationMode: !this.presentationStore.getValue().presentationMode })
+  }
+
+  selectFirst() {
+
+  }
+
+  selectPrevious() {
+
+  }
+
+  selectNext() {
+
+  }
+
+  selectLast() {
+
+  }
 }
