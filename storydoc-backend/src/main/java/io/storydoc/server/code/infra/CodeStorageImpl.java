@@ -43,6 +43,7 @@ public class CodeStorageImpl implements CodeStorage {
         save(coordinate, codeExecution);
     }
 
+
     private void save(CodeExecutionCoordinate coordinate, CodeExecution codeExecution) {
         storyDocService.saveArtifact(coordinate.asArtifactCoordinate(), (OutputStream os) -> { write(codeExecution, os);});
     }

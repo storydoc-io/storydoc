@@ -7,11 +7,18 @@ public class CodeDomainService {
 
     private final CodeStorage codeStorage;
 
-    public CodeDomainService(CodeStorage codeStorage) {
+    private final SourceCodeConfigStorage sourceCodeConfigStorage;
+
+    public CodeDomainService(CodeStorage codeStorage, SourceCodeConfigStorage sourceCodeConfigStorage) {
         this.codeStorage = codeStorage;
+        this.sourceCodeConfigStorage = sourceCodeConfigStorage;
     }
 
     public void createCodeExecution(CodeExecutionCoordinate coordinate, String name) {
         codeStorage.createCodeExecution(coordinate, name);
+    }
+
+    public void createSourceCodeConfig(SourceCodeConfigCoordinate coordinate, String name) {
+        sourceCodeConfigStorage.createSourceCodeConfig(coordinate, name);
     }
 }

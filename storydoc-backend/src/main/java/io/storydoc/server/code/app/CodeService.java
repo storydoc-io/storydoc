@@ -1,9 +1,6 @@
 package io.storydoc.server.code.app;
 
-import io.storydoc.server.code.domain.CodeDomainService;
-import io.storydoc.server.code.domain.CodeExecutionCoordinate;
-import io.storydoc.server.code.domain.CodeExecutionId;
-import io.storydoc.server.code.domain.SourceCodeAccess;
+import io.storydoc.server.code.domain.*;
 import io.storydoc.server.code.infra.EnterTraceLine;
 import io.storydoc.server.code.infra.ExitTraceLine;
 import io.storydoc.server.code.infra.LogFileScanner;
@@ -81,5 +78,12 @@ public class CodeService {
         return SourceCodeDTO.builder()
                 .lines(sourceCodeAccess.getSource(className))
                 .build();
+    }
+
+    public SourceCodeConfigCoordinate createSourceCodeConfig(BlockCoordinate blockCoordinate, String name) {
+        SourceCodeConfigId codeExecutionId = new SourceCodeConfigId(idGenerator.generateID(SourceCodeConfigId.ID_PREFIX));
+        SourceCodeConfigCoordinate coordinate = SourceCodeConfigCoordinate.of(blockCoordinate, codeExecutionId);
+        domainService.createSourceCodeConfig(coordinate, name);
+        return coordinate;
     }
 }
