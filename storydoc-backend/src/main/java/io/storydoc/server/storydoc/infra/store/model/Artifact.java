@@ -31,4 +31,6 @@ public class Artifact {
 
     private List<ArtifactItem> items;
 
+    private List<Association> associations;
+
 }

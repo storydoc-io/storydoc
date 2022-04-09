@@ -2,10 +2,7 @@ package io.storydoc.server.storydoc.app;
 
 import io.storydoc.server.TestBase;
 import io.storydoc.server.storydoc.StoryDocTestUtils;
-import io.storydoc.server.storydoc.app.dto.ArtifactDTO;
-import io.storydoc.server.storydoc.app.dto.BlockDTO;
-import io.storydoc.server.storydoc.app.dto.ItemDTO;
-import io.storydoc.server.storydoc.app.dto.StoryDocDTO;
+import io.storydoc.server.storydoc.app.dto.*;
 import io.storydoc.server.storydoc.domain.*;
 import io.storydoc.server.workspace.WorkspaceTestUtils;
 import io.storydoc.server.workspace.app.WorkspaceQueryService;
@@ -409,6 +406,28 @@ public class StoryDocServiceTest extends TestBase {
         workspaceTestUtils.logFolderStructure("after add tag to block");
         workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
 
+    }
+
+    @Test
+    public void association() {
+        // given a storydoc with an artifact block
+        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        StoryDocId storyDocId = blockCoordinate.getStoryDocId();
+
+        // given 2 artifacts
+        ArtifactCoordinate artifactCoordinate1 = storyDocTestUtils.add_artifact(blockCoordinate, "type-01");
+        ArtifactCoordinate artifactCoordinate2 = storyDocTestUtils.add_artifact(blockCoordinate, "type-02");
+
+        // when I add an association
+        String typeName = "association-type";
+        storyDocService.addAssociation(artifactCoordinate1, artifactCoordinate2, typeName);
+
+        // then the first artifac thas an outgoing association
+        List<AssociationDto> associationDtos = storyDocQueryService.getAssociationsFrom(artifactCoordinate1, typeName);
+        assertNotNull(associationDtos);
+        assertEquals(1, associationDtos.size());
+        assertEquals(artifactCoordinate1, associationDtos.get(0).getFrom());
+        assertEquals(artifactCoordinate2, associationDtos.get(0).getTo());
     }
 
 

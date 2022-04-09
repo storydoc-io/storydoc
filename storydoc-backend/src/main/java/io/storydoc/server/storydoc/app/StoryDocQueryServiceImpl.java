@@ -187,4 +187,30 @@ public class StoryDocQueryServiceImpl implements StoryDocQueryService {
     public ResourceUrn getArtifactItemUrn(ArtifactCoordinate artifactCoordinate, ItemId itemId) {
         return storyDocStorage.getCollectionItemUrn(artifactCoordinate, itemId);
     }
+
+    @Override
+    public List<AssociationDto> getAssociationsFrom(ArtifactCoordinate artifactCoordinate, String name) {
+        List<Association> associations = storyDocStorage.getAssociations(artifactCoordinate);
+        return associations.stream()
+                .filter(a -> a.getName().equals(name))
+                .map(a -> toAssociationDto(a))
+                .collect(Collectors.toList());
+    }
+
+    private AssociationDto toAssociationDto(Association association) {
+        return AssociationDto.builder()
+            .name(association.getName())
+            .from(ArtifactCoordinate.of(
+                BlockCoordinate.of(
+                    StoryDocId.fromString(association.getDocumentIdFrom()),
+                    BlockId.fromString(association.getBlockIdFrom())),
+                ArtifactId.fromString(association.getArtifactIdFrom())))
+             .to(ArtifactCoordinate.of(
+                BlockCoordinate.of(
+                    StoryDocId.fromString(association.getDocumentIdTo()),
+                    BlockId.fromString(association.getBlockIdTo())),
+                ArtifactId.fromString(association.getArtifactIdTo())))
+            .build();
+    }
+
 }

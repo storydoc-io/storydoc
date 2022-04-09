@@ -48,4 +48,6 @@ public interface StoryDocService {
     void renameBlock(BlockCoordinate blockCoordinate, String new_name);
 
     void renameArtifact(BlockCoordinate blockCoordinate, ArtifactId artifactId, String new_name);
+
+    void addAssociation(ArtifactCoordinate artifactCoordinate1, ArtifactCoordinate artifactCoordinate2, String name);
 }

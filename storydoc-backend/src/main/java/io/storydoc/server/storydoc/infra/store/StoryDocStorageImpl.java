@@ -229,6 +229,35 @@ public class StoryDocStorageImpl implements StoryDocStorage {
 
     }
 
+    public void addArtifactAssociation(ArtifactCoordinate coordinateFrom, ArtifactCoordinate coordinateTo, String name) {
+        StoryDoc storyDoc = loadDocument(coordinateFrom.getBlockCoordinate().getStoryDocId());
+        Block block = lookupBlock(coordinateFrom.getBlockCoordinate().getBlockId(), storyDoc);
+        io.storydoc.server.storydoc.infra.store.model.Artifact artifact = lookupArtifact(coordinateFrom.getArtifactId(), (ArtifactBlock) block);
+        if (artifact.getAssociations()==null) {
+            artifact.setAssociations(new ArrayList<>());
+        }
+        artifact.getAssociations().add(Association.builder()
+                .documentIdFrom(coordinateFrom.getBlockCoordinate().getStoryDocId().getId())
+                .blockIdFrom(coordinateFrom.getBlockCoordinate().getBlockId().getId())
+                .artifactIdFrom(coordinateFrom.getArtifactId().getId())
+                .documentIdTo(coordinateTo.getBlockCoordinate().getStoryDocId().getId())
+                .blockIdTo(coordinateTo.getBlockCoordinate().getBlockId().getId())
+                .artifactIdTo(coordinateTo.getArtifactId().getId())
+                .name(name)
+                .build());
+        saveDocument(storyDoc);
+    }
+
+    @Override
+    public List<Association> getAssociations(ArtifactCoordinate coordinateFrom) {
+        StoryDoc storyDoc = loadDocument(coordinateFrom.getBlockCoordinate().getStoryDocId());
+        Block block = lookupBlock(coordinateFrom.getBlockCoordinate().getBlockId(), storyDoc);
+        io.storydoc.server.storydoc.infra.store.model.Artifact artifact = lookupArtifact(coordinateFrom.getArtifactId(), (ArtifactBlock) block);
+        List<Association> associations = artifact.getAssociations();
+        if (associations==null) return new ArrayList<>();
+        return associations;
+    }
+
     @Override
     @SneakyThrows
     public void removeArtifact(ArtifactCoordinate artifactCoordinate) {

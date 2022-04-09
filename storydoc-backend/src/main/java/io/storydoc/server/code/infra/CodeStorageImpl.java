@@ -7,15 +7,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import io.storydoc.server.code.domain.CodeExecutionCoordinate;
 import io.storydoc.server.code.domain.CodeStorage;
+import io.storydoc.server.code.domain.SourceCodeConfigCoordinate;
 import io.storydoc.server.code.infra.model.CodeExecution;
 import io.storydoc.server.storydoc.app.StoryDocService;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 @Component
 public class CodeStorageImpl implements CodeStorage {
+
+    public static final String ASSOCIATED_SOURCE_CODE_CONFIG = "source-code-config";
 
     private ObjectMapper objectMapper;
 
@@ -43,6 +47,19 @@ public class CodeStorageImpl implements CodeStorage {
         save(coordinate, codeExecution);
     }
 
+    @Override
+    public void setStitchDetails(CodeExecutionCoordinate coordinate, String stitchFile, String lineFrom, String lineTo) {
+        CodeExecution codeExecution = load(coordinate);
+        codeExecution.setStitchFile(stitchFile);
+        codeExecution.setLineFrom(lineFrom);
+        codeExecution.setLineTo(lineTo);
+        save(coordinate, codeExecution);
+    }
+
+    @Override
+    public void setSourceConfig(CodeExecutionCoordinate codeExecutionCoordinate, SourceCodeConfigCoordinate sourceCodeConfigCoordinate) {
+        storyDocService.addAssociation(codeExecutionCoordinate.asArtifactCoordinate(), sourceCodeConfigCoordinate.asArtifactCoordinate(), ASSOCIATED_SOURCE_CODE_CONFIG);
+    }
 
     private void save(CodeExecutionCoordinate coordinate, CodeExecution codeExecution) {
         storyDocService.saveArtifact(coordinate.asArtifactCoordinate(), (OutputStream os) -> { write(codeExecution, os);});
@@ -52,5 +69,12 @@ public class CodeStorageImpl implements CodeStorage {
         objectMapper.writerWithDefaultPrettyPrinter().writeValue(outputStream, codeExecution);
     }
 
+    public CodeExecution load(CodeExecutionCoordinate coordinate) {
+        return storyDocService.loadArtifact(coordinate.asArtifactCoordinate(),this::read);
+    }
+
+    private CodeExecution read(InputStream inputStream) throws IOException {
+        return objectMapper.readValue(inputStream, CodeExecution.class);
+    }
 
 }

@@ -1,0 +1,16 @@
+<div class="modal-dialog" *ngIf="spec" >
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Select {{spec.artifactLabel}}</h5>
+      <button type="button" class="btn-close" (click)="cancel()"></button>
+
+    </div>
+    <div class="modal-body">
+      <div *ngIf="artifacts$ | async as artifacts">
+        <div *ngFor="let artifact of artifacts" (click)="select(artifact)">
+          {{artifact.name}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

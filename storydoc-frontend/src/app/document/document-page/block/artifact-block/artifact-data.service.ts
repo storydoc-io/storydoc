@@ -45,13 +45,20 @@ let codeExecution = {
   editorUrl: '/fe/code-trace'
 } as ArtifactDescriptor
 
+let sourceCodeConfig = {
+  key: 'io.storydoc.server.code.domain.SourceCodeConfig',
+  icon: '/assets/config.png',
+  label: 'SourceCode Config',
+  editorUrl: '/fe/source-code-config'
+} as ArtifactDescriptor
 
 let map: { [key: string]: ArtifactDescriptor } = {
   'io.storydoc.server.timeline.domain.TimeLineModel': timeLineModel,
   'io.storydoc.server.ui.domain.screendesign.ScreenDesign': uiScreenDesign,
   'io.storydoc.server.ui.domain.UIScenario': uiScenario,
   'io.storydoc.server.ui.domain.ScreenShotCollection': uiScreenshotCollection,
-  'io.storydoc.server.code.domain.CodeExecution': codeExecution
+  'io.storydoc.server.code.domain.CodeExecution': codeExecution,
+  'io.storydoc.server.code.domain.SourceCodeConfig': sourceCodeConfig
 }
 
 let list: ArtifactDescriptor[] = [
@@ -59,7 +66,8 @@ let list: ArtifactDescriptor[] = [
   uiScreenDesign,
   uiScenario,
   uiScreenshotCollection,
-  codeExecution
+  codeExecution,
+  sourceCodeConfig
 ]
 
 @Injectable({

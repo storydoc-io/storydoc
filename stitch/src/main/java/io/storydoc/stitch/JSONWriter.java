@@ -38,7 +38,7 @@ public class JSONWriter {
 
     public void att(String attKey) {
         addCommaIfNotFirstChild();
-        stringBuffer.append(attKey + ": ");
+        stringBuffer.append("\"" + attKey + "\": ");
     }
 
     public void array() {

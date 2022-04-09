@@ -57,11 +57,11 @@ public class UIServiceTest extends TestBase {
 
     @Test
     public void createUIScenario() {
-        // given a storydoc with a artifact block
+        given("given a storydoc with a artifact block");
         BlockCoordinate coordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
         StoryDocId storyDocId = coordinate.getStoryDocId();
 
-        // when I create a uiscenario artifact
+        when("when I create a uiscenario artifact");
         String uiscenario_artifact_name = "uiscenario artifact";
         UIScenarioId uiId = uiService.createUIScenario(coordinate, uiscenario_artifact_name);
         UIScenarioCoordinate scenarioCoordinate = UIScenarioCoordinate.of(coordinate, uiId);
@@ -71,7 +71,7 @@ public class UIServiceTest extends TestBase {
         workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
         workspaceTestUtils.logResourceContent("mock ui ", uiStorage.getUIScenarioUrn(scenarioCoordinate));
 
-        // then the artifact is added to the storydoc
+        then("then the artifact is added to the storydoc");
         StoryDocDTO storyDocDTO = storyDocQueryService.getDocument(storyDocId);
 
         BlockDTO blockDTO = storyDocDTO.getBlocks().get(0);
@@ -83,7 +83,7 @@ public class UIServiceTest extends TestBase {
         assertEquals(uiId.getId(), artifactDTO.getArtifactId().getId());
         assertEquals(UIScenario.ARTIFACT_TYPE, artifactDTO.getArtifactType());
 
-        // and then I can find  uiscenario artifact
+        then("and then I can find  uiscenario artifact");
         UIScenarioDTO dto = uiQueryService.getUIScenario(scenarioCoordinate);
         assertNotNull(dto);
         assertEquals(uiscenario_artifact_name, dto.getName());

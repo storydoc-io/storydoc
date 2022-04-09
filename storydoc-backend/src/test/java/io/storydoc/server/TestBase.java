@@ -35,6 +35,9 @@ abstract public class TestBase {
             log.debug("* Test: " + description.getClassName() + "." + description.getMethodName());
             log.debug("**");
         }
+        protected void finished(Description description) {
+            scenarioTracer.endTestCase(description.getClassName() + " " + description.getDisplayName());
+        }
     };
 
     @Rule
@@ -51,6 +54,18 @@ abstract public class TestBase {
         String workspaceFolder = temporaryFolder.newFolder("workspace").getAbsolutePath();
         //log.info("workspaceFolder: " + workspaceFolder);
         serverProperties.setWorkspaceFolder(workspaceFolder);
+    }
+
+    protected void given(String text) {
+        scenarioTracer.bdd("given", text);
+    }
+
+    protected void when(String text) {
+        scenarioTracer.bdd("when", text);
+    }
+
+    protected void then(String text) {
+        scenarioTracer.bdd("then", text);
     }
 
 }

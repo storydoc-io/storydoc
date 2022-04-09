@@ -28,4 +28,19 @@ public class ScenarioTracer {
         stitchEngine.setActive(false);
     }
 
+    public void bdd(String noun, String text) {
+        stitchEngine.setActive(true);
+        JSONWriter json = new JSONWriter();
+        json.obj();
+        json.att("noun");
+        json.string(noun);
+        json.att("text");
+        json.string(text);
+        json.end();
+
+        stitchEngine.add("TestScenario", "given", json.getValue());
+    }
+
+
+
 }

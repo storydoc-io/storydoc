@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class SourceCodeConfigCoordinate {
 
     BlockCoordinate blockCoordinate;
-    SourceCodeConfigId SourceCodeConfigId;
+    SourceCodeConfigId sourceCodeConfigId;
 
     static public SourceCodeConfigCoordinate of(StoryDocId storyDocId, BlockId blockId, SourceCodeConfigId sourceCodeConfigId) {
         return of(BlockCoordinate.of(storyDocId, blockId), sourceCodeConfigId);
@@ -26,7 +26,11 @@ public class SourceCodeConfigCoordinate {
         return new SourceCodeConfigCoordinate(blockCoordinate, sourceCodeConfigId);
     }
 
+    public static SourceCodeConfigCoordinate of(ArtifactCoordinate artifactCoordinate) {
+        return of(artifactCoordinate.getBlockCoordinate(), SourceCodeConfigId.fromString(artifactCoordinate.getArtifactId().getId()));
+    }
+
     public ArtifactCoordinate asArtifactCoordinate() {
-        return ArtifactCoordinate.of(blockCoordinate, SourceCodeConfigId.asArtifactId());
+        return ArtifactCoordinate.of(blockCoordinate, sourceCodeConfigId.asArtifactId());
     }
 }

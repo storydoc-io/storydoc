@@ -1,5 +1,6 @@
 package io.storydoc.server.storydoc.domain;
 
+import io.storydoc.server.storydoc.infra.store.model.Association;
 import io.storydoc.server.storydoc.infra.store.model.Block;
 import io.storydoc.server.storydoc.infra.store.model.StoryDoc;
 import io.storydoc.server.storydoc.infra.store.model.StoryDocs;
@@ -73,6 +74,8 @@ public interface StoryDocStorage {
 
     void changeArtifactState(ArtifactCoordinate coordinate, ArtifactState state);
 
+    public void addArtifactAssociation(ArtifactCoordinate coordinateFrom, ArtifactCoordinate coordinateTo, String name);
+
     // binary artifact
 
     void saveBinaryArtifact(ArtifactCoordinate artifactCoordinate, InputStream inputStream);
@@ -88,4 +91,6 @@ public interface StoryDocStorage {
     void removeItemFromBinaryCollection(ArtifactCoordinate artifactCoordinate, ItemId itemId);
 
     ResourceUrn getCollectionItemUrn(ArtifactCoordinate artifactCoordinate, ItemId itemId);
+
+    List<Association> getAssociations(ArtifactCoordinate artifactCoordinate);
 }

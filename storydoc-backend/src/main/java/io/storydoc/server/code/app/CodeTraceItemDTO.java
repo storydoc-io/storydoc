@@ -11,6 +11,8 @@ public class CodeTraceItemDTO {
 
     private String type;
 
+
+
     private String cid;
 
     private String threadName;

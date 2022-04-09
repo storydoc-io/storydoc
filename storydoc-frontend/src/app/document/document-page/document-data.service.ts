@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {map} from "rxjs/operators";
-import {ArtifactId, BlockDto, BlockId, StoryDocDto, StoryDocId, TimeLineModelCoordinate} from "@storydoc/models";
-import {CodeRestControllerService, StoryDocRestControllerService, TimeLineControllerService, UiRestControllerService} from "@storydoc/services";
-import {ScreenDesignRestControllerService} from "../../api/services/screen-design-rest-controller.service";
+import {ArtifactId, BlockDto, BlockId, StoryDocDto, StoryDocId} from "@storydoc/models";
+import {CodeRestControllerService, ScreenDesignRestControllerService, StoryDocRestControllerService, TimeLineControllerService, UiRestControllerService} from "@storydoc/services";
 
 interface DocumentState {
   id?: string
@@ -123,6 +122,16 @@ export class DocumentDataService {
       }
       case 'io.storydoc.server.code.domain.CodeExecution': {
         this.codeRestControllerService.createCodeExecutionUsingPost({
+          storyDocId: this.getId(),
+          blockId: param.blockId,
+          name: param.name
+        }).subscribe({
+          next: value => this.refresh()
+        })
+        break
+      }
+      case 'io.storydoc.server.code.domain.SourceCodeConfig': {
+        this.codeRestControllerService.createSourceConfigUsingPost({
           storyDocId: this.getId(),
           blockId: param.blockId,
           name: param.name

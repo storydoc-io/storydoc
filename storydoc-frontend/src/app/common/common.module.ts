@@ -14,6 +14,7 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { HeaderComponent } from './header/header.component';
 import { PLayerPanelComponent } from './presentation/player-panel/player-panel.component';
 import { PresentationLayoutComponent } from './presentation/presentation-layout/presentation-layout.component';
+import {ArtifactSelectionDialogComponent} from "../document/document-page/artifact-selection-dialog/artifact-selection-dialog.component";
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { PresentationLayoutComponent } from './presentation/presentation-layout/
     HeaderComponent,
     PLayerPanelComponent,
     PresentationLayoutComponent,
+    ArtifactSelectionDialogComponent,
   ],
   imports: [
     CoreModule,
@@ -48,6 +50,7 @@ import { PresentationLayoutComponent } from './presentation/presentation-layout/
     BreadcrumbComponent,
     PresentationLayoutComponent,
     PLayerPanelComponent,
+    ArtifactSelectionDialogComponent
   ]
 })
 export class StoryDocCommonModule {

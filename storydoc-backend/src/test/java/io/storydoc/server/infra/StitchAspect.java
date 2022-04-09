@@ -46,11 +46,11 @@ public class StitchAspect {
     private void enterJoinPoint(ProceedingJoinPoint joinPoint, String cid) {
         String typeName = joinPoint.getSignature().getDeclaringTypeName();
         String methodName = joinPoint.getSignature().getName();
-        tracer.enter(typeName, methodName);
+        tracer.methodEnter(typeName, methodName);
     }
 
     private void exitJoinPoint(ProceedingJoinPoint joinPoint, String cid, Object result) {
-        //log.info("*** exitJoinPoint ***");
+        tracer.methodReturn();
     }
 
 }

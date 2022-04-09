@@ -42,6 +42,16 @@ public class SourceCodeConfigStorageImpl implements SourceCodeConfigStorage {
         sourceCodeConfig.setDirs(new ArrayList<>());
         save(coordinate, sourceCodeConfig);
 
+        storyDocService.addArtifact(coordinate.getBlockCoordinate(), coordinate.getSourceCodeConfigId().asArtifactId(),
+                io.storydoc.server.code.domain.SourceCodeConfig.ARTIFACT_TYPE, name) ;
+
+    }
+
+    @Override
+    public void setSourcePath(SourceCodeConfigCoordinate coordinate, String path) {
+        SourceCodeConfig sourceCodeConfig = load(coordinate);
+        sourceCodeConfig.getDirs().add(path);
+        save(coordinate, sourceCodeConfig);
     }
 
     private void save(SourceCodeConfigCoordinate coordinate, SourceCodeConfig sourceCodeConfig) {

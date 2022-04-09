@@ -128,6 +128,12 @@ public class StoryDocServiceImpl implements StoryDocService {
     }
 
     @Override
+    public void addAssociation(ArtifactCoordinate artifactCoordinateFrom, ArtifactCoordinate artifactCoordinateTo, String name) {
+        StoryDoc storyDoc = domainService.getDocument(artifactCoordinateFrom.getBlockCoordinate().getStoryDocId());
+        storyDoc.addAssociation(artifactCoordinateFrom, artifactCoordinateTo, name);
+    }
+
+    @Override
     public void saveBinaryArtifact(ArtifactCoordinate artifactCoordinate, InputStream inputStream) throws IOException {
         StoryDoc storyDoc = domainService.getDocument(artifactCoordinate.getBlockCoordinate().getStoryDocId());
         storyDoc.saveBinaryArtifact(artifactCoordinate, inputStream);

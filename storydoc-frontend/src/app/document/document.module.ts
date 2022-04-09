@@ -29,8 +29,8 @@ import {CoreModule} from "../core.module";
     CoreModule,
     StoryDocCommonModule
   ], exports: [
-    DocumentManagerPageComponent,
-    DocumentComponent,
-  ]
+        DocumentManagerPageComponent,
+        DocumentComponent,
+    ]
 })
 export class DocumentModule { }

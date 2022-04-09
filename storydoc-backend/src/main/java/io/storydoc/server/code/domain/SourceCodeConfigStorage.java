@@ -6,4 +6,6 @@ public interface SourceCodeConfigStorage {
     void createSourceCodeConfig(SourceCodeConfigCoordinate coordinate, String name);
 
     SourceCodeConfig load(SourceCodeConfigCoordinate coordinate);
+
+    void setSourcePath(SourceCodeConfigCoordinate coordinate, String path);
 }

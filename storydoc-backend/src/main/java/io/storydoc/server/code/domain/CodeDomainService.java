@@ -21,4 +21,19 @@ public class CodeDomainService {
     public void createSourceCodeConfig(SourceCodeConfigCoordinate coordinate, String name) {
         sourceCodeConfigStorage.createSourceCodeConfig(coordinate, name);
     }
+
+    public SourceCodeConfig getSourceCodeConfig(SourceCodeConfigCoordinate coordinate) {
+        return SourceCodeConfig.builder()
+                .sourceCodeConfigId(coordinate.getSourceCodeConfigId())
+                .storage(sourceCodeConfigStorage)
+                .build();
+    }
+
+    public CodeExecution getCodeExecution(CodeExecutionCoordinate codeExecutionCoordinate) {
+        return CodeExecution.builder()
+                .codeExecutionId(codeExecutionCoordinate.getCodeExecutionId())
+                .codeStorage(codeStorage)
+                .storage(sourceCodeConfigStorage)
+                .build();
+    }
 }

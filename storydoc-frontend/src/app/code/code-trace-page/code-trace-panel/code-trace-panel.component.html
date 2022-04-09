@@ -1,8 +1,14 @@
-<div *ngIf="codeTrace$ | async as codeTrace">
+<div *ngIf="codeTrace$ | async as codeTrace" class="code-trace-panel-container">
   <ul class="list-group">
-    <li class="list-group-item" *ngFor="let item of codeTrace.items, let idx = index"
-        [class.active]="isSelected(item)" (click)="selectItem(item)">
-      {{idx}} {{ getClassName(item)}} {{item.methodName}}
-    </li>
+    <ng-container *ngFor="let indentedItem of indentedItems, let idx = index">
+      <ng-container *ngVar="indentedItem.indent as indent">
+        <li class="list-group-item"
+            [ngStyle]="{'margin-left': 10*indent +'px'}"
+            [class.bdd] = "isBDDEvent(indentedItem.event)"
+            [class.active]="isSelected(indentedItem.event)" (click)="selectItem(indentedItem.event)">
+                {{ getLabel(indentedItem.event) }}
+        </li>
+      </ng-container>
+    </ng-container>
   </ul>
 </div>

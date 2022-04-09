@@ -1,0 +1,306 @@
+TestScenario|TestEntered|{ "testCaseName": "io.storydoc.server.ui.app.UIServiceTest createUIScenario(io.storydoc.server.ui.app.UIServiceTest)"
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "setWorkspaceFolder" }
+CodeExecution|MethodReturn|
+TestScenario|given|{ "noun": "given", "text": "given a storydoc with a artifact block" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.StoryDocTestUtils", "functionName": "create_storydoc_with_artifact_block" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.app.StoryDocService", "functionName": "createDocument" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.infra.IDGenerator", "functionName": "generateID" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocDomainService", "functionName": "createDocument" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "createDocument" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "saveResource" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "store" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "getRootFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "addFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.FolderStorage", "functionName": "addFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "saveResource" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "store" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.app.StoryDocService", "functionName": "addArtifactBlock" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocDomainService", "functionName": "getDocument" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.infra.IDGenerator", "functionName": "generateID" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "addArtifactBlock" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "addFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.FolderStorage", "functionName": "addFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "saveResource" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "store" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+TestScenario|given|{ "noun": "when", "text": "when I create a uiscenario artifact" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.ui.app.UIService", "functionName": "createUIScenario" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.infra.IDGenerator", "functionName": "generateID" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.ui.domain.UIDomainService", "functionName": "createUIScenario" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.ui.domain.UIStorage", "functionName": "createUIScenario" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.app.StoryDocService", "functionName": "addArtifact" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocDomainService", "functionName": "getDocument" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "createArtifact" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "saveResource" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "store" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.app.StoryDocService", "functionName": "saveArtifact" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocDomainService", "functionName": "getDocument" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "setArtifactContent" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "saveResource" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "store" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.WorkspaceTestUtils", "functionName": "logFolderStructure" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "getRootFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "listSubFolders" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.FolderStorage", "functionName": "listSubFolders" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "listSubFolders" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.FolderStorage", "functionName": "listSubFolders" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "listSubFolders" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.FolderStorage", "functionName": "listSubFolders" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "listResources" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "listResources" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "listResources" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "listResources" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "listResources" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "listResources" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.app.StoryDocQueryService", "functionName": "getDocument" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "loadDocuments" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "loadDocument" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "getStoryDocUrn" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.WorkspaceTestUtils", "functionName": "logResourceContent" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "getInputStream" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "getInputStream" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.ui.domain.UIStorage", "functionName": "getUIScenarioUrn" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.app.StoryDocQueryService", "functionName": "getArtifactBlockFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "getBlockFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.WorkspaceTestUtils", "functionName": "logResourceContent" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "getInputStream" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "getInputStream" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+TestScenario|given|{ "noun": "then", "text": "then the artifact is added to the storydoc" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.app.StoryDocQueryService", "functionName": "getDocument" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "loadDocuments" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "loadDocument" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "getStoryDocUrn" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+TestScenario|given|{ "noun": "then", "text": "and then I can find  uiscenario artifact" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.ui.app.UIQueryService", "functionName": "getUIScenario" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.app.StoryDocQueryService", "functionName": "getArtifactMetaData" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "getArtifactMetaData" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.app.StoryDocQueryService", "functionName": "getArtifactsByType" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "findArtifacts" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.ui.domain.UIStorage", "functionName": "loadUIScenario" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.app.StoryDocService", "functionName": "loadArtifact" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocDomainService", "functionName": "getDocument" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "getArtifactContent" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.app.StoryDocQueryService", "functionName": "getStoryDocSummary" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "loadDocuments" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+CodeExecution|MethodReturn|
+TestScenario|TestFinished|{ "testCaseName": "io.storydoc.server.ui.app.UIServiceTest createUIScenario(io.storydoc.server.ui.app.UIServiceTest)"

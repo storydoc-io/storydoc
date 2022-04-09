@@ -11,7 +11,7 @@ public class CodeExecutionTracer {
         return stitchEngine.isActive();
     }
 
-    public void enter(String declaringTypeName, String functionName) {
+    public void methodEnter(String declaringTypeName, String functionName) {
         JSONWriter json = new JSONWriter();
         json.obj();
             json.att("typeName");
@@ -22,5 +22,10 @@ public class CodeExecutionTracer {
         json.end();
 
         stitchEngine.add("CodeExecution", "MethodCalled", json.getValue());
+    }
+
+    public void methodReturn() {
+        JSONWriter json = new JSONWriter();
+        stitchEngine.add("CodeExecution", "MethodReturn", json.getValue());
     }
 }

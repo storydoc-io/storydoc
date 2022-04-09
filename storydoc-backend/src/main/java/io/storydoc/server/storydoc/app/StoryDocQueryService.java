@@ -1,6 +1,7 @@
 package io.storydoc.server.storydoc.app;
 
 import io.storydoc.server.storydoc.app.dto.ArtifactDTO;
+import io.storydoc.server.storydoc.app.dto.AssociationDto;
 import io.storydoc.server.storydoc.app.dto.StoryDocDTO;
 import io.storydoc.server.storydoc.app.dto.StoryDocSummaryDTO;
 import io.storydoc.server.storydoc.domain.*;
@@ -23,5 +24,5 @@ public interface StoryDocQueryService {
     ArtifactMetaData getArtifactMetaData(ArtifactCoordinate asArtifactCoordinate);
     InputStream getBinaryFromCollection(ArtifactCoordinate coordinate, ItemId itemId) throws WorkspaceException;
     ResourceUrn getArtifactItemUrn(ArtifactCoordinate artifactCoordinate, ItemId itemId);
-
+    List<AssociationDto> getAssociationsFrom(ArtifactCoordinate artifactCoordinate1, String name);
 }

@@ -14,18 +14,26 @@ import java.util.stream.Stream;
 @Component
 public class SourceCodeAccess {
 
-    private String sourceRoot = "../samples/spring-petclinic/src/main/java";
 
     @SneakyThrows
-    public List<String> getSource(String className) {
+    public List<String> getSource(String className, List<String> sourceRoots) {
+
+
         List<String> result;
-        try (Stream<String> lines = Files.lines(getFilePath(className))) {
+        try (Stream<String> lines = Files.lines(getFilePath(sourceRoots, className))) {
             return lines.collect(Collectors.toList());
         }
     }
 
-    private Path getFilePath(String className) {
-        return Paths.get(sourceRoot + File.separator + className.replace(".", File.separator) + ".java").toAbsolutePath();
+
+    private Path getFilePath(List<String> sourceRoots, String className) {
+        for (String sourceRoot : sourceRoots) {
+            Path path = Paths.get(sourceRoot + File.separator + className.replace(".", File.separator) + ".java").toAbsolutePath();
+            if (Files.exists(path)) {
+                return path;
+            }
+        }
+        throw new IllegalArgumentException("no source for " + className + " in " + sourceRoots);
     }
 
 }

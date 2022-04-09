@@ -35,12 +35,16 @@ public class StoryDocTestUtils {
         return storyDocService.createDocument(story_name);
     }
 
-    public ArtifactCoordinate add_artifact(BlockCoordinate blockCoordinate) {
+    public ArtifactCoordinate add_artifact(BlockCoordinate blockCoordinate, String type) {
         ArtifactId artifactId = new ArtifactId("artifact-"+UUID.randomUUID());
         String name = "name-" + artifactId.getId();
-        String type= "test-type";
         storyDocService.addArtifact(blockCoordinate, artifactId, type, name);
         return ArtifactCoordinate.of(blockCoordinate, artifactId);
+
+    }
+
+    public ArtifactCoordinate add_artifact(BlockCoordinate blockCoordinate) {
+        return add_artifact(blockCoordinate, "test-type");
     }
 
     public StoryDocDTO getStorydoc(StoryDocId storyDocId) {
