@@ -1,306 +1,306 @@
-TestScenario|TestEntered|{ "testCaseName": "io.storydoc.server.ui.app.UIServiceTest createUIScenario(io.storydoc.server.ui.app.UIServiceTest)"
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "setWorkspaceFolder" }
-CodeExecution|MethodReturn|
+TestScenario|TestEntered|{ "testCaseName": "io.storydoc.server.ui.app.UIServiceTest createUIScenario(io.storydoc.server.ui.app.UIServiceTest)" }
+CodeExecution|MethodCalled|{ "cid": "274540b3-9e1c-48af-8142-380632746551", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "setWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "274540b3-9e1c-48af-8142-380632746551", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "setWorkspaceFolder" }
 TestScenario|given|{ "noun": "given", "text": "given a storydoc with a artifact block" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.StoryDocTestUtils", "functionName": "create_storydoc_with_artifact_block" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.app.StoryDocService", "functionName": "createDocument" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.infra.IDGenerator", "functionName": "generateID" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocDomainService", "functionName": "createDocument" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "createDocument" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "saveResource" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "store" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "getRootFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "addFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.FolderStorage", "functionName": "addFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "saveResource" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "store" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.app.StoryDocService", "functionName": "addArtifactBlock" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocDomainService", "functionName": "getDocument" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.infra.IDGenerator", "functionName": "generateID" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "addArtifactBlock" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "addFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.FolderStorage", "functionName": "addFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "saveResource" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "store" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "cid": "ac038fbc-99cf-4dbb-b17e-3429dc5459b4", "typeName": "io.storydoc.server.storydoc.StoryDocTestUtils", "functionName": "create_storydoc_with_artifact_block" }
+CodeExecution|MethodCalled|{ "cid": "7332e28a-019f-4e07-9c6b-efd11df857ac", "typeName": "io.storydoc.server.storydoc.app.StoryDocService", "functionName": "createDocument" }
+CodeExecution|MethodCalled|{ "cid": "30197bfa-5350-4d53-94ee-1fdcbfeb87af", "typeName": "io.storydoc.server.infra.IDGenerator", "functionName": "generateID" }
+CodeExecution|MethodReturn|{ "cid": "30197bfa-5350-4d53-94ee-1fdcbfeb87af", "typeName": "io.storydoc.server.infra.IDGenerator", "functionName": "generateID" }
+CodeExecution|MethodCalled|{ "cid": "ae5c4588-6386-4723-934a-6ea19b3c9194", "typeName": "io.storydoc.server.storydoc.domain.StoryDocDomainService", "functionName": "createDocument" }
+CodeExecution|MethodCalled|{ "cid": "bf7d68cc-c406-472f-a7ff-ab48eaff892d", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "createDocument" }
+CodeExecution|MethodCalled|{ "cid": "567f5d28-632e-440f-a4d1-dc53e00e174d", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodCalled|{ "cid": "c09e6953-ffea-4064-8024-f8789fd5b453", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodCalled|{ "cid": "bc42be1b-71bb-44b6-a0d2-45e3a183c5ac", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "5c5e4f42-2cd0-47b6-80b9-4c1d8e66c5bf", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "5c5e4f42-2cd0-47b6-80b9-4c1d8e66c5bf", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "bc42be1b-71bb-44b6-a0d2-45e3a183c5ac", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "6ea1038b-65df-4cf2-bb77-a505362fcdf4", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "saveResource" }
+CodeExecution|MethodCalled|{ "cid": "7fa633f5-c3e6-4015-854d-79c083dc281a", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "store" }
+CodeExecution|MethodCalled|{ "cid": "8462a4e2-5d62-4ce2-9098-5ad24b3c86cd", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "029f7f57-b8a6-4c46-8aef-16fefbf6b129", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "029f7f57-b8a6-4c46-8aef-16fefbf6b129", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "8462a4e2-5d62-4ce2-9098-5ad24b3c86cd", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "7fa633f5-c3e6-4015-854d-79c083dc281a", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "store" }
+CodeExecution|MethodReturn|{ "cid": "6ea1038b-65df-4cf2-bb77-a505362fcdf4", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "saveResource" }
+CodeExecution|MethodCalled|{ "cid": "023e72d1-1cb8-4300-8da5-0cd00f753b6e", "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "getRootFolder" }
+CodeExecution|MethodReturn|{ "cid": "023e72d1-1cb8-4300-8da5-0cd00f753b6e", "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "getRootFolder" }
+CodeExecution|MethodCalled|{ "cid": "0cb2de6a-8473-4076-81eb-fdba1392acd3", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "addFolder" }
+CodeExecution|MethodCalled|{ "cid": "b9bf3721-1902-45d2-b529-5d73e70a7ed5", "typeName": "io.storydoc.server.workspace.domain.FolderStorage", "functionName": "addFolder" }
+CodeExecution|MethodCalled|{ "cid": "076637c0-9e91-48ec-8e37-f793e90d9d8c", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "bb65e35b-edcd-4803-ba3e-f29935a070de", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "bb65e35b-edcd-4803-ba3e-f29935a070de", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "076637c0-9e91-48ec-8e37-f793e90d9d8c", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "b9bf3721-1902-45d2-b529-5d73e70a7ed5", "typeName": "io.storydoc.server.workspace.domain.FolderStorage", "functionName": "addFolder" }
+CodeExecution|MethodReturn|{ "cid": "0cb2de6a-8473-4076-81eb-fdba1392acd3", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "addFolder" }
+CodeExecution|MethodCalled|{ "cid": "a8d1a330-0abd-461f-a960-aaac1929254c", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "saveResource" }
+CodeExecution|MethodCalled|{ "cid": "539d8258-9a3c-4bcc-8a80-2a77014b2f28", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "store" }
+CodeExecution|MethodCalled|{ "cid": "86a0f324-27eb-4cad-80d8-df97098d1cf2", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "070178f2-384c-4a73-b514-5514480a95c4", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "070178f2-384c-4a73-b514-5514480a95c4", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "86a0f324-27eb-4cad-80d8-df97098d1cf2", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "539d8258-9a3c-4bcc-8a80-2a77014b2f28", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "store" }
+CodeExecution|MethodReturn|{ "cid": "a8d1a330-0abd-461f-a960-aaac1929254c", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "saveResource" }
+CodeExecution|MethodReturn|{ "cid": "bf7d68cc-c406-472f-a7ff-ab48eaff892d", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "createDocument" }
+CodeExecution|MethodReturn|{ "cid": "ae5c4588-6386-4723-934a-6ea19b3c9194", "typeName": "io.storydoc.server.storydoc.domain.StoryDocDomainService", "functionName": "createDocument" }
+CodeExecution|MethodReturn|{ "cid": "7332e28a-019f-4e07-9c6b-efd11df857ac", "typeName": "io.storydoc.server.storydoc.app.StoryDocService", "functionName": "createDocument" }
+CodeExecution|MethodCalled|{ "cid": "43f2c48f-c8df-4669-8293-e65f785e8868", "typeName": "io.storydoc.server.storydoc.app.StoryDocService", "functionName": "addArtifactBlock" }
+CodeExecution|MethodCalled|{ "cid": "87490e76-0a5d-4b53-9483-5e0b58e15914", "typeName": "io.storydoc.server.storydoc.domain.StoryDocDomainService", "functionName": "getDocument" }
+CodeExecution|MethodReturn|{ "cid": "87490e76-0a5d-4b53-9483-5e0b58e15914", "typeName": "io.storydoc.server.storydoc.domain.StoryDocDomainService", "functionName": "getDocument" }
+CodeExecution|MethodCalled|{ "cid": "0f57d97b-b401-409f-b3d0-cc64d52a2ee8", "typeName": "io.storydoc.server.infra.IDGenerator", "functionName": "generateID" }
+CodeExecution|MethodReturn|{ "cid": "0f57d97b-b401-409f-b3d0-cc64d52a2ee8", "typeName": "io.storydoc.server.infra.IDGenerator", "functionName": "generateID" }
+CodeExecution|MethodCalled|{ "cid": "e2581772-5eb4-43ae-ba21-ba6903f181ee", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "addArtifactBlock" }
+CodeExecution|MethodCalled|{ "cid": "f37102ac-fdc8-4725-898f-bf3c09fc902e", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "addFolder" }
+CodeExecution|MethodCalled|{ "cid": "33149f88-0e9a-4953-b7b0-0da41bcc37dd", "typeName": "io.storydoc.server.workspace.domain.FolderStorage", "functionName": "addFolder" }
+CodeExecution|MethodCalled|{ "cid": "a5f8aeeb-e069-4fe6-b9a8-696512eb09d4", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "8ae64918-98ae-4528-8fe8-742c7be1aad5", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "8ae64918-98ae-4528-8fe8-742c7be1aad5", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "a5f8aeeb-e069-4fe6-b9a8-696512eb09d4", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "33149f88-0e9a-4953-b7b0-0da41bcc37dd", "typeName": "io.storydoc.server.workspace.domain.FolderStorage", "functionName": "addFolder" }
+CodeExecution|MethodReturn|{ "cid": "f37102ac-fdc8-4725-898f-bf3c09fc902e", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "addFolder" }
+CodeExecution|MethodCalled|{ "cid": "e0ccca45-2f02-4397-b220-bdf5a15d84f7", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodCalled|{ "cid": "c7e70014-152c-4e9f-88b7-cc53d920aa86", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodCalled|{ "cid": "820c4391-37ba-4965-80c2-212edb8e2b54", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "f423a20c-71cb-4f54-9463-24cad55dcefa", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "f423a20c-71cb-4f54-9463-24cad55dcefa", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "820c4391-37ba-4965-80c2-212edb8e2b54", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "c7e70014-152c-4e9f-88b7-cc53d920aa86", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodReturn|{ "cid": "e0ccca45-2f02-4397-b220-bdf5a15d84f7", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodCalled|{ "cid": "9af0e127-72a0-406a-9b0e-e545677c0e86", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "saveResource" }
+CodeExecution|MethodCalled|{ "cid": "b8022478-bd74-4adf-b933-a84a51e3a892", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "store" }
+CodeExecution|MethodCalled|{ "cid": "1dc47dd9-f663-4088-a7b3-2b58d1e8b23a", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "48b49218-364d-49c1-b58d-a9a001d49dac", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "48b49218-364d-49c1-b58d-a9a001d49dac", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "1dc47dd9-f663-4088-a7b3-2b58d1e8b23a", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "b8022478-bd74-4adf-b933-a84a51e3a892", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "store" }
+CodeExecution|MethodReturn|{ "cid": "9af0e127-72a0-406a-9b0e-e545677c0e86", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "saveResource" }
+CodeExecution|MethodReturn|{ "cid": "e2581772-5eb4-43ae-ba21-ba6903f181ee", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "addArtifactBlock" }
+CodeExecution|MethodReturn|{ "cid": "43f2c48f-c8df-4669-8293-e65f785e8868", "typeName": "io.storydoc.server.storydoc.app.StoryDocService", "functionName": "addArtifactBlock" }
+CodeExecution|MethodReturn|{ "cid": "ac038fbc-99cf-4dbb-b17e-3429dc5459b4", "typeName": "io.storydoc.server.storydoc.StoryDocTestUtils", "functionName": "create_storydoc_with_artifact_block" }
 TestScenario|given|{ "noun": "when", "text": "when I create a uiscenario artifact" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.ui.app.UIService", "functionName": "createUIScenario" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.infra.IDGenerator", "functionName": "generateID" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.ui.domain.UIDomainService", "functionName": "createUIScenario" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.ui.domain.UIStorage", "functionName": "createUIScenario" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.app.StoryDocService", "functionName": "addArtifact" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocDomainService", "functionName": "getDocument" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "createArtifact" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "saveResource" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "store" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.app.StoryDocService", "functionName": "saveArtifact" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocDomainService", "functionName": "getDocument" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "setArtifactContent" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "saveResource" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "store" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.WorkspaceTestUtils", "functionName": "logFolderStructure" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "getRootFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "listSubFolders" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.FolderStorage", "functionName": "listSubFolders" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "listSubFolders" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.FolderStorage", "functionName": "listSubFolders" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "listSubFolders" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.FolderStorage", "functionName": "listSubFolders" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "listResources" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "listResources" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "listResources" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "listResources" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "listResources" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "listResources" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.app.StoryDocQueryService", "functionName": "getDocument" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "loadDocuments" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "loadDocument" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "getStoryDocUrn" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.WorkspaceTestUtils", "functionName": "logResourceContent" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "getInputStream" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "getInputStream" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.ui.domain.UIStorage", "functionName": "getUIScenarioUrn" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.app.StoryDocQueryService", "functionName": "getArtifactBlockFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "getBlockFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.WorkspaceTestUtils", "functionName": "logResourceContent" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "getInputStream" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "getInputStream" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "cid": "da135a99-d895-4fcd-8a65-98491d536e88", "typeName": "io.storydoc.server.ui.app.UIService", "functionName": "createUIScenario" }
+CodeExecution|MethodCalled|{ "cid": "4495d1c9-4634-46ef-b25b-cbc5bac8be89", "typeName": "io.storydoc.server.infra.IDGenerator", "functionName": "generateID" }
+CodeExecution|MethodReturn|{ "cid": "4495d1c9-4634-46ef-b25b-cbc5bac8be89", "typeName": "io.storydoc.server.infra.IDGenerator", "functionName": "generateID" }
+CodeExecution|MethodCalled|{ "cid": "f550781c-c043-4a25-8a8c-90eca97aad5d", "typeName": "io.storydoc.server.ui.domain.UIDomainService", "functionName": "createUIScenario" }
+CodeExecution|MethodCalled|{ "cid": "162115df-80f7-4017-a662-3acef1ac2baf", "typeName": "io.storydoc.server.ui.domain.UIStorage", "functionName": "createUIScenario" }
+CodeExecution|MethodCalled|{ "cid": "caea6c9d-63ff-4c4a-98e1-0e24988ec0e1", "typeName": "io.storydoc.server.storydoc.app.StoryDocService", "functionName": "addArtifact" }
+CodeExecution|MethodCalled|{ "cid": "41dfcc81-3641-45d9-83b9-88451bf01806", "typeName": "io.storydoc.server.storydoc.domain.StoryDocDomainService", "functionName": "getDocument" }
+CodeExecution|MethodReturn|{ "cid": "41dfcc81-3641-45d9-83b9-88451bf01806", "typeName": "io.storydoc.server.storydoc.domain.StoryDocDomainService", "functionName": "getDocument" }
+CodeExecution|MethodCalled|{ "cid": "3a5d85a6-2147-40d7-9962-eab3e27df703", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "createArtifact" }
+CodeExecution|MethodCalled|{ "cid": "95cc841e-f856-4207-9ca9-919249a3b45e", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodCalled|{ "cid": "9ef64b9d-7cbf-4273-886f-0d7b42be6a2f", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodCalled|{ "cid": "f8598ab1-0847-4539-af52-69c67e08d42c", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "bdf26d25-574f-45bf-a3fc-9e10ef654ec8", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "bdf26d25-574f-45bf-a3fc-9e10ef654ec8", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "f8598ab1-0847-4539-af52-69c67e08d42c", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "9ef64b9d-7cbf-4273-886f-0d7b42be6a2f", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodReturn|{ "cid": "95cc841e-f856-4207-9ca9-919249a3b45e", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodCalled|{ "cid": "f96cfb06-ad73-4d2d-8b50-6416c926086a", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "saveResource" }
+CodeExecution|MethodCalled|{ "cid": "c6ce223d-1f63-4b92-b96f-4d0ba92b83a4", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "store" }
+CodeExecution|MethodCalled|{ "cid": "5bb68189-b330-4364-ac20-1963d2cbf144", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "986d46eb-e1ff-4ec6-af61-72dc0b29b2af", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "986d46eb-e1ff-4ec6-af61-72dc0b29b2af", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "5bb68189-b330-4364-ac20-1963d2cbf144", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "c6ce223d-1f63-4b92-b96f-4d0ba92b83a4", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "store" }
+CodeExecution|MethodReturn|{ "cid": "f96cfb06-ad73-4d2d-8b50-6416c926086a", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "saveResource" }
+CodeExecution|MethodReturn|{ "cid": "3a5d85a6-2147-40d7-9962-eab3e27df703", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "createArtifact" }
+CodeExecution|MethodReturn|{ "cid": "caea6c9d-63ff-4c4a-98e1-0e24988ec0e1", "typeName": "io.storydoc.server.storydoc.app.StoryDocService", "functionName": "addArtifact" }
+CodeExecution|MethodCalled|{ "cid": "684128aa-ee6c-4173-a221-fce95d3e9274", "typeName": "io.storydoc.server.storydoc.app.StoryDocService", "functionName": "saveArtifact" }
+CodeExecution|MethodCalled|{ "cid": "bd3e9eae-f4bf-4668-8634-3bbf20b5cdef", "typeName": "io.storydoc.server.storydoc.domain.StoryDocDomainService", "functionName": "getDocument" }
+CodeExecution|MethodReturn|{ "cid": "bd3e9eae-f4bf-4668-8634-3bbf20b5cdef", "typeName": "io.storydoc.server.storydoc.domain.StoryDocDomainService", "functionName": "getDocument" }
+CodeExecution|MethodCalled|{ "cid": "fa3f65f2-e768-43a1-a114-e2c2b3d7b97e", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "setArtifactContent" }
+CodeExecution|MethodCalled|{ "cid": "60118586-3577-4747-9dff-78dc66f0cf0a", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "saveResource" }
+CodeExecution|MethodCalled|{ "cid": "ec9edd32-3b7d-4557-9baa-57423cc80558", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "store" }
+CodeExecution|MethodCalled|{ "cid": "f144f126-8295-4c65-a80b-2fe4dcc7012c", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "1ea1f3f7-7bf2-4273-aefe-edb417393aac", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "1ea1f3f7-7bf2-4273-aefe-edb417393aac", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "f144f126-8295-4c65-a80b-2fe4dcc7012c", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "ec9edd32-3b7d-4557-9baa-57423cc80558", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "store" }
+CodeExecution|MethodReturn|{ "cid": "60118586-3577-4747-9dff-78dc66f0cf0a", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "saveResource" }
+CodeExecution|MethodReturn|{ "cid": "fa3f65f2-e768-43a1-a114-e2c2b3d7b97e", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "setArtifactContent" }
+CodeExecution|MethodReturn|{ "cid": "684128aa-ee6c-4173-a221-fce95d3e9274", "typeName": "io.storydoc.server.storydoc.app.StoryDocService", "functionName": "saveArtifact" }
+CodeExecution|MethodReturn|{ "cid": "162115df-80f7-4017-a662-3acef1ac2baf", "typeName": "io.storydoc.server.ui.domain.UIStorage", "functionName": "createUIScenario" }
+CodeExecution|MethodReturn|{ "cid": "f550781c-c043-4a25-8a8c-90eca97aad5d", "typeName": "io.storydoc.server.ui.domain.UIDomainService", "functionName": "createUIScenario" }
+CodeExecution|MethodReturn|{ "cid": "da135a99-d895-4fcd-8a65-98491d536e88", "typeName": "io.storydoc.server.ui.app.UIService", "functionName": "createUIScenario" }
+CodeExecution|MethodCalled|{ "cid": "7f153a8b-6474-44e1-8127-98a871526deb", "typeName": "io.storydoc.server.workspace.WorkspaceTestUtils", "functionName": "logFolderStructure" }
+CodeExecution|MethodCalled|{ "cid": "c81e3670-df06-4794-a123-a0fa6dc2f8c0", "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "getRootFolder" }
+CodeExecution|MethodReturn|{ "cid": "c81e3670-df06-4794-a123-a0fa6dc2f8c0", "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "getRootFolder" }
+CodeExecution|MethodCalled|{ "cid": "191618a2-2efe-4e20-a1c4-9537d5f24f28", "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "listSubFolders" }
+CodeExecution|MethodCalled|{ "cid": "b44a069e-9df4-4e8f-bf75-4509c9dbb078", "typeName": "io.storydoc.server.workspace.domain.FolderStorage", "functionName": "listSubFolders" }
+CodeExecution|MethodCalled|{ "cid": "4c64056e-697d-4ecf-b863-72d8f9a84a8d", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "1f6a84e9-6717-4757-9528-3efbed511eae", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "1f6a84e9-6717-4757-9528-3efbed511eae", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "4c64056e-697d-4ecf-b863-72d8f9a84a8d", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "b44a069e-9df4-4e8f-bf75-4509c9dbb078", "typeName": "io.storydoc.server.workspace.domain.FolderStorage", "functionName": "listSubFolders" }
+CodeExecution|MethodReturn|{ "cid": "191618a2-2efe-4e20-a1c4-9537d5f24f28", "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "listSubFolders" }
+CodeExecution|MethodCalled|{ "cid": "e32fd784-de4b-4278-b10a-4029faa82708", "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "listSubFolders" }
+CodeExecution|MethodCalled|{ "cid": "c6442e7d-255e-4ccc-992f-a4ce0533aa59", "typeName": "io.storydoc.server.workspace.domain.FolderStorage", "functionName": "listSubFolders" }
+CodeExecution|MethodCalled|{ "cid": "2b84c17d-df02-46be-96fa-39d323bacb8e", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "6b72865b-fd0b-4d7f-b4fd-6867e05f2e90", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "6b72865b-fd0b-4d7f-b4fd-6867e05f2e90", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "2b84c17d-df02-46be-96fa-39d323bacb8e", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "c6442e7d-255e-4ccc-992f-a4ce0533aa59", "typeName": "io.storydoc.server.workspace.domain.FolderStorage", "functionName": "listSubFolders" }
+CodeExecution|MethodReturn|{ "cid": "e32fd784-de4b-4278-b10a-4029faa82708", "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "listSubFolders" }
+CodeExecution|MethodCalled|{ "cid": "4c2d2c3d-9e3d-48bd-b331-4a8fb6621414", "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "listSubFolders" }
+CodeExecution|MethodCalled|{ "cid": "b0e8ba0a-a77c-4c7f-8996-d2e48bbcbb8c", "typeName": "io.storydoc.server.workspace.domain.FolderStorage", "functionName": "listSubFolders" }
+CodeExecution|MethodCalled|{ "cid": "73c87498-a67b-4f7b-8f5c-ac5eb2428af6", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "409317e5-5454-4c3f-a6f1-7d8e2d8e1d62", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "409317e5-5454-4c3f-a6f1-7d8e2d8e1d62", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "73c87498-a67b-4f7b-8f5c-ac5eb2428af6", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "b0e8ba0a-a77c-4c7f-8996-d2e48bbcbb8c", "typeName": "io.storydoc.server.workspace.domain.FolderStorage", "functionName": "listSubFolders" }
+CodeExecution|MethodReturn|{ "cid": "4c2d2c3d-9e3d-48bd-b331-4a8fb6621414", "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "listSubFolders" }
+CodeExecution|MethodCalled|{ "cid": "9ed89cd3-5355-4d2f-b179-029b3ec45f8e", "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "listResources" }
+CodeExecution|MethodCalled|{ "cid": "fbad87bf-3e31-44a9-9d9a-7caf8e4dd862", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "listResources" }
+CodeExecution|MethodCalled|{ "cid": "2c57f273-80ec-494f-9862-96e3368d9953", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "d1eba435-874c-4a1a-8e7c-e401d3bddad9", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "d1eba435-874c-4a1a-8e7c-e401d3bddad9", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "2c57f273-80ec-494f-9862-96e3368d9953", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "fbad87bf-3e31-44a9-9d9a-7caf8e4dd862", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "listResources" }
+CodeExecution|MethodReturn|{ "cid": "9ed89cd3-5355-4d2f-b179-029b3ec45f8e", "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "listResources" }
+CodeExecution|MethodCalled|{ "cid": "977136b8-e6ce-4843-888a-c25eec3ae2a3", "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "listResources" }
+CodeExecution|MethodCalled|{ "cid": "b4bced58-bc0a-4770-bb8f-ae6dc871a2b3", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "listResources" }
+CodeExecution|MethodCalled|{ "cid": "88851d1a-611d-48e2-b565-2d5a9ba060e8", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "a41713eb-639b-45a6-9763-68d8d7576da2", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "a41713eb-639b-45a6-9763-68d8d7576da2", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "88851d1a-611d-48e2-b565-2d5a9ba060e8", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "b4bced58-bc0a-4770-bb8f-ae6dc871a2b3", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "listResources" }
+CodeExecution|MethodReturn|{ "cid": "977136b8-e6ce-4843-888a-c25eec3ae2a3", "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "listResources" }
+CodeExecution|MethodCalled|{ "cid": "84b1d61b-de92-4544-b299-ec5d314e871b", "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "listResources" }
+CodeExecution|MethodCalled|{ "cid": "7b182688-fcf0-4838-890e-cb26f9150f37", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "listResources" }
+CodeExecution|MethodCalled|{ "cid": "6181b73d-ae34-4071-b684-09e8baba1975", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "80b31b73-3506-4175-89d1-054bd76b0da8", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "80b31b73-3506-4175-89d1-054bd76b0da8", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "6181b73d-ae34-4071-b684-09e8baba1975", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "7b182688-fcf0-4838-890e-cb26f9150f37", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "listResources" }
+CodeExecution|MethodReturn|{ "cid": "84b1d61b-de92-4544-b299-ec5d314e871b", "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "listResources" }
+CodeExecution|MethodReturn|{ "cid": "7f153a8b-6474-44e1-8127-98a871526deb", "typeName": "io.storydoc.server.workspace.WorkspaceTestUtils", "functionName": "logFolderStructure" }
+CodeExecution|MethodCalled|{ "cid": "aa462624-ee34-4473-b350-d900c020292f", "typeName": "io.storydoc.server.storydoc.app.StoryDocQueryService", "functionName": "getDocument" }
+CodeExecution|MethodCalled|{ "cid": "b69e4de0-b991-45f9-abea-750e9dda6b91", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "loadDocuments" }
+CodeExecution|MethodCalled|{ "cid": "12819ec2-9830-473e-a48f-20aa1b315ba1", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodCalled|{ "cid": "641f83fd-dd65-415e-ad3f-83f605858cdf", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodCalled|{ "cid": "4c3040e8-ad7e-4c28-8f70-f4b6e7ca7b31", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "f7d882e7-f553-446a-a41e-2511bc62a801", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "f7d882e7-f553-446a-a41e-2511bc62a801", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "4c3040e8-ad7e-4c28-8f70-f4b6e7ca7b31", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "641f83fd-dd65-415e-ad3f-83f605858cdf", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodReturn|{ "cid": "12819ec2-9830-473e-a48f-20aa1b315ba1", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodReturn|{ "cid": "b69e4de0-b991-45f9-abea-750e9dda6b91", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "loadDocuments" }
+CodeExecution|MethodCalled|{ "cid": "847c518c-0047-4e46-a5aa-70a42778b323", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "loadDocument" }
+CodeExecution|MethodCalled|{ "cid": "ba8d21ac-3f32-45be-a298-a3ebef9384c3", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodCalled|{ "cid": "2d6ed390-a0b1-4ea1-a9d1-cfa5cef104ad", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodCalled|{ "cid": "4a1b2fba-66aa-4861-989d-51766a9ca1b7", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "ab7a634b-3c5a-4c88-89ae-5558d6efeed1", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "ab7a634b-3c5a-4c88-89ae-5558d6efeed1", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "4a1b2fba-66aa-4861-989d-51766a9ca1b7", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "2d6ed390-a0b1-4ea1-a9d1-cfa5cef104ad", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodReturn|{ "cid": "ba8d21ac-3f32-45be-a298-a3ebef9384c3", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodReturn|{ "cid": "847c518c-0047-4e46-a5aa-70a42778b323", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "loadDocument" }
+CodeExecution|MethodCalled|{ "cid": "c29c0d2c-a60c-4bec-a34a-20087a9d71bd", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "getStoryDocUrn" }
+CodeExecution|MethodReturn|{ "cid": "c29c0d2c-a60c-4bec-a34a-20087a9d71bd", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "getStoryDocUrn" }
+CodeExecution|MethodReturn|{ "cid": "aa462624-ee34-4473-b350-d900c020292f", "typeName": "io.storydoc.server.storydoc.app.StoryDocQueryService", "functionName": "getDocument" }
+CodeExecution|MethodCalled|{ "cid": "c877bfe2-3537-4963-88cd-977623970e0f", "typeName": "io.storydoc.server.workspace.WorkspaceTestUtils", "functionName": "logResourceContent" }
+CodeExecution|MethodCalled|{ "cid": "d6821b45-f796-4b51-9391-6f5948b09c91", "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "getInputStream" }
+CodeExecution|MethodCalled|{ "cid": "b41d3c87-857b-4890-bfaf-1f3daa53b0d2", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "getInputStream" }
+CodeExecution|MethodCalled|{ "cid": "7358ada3-d343-4ff4-871b-eabfe61c0d63", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "bda56b41-dda1-4002-a175-51fd75474239", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "bda56b41-dda1-4002-a175-51fd75474239", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "7358ada3-d343-4ff4-871b-eabfe61c0d63", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "b41d3c87-857b-4890-bfaf-1f3daa53b0d2", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "getInputStream" }
+CodeExecution|MethodReturn|{ "cid": "d6821b45-f796-4b51-9391-6f5948b09c91", "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "getInputStream" }
+CodeExecution|MethodReturn|{ "cid": "c877bfe2-3537-4963-88cd-977623970e0f", "typeName": "io.storydoc.server.workspace.WorkspaceTestUtils", "functionName": "logResourceContent" }
+CodeExecution|MethodCalled|{ "cid": "cdc25e36-104e-4f54-9567-371c8c796320", "typeName": "io.storydoc.server.ui.domain.UIStorage", "functionName": "getUIScenarioUrn" }
+CodeExecution|MethodCalled|{ "cid": "6328d871-07b8-4c9d-8a12-034049e35bf1", "typeName": "io.storydoc.server.storydoc.app.StoryDocQueryService", "functionName": "getArtifactBlockFolder" }
+CodeExecution|MethodCalled|{ "cid": "b7b4b9e4-602b-4161-b03f-6af89b53f52f", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "getBlockFolder" }
+CodeExecution|MethodReturn|{ "cid": "b7b4b9e4-602b-4161-b03f-6af89b53f52f", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "getBlockFolder" }
+CodeExecution|MethodReturn|{ "cid": "6328d871-07b8-4c9d-8a12-034049e35bf1", "typeName": "io.storydoc.server.storydoc.app.StoryDocQueryService", "functionName": "getArtifactBlockFolder" }
+CodeExecution|MethodReturn|{ "cid": "cdc25e36-104e-4f54-9567-371c8c796320", "typeName": "io.storydoc.server.ui.domain.UIStorage", "functionName": "getUIScenarioUrn" }
+CodeExecution|MethodCalled|{ "cid": "5bc95bd2-64a5-47b3-ae96-012e04203a45", "typeName": "io.storydoc.server.workspace.WorkspaceTestUtils", "functionName": "logResourceContent" }
+CodeExecution|MethodCalled|{ "cid": "2bb131d5-29df-4d8a-8208-9af1d09dba91", "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "getInputStream" }
+CodeExecution|MethodCalled|{ "cid": "a7e85f1b-19e2-4fbe-bc81-944d520dc174", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "getInputStream" }
+CodeExecution|MethodCalled|{ "cid": "a6d7f0de-debc-4b74-8d52-55db048f1e38", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "84ac3fa8-c689-4c9f-bab4-2c983a215899", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "84ac3fa8-c689-4c9f-bab4-2c983a215899", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "a6d7f0de-debc-4b74-8d52-55db048f1e38", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "a7e85f1b-19e2-4fbe-bc81-944d520dc174", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "getInputStream" }
+CodeExecution|MethodReturn|{ "cid": "2bb131d5-29df-4d8a-8208-9af1d09dba91", "typeName": "io.storydoc.server.workspace.app.WorkspaceQueryService", "functionName": "getInputStream" }
+CodeExecution|MethodReturn|{ "cid": "5bc95bd2-64a5-47b3-ae96-012e04203a45", "typeName": "io.storydoc.server.workspace.WorkspaceTestUtils", "functionName": "logResourceContent" }
 TestScenario|given|{ "noun": "then", "text": "then the artifact is added to the storydoc" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.app.StoryDocQueryService", "functionName": "getDocument" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "loadDocuments" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "loadDocument" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "getStoryDocUrn" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
+CodeExecution|MethodCalled|{ "cid": "c72a4efe-0e87-4e16-aff9-22a02ae85921", "typeName": "io.storydoc.server.storydoc.app.StoryDocQueryService", "functionName": "getDocument" }
+CodeExecution|MethodCalled|{ "cid": "ddee9a2a-d533-4f31-87df-383bf9acf7af", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "loadDocuments" }
+CodeExecution|MethodCalled|{ "cid": "3af1f3ff-bda2-47ad-af3d-1c37a7fef5da", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodCalled|{ "cid": "aaa8559e-1b76-4a7c-8691-f90d6a8416fe", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodCalled|{ "cid": "aba5c981-016d-4741-8b9b-26cdddfd5db8", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "b16d52ca-e5f8-4d75-8410-90fa3edf2cfb", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "b16d52ca-e5f8-4d75-8410-90fa3edf2cfb", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "aba5c981-016d-4741-8b9b-26cdddfd5db8", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "aaa8559e-1b76-4a7c-8691-f90d6a8416fe", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodReturn|{ "cid": "3af1f3ff-bda2-47ad-af3d-1c37a7fef5da", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodReturn|{ "cid": "ddee9a2a-d533-4f31-87df-383bf9acf7af", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "loadDocuments" }
+CodeExecution|MethodCalled|{ "cid": "ce271d86-2f4f-4a5f-8084-b443397d82f1", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "loadDocument" }
+CodeExecution|MethodCalled|{ "cid": "bab245a3-deb6-466c-af71-5b932cf6ab4f", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodCalled|{ "cid": "a174a705-660e-49fd-add0-9a0c937235e9", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodCalled|{ "cid": "08cfc7c8-88f2-4731-a9a8-523b48db5439", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "7e43f1fb-0e46-4600-b0b7-efbf2f6de38c", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "7e43f1fb-0e46-4600-b0b7-efbf2f6de38c", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "08cfc7c8-88f2-4731-a9a8-523b48db5439", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "a174a705-660e-49fd-add0-9a0c937235e9", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodReturn|{ "cid": "bab245a3-deb6-466c-af71-5b932cf6ab4f", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodReturn|{ "cid": "ce271d86-2f4f-4a5f-8084-b443397d82f1", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "loadDocument" }
+CodeExecution|MethodCalled|{ "cid": "61187697-07a7-4afc-8572-a1950286648c", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "getStoryDocUrn" }
+CodeExecution|MethodReturn|{ "cid": "61187697-07a7-4afc-8572-a1950286648c", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "getStoryDocUrn" }
+CodeExecution|MethodReturn|{ "cid": "c72a4efe-0e87-4e16-aff9-22a02ae85921", "typeName": "io.storydoc.server.storydoc.app.StoryDocQueryService", "functionName": "getDocument" }
 TestScenario|given|{ "noun": "then", "text": "and then I can find  uiscenario artifact" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.ui.app.UIQueryService", "functionName": "getUIScenario" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.app.StoryDocQueryService", "functionName": "getArtifactMetaData" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "getArtifactMetaData" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.app.StoryDocQueryService", "functionName": "getArtifactsByType" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "findArtifacts" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.ui.domain.UIStorage", "functionName": "loadUIScenario" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.app.StoryDocService", "functionName": "loadArtifact" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocDomainService", "functionName": "getDocument" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "getArtifactContent" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.app.StoryDocQueryService", "functionName": "getStoryDocSummary" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "loadDocuments" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodCalled|{ "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-CodeExecution|MethodReturn|
-TestScenario|TestFinished|{ "testCaseName": "io.storydoc.server.ui.app.UIServiceTest createUIScenario(io.storydoc.server.ui.app.UIServiceTest)"
+CodeExecution|MethodCalled|{ "cid": "b5ef85d3-fcae-4cc3-8451-d271b4f8c2cd", "typeName": "io.storydoc.server.ui.app.UIQueryService", "functionName": "getUIScenario" }
+CodeExecution|MethodCalled|{ "cid": "00a374a4-5c50-43b2-b901-756ea4e7b305", "typeName": "io.storydoc.server.storydoc.app.StoryDocQueryService", "functionName": "getArtifactMetaData" }
+CodeExecution|MethodCalled|{ "cid": "e2a043ab-84fe-4755-a622-c0125eab24e3", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "getArtifactMetaData" }
+CodeExecution|MethodCalled|{ "cid": "de81779c-6459-42be-80dd-4658e4effbfd", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodCalled|{ "cid": "aba85ded-1556-4676-86e3-dc60f566825e", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodCalled|{ "cid": "c82ed0b2-e47c-4f23-8e97-4a2905da52f2", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "47dd157a-f288-457f-8b99-7a5af9cb1491", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "47dd157a-f288-457f-8b99-7a5af9cb1491", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "c82ed0b2-e47c-4f23-8e97-4a2905da52f2", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "aba85ded-1556-4676-86e3-dc60f566825e", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodReturn|{ "cid": "de81779c-6459-42be-80dd-4658e4effbfd", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodReturn|{ "cid": "e2a043ab-84fe-4755-a622-c0125eab24e3", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "getArtifactMetaData" }
+CodeExecution|MethodReturn|{ "cid": "00a374a4-5c50-43b2-b901-756ea4e7b305", "typeName": "io.storydoc.server.storydoc.app.StoryDocQueryService", "functionName": "getArtifactMetaData" }
+CodeExecution|MethodCalled|{ "cid": "9725c9ea-b95d-4e89-a278-9aca8038ddbc", "typeName": "io.storydoc.server.storydoc.app.StoryDocQueryService", "functionName": "getArtifactsByType" }
+CodeExecution|MethodCalled|{ "cid": "bd364f39-0c38-41b6-93f0-e0c6f238f6cb", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "findArtifacts" }
+CodeExecution|MethodCalled|{ "cid": "10f30ad2-d996-46d5-9e71-09629a225974", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodCalled|{ "cid": "2fd3d88f-eb68-4347-b625-21a6fe6e5509", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodCalled|{ "cid": "88f5366e-c1b9-4506-a532-80d3d42d93e2", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "0d614112-248b-480e-bcb1-e3a4a7b73e16", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "0d614112-248b-480e-bcb1-e3a4a7b73e16", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "88f5366e-c1b9-4506-a532-80d3d42d93e2", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "2fd3d88f-eb68-4347-b625-21a6fe6e5509", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodReturn|{ "cid": "10f30ad2-d996-46d5-9e71-09629a225974", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodReturn|{ "cid": "bd364f39-0c38-41b6-93f0-e0c6f238f6cb", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "findArtifacts" }
+CodeExecution|MethodReturn|{ "cid": "9725c9ea-b95d-4e89-a278-9aca8038ddbc", "typeName": "io.storydoc.server.storydoc.app.StoryDocQueryService", "functionName": "getArtifactsByType" }
+CodeExecution|MethodCalled|{ "cid": "e99b9b9c-feac-4f7a-82d8-3509f03ed0e5", "typeName": "io.storydoc.server.ui.domain.UIStorage", "functionName": "loadUIScenario" }
+CodeExecution|MethodCalled|{ "cid": "857e5e4e-7dcb-4ab4-a644-43ef05ef0091", "typeName": "io.storydoc.server.storydoc.app.StoryDocService", "functionName": "loadArtifact" }
+CodeExecution|MethodCalled|{ "cid": "2148cc43-6fe4-4f65-bd4b-67400b4015cb", "typeName": "io.storydoc.server.storydoc.domain.StoryDocDomainService", "functionName": "getDocument" }
+CodeExecution|MethodReturn|{ "cid": "2148cc43-6fe4-4f65-bd4b-67400b4015cb", "typeName": "io.storydoc.server.storydoc.domain.StoryDocDomainService", "functionName": "getDocument" }
+CodeExecution|MethodCalled|{ "cid": "3e63cd6a-b0ba-41e7-bcc1-468bb8e34a6b", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "getArtifactContent" }
+CodeExecution|MethodCalled|{ "cid": "9df1936d-80fc-44ba-86d7-013b456c10bc", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodCalled|{ "cid": "86f7115d-f1b4-43ed-9696-d9000429567f", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodCalled|{ "cid": "eac82b52-1cda-4693-a68e-4080b5a038f7", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "5706fba0-7232-4066-87fd-a0fca34a387c", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "5706fba0-7232-4066-87fd-a0fca34a387c", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "eac82b52-1cda-4693-a68e-4080b5a038f7", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "86f7115d-f1b4-43ed-9696-d9000429567f", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodReturn|{ "cid": "9df1936d-80fc-44ba-86d7-013b456c10bc", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodReturn|{ "cid": "3e63cd6a-b0ba-41e7-bcc1-468bb8e34a6b", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "getArtifactContent" }
+CodeExecution|MethodReturn|{ "cid": "857e5e4e-7dcb-4ab4-a644-43ef05ef0091", "typeName": "io.storydoc.server.storydoc.app.StoryDocService", "functionName": "loadArtifact" }
+CodeExecution|MethodReturn|{ "cid": "e99b9b9c-feac-4f7a-82d8-3509f03ed0e5", "typeName": "io.storydoc.server.ui.domain.UIStorage", "functionName": "loadUIScenario" }
+CodeExecution|MethodCalled|{ "cid": "d3b53244-2f54-42eb-8d3e-342b110013cc", "typeName": "io.storydoc.server.storydoc.app.StoryDocQueryService", "functionName": "getStoryDocSummary" }
+CodeExecution|MethodCalled|{ "cid": "1d9a6ab1-2e75-4293-abfd-231530c112f2", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "loadDocuments" }
+CodeExecution|MethodCalled|{ "cid": "1495657c-9f2b-4ee4-a58b-07841e4ed163", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodCalled|{ "cid": "3c6f6894-8cca-4ed0-92a6-a90f365dfb4c", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodCalled|{ "cid": "aaea906d-5c14-4279-a9ee-a998bfce42d9", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodCalled|{ "cid": "22cdf312-ecc7-49b3-bf7a-c909490aed52", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "22cdf312-ecc7-49b3-bf7a-c909490aed52", "typeName": "io.storydoc.server.config.StoryDocServerProperties", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "aaea906d-5c14-4279-a9ee-a998bfce42d9", "typeName": "io.storydoc.server.workspace.app.WorkspaceSettings", "functionName": "getWorkspaceFolder" }
+CodeExecution|MethodReturn|{ "cid": "3c6f6894-8cca-4ed0-92a6-a90f365dfb4c", "typeName": "io.storydoc.server.workspace.domain.ResourceStorage", "functionName": "load" }
+CodeExecution|MethodReturn|{ "cid": "1495657c-9f2b-4ee4-a58b-07841e4ed163", "typeName": "io.storydoc.server.workspace.app.WorkspaceService", "functionName": "loadResource" }
+CodeExecution|MethodReturn|{ "cid": "1d9a6ab1-2e75-4293-abfd-231530c112f2", "typeName": "io.storydoc.server.storydoc.domain.StoryDocStorage", "functionName": "loadDocuments" }
+CodeExecution|MethodReturn|{ "cid": "d3b53244-2f54-42eb-8d3e-342b110013cc", "typeName": "io.storydoc.server.storydoc.app.StoryDocQueryService", "functionName": "getStoryDocSummary" }
+CodeExecution|MethodReturn|{ "cid": "b5ef85d3-fcae-4cc3-8451-d271b4f8c2cd", "typeName": "io.storydoc.server.ui.app.UIQueryService", "functionName": "getUIScenario" }
+TestScenario|TestFinished|{ "testCaseName": "io.storydoc.server.ui.app.UIServiceTest createUIScenario(io.storydoc.server.ui.app.UIServiceTest)" }

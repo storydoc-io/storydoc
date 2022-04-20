@@ -8,7 +8,7 @@ import {BrowserModule} from "@angular/platform-browser";
 import {AppRoutingModule} from "./app-routing.module";
 import {ReactiveFormsModule} from "@angular/forms";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
-
+import { TreeModule } from '@circlon/angular-tree-component';
 
 
 @NgModule({
@@ -22,6 +22,7 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
     AppRoutingModule,
     ReactiveFormsModule,
     FontAwesomeModule,
+    TreeModule
   ],
   exports: [
     CommonModule,
@@ -31,6 +32,7 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
     AppRoutingModule,
     ReactiveFormsModule,
     FontAwesomeModule,
+    TreeModule
   ]
 })
 export class CoreModule { }

@@ -9,7 +9,7 @@ import io.storydoc.server.code.domain.SourceCodeConfigStorage;
 import io.storydoc.server.code.infra.CodeStorageImpl;
 import io.storydoc.server.code.infra.model.CodeExecution;
 import io.storydoc.server.code.infra.model.SourceCodeConfig;
-import io.storydoc.server.code.infra.stitch.StitchFileScanner;
+import io.storydoc.server.code.infra.stitch.StitchFileScannerNew;
 import io.storydoc.server.code.infra.stitch.StitchLine;
 import io.storydoc.server.storydoc.app.StoryDocQueryService;
 import io.storydoc.server.storydoc.app.dto.AssociationDto;
@@ -61,7 +61,7 @@ public class CodeQueryService {
     private List<StitchLine> getStitchLineList(CodeExecution codeExecution)  {
         try {
             InputStream inputstream = new FileInputStream(codeExecution.getStitchFile());
-            StitchFileScanner logFileScanner = new StitchFileScanner(inputstream, codeExecution.getLineFrom(), codeExecution.getLineTo());
+            StitchFileScannerNew logFileScanner = new StitchFileScannerNew(inputstream, codeExecution.getLineFrom(), codeExecution.getLineTo());
             List<StitchLine> stitchLines = logFileScanner.run();
             return stitchLines;
         } catch (Exception e) {
@@ -74,6 +74,9 @@ public class CodeQueryService {
                 .modelName(stitchLine.getModelName())
                 .eventName(stitchLine.getEventName())
                 .attributes(stitchLine.getAttributes())
+                .children(stitchLine.getChildren().stream()
+                        .map(this::toDto)
+                        .collect(Collectors.toList()))
                 .build();
     }
 

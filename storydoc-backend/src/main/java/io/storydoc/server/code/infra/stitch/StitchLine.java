@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -17,5 +18,5 @@ public class StitchLine {
 
     private Map<String, String> attributes;
 
-
+    private List<StitchLine> children;
 }

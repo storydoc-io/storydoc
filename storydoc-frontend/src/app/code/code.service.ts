@@ -28,6 +28,8 @@ export function isCodeExecutionEnterEvent(event: StitchEvent): event is CodeExec
 }
 
 export interface CodeExecutionReturnEvent extends StitchEvent{
+  className: string,
+  methodName: string
 }
 
 export function isCodeExecutionReturnEvent(event: StitchEvent): event is CodeExecutionReturnEvent {
@@ -156,7 +158,7 @@ export class CodeService implements  OnDestroy{
 
   loadSourceCode(className: string) {
     log('loadSourceCode(className)', className)
-    if (!this.traceStore.getValue().codeTrace) return
+    if (!className || !this.traceStore.getValue().codeTrace) return
     let configCoord = this.traceStore.getValue().codeTrace.config
     this.codeRestControllerService.sourceUsingGet({
       storyDocId:configCoord.blockCoordinate.storyDocId.id,

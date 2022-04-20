@@ -1,12 +1,27 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CodeTraceDto, StitchItemDto} from "@storydoc/models";
-import {CodeExecutionEnterEvent, CodeExecutionReturnEvent, CodeService, isCodeExecutionEnterEvent, isCodeTestCaseBDDEvent, StitchEvent, TestCaseBDDEvent} from "../../code.service";
+import {
+  CodeExecutionEnterEvent,
+  CodeExecutionReturnEvent,
+  CodeService,
+  isCodeExecutionEnterEvent,
+  isCodeExecutionReturnEvent,
+  isCodeTestCaseBDDEvent,
+  StitchEvent,
+  TestCaseBDDEvent
+} from "../../code.service";
 import {Subscription} from "rxjs";
 
 interface IndentedEvent {
   indent: number,
   event: StitchEvent
 }
+
+interface TreeNode {
+  name: string,
+  children: TreeNode[]
+}
+
 
 @Component({
   selector: 'app-code-trace-panel',
@@ -24,17 +39,20 @@ export class CodeTracePanelComponent implements OnInit, OnDestroy {
   selectedItem$ = this.codeService.selectedItem$
   selectedItem
 
+  nodes: TreeNode[]
+
   private subscriptions: Subscription[] = []
 
   ngOnInit(): void {
     this.subscriptions.push(this.selectedItem$.subscribe(item => this.selectedItem = item))
-    this.subscriptions.push(this.codeTrace$.subscribe(codeTrace => this.convert(codeTrace)))
+    this.subscriptions.push(this.codeTrace$.subscribe(codeTrace => {
+      if (codeTrace) this.nodes = this.toTreeNodes(codeTrace.items)
+    }))
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(s => s.unsubscribe())
   }
-
 
   toStitchEvent(item: StitchItemDto): StitchEvent {
     switch (item.modelName) {
@@ -52,6 +70,8 @@ export class CodeTracePanelComponent implements OnInit, OnDestroy {
             return <CodeExecutionReturnEvent> {
               modelName: item.modelName,
               eventName: item.eventName,
+              className : item.attributes['typeName'],
+              methodName : item.attributes['functionName']
             }
           }
           default: {
@@ -96,44 +116,43 @@ export class CodeTracePanelComponent implements OnInit, OnDestroy {
     return this.selectedItem === item
   }
 
-  private convert(codeTrace: CodeTraceDto) {
-    if (!codeTrace) return
-    let indentedItems: IndentedEvent[] = []
-    let indent = 0
-    codeTrace.items
-      .map(item => this.toStitchEvent(item))
-      .forEach((event: StitchEvent) => {
-          if (isCodeTestCaseBDDEvent(event)) {
-            indentedItems.push({
-              indent: indent,
-              event: event
-            })
-          } else if (isCodeExecutionEnterEvent(event)) {
-            indentedItems.push({
-              indent: indent++,
-              event: event
-            })
-          } else {
-            indent--
-          }
-    })
-    console.log('indentedItems', indentedItems)
-    this.indentedItems = indentedItems;
-  }
-
   getLabel(event: StitchEvent): string {
+    if (!event) return "empty event"
     if (isCodeExecutionEnterEvent(event)) {
+      return this.getClassName(event) + ' :: ' + event.methodName
+    }
+    if (isCodeExecutionReturnEvent(event)) {
       return this.getClassName(event) + ' :: ' + event.methodName
     }
     if (isCodeTestCaseBDDEvent(event)) {
       return event.noun + ' :: ' + event.text
     }
-    return '??'
+    return ''
 
+  }
+
+  toTreeNodes(items: StitchItemDto[]): TreeNode[] {
+    if (!items) return
+    return items.map(item => {
+      let event = this.toStitchEvent(item)
+      return {
+        event,
+        name: this.getLabel(event),
+        children: this.toTreeNodes(item.children)
+      }
+    })
   }
 
   isBDDEvent(event: StitchEvent) {
     return isCodeTestCaseBDDEvent(event)
   }
 
+  isCodeEvent(event: StitchEvent) {
+    return isCodeExecutionEnterEvent(event) || isCodeExecutionReturnEvent(event)
+  }
+
+
+  go($event: MouseEvent) {
+
+  }
 }

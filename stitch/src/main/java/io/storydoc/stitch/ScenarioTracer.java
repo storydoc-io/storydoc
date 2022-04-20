@@ -14,6 +14,7 @@ public class ScenarioTracer {
         json.obj();
         json.att("testCaseName");
         json.string(testCaseName);
+        json.end();
 
         stitchEngine.add("TestScenario", "TestEntered", json.getValue());
     }
@@ -23,6 +24,7 @@ public class ScenarioTracer {
         json.obj();
         json.att("testCaseName");
         json.string(testCaseName);
+        json.end();
 
         stitchEngine.add("TestScenario", "TestFinished", json.getValue());
         stitchEngine.setActive(false);
