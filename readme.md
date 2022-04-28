@@ -1,6 +1,6 @@
 [![Maven CI/CD](https://github.com/storydoc-io/storydoc/actions/workflows/main.yml/badge.svg)](https://github.com/storydoc-io/storydoc/actions/workflows/main.yml)
 
-**Try it out** 
+**Try it out**
 
 - STABLE: download [release](https://github.com/storydoc-io/storydoc/releases)
 
