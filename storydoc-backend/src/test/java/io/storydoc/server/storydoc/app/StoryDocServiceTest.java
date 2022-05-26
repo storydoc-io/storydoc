@@ -1,13 +1,13 @@
 package io.storydoc.server.storydoc.app;
 
 import io.storydoc.server.TestBase;
-import io.storydoc.server.storydoc.StoryDocTestUtils;
+import io.storydoc.server.storydoc.StoryDocTestFixture;
 import io.storydoc.server.storydoc.app.dto.ArtifactDTO;
 import io.storydoc.server.storydoc.app.dto.BlockDTO;
 import io.storydoc.server.storydoc.app.dto.ItemDTO;
 import io.storydoc.server.storydoc.app.dto.StoryDocDTO;
 import io.storydoc.server.storydoc.domain.*;
-import io.storydoc.server.workspace.WorkspaceTestUtils;
+import io.storydoc.server.workspace.WorkspaceTestFixture;
 import io.storydoc.server.workspace.app.WorkspaceQueryService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
@@ -34,14 +34,14 @@ public class StoryDocServiceTest extends TestBase {
     private WorkspaceQueryService workspaceQueryService;
 
 
-    private WorkspaceTestUtils workspaceTestUtils;
+    private WorkspaceTestFixture workspaceTestFixture;
 
     @Autowired
-    private StoryDocTestUtils storyDocTestUtils;
+    private StoryDocTestFixture storyDocTestFixture;
 
     @Before
     public void setup() {
-        workspaceTestUtils = new WorkspaceTestUtils(workspaceQueryService);
+        workspaceTestFixture = new WorkspaceTestFixture(workspaceQueryService);
     }
 
 
@@ -62,8 +62,8 @@ public class StoryDocServiceTest extends TestBase {
         assertEquals(storyDocId, dto.getStoryDocId());
         assertNotNull(dto.getBlocks());
 
-        workspaceTestUtils.logFolderStructure("after creating document ");
-        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
+        workspaceTestFixture.logFolderStructure("after creating document ");
+        workspaceTestFixture.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
 
 
     }
@@ -71,15 +71,15 @@ public class StoryDocServiceTest extends TestBase {
     @Test
     public void removeDocument() {
         // given a storydoc
-        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
         StoryDocId storyDocId = blockCoordinate.getStoryDocId();
 
-        workspaceTestUtils.logFolderStructure("before remove ");
+        workspaceTestFixture.logFolderStructure("before remove ");
 
         // when I remove the document
         storyDocService.removeDocument(storyDocId);
 
-        workspaceTestUtils.logFolderStructure("after remove ");
+        workspaceTestFixture.logFolderStructure("after remove ");
 
         // then it is removed from the document list
         assertEquals(0, storyDocQueryService.getStoryDocs().size());
@@ -93,7 +93,7 @@ public class StoryDocServiceTest extends TestBase {
     @Test
     public void renameDocument() {
         // given a storydoc
-        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
         StoryDocId storyDocId = blockCoordinate.getStoryDocId();
 
         // when I rename the document
@@ -126,15 +126,15 @@ public class StoryDocServiceTest extends TestBase {
         assertNotNull(blockDTO.getBlockId());
         assertEquals(blockId, blockDTO.getBlockId());
 
-        workspaceTestUtils.logFolderStructure("after add block ");
-        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
+        workspaceTestFixture.logFolderStructure("after add block ");
+        workspaceTestFixture.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
 
     }
 
     @Test
     public void renameArtifactBlock() {
         // given a storydoc with an artifact block
-        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
 
         // when I rename the artifact block
         String new_name = "new_name";
@@ -147,18 +147,18 @@ public class StoryDocServiceTest extends TestBase {
     @Test
     public void moveBlock() {
         // given a storydoc with 3  blocks block_0, block_1, block_2
-        StoryDocId storyDocId = storyDocTestUtils.create_storydoc();
+        StoryDocId storyDocId = storyDocTestFixture.create_storydoc();
         List<BlockId> blockIds = IntStream.range(0, 3)
-                .mapToObj(i ->  storyDocTestUtils.add_artifact_block(storyDocId).getBlockId())
+                .mapToObj(i ->  storyDocTestFixture.add_artifact_block(storyDocId).getBlockId())
                 .collect(Collectors.toList());
 
         // when I move block_2 to index 0
         BlockCoordinate blockToMove = BlockCoordinate.of(storyDocId, blockIds.get(2));
         BlockCoordinate parentBlock = BlockCoordinate.of(storyDocId, storyDocId.asBlockId());
 
-        workspaceTestUtils.logResourceContent("before move", storyDocQueryService.getDocument(storyDocId).getUrn());
+        workspaceTestFixture.logResourceContent("before move", storyDocQueryService.getDocument(storyDocId).getUrn());
         storyDocService.moveBlock(blockToMove, parentBlock, 0);
-        workspaceTestUtils.logResourceContent("after move", storyDocQueryService.getDocument(storyDocId).getUrn());
+        workspaceTestFixture.logResourceContent("after move", storyDocQueryService.getDocument(storyDocId).getUrn());
 
         // then block_2 has index 0, block_0 index 1, block_1 index 2
         StoryDocDTO storyDocDTO = storyDocQueryService.getDocument(storyDocId);
@@ -171,10 +171,10 @@ public class StoryDocServiceTest extends TestBase {
     @Test
     public void add_artifact_to_artifact_block() {
         // given a story with an artifact block
-        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
 
         // when I add an artifact in the block
-        ArtifactCoordinate artifactCoordinate = storyDocTestUtils.add_artifact(blockCoordinate);
+        ArtifactCoordinate artifactCoordinate = storyDocTestFixture.add_artifact(blockCoordinate);
 
         // Then the artifact is in the created state
         StoryDocDTO storyDocDTO  = storyDocQueryService.getDocument(blockCoordinate.getStoryDocId());
@@ -218,18 +218,18 @@ public class StoryDocServiceTest extends TestBase {
         // and then the list of items in the collection is empty
         assertEquals(0, artifactDTO.getItems().size());
 
-        workspaceTestUtils.logFolderStructure("after add block ");
-        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
+        workspaceTestFixture.logFolderStructure("after add block ");
+        workspaceTestFixture.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
 
     }
 
     @Test
     public void change_artifact_state() {
         // given a story with an artifact block
-        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
 
         // given an artifact
-        ArtifactCoordinate artifactCoordinate = storyDocTestUtils.add_artifact(blockCoordinate);
+        ArtifactCoordinate artifactCoordinate = storyDocTestFixture.add_artifact(blockCoordinate);
         StoryDocDTO storyDocDTOBefore  = storyDocQueryService.getDocument(blockCoordinate.getStoryDocId());
 
         // When I change the state of the artifact
@@ -262,9 +262,9 @@ public class StoryDocServiceTest extends TestBase {
         ArtifactCoordinate artifactCoordinate = ArtifactCoordinate.of(blockCoordinate, artifactId);
 
         // when I remove the collection artifact
-        workspaceTestUtils.logFolderStructure("before remove artifact ");
+        workspaceTestFixture.logFolderStructure("before remove artifact ");
         storyDocService.removeArtifact(artifactCoordinate);
-        workspaceTestUtils.logFolderStructure("after remove artifact ");
+        workspaceTestFixture.logFolderStructure("after remove artifact ");
 
         // then I can no longer find it
         StoryDocDTO storyDocDTO = storyDocQueryService.getDocument(storyDocId);
@@ -295,8 +295,8 @@ public class StoryDocServiceTest extends TestBase {
         String item_name = "item-01";
         storyDocService.addItemToBinaryCollection(coordinate, artifactId, item_name, inputStream);
 
-        workspaceTestUtils.logFolderStructure("after add binary resource ");
-        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
+        workspaceTestFixture.logFolderStructure("after add binary resource ");
+        workspaceTestFixture.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
 
         // then the resource is added to the list of items in the collection
         StoryDocDTO storyDocDTO = storyDocQueryService.getDocument(storyDocId);
@@ -327,7 +327,7 @@ public class StoryDocServiceTest extends TestBase {
             assertEquals(2, storyDocDTO.getBlocks().size());
         }
 
-        workspaceTestUtils.logFolderStructure("before remove block ");
+        workspaceTestFixture.logFolderStructure("before remove block ");
 
         // when
         storyDocService.removeBlock(BlockCoordinate.of(storyDocId, blockId1));
@@ -339,8 +339,8 @@ public class StoryDocServiceTest extends TestBase {
         BlockDTO blockDTO = storyDocDTO.getBlocks().get(0);
         assertEquals(blockId2, blockDTO.getBlockId());
 
-        workspaceTestUtils.logFolderStructure("after remove block ");
-        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
+        workspaceTestFixture.logFolderStructure("after remove block ");
+        workspaceTestFixture.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
 
     }
 
@@ -357,8 +357,8 @@ public class StoryDocServiceTest extends TestBase {
         assertEquals(1, storyDocDTO.getBlocks().size());
         assertEquals("SECTION", storyDocDTO.getBlocks().get(0).blockType);
 
-        workspaceTestUtils.logFolderStructure("after add section");
-        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
+        workspaceTestFixture.logFolderStructure("after add section");
+        workspaceTestFixture.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
 
     }
 
@@ -388,8 +388,8 @@ public class StoryDocServiceTest extends TestBase {
             assertEquals(blockId.getId(), blockDTO2.getBlockId().getId());
             assertEquals(sectionId.getId(), blockDTO2.getParentBlockId().getId());
         }
-        workspaceTestUtils.logFolderStructure("after add block to section");
-        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
+        workspaceTestFixture.logFolderStructure("after add block to section");
+        workspaceTestFixture.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
 
     }
 
@@ -406,8 +406,8 @@ public class StoryDocServiceTest extends TestBase {
         storyDocService.addTag(storyDocId, blockId, "TAG");
 
         // then
-        workspaceTestUtils.logFolderStructure("after add tag to block");
-        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
+        workspaceTestFixture.logFolderStructure("after add tag to block");
+        workspaceTestFixture.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
 
     }
 

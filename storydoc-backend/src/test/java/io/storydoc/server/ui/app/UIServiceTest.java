@@ -1,7 +1,7 @@
 package io.storydoc.server.ui.app;
 
 import io.storydoc.server.TestBase;
-import io.storydoc.server.storydoc.StoryDocTestUtils;
+import io.storydoc.server.storydoc.StoryDocTestFixture;
 import io.storydoc.server.storydoc.app.StoryDocQueryService;
 import io.storydoc.server.storydoc.app.StoryDocService;
 import io.storydoc.server.storydoc.app.dto.ArtifactDTO;
@@ -15,7 +15,7 @@ import io.storydoc.server.timeline.domain.TimeLineCoordinate;
 import io.storydoc.server.timeline.domain.TimeLineItemId;
 import io.storydoc.server.timeline.domain.TimeLineModelCoordinate;
 import io.storydoc.server.ui.domain.*;
-import io.storydoc.server.workspace.WorkspaceTestUtils;
+import io.storydoc.server.workspace.WorkspaceTestFixture;
 import io.storydoc.server.workspace.domain.WorkspaceException;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ import static org.junit.Assert.assertNotNull;
 public class UIServiceTest extends TestBase {
 
     @Autowired
-    private StoryDocTestUtils storyDocTestUtils;
+    private StoryDocTestFixture storyDocTestFixture;
 
     @Autowired
     private TimeLineTestUtils timeLineTestUtils;
@@ -50,15 +50,15 @@ public class UIServiceTest extends TestBase {
     private UIQueryService uiQueryService;
 
     @Autowired
-    private WorkspaceTestUtils workspaceTestUtils;
+    private WorkspaceTestFixture workspaceTestFixture;
 
     @Autowired
-    private UITestUtils uiTestUtils;
+    private UITestFixture uiTestFixture;
 
     @Test
     public void createUIScenario() {
         // given a storydoc with a artifact block
-        BlockCoordinate coordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate coordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
         StoryDocId storyDocId = coordinate.getStoryDocId();
 
         // when I create a uiscenario artifact
@@ -67,9 +67,9 @@ public class UIServiceTest extends TestBase {
         UIScenarioCoordinate scenarioCoordinate = UIScenarioCoordinate.of(coordinate, uiId);
         assertNotNull(uiId);
 
-        workspaceTestUtils.logFolderStructure("after creating mock ui artifact ");
-        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
-        workspaceTestUtils.logResourceContent("mock ui ", uiStorage.getUIScenarioUrn(scenarioCoordinate));
+        workspaceTestFixture.logFolderStructure("after creating mock ui artifact ");
+        workspaceTestFixture.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
+        workspaceTestFixture.logResourceContent("mock ui ", uiStorage.getUIScenarioUrn(scenarioCoordinate));
 
         // then the artifact is added to the storydoc
         StoryDocDTO storyDocDTO = storyDocQueryService.getDocument(storyDocId);
@@ -108,8 +108,8 @@ public class UIServiceTest extends TestBase {
         ScreenShotCollectionId id = uiService.createScreenShotCollection(coordinate, screenshots_artifact_name);
         assertNotNull(id);
 
-        workspaceTestUtils.logFolderStructure("after creating mock ui artifact ");
-        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
+        workspaceTestFixture.logFolderStructure("after creating mock ui artifact ");
+        workspaceTestFixture.logResourceContent("storydoc", storyDocQueryService.getDocument(storyDocId).getUrn());
 
     }
 
@@ -117,7 +117,7 @@ public class UIServiceTest extends TestBase {
     public void addScreenShotToCollection() throws WorkspaceException {
         // given  a storydoc with an artifact block
         // given a storydoc with an artifact paragraph
-        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
 
         // given a screenshot collection artifact
         String screenshots_artifact_name = "screenshots";
@@ -131,8 +131,8 @@ public class UIServiceTest extends TestBase {
         String screenshot_name = "screenshot";
         ScreenShotId screenShotId = uiService.uploadScreenShotToCollection(collectionCoordinate, inputStream, screenshot_name);
 
-        workspaceTestUtils.logFolderStructure("after uploading screenshot");
-        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
+        workspaceTestFixture.logFolderStructure("after uploading screenshot");
+        workspaceTestFixture.logResourceContent("storydoc", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
 
         // then I can find it in the list of screenshots in the collection
 
@@ -146,7 +146,7 @@ public class UIServiceTest extends TestBase {
 
         // and then I can download it
         InputStream  inputStream2 = uiQueryService.getScreenshot(collectionCoordinate, screenShotId);
-        workspaceTestUtils.logBinaryInputstream(inputStream2);
+        workspaceTestFixture.logBinaryInputstream(inputStream2);
 
     }
 
@@ -154,7 +154,7 @@ public class UIServiceTest extends TestBase {
     public void removeScreenShotFromCollection() throws WorkspaceException {
         // given  a storydoc with an artifact block
         // given a storydoc with an artifact paragraph
-        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
 
         // given a screenshot collection artifact
         String screenshots_artifact_name = "screenshots";
@@ -166,14 +166,14 @@ public class UIServiceTest extends TestBase {
         String screenshot_name = "screenshot";
         ScreenShotId screenShotId = uiService.uploadScreenShotToCollection(collectionCoordinate, inputStream, screenshot_name);
 
-        workspaceTestUtils.logFolderStructure("before removing screenshot");
-        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
+        workspaceTestFixture.logFolderStructure("before removing screenshot");
+        workspaceTestFixture.logResourceContent("storydoc", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
 
         // when I remove the screenshot from the collection
         uiService.removeScreenShotFromCollection(ScreenshotCoordinate.of(collectionCoordinate, screenShotId));
 
-        workspaceTestUtils.logFolderStructure("after removing screenshot");
-        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
+        workspaceTestFixture.logFolderStructure("after removing screenshot");
+        workspaceTestFixture.logResourceContent("storydoc", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
 
         // then the screenshot is no longer part of the collection
         ScreenShotCollectionDTO dto = uiQueryService.getScreenShotCollection(collectionCoordinate);
@@ -187,7 +187,7 @@ public class UIServiceTest extends TestBase {
     public void renameScreenShot() throws WorkspaceException {
         // given  a storydoc with an artifact block
         // given a storydoc with an artifact paragraph
-        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
 
         // given a screenshot collection artifact
         String screenshots_artifact_name = "screenshots";
@@ -199,15 +199,15 @@ public class UIServiceTest extends TestBase {
         String screenshot_name_before = "screenshot_name_before";
         ScreenShotId screenShotId = uiService.uploadScreenShotToCollection(collectionCoordinate, inputStream, screenshot_name_before);
 
-        workspaceTestUtils.logFolderStructure("before renaming screenshot");
-        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
+        workspaceTestFixture.logFolderStructure("before renaming screenshot");
+        workspaceTestFixture.logResourceContent("storydoc", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
 
         // when I rename the screenshot
         String screenshot_name_after = "screenshot__name_after";
         uiService.renameScreenShotInCollection(ScreenshotCoordinate.of(collectionCoordinate, screenShotId), screenshot_name_after);
 
-        workspaceTestUtils.logFolderStructure("after renaming screenshot");
-        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
+        workspaceTestFixture.logFolderStructure("after renaming screenshot");
+        workspaceTestFixture.logResourceContent("storydoc", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
 
         // then the screenshot is renamed
         ScreenShotCollectionDTO dto = uiQueryService.getScreenShotCollection(collectionCoordinate);
@@ -221,11 +221,11 @@ public class UIServiceTest extends TestBase {
     @Test
     public void UIScenario_Has_Default_Associated_Snapshot_Collection () {
         // given a storydoc with an artifact paragraph
-        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
         // given a screenshot collection artifact in that paragraph
-        ScreenshotCollectionCoordinate collectionCoordinate = uiTestUtils.createScreenshotCollection(blockCoordinate);
+        ScreenshotCollectionCoordinate collectionCoordinate = uiTestFixture.createScreenshotCollection(blockCoordinate);
         // given  a screenshot is uploaded to the collection
-        ScreenShotId screenShotId = uiTestUtils.upoadScreenShotToCollection(collectionCoordinate);
+        ScreenShotId screenShotId = uiTestFixture.upoadScreenShotToCollection(collectionCoordinate);
 
         // when I create a UI scenario artifact in the same paragraph
         UIScenarioId uiScenarioId = uiService.createUIScenario(blockCoordinate, "uiscenario");
@@ -242,8 +242,8 @@ public class UIServiceTest extends TestBase {
         assertEquals(blockCoordinate.getStoryDocId(), collectionRefDTO.getBlockCoordinate().getStoryDocId());
         assertEquals(blockCoordinate.getBlockId(), collectionRefDTO.getBlockCoordinate().getBlockId());
 
-        workspaceTestUtils.logFolderStructure("after uploading screenshot");
-        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
+        workspaceTestFixture.logFolderStructure("after uploading screenshot");
+        workspaceTestFixture.logResourceContent("storydoc", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
 
     }
 
@@ -251,10 +251,10 @@ public class UIServiceTest extends TestBase {
     public void associate_timeline_to_ui_scenario() {
 
         // given a storydoc with an artifact paragraph
-        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
 
         // given a ui scenario
-        UIScenarioCoordinate scenarioCoordinate = uiTestUtils.createUIScenario(blockCoordinate);
+        UIScenarioCoordinate scenarioCoordinate = uiTestFixture.createUIScenario(blockCoordinate);
 
         // given a timeline model
         TimeLineModelCoordinate timeLineModelCoordinate = timeLineTestUtils.createTimeLineModel(blockCoordinate);
@@ -267,8 +267,8 @@ public class UIServiceTest extends TestBase {
         UIScenarioDTO dto = uiQueryService.getUIScenario(scenarioCoordinate);
         assertEquals(timeLineModelCoordinate, dto.getTimeLineModelCoordinate());
 
-        workspaceTestUtils.logFolderStructure("after setting timeline");
-        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
+        workspaceTestFixture.logFolderStructure("after setting timeline");
+        workspaceTestFixture.logResourceContent("storydoc", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
 
 
     }
@@ -277,16 +277,16 @@ public class UIServiceTest extends TestBase {
     public void add_screenshot_to_ui_scenario() {
 
         // given a storydoc with an artifact paragraph
-        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
 
         // given a screenshot collection artifact in that paragraph
-        ScreenshotCollectionCoordinate collectionCoordinate = uiTestUtils.createScreenshotCollection(blockCoordinate);
+        ScreenshotCollectionCoordinate collectionCoordinate = uiTestFixture.createScreenshotCollection(blockCoordinate);
 
         // given  a screenshot is uploaded to the collection
-        ScreenShotId screenShotId = uiTestUtils.upoadScreenShotToCollection(collectionCoordinate);
+        ScreenShotId screenShotId = uiTestFixture.upoadScreenShotToCollection(collectionCoordinate);
 
         // given a uiscenario artifact in the same paragraph
-        UIScenarioCoordinate scenarioCoordinate =  uiTestUtils.createUIScenario(blockCoordinate);
+        UIScenarioCoordinate scenarioCoordinate =  uiTestFixture.createUIScenario(blockCoordinate);
 
         // given a timeline model in the same paragraph
         TimeLineModelCoordinate timeLineModelCoordinate = timeLineTestUtils.createTimeLineModel(blockCoordinate);
@@ -315,17 +315,17 @@ public class UIServiceTest extends TestBase {
     @Test
     public void update_screenshot_in_ui_scenario() {
         // given a storydoc with an artifact paragraph
-        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
 
         // given a screenshot collection artifact in that paragraph
-        ScreenshotCollectionCoordinate collectionCoordinate = uiTestUtils.createScreenshotCollection(blockCoordinate);
+        ScreenshotCollectionCoordinate collectionCoordinate = uiTestFixture.createScreenshotCollection(blockCoordinate);
 
         // given  a screenshot is uploaded to the collection
-        ScreenShotId screenShotId = uiTestUtils.upoadScreenShotToCollection(collectionCoordinate);
+        ScreenShotId screenShotId = uiTestFixture.upoadScreenShotToCollection(collectionCoordinate);
         ScreenshotCoordinate screenshotCoordinate = ScreenshotCoordinate.of(collectionCoordinate, screenShotId);
 
         // given a uiscenario artifact in the same paragraph
-        UIScenarioCoordinate scenarioCoordinate =  uiTestUtils.createUIScenario(blockCoordinate);
+        UIScenarioCoordinate scenarioCoordinate =  uiTestFixture.createUIScenario(blockCoordinate);
 
         // given a timeline model in the same paragraph
         TimeLineModelCoordinate timeLineModelCoordinate = timeLineTestUtils.createTimeLineModel(blockCoordinate);
@@ -341,7 +341,7 @@ public class UIServiceTest extends TestBase {
         uiService.addScreenShotToUIScenario(scenarioCoordinate, screenshotCoordinate, timeLineItemId);
 
         // given  another screenshot is uploaded to the collection
-        ScreenShotId screenShotId2 = uiTestUtils.upoadScreenShotToCollection(collectionCoordinate);
+        ScreenShotId screenShotId2 = uiTestFixture.upoadScreenShotToCollection(collectionCoordinate);
         ScreenshotCoordinate screenshotCoordinate2 = ScreenshotCoordinate.of(collectionCoordinate, screenShotId2);
 
         // when I add the screenshot to the same timeline item in the UI scenario
@@ -360,17 +360,17 @@ public class UIServiceTest extends TestBase {
     @Test
     public void remove_screenshot_from_ui_scenario() {
         // given a storydoc with an artifact paragraph
-        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
 
         // given a screenshot collection artifact in that paragraph
-        ScreenshotCollectionCoordinate collectionCoordinate = uiTestUtils.createScreenshotCollection(blockCoordinate);
+        ScreenshotCollectionCoordinate collectionCoordinate = uiTestFixture.createScreenshotCollection(blockCoordinate);
 
         // given  a screenshot is uploaded to the collection
-        ScreenShotId screenShotId = uiTestUtils.upoadScreenShotToCollection(collectionCoordinate);
+        ScreenShotId screenShotId = uiTestFixture.upoadScreenShotToCollection(collectionCoordinate);
         ScreenshotCoordinate screenshotCoordinate = ScreenshotCoordinate.of(collectionCoordinate, screenShotId);
 
         // given a uiscenario artifact in the same paragraph
-        UIScenarioCoordinate scenarioCoordinate =  uiTestUtils.createUIScenario(blockCoordinate);
+        UIScenarioCoordinate scenarioCoordinate =  uiTestFixture.createUIScenario(blockCoordinate);
 
         // given a timeline model in the same paragraph
         TimeLineModelCoordinate timeLineModelCoordinate = timeLineTestUtils.createTimeLineModel(blockCoordinate);

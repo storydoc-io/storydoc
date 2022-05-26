@@ -2,7 +2,7 @@ package io.storydoc.server.code.app;
 
 import io.storydoc.server.TestBase;
 import io.storydoc.server.code.domain.CodeExecutionCoordinate;
-import io.storydoc.server.storydoc.StoryDocTestUtils;
+import io.storydoc.server.storydoc.StoryDocTestFixture;
 import io.storydoc.server.storydoc.app.dto.StoryDocDTO;
 import io.storydoc.server.storydoc.domain.BlockCoordinate;
 import org.junit.Test;
@@ -16,20 +16,20 @@ public class CodeServiceTest extends TestBase {
     CodeService codeService;
 
     @Autowired
-    StoryDocTestUtils storyDocTestUtils;
+    StoryDocTestFixture storyDocTestFixture;
 
 
     @Test
     public void create_code_execution() {
         // given a storydoc with a artifact block
-        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
 
         // when I create a code execution
         String name = "name";
         CodeExecutionCoordinate coordinate = codeService.createCodeExecution(blockCoordinate, name);
 
         // the artifact is part of the block
-        StoryDocDTO storyDocDTO = storyDocTestUtils.getStorydoc(blockCoordinate.getStoryDocId());
+        StoryDocDTO storyDocDTO = storyDocTestFixture.getStorydoc(blockCoordinate.getStoryDocId());
         assertEquals(1, storyDocDTO.getBlocks().get(0).getArtifacts().size());
 
     }

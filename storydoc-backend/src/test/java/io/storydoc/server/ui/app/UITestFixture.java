@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
 import java.io.InputStream;
 
 @Component
-public class UITestUtils {
+public class UITestFixture {
 
     private final UIService uiService;
 
-    public UITestUtils(UIService uiService) {
+    public UITestFixture(UIService uiService) {
         this.uiService = uiService;
     }
 
