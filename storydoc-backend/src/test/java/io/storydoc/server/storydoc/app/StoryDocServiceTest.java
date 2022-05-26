@@ -411,12 +411,12 @@ public class StoryDocServiceTest extends TestBase {
     @Test
     public void association() {
         // given a storydoc with an artifact block
-        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
         StoryDocId storyDocId = blockCoordinate.getStoryDocId();
 
         // given 2 artifacts
-        ArtifactCoordinate artifactCoordinate1 = storyDocTestUtils.add_artifact(blockCoordinate, "type-01");
-        ArtifactCoordinate artifactCoordinate2 = storyDocTestUtils.add_artifact(blockCoordinate, "type-02");
+        ArtifactCoordinate artifactCoordinate1 = storyDocTestFixture.add_artifact(blockCoordinate, "type-01");
+        ArtifactCoordinate artifactCoordinate2 = storyDocTestFixture.add_artifact(blockCoordinate, "type-02");
 
         // when I add an association
         String typeName = "association-type";

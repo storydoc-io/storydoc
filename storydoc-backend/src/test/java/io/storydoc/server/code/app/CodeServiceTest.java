@@ -8,7 +8,7 @@ import io.storydoc.server.storydoc.StoryDocTestFixture;
 import io.storydoc.server.storydoc.app.StoryDocQueryService;
 import io.storydoc.server.storydoc.app.dto.StoryDocDTO;
 import io.storydoc.server.storydoc.domain.BlockCoordinate;
-import io.storydoc.server.workspace.WorkspaceTestUtils;
+import io.storydoc.server.workspace.WorkspaceTestFixture;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,7 +26,7 @@ public class CodeServiceTest extends TestBase {
     StoryDocTestFixture storyDocTestFixture;
 
     @Autowired
-    WorkspaceTestUtils workspaceTestUtils;
+    WorkspaceTestFixture workspaceTestFixture;
 
     @Autowired
     StoryDocQueryService storyDocQueryService;
@@ -40,7 +40,7 @@ public class CodeServiceTest extends TestBase {
         String name = "name";
         SourceCodeConfigCoordinate coordinate = codeService.createSourceCodeConfig(blockCoordinate, name);
 
-        workspaceTestUtils.logResourceContent("after add code config", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
+        workspaceTestFixture.logResourceContent("after add code config", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
 
         // then the artifact is part of the storydoc
         StoryDocDTO storyDocDTO = storyDocTestFixture.getStorydoc(blockCoordinate.getStoryDocId());
@@ -141,7 +141,7 @@ public class CodeServiceTest extends TestBase {
 
         // when I associate the ccode exection with the sourcecode config
         codeService.setSourceConfigForExecution(codeExecutionCoordinate, sourceCodeConfigCoordinate);
-        workspaceTestUtils.logResourceContent("after association", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
+        workspaceTestFixture.logResourceContent("after association", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
 
         // I can find the associated config
         CodeTraceDTO codeTraceDTO =codeQueryService.getExecution(codeExecutionCoordinate);
