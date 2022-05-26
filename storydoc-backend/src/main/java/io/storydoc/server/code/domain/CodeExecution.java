@@ -13,7 +13,7 @@ public class CodeExecution {
         codeStorage.setSourceConfig(codeExecutionCoordinate, sourceCodeConfigCoordinate);
     }
 
-    public void setStitchDetails(CodeExecutionCoordinate coordinate, String stitchFile, String lineFrom, String lineTo) {
-        codeStorage.setStitchDetails(coordinate, stitchFile, lineFrom, lineTo);
+    public void setStitchDetails(CodeExecutionCoordinate coordinate, String stitchFile, String testClass, String testMethod) {
+        codeStorage.setStitchDetails(coordinate, stitchFile, testClass, testMethod);
     }
 }

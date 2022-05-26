@@ -61,7 +61,9 @@ public class CodeQueryService {
     private List<StitchLine> getStitchLineList(CodeExecution codeExecution)  {
         try {
             InputStream inputstream = new FileInputStream(codeExecution.getStitchFile());
-            StitchFileScannerNew logFileScanner = new StitchFileScannerNew(inputstream, codeExecution.getLineFrom(), codeExecution.getLineTo());
+            String lineFrom = String.format("TestScenario|TestEntered|{ \\\"testCaseName\\\": \\\"%s %s(%s)\\\"", codeExecution.getTestClass(), codeExecution.getTestMethod(), codeExecution.getTestClass());
+            String lineTo = String.format("TestScenario|TestFinished|{ \\\"testCaseName\\\": \\\"%s %s(%s)\\\"", codeExecution.getTestClass(), codeExecution.getTestMethod(), codeExecution.getTestClass());
+            StitchFileScannerNew logFileScanner = new StitchFileScannerNew(inputstream, lineFrom, lineTo);
             List<StitchLine> stitchLines = logFileScanner.run();
             return stitchLines;
         } catch (Exception e) {

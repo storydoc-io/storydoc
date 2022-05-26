@@ -12,7 +12,6 @@
 
     <name>stitch</name>
 
-    <groupId>io.storydoc</groupId>
     <artifactId>stitch</artifactId>
     <version>0.2.0-SNAPSHOT</version>
 

@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {CodeService} from "../code.service";
+import {CodeExecutionEnterEvent, CodeExecutionReturnEvent, CodeService, isCodeTestCaseBDDEvent, StitchEvent, TestCaseBDDEvent} from "../code.service";
 import {LinkService, ModalService} from "@storydoc/common";
 import {ActivatedRoute} from "@angular/router";
-import {CodeExecutionCoordinate} from "@storydoc/models";
+import {CodeExecutionCoordinate, StitchItemDto} from "@storydoc/models";
 import {CodeTraceConfigDialogData, CodeTraceConfigDialogSpec} from "./code-trace-configuration-dialog/code-trace-configuration-dialog.component";
 import {Subscription} from "rxjs";
 
@@ -69,7 +69,11 @@ export class CodeTracePageComponent implements OnInit, OnDestroy{
   }
 
   private confirmConfig(data: CodeTraceConfigDialogData) {
-    // this.codeService.configure...
+    this.codeService.setStitchDetails({
+      stitchFile: data.stitchFile,
+      testClass: data.testClass,
+      testMethod: data.testMethod
+    })
     this.modalService.close(this.configurationDialogId())
   }
 

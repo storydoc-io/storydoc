@@ -99,9 +99,9 @@ public class CodeServiceTest extends TestBase {
 
         // when I set the stitch details
         String stitchFile = "path/to/stitchfile";
-        String lineFrom = "line-from";
-        String lineTo = "line-to";
-        codeService.setStitchDetails(coordinate, stitchFile, lineFrom, lineTo);
+        String testClass = "test.com.MyClass";
+        String testMethod = "testMethod";
+        codeService.setStitchDetails(coordinate, stitchFile, testClass, testMethod);
     }
 
     @Test

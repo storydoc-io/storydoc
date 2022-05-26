@@ -1,9 +1,21 @@
 package io.storydoc.server.code.app;
 
+import io.storydoc.blueprint.BluePrint;
+import io.storydoc.blueprint.Classifier;
 import io.storydoc.server.code.domain.*;
 import io.storydoc.server.infra.IDGenerator;
+import io.storydoc.server.infra.StoryDocBluePrintFactory;
 import io.storydoc.server.storydoc.domain.BlockCoordinate;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import static java.util.function.Function.identity;
 
 @Service
 public class CodeService {
@@ -30,9 +42,9 @@ public class CodeService {
         return coordinate;
     }
 
-    public void setStitchDetails(CodeExecutionCoordinate coordinate, String stitchFile, String lineFrom, String lineTo) {
+    public void setStitchDetails(CodeExecutionCoordinate coordinate, String stitchFile, String testClass, String testMethod) {
         CodeExecution codeExecution = domainService.getCodeExecution(coordinate);
-        codeExecution.setStitchDetails(coordinate, stitchFile, lineFrom, lineTo);
+        codeExecution.setStitchDetails(coordinate, stitchFile, testClass, testMethod);
     }
 
     public SourceCodeDTO getSource(String className, SourceCodeConfigCoordinate configCoord) {
@@ -59,4 +71,29 @@ public class CodeService {
         codeExecution.setSourceConfig(codeExecutionCoordinate, sourceCodeConfigCoordinate);
     }
 
- }
+    private BluePrint bluePrint;
+
+    public BluePrint getBluePrint() {
+        if (bluePrint==null) {
+            StoryDocBluePrintFactory factory = new StoryDocBluePrintFactory();
+            bluePrint = factory.createBluePrint();
+        }
+        return bluePrint;
+    }
+
+    private Classifier classifier;
+
+    @SneakyThrows
+    public List<String> classify(String className) {
+        if (classifier==null) {
+            classifier = new Classifier(getBluePrint());
+        }
+        return classifier.classify(Class.forName(className));
+    }
+
+    public Map<String, List<String>> classifyMultiple(String[] classNames) {
+        return Arrays.stream(classNames)
+            .collect(Collectors.toMap(identity(), this::classify));
+    }
+
+}

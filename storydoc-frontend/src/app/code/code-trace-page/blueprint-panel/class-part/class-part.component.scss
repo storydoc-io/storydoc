@@ -1,0 +1,19 @@
+.container {
+  display: inline-block;
+  max-width: 220px;
+  padding: 0;
+  background-color: rgb(213,250,205);
+  border-radius: 2px 2px 2px 2px;
+  border: 1px solid grey;
+}
+
+.title {
+  font-weight: bold;
+  text-align: center;
+  border-bottom: 1px solid grey;
+  padding: 10px;
+}
+
+.body {
+  padding: 10px;
+}

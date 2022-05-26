@@ -1,0 +1,13 @@
+<div class="container">
+  <span class="title">{{bluePrintPart.name}}</span>
+  <div class="body">
+    <ng-container *ngFor="let subElem of bluePrintPart.subElements">
+      <ng-container *ngIf="subElem.type==='BluePrint'">
+        <app-blue-print-part [bluePrintPart]="subElem"></app-blue-print-part>
+      </ng-container>
+      <ng-container *ngIf="subElem.type==='ClassElem'">
+        <app-class-part [classPart]="subElem"></app-class-part>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

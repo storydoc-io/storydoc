@@ -45,9 +45,20 @@
 </ng-template>
 
 <ng-template #sourceCodePanel>
-  <div style="max-height: 90vh; overflow-y: scroll;">
-    <app-source-code-panel></app-source-code-panel>
-  </div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6">
+          <div style="max-height: 90vh; overflow-y: scroll;">
+            <app-blueprint-panel></app-blueprint-panel>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div style="max-height: 90vh; overflow-y: scroll;">
+          <app-source-code-panel></app-source-code-panel>
+          </div>
+        </div>
+      </div>
+    </div>
 </ng-template>
 
 <ng-template #loading>loading...</ng-template>

@@ -8,7 +8,10 @@ import { CodeTracePanelComponent } from './code-trace-page/code-trace-panel/code
 import { CodeConfigurationPageComponent } from './code-configuration-page/code-configuration-page.component';
 import { CodeConfigurationDialogComponent } from './code-configuration-page/code-configuration-dialog/code-configuration-dialog.component';
 import { CodeTraceConfigurationDialogComponent } from './code-trace-page/code-trace-configuration-dialog/code-trace-configuration-dialog.component';
-
+import { BlueprintPanelComponent } from './code-trace-page/blueprint-panel/blueprint-panel.component';
+import { BluePrintPartComponent } from "./code-trace-page/blueprint-panel/blue-print-part/blue-print-part.component";
+import { ClassPartComponent } from "./code-trace-page/blueprint-panel/class-part/class-part.component";
+import { DiagramPartComponent} from "./code-trace-page/blueprint-panel/diagram-part/diagram-part.component";
 
 @NgModule({
   declarations: [
@@ -18,6 +21,10 @@ import { CodeTraceConfigurationDialogComponent } from './code-trace-page/code-tr
     CodeConfigurationPageComponent,
     CodeConfigurationDialogComponent,
     CodeTraceConfigurationDialogComponent,
+    BlueprintPanelComponent,
+    BluePrintPartComponent,
+    ClassPartComponent,
+    DiagramPartComponent
   ],
   imports: [
     CoreModule,

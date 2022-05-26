@@ -9,6 +9,7 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
+import { BluePrint } from '../models/blue-print';
 import { CodeExecutionCoordinate } from '../models/code-execution-coordinate';
 import { CodeTraceDto } from '../models/code-trace-dto';
 import { SourceCodeConfigCoordinate } from '../models/source-code-config-coordinate';
@@ -28,6 +29,57 @@ export class CodeRestControllerService extends BaseService {
     http: HttpClient
   ) {
     super(config, http);
+  }
+
+  /**
+   * Path part for operation getBluePrintUsingGet
+   */
+  static readonly GetBluePrintUsingGetPath = '/api/code/blueprint';
+
+  /**
+   * getBluePrint.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getBluePrintUsingGet()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getBluePrintUsingGet$Response(params?: {
+  }): Observable<StrictHttpResponse<BluePrint>> {
+
+    const rb = new RequestBuilder(this.rootUrl, CodeRestControllerService.GetBluePrintUsingGetPath, 'get');
+    if (params) {
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<BluePrint>;
+      })
+    );
+  }
+
+  /**
+   * getBluePrint.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getBluePrintUsingGet$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getBluePrintUsingGet(params?: {
+  }): Observable<BluePrint> {
+
+    return this.getBluePrintUsingGet$Response(params).pipe(
+      map((r: StrictHttpResponse<BluePrint>) => r.body as BluePrint)
+    );
   }
 
   /**
@@ -311,6 +363,123 @@ export class CodeRestControllerService extends BaseService {
   }): Observable<void> {
 
     return this.setConfigForCodeExecutionUsingPost$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation setStitchDetailsForCodeExecutionUsingPost
+   */
+  static readonly SetStitchDetailsForCodeExecutionUsingPostPath = '/api/code/codeexecution/stitch';
+
+  /**
+   * setStitchDetailsForCodeExecution.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `setStitchDetailsForCodeExecutionUsingPost()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  setStitchDetailsForCodeExecutionUsingPost$Response(params: {
+
+    /**
+     * execStoryDocId
+     */
+    execStoryDocId: string;
+
+    /**
+     * execBlockId
+     */
+    execBlockId: string;
+
+    /**
+     * codeExecutionId
+     */
+    codeExecutionId: string;
+
+    /**
+     * stitchFile
+     */
+    stitchFile: string;
+
+    /**
+     * testClass
+     */
+    testClass: string;
+
+    /**
+     * testMethod
+     */
+    testMethod: string;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, CodeRestControllerService.SetStitchDetailsForCodeExecutionUsingPostPath, 'post');
+    if (params) {
+      rb.query('execStoryDocId', params.execStoryDocId, {"style":"form"});
+      rb.query('execBlockId', params.execBlockId, {"style":"form"});
+      rb.query('codeExecutionId', params.codeExecutionId, {"style":"form"});
+      rb.query('stitchFile', params.stitchFile, {"style":"form"});
+      rb.query('testClass', params.testClass, {"style":"form"});
+      rb.query('testMethod', params.testMethod, {"style":"form"});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * setStitchDetailsForCodeExecution.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `setStitchDetailsForCodeExecutionUsingPost$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  setStitchDetailsForCodeExecutionUsingPost(params: {
+
+    /**
+     * execStoryDocId
+     */
+    execStoryDocId: string;
+
+    /**
+     * execBlockId
+     */
+    execBlockId: string;
+
+    /**
+     * codeExecutionId
+     */
+    codeExecutionId: string;
+
+    /**
+     * stitchFile
+     */
+    stitchFile: string;
+
+    /**
+     * testClass
+     */
+    testClass: string;
+
+    /**
+     * testMethod
+     */
+    testMethod: string;
+  }): Observable<void> {
+
+    return this.setStitchDetailsForCodeExecutionUsingPost$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }

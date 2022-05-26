@@ -1,30 +1,22 @@
-<div *ngIf="codeTrace$ | async as codeTrace" class="code-trace-panel-container">
-  <!--
-<ul class="list-group">
-  <ng-container *ngFor="let indentedItem of indentedItems, let idx = index">
-    <ng-container *ngVar="indentedItem.indent as indent">
-      <li class="list-group-item"
-          [ngStyle]="{'margin-left': 10*indent +'px'}"
-          [class.bdd] = "isBDDEvent(indentedItem.event)"
-          [class.active]="isSelected(indentedItem.event)" (click)="selectItem(indentedItem.event)">
-              {{ getLabel(indentedItem.event) }}
-      </li>
-    </ng-container>
-  </ng-container>
-  </ul>
-  -->
-  <ng-container *ngIf="nodes">
-    <tree-root [nodes]="nodes">
+<div *ngIf="treeNodes$ | async as treeNodes" class="code-trace-panel-container">
+    <tree-root [nodes]="treeNodes" (focus)="selectNode($event)">
       <ng-template #treeNodeTemplate let-node let-index="index">
+        <ng-container *ngIf="node && node.data.event && isCodeEvent(node.data.event)" >
+          <ng-container *ngIf="isCodeExecutionEnterEvent(node.data.event)" >
+            <div>
+              <span>{{ node.data.name }}</span>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="isCodeExecutionReturnEvent(node.data.event)" >
+            <div style="height: 1px;">
+            </div>
+          </ng-container>
+        </ng-container>
         <ng-container *ngIf="node && node.data.event && isBDDEvent(node.data.event)" >
           <div style="background-color: lightcoral">
             <span>{{ node.data.name }}</span>
           </div>
         </ng-container>
-        <ng-container *ngIf="!(node && node.data.event && isBDDEvent(node.data.event))" >
-          <span>{{ node.data.name }}</span>
-        </ng-container>
       </ng-template>
     </tree-root>
-  </ng-container>
 </div>

@@ -1,5 +1,6 @@
 package io.storydoc.server.code.app;
 
+import io.storydoc.blueprint.BluePrint;
 import io.storydoc.server.code.app.stitch.CodeTraceDTO;
 import io.storydoc.server.code.domain.CodeExecutionCoordinate;
 import io.storydoc.server.code.domain.CodeExecutionId;
@@ -10,6 +11,9 @@ import io.storydoc.server.storydoc.domain.BlockId;
 import io.storydoc.server.storydoc.domain.StoryDocId;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/code")
@@ -45,6 +49,14 @@ public class CodeRestController {
         codeService.setSourceConfigForExecution(codeExecutionCoordinate, sourceCodeConfigCoordinate);
     }
 
+    @PostMapping(value = "/codeexecution/stitch", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void setStitchDetailsForCodeExecution(@RequestParam("execStoryDocId") StoryDocId execStoryDocId, @RequestParam("execBlockId") BlockId execBlockId, @RequestParam("codeExecutionId") CodeExecutionId codeExecutionId,
+                                                 @RequestParam("stitchFile") String stitchFile, @RequestParam("testClass") String testClass, @RequestParam("testMethod") String testMethod
+    ) {
+        CodeExecutionCoordinate codeExecutionCoordinate  = CodeExecutionCoordinate.of(BlockCoordinate.of(execStoryDocId, execBlockId), codeExecutionId);
+        codeService.setStitchDetails(codeExecutionCoordinate, stitchFile, testClass, testMethod);
+    }
+
     @GetMapping(value = "/source", produces = MediaType.APPLICATION_JSON_VALUE)
     public SourceCodeDTO source(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId, @RequestParam("sourceCodeConfigId") SourceCodeConfigId sourceCodeConfigId, String className) {
         SourceCodeConfigCoordinate configCoordinate = SourceCodeConfigCoordinate.of(BlockCoordinate.of(storyDocId, blockId), sourceCodeConfigId);
@@ -67,6 +79,21 @@ public class CodeRestController {
     public void setSourcePath(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId, @RequestParam("sourceCodeConfigId") SourceCodeConfigId sourceCodeConfigId, @RequestParam("path") String path) {
         BlockCoordinate blockCoordinate = BlockCoordinate.of(storyDocId, blockId);
         codeService.setSourcePath(SourceCodeConfigCoordinate.of(blockCoordinate, sourceCodeConfigId), path);
+    }
+
+    @GetMapping(value="/blueprint" , produces = MediaType.APPLICATION_JSON_VALUE)
+    public BluePrint getBluePrint() {
+        return codeService.getBluePrint();
+    }
+
+    @GetMapping(value="/classify" , produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<String> classify(String className) {
+        return codeService.classify(className);
+    }
+
+    @PostMapping(value="/classifymultiple" , produces = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, List<String>> classifyMultiple(@RequestBody String[] classNames) {
+        return codeService.classifyMultiple(classNames);
     }
 
 }

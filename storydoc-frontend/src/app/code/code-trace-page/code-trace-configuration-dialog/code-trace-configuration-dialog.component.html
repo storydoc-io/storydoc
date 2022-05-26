@@ -6,7 +6,26 @@
     </div>
     <div class="modal-body">
       <form [formGroup]="formGroup">
-        <button type="button" class="btn btn-primary" (click)="selectCodeConfigArtifact()">Select...</button>
+        <div class="mb-3">
+          <label class="form-label">Sourcecode location</label>
+          <button type="button" class="btn btn-primary" (click)="selectCodeConfigArtifact()">Select...</button>
+        </div>
+        <div class="mb-3">
+          <label for="stitchFile" class="form-label">Stitch File Location</label>
+          <input formControlName="stitchFile" type="text" class="form-control">
+          <div id="stitchFile" class="form-text">Enter location of the stitch file.</div>
+        </div>
+        <div class="mb-3">
+          <label for="testClass" class="form-label">Test Class Name</label>
+          <input formControlName="testClass" type="text" class="form-control">
+          <div id="testClass" class="form-text">Enter test class name.</div>
+        </div>
+        <div class="mb-3">
+          <label for="testMethod" class="form-label">Test Method Name</label>
+          <input formControlName="testMethod" type="text" class="form-control">
+          <div id="testMethod" class="form-text">Enter test method name.</div>
+        </div>
+
       </form>
     </div>
     <div class="modal-footer">

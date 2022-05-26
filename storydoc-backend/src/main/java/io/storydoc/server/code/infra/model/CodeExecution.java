@@ -13,7 +13,7 @@ public class CodeExecution implements Artifact {
 
     private CodeExecutionId id;
     private String stitchFile;
-    private String lineFrom;
-    private String lineTo;
+    private String testClass;
+    private String testMethod;
 
 }

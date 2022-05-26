@@ -48,11 +48,11 @@ public class CodeStorageImpl implements CodeStorage {
     }
 
     @Override
-    public void setStitchDetails(CodeExecutionCoordinate coordinate, String stitchFile, String lineFrom, String lineTo) {
+    public void setStitchDetails(CodeExecutionCoordinate coordinate, String stitchFile, String testClass, String testMethod) {
         CodeExecution codeExecution = load(coordinate);
         codeExecution.setStitchFile(stitchFile);
-        codeExecution.setLineFrom(lineFrom);
-        codeExecution.setLineTo(lineTo);
+        codeExecution.setTestClass(testClass);
+        codeExecution.setTestMethod(testMethod);
         save(coordinate, codeExecution);
     }
 

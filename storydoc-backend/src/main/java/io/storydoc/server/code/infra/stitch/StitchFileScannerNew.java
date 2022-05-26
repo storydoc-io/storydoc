@@ -67,7 +67,7 @@ public class StitchFileScannerNew {
 
         if (isBeginOfSpan(stitchLine)) {
             stack.peek().add(stitchLine);
-            System.out.println("  ".repeat(stack.size()) + "begin span: " + stitchLine);
+           // System.out.println("  ".repeat(stack.size()) + "begin span: " + stitchLine);
             stack.push(stitchLine.getChildren());
         }
         else if (isEndOfSpan(stitchLine)) {
@@ -75,17 +75,17 @@ public class StitchFileScannerNew {
              if (stitchLine.getAttributes().get("cid")!= null) {
                  StitchLine lastLine = stack.peek().get(stack.peek().size()-1);
                  if (!lastLine.getAttributes().get("cid").equals(stitchLine.getAttributes().get("cid"))){
-                     System.out.println("  ".repeat(stack.size()) + "=====> not equal!!!! " + stitchLine.getAttributes().get("cid") + " " + lastLine.getAttributes().get("cid"));
+                     //System.out.println("  ".repeat(stack.size()) + "=====> not equal!!!! " + stitchLine.getAttributes().get("cid") + " " + lastLine.getAttributes().get("cid"));
                      stack.pop();
                  }
 
              }
 
             stack.peek().add(stitchLine);
-            System.out.println("  ".repeat(stack.size()) + "end span: " + stitchLine);
+            //System.out.println("  ".repeat(stack.size()) + "end span: " + stitchLine);
         } else {
             stack.peek().add(stitchLine);
-            System.out.println("  ".repeat(stack.size()) + "simple add: " + stitchLine);
+            //System.out.println("  ".repeat(stack.size()) + "simple add: " + stitchLine);
         }
 
     }
