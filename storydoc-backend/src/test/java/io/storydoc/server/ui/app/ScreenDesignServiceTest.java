@@ -1,7 +1,7 @@
 package io.storydoc.server.ui.app;
 
 import io.storydoc.server.TestBase;
-import io.storydoc.server.storydoc.StoryDocTestUtils;
+import io.storydoc.server.storydoc.StoryDocTestFixture;
 import io.storydoc.server.storydoc.app.StoryDocQueryService;
 import io.storydoc.server.storydoc.app.dto.BlockDTO;
 import io.storydoc.server.storydoc.app.dto.StoryDocDTO;
@@ -10,7 +10,7 @@ import io.storydoc.server.storydoc.domain.StoryDocId;
 import io.storydoc.server.ui.app.screendesign.*;
 import io.storydoc.server.ui.domain.screendesign.SDComponentId;
 import io.storydoc.server.ui.domain.screendesign.ScreenDesignCoordinate;
-import io.storydoc.server.workspace.WorkspaceTestUtils;
+import io.storydoc.server.workspace.WorkspaceTestFixture;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 public class ScreenDesignServiceTest extends TestBase {
 
     @Autowired
-    private StoryDocTestUtils storyDocTestUtils;
+    private StoryDocTestFixture storyDocTestFixture;
 
     @Autowired
     private StoryDocQueryService storyDocQueryService;
@@ -33,21 +33,21 @@ public class ScreenDesignServiceTest extends TestBase {
     private ScreenDesignQueryService screenDesignQueryService;
 
     @Autowired
-    private WorkspaceTestUtils workspaceTestUtils;
+    private WorkspaceTestFixture workspaceTestFixture;
 
     @Test
     public void create_screen_design() {
         // given a storydoc with a artifact block
-        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
         StoryDocId storyDocId = blockCoordinate.getStoryDocId();
 
         // when I create a screen design artifact
         String name = "screendesign artifact";
         ScreenDesignCoordinate screenDesignCoordinate = screenDesignService.createScreenDesign(blockCoordinate, name);
 
-        workspaceTestUtils.logFolderStructure("after uploading screenshot");
-        workspaceTestUtils.logResourceContent("storydoc", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
-        workspaceTestUtils.logResourceContent("screendesign", storyDocQueryService.getArtifactUrn(screenDesignCoordinate.asArtifactCoordinate()));
+        workspaceTestFixture.logFolderStructure("after uploading screenshot");
+        workspaceTestFixture.logResourceContent("storydoc", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
+        workspaceTestFixture.logResourceContent("screendesign", storyDocQueryService.getArtifactUrn(screenDesignCoordinate.asArtifactCoordinate()));
 
         // then the artifact is added to the storydoc
         StoryDocDTO storyDocDTO = storyDocQueryService.getDocument(storyDocId);
@@ -72,7 +72,7 @@ public class ScreenDesignServiceTest extends TestBase {
     @Test
     public void add_component_to_container() {
         // given a storydoc with a artifact block
-        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
         StoryDocId storyDocId = blockCoordinate.getStoryDocId();
 
         // given a screen design artifact
@@ -84,7 +84,7 @@ public class ScreenDesignServiceTest extends TestBase {
         String type = "BUTTON";
         SDComponentId componentId = screenDesignService.addComponent(screenDesignCoordinate, rootContainerId, type, 0, 0);
 
-        workspaceTestUtils.logResourceContent("screendesign after add", storyDocQueryService.getArtifactUrn(screenDesignCoordinate.asArtifactCoordinate()));
+        workspaceTestFixture.logResourceContent("screendesign after add", storyDocQueryService.getArtifactUrn(screenDesignCoordinate.asArtifactCoordinate()));
 
         // Then the component belongs to the container
         ScreenDesignDTO dto = screenDesignQueryService.getScreenDesign(screenDesignCoordinate);

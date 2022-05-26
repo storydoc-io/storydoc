@@ -13,11 +13,11 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class WorkspaceTestUtils {
+public class WorkspaceTestFixture {
 
     private final WorkspaceQueryService queryService;
 
-    public WorkspaceTestUtils(WorkspaceQueryService queryService) {
+    public WorkspaceTestFixture(WorkspaceQueryService queryService) {
         this.queryService = queryService;
     }
 

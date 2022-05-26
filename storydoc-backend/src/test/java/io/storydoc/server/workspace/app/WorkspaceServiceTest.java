@@ -1,7 +1,7 @@
 package io.storydoc.server.workspace.app;
 
 import io.storydoc.server.TestBase;
-import io.storydoc.server.workspace.WorkspaceTestUtils;
+import io.storydoc.server.workspace.WorkspaceTestFixture;
 import io.storydoc.server.workspace.app.dto.FolderDTO;
 import io.storydoc.server.workspace.domain.FolderURN;
 import org.junit.Before;
@@ -22,11 +22,11 @@ public class WorkspaceServiceTest extends TestBase {
     @Autowired
     private WorkspaceService workspaceService;
 
-    private WorkspaceTestUtils utils;
+    private WorkspaceTestFixture utils;
 
     @Before
     public void setup() {
-        utils = new WorkspaceTestUtils(workspaceQueryService);
+        utils = new WorkspaceTestFixture(workspaceQueryService);
     }
 
     @Test

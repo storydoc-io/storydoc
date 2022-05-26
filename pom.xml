@@ -9,6 +9,7 @@
     <version>0.2.0-SNAPSHOT</version>
     <modules>
         <module>stitch</module>
+        <module>fabric</module>
         <module>storydoc-backend</module>
         <module>storydoc-frontend</module>
         <module>storydoc-server-pe</module>
@@ -25,6 +26,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>io.storydoc</groupId>
+                <artifactId>fabric</artifactId>
+                <version>0.2.0-SNAPSHOT</version>
+            </dependency>
             <dependency>
                 <groupId>io.storydoc</groupId>
                 <artifactId>stitch</artifactId>

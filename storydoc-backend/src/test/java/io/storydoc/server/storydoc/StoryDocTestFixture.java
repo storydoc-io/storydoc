@@ -1,158 +1,49 @@
 package io.storydoc.server.storydoc;
 
-import io.storydoc.server.storydoc.infra.store.model.*;
-import io.storydoc.server.workspace.domain.FolderURN;
-import io.storydoc.server.workspace.domain.ResourceUrn;
+import io.storydoc.server.storydoc.app.StoryDocQueryService;
+import io.storydoc.server.storydoc.app.StoryDocService;
+import io.storydoc.server.storydoc.app.dto.StoryDocDTO;
+import io.storydoc.server.storydoc.domain.*;
+import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
+@Component
 public class StoryDocTestFixture {
 
-    public StoryDoc a_main_successs_scenario() {
-        StoryDoc storyDoc = new StoryDoc();
-        storyDoc.setId(UUID.randomUUID().toString());
-        storyDoc.setName("Add a visit for a pet");
+    private final StoryDocService storyDocService;
 
-        List<Block> docBlocks = new ArrayList<>();
-        {
-            Section analysisSection = new Section();
-            analysisSection.setId(UUID.randomUUID().toString());
-            analysisSection.setName("Analysis");
-            docBlocks.add(analysisSection);
+    private final StoryDocQueryService storyDocQueryService;
 
-            List analysisSectionBlocks = new ArrayList();
-            analysisSection.setBlocks(analysisSectionBlocks);
-
-            {
-                ArtifactBlock mockUI = new ArtifactBlock();
-                mockUI.setId("mock-ui");
-                mockUI.setBlockType("ARTIFACT");
-                mockUI.setName("Mock UI");
-                analysisSectionBlocks.add(mockUI);
-
-                List<Artifact> artifacts = new ArrayList<>();
-                mockUI.setArtifacts(artifacts);
-                {
-                    Artifact artifact = new Artifact();
-                    artifact.setArtifactId("mock-ui-01");
-                    artifact.setArtifactType("UI");
-                    artifact.setName("home screen");
-                    artifact.setUrn(new ResourceUrn(new FolderURN(new ArrayList<>()), "home.png"));
-                    artifacts.add(artifact);
-                }
-                {
-                    Artifact artifact = new Artifact();
-                    artifact.setArtifactId("mock-ui-02");
-                    artifact.setArtifactType("UI");
-                    artifact.setName("owners");
-                    artifact.setUrn(new ResourceUrn(new FolderURN(new ArrayList<>()), "owner-information.png"));
-                    artifacts.add(artifact);
-                }
-                {
-                    Artifact artifact = new Artifact();
-                    artifact.setArtifactId("mock-ui-03");
-                    artifact.setArtifactType("UI");
-                    artifact.setName("create visit");
-                    artifact.setUrn(new ResourceUrn(new FolderURN(new ArrayList<>()), "analysis/new visit - design.png"));
-                    artifacts.add(artifact);
-                }
-            }
-            {
-                ArtifactBlock uiScenario = new ArtifactBlock();
-                uiScenario.setId(UUID.randomUUID().toString());
-                uiScenario.setBlockType("ARTIFACT");
-                uiScenario.setName("UI Scenarios");
-                analysisSectionBlocks.add(uiScenario);
-
-                List<Artifact> artifacts = new ArrayList<>();
-                uiScenario.setArtifacts(artifacts);
-                {
-                    Artifact artifact = new Artifact();
-                    artifact.setArtifactId("ui-scenario-01");
-                    artifact.setArtifactType("UI-SCENARIO");
-                    artifact.setName("main flow");
-                    artifact.setUrn(new ResourceUrn(new FolderURN(new ArrayList<>()), "home.png"));
-                    artifacts.add(artifact);
-                }
-
-            }
-
-
-        }
-
-        {
-            Section implSection = new Section();
-            implSection.setId(UUID.randomUUID().toString());
-            implSection.setName("Implementation");
-            docBlocks.add(implSection);
-
-            List implSectionBlocks = new ArrayList();
-            implSection.setBlocks(implSectionBlocks);
-
-            {
-                ArtifactBlock integrationTest = new ArtifactBlock();
-                integrationTest.setId(UUID.randomUUID().toString());
-                integrationTest.setBlockType("ARTIFACT");
-                integrationTest.setName("Integration Test");
-                implSectionBlocks.add(integrationTest);
-
-                List<Artifact> artifacts = new ArrayList<>();
-                integrationTest.setArtifacts(artifacts);
-                {
-                    Artifact artifact = new Artifact();
-                    artifact.setArtifactId("db-connection");
-                    artifact.setArtifactType("DB-CONNECTION-SETTINGS");
-                    artifact.setName("db connection config");
-                    artifacts.add(artifact);
-                }
-                {
-                    Artifact artifact = new Artifact();
-                    artifact.setArtifactId("db-snapshot");
-                    artifact.setArtifactType("DB-SNAPSHOT");
-                    artifact.setName("db state before");
-                    artifacts.add(artifact);
-                }
-                {
-                    Artifact artifact = new Artifact();
-                    artifact.setArtifactId("db-snapshot-02");
-                    artifact.setArtifactType("DB-SNAPSHOT");
-                    artifact.setName("db state after");
-                    artifacts.add(artifact);
-                }
-                {
-                    Artifact artifact = new Artifact();
-                    artifact.setArtifactId("test-spec");
-                    artifact.setArtifactType("TEST-SPEC");
-                    artifact.setName("test script");
-                    artifacts.add(artifact);
-                }
-
-            }
-            {
-                ArtifactBlock integrationTest = new ArtifactBlock();
-                integrationTest.setId(UUID.randomUUID().toString());
-                integrationTest.setBlockType("ARTIFACT");
-                integrationTest.setName("Screen implementation");
-                implSectionBlocks.add(integrationTest);
-
-                List<Artifact> artifacts = new ArrayList<>();
-                integrationTest.setArtifacts(artifacts);
-                {
-                    Artifact artifact = new Artifact();
-                    artifact.setArtifactId("screen");
-                    artifact.setArtifactType("UI");
-                    artifact.setUrn(new ResourceUrn(new FolderURN(new ArrayList<>()), "home.png"));
-                    artifact.setName("visit screen - impl");
-                    artifacts.add(artifact);
-                }
-            }
-
-        }
-
-        storyDoc.setBlocks(docBlocks);
-        return storyDoc;
+    public StoryDocTestFixture(StoryDocService storyDocService, StoryDocQueryService storyDocQueryService) {
+        this.storyDocService = storyDocService;
+        this.storyDocQueryService = storyDocQueryService;
     }
 
+    public BlockCoordinate create_storydoc_with_artifact_block() {
+        StoryDocId storyDocId = create_storydoc();
+        return add_artifact_block(storyDocId);
+    }
+
+    public BlockCoordinate add_artifact_block(StoryDocId storyDocId) {
+        BlockId blockId = storyDocService.addArtifactBlock(storyDocId, "block_" + UUID.randomUUID());
+        return BlockCoordinate.of(storyDocId, blockId);
+    }
+
+    public StoryDocId create_storydoc() {
+        String story_name = "story_" + UUID.randomUUID();
+        return storyDocService.createDocument(story_name);
+    }
+
+    public ArtifactCoordinate add_artifact(BlockCoordinate blockCoordinate) {
+        ArtifactId artifactId = new ArtifactId("artifact-"+UUID.randomUUID());
+        String name = "name-" + artifactId.getId();
+        String type= "test-type";
+        storyDocService.addArtifact(blockCoordinate, artifactId, type, name);
+        return ArtifactCoordinate.of(blockCoordinate, artifactId);
+    }
+
+    public StoryDocDTO getStorydoc(StoryDocId storyDocId) {
+        return storyDocQueryService.getDocument(storyDocId);
+    }
 }

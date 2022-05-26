@@ -4,7 +4,7 @@ import io.storydoc.server.TestBase;
 import io.storydoc.server.code.app.stitch.CodeTraceDTO;
 import io.storydoc.server.code.domain.CodeExecutionCoordinate;
 import io.storydoc.server.code.domain.SourceCodeConfigCoordinate;
-import io.storydoc.server.storydoc.StoryDocTestUtils;
+import io.storydoc.server.storydoc.StoryDocTestFixture;
 import io.storydoc.server.storydoc.app.StoryDocQueryService;
 import io.storydoc.server.storydoc.app.dto.StoryDocDTO;
 import io.storydoc.server.storydoc.domain.BlockCoordinate;
@@ -23,7 +23,7 @@ public class CodeServiceTest extends TestBase {
     CodeQueryService codeQueryService;
 
     @Autowired
-    StoryDocTestUtils storyDocTestUtils;
+    StoryDocTestFixture storyDocTestFixture;
 
     @Autowired
     WorkspaceTestUtils workspaceTestUtils;
@@ -34,7 +34,7 @@ public class CodeServiceTest extends TestBase {
     @Test
     public void create_sourcecode_config() {
         // given a storydoc with a artifact block
-        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
 
         // when I create a code config
         String name = "name";
@@ -43,7 +43,7 @@ public class CodeServiceTest extends TestBase {
         workspaceTestUtils.logResourceContent("after add code config", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
 
         // then the artifact is part of the storydoc
-        StoryDocDTO storyDocDTO = storyDocTestUtils.getStorydoc(blockCoordinate.getStoryDocId());
+        StoryDocDTO storyDocDTO = storyDocTestFixture.getStorydoc(blockCoordinate.getStoryDocId());
         assertEquals(1, storyDocDTO.getBlocks().get(0).getArtifacts().size());
 
         // and then I get the config  from its coordinate
@@ -57,7 +57,7 @@ public class CodeServiceTest extends TestBase {
     @Test
     public void set_source_code_path() {
         // given a storydoc with a artifact block
-        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
 
         // given a sourcecode config
         String name = "name";
@@ -76,14 +76,14 @@ public class CodeServiceTest extends TestBase {
     @Test
     public void create_code_execution() {
         // given a storydoc with a artifact block
-        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
 
         // when I create a code execution
         String name = "name";
         CodeExecutionCoordinate coordinate = codeService.createCodeExecution(blockCoordinate, name);
 
         // the artifact is part of the block
-        StoryDocDTO storyDocDTO = storyDocTestUtils.getStorydoc(blockCoordinate.getStoryDocId());
+        StoryDocDTO storyDocDTO = storyDocTestFixture.getStorydoc(blockCoordinate.getStoryDocId());
         assertEquals(1, storyDocDTO.getBlocks().get(0).getArtifacts().size());
 
     }
@@ -91,7 +91,7 @@ public class CodeServiceTest extends TestBase {
     @Test
     public void set_stitch_details() {
         // given a storydoc with a artifact block
-        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
 
         // given a code execution
         String name = "name";
@@ -107,7 +107,7 @@ public class CodeServiceTest extends TestBase {
     @Test
     public void parse_stitch_file() {
         // given a storydoc with a artifact block
-        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
 
         // given a code execution
         String name = "name";
@@ -129,7 +129,7 @@ public class CodeServiceTest extends TestBase {
         @Test
     public void set_source_code_config_for_code_execution() {
         // given a storydoc with a artifact block
-        BlockCoordinate blockCoordinate = storyDocTestUtils.create_storydoc_with_artifact_block();
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
 
         // given a code execution
         String name = "test-1";

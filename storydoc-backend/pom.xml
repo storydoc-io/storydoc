@@ -87,6 +87,10 @@
             <artifactId>stitch</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.storydoc</groupId>
+            <artifactId>fabric</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aspects</artifactId>
         </dependency>
