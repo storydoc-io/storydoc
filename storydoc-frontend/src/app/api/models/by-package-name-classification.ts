@@ -1,8 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import { Classification } from './classification';
-export interface BluePrintElement {
-  classification?: Classification;
-  name?: string;
+export interface ByPackageNameClassification extends Classification {
+  packageName?: string;
   type?: string;
 }

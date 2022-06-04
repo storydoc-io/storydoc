@@ -116,6 +116,102 @@
         }
       }
     },
+    "/api/code/classify": {
+      "get": {
+        "tags": [
+          "code-rest-controller"
+        ],
+        "summary": "classify",
+        "operationId": "classifyUsingGET",
+        "parameters": [
+          {
+            "name": "className",
+            "in": "query",
+            "description": "className",
+            "required": false,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/code/classifymultiple": {
+      "post": {
+        "tags": [
+          "code-rest-controller"
+        ],
+        "summary": "classifyMultiple",
+        "operationId": "classifyMultipleUsingPOST",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
     "/api/code/codeexecution": {
       "get": {
         "tags": [
@@ -3410,6 +3506,9 @@
       "BluePrint": {
         "title": "BluePrint",
         "properties": {
+          "classification": {
+            "$ref": "#/components/schemas/Classification"
+          },
           "elements": {
             "type": "array",
             "items": {
@@ -3440,6 +3539,9 @@
             "title": "BluePrint",
             "type": "object",
             "properties": {
+              "classification": {
+                "$ref": "#/components/schemas/Classification"
+              },
               "elements": {
                 "type": "array",
                 "items": {
@@ -3467,6 +3569,83 @@
       },
       "BluePrintElement": {
         "title": "BluePrintElement",
+        "type": "object",
+        "properties": {
+          "classification": {
+            "$ref": "#/components/schemas/Classification"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "ByClassNameClassification": {
+        "title": "ByClassNameClassification",
+        "properties": {
+          "classNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Classification"
+          },
+          {
+            "title": "ByClassNameClassification",
+            "type": "object",
+            "properties": {
+              "classNames": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "type": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "ByPackageNameClassification": {
+        "title": "ByPackageNameClassification",
+        "properties": {
+          "packageName": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Classification"
+          },
+          {
+            "title": "ByPackageNameClassification",
+            "type": "object",
+            "properties": {
+              "packageName": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "Classification": {
+        "title": "Classification",
         "type": "object",
         "properties": {
           "type": {
@@ -3568,8 +3747,14 @@
       "CompositeBluePrintElement": {
         "title": "CompositeBluePrintElement",
         "properties": {
+          "classification": {
+            "$ref": "#/components/schemas/Classification"
+          },
           "layout": {
             "$ref": "#/components/schemas/Layout"
+          },
+          "name": {
+            "type": "string"
           },
           "subElements": {
             "type": "array",
@@ -3589,8 +3774,14 @@
             "title": "CompositeBluePrintElement",
             "type": "object",
             "properties": {
+              "classification": {
+                "$ref": "#/components/schemas/Classification"
+              },
               "layout": {
                 "$ref": "#/components/schemas/Layout"
+              },
+              "name": {
+                "type": "string"
               },
               "subElements": {
                 "type": "array",
@@ -3666,6 +3857,28 @@
           }
         }
       },
+      "FlexLayout": {
+        "title": "FlexLayout",
+        "properties": {
+          "type": {
+            "type": "string"
+          }
+        },
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Layout"
+          },
+          {
+            "title": "FlexLayout",
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
       "FolderDTO": {
         "title": "FolderDTO",
         "type": "object",
@@ -3709,28 +3922,6 @@
       "Iterable«Path»": {
         "title": "Iterable«Path»",
         "type": "object"
-      },
-      "LayeredLayout": {
-        "title": "LayeredLayout",
-        "properties": {
-          "type": {
-            "type": "string"
-          }
-        },
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Layout"
-          },
-          {
-            "title": "LayeredLayout",
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string"
-              }
-            }
-          }
-        ]
       },
       "Layout": {
         "title": "Layout",
@@ -3808,6 +3999,9 @@
       "Role": {
         "title": "Role",
         "properties": {
+          "classification": {
+            "$ref": "#/components/schemas/Classification"
+          },
           "name": {
             "type": "string"
           },
@@ -3823,6 +4017,9 @@
             "title": "Role",
             "type": "object",
             "properties": {
+              "classification": {
+                "$ref": "#/components/schemas/Classification"
+              },
               "name": {
                 "type": "string"
               },

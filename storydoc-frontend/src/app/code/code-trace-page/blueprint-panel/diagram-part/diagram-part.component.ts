@@ -24,7 +24,6 @@ export class DiagramPartComponent implements OnInit {
   leaderLines: any[] = new Array()
 
   ngAfterViewInit() {
-    console.log("typeof this.leaderLines", typeof this.leaderLines)
     this.diagramPart.lines.forEach(line => {
       this.leaderLines.push(new LeaderLine(
         this.document.getElementById(line.idFrom),
@@ -41,10 +40,7 @@ export class DiagramPartComponent implements OnInit {
 
   ngOnDestroy() {
     if (this.leaderLines) {
-      console.log("typeof this.leaderLines", typeof this.leaderLines)
       for (var leaderLine of this.leaderLines) {
-        console.log("typeof this.leaderLines", typeof this.leaderLines)
-        console.log("typeof this.leaderLine", typeof leaderLine)
         //leaderLine.remove()
       }
       this.leaderLines = []

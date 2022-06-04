@@ -83,6 +83,122 @@ export class CodeRestControllerService extends BaseService {
   }
 
   /**
+   * Path part for operation classifyUsingGet
+   */
+  static readonly ClassifyUsingGetPath = '/api/code/classify';
+
+  /**
+   * classify.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `classifyUsingGet()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  classifyUsingGet$Response(params?: {
+
+    /**
+     * className
+     */
+    className?: string;
+  }): Observable<StrictHttpResponse<Array<string>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, CodeRestControllerService.ClassifyUsingGetPath, 'get');
+    if (params) {
+      rb.query('className', params.className, {"style":"form"});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<string>>;
+      })
+    );
+  }
+
+  /**
+   * classify.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `classifyUsingGet$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  classifyUsingGet(params?: {
+
+    /**
+     * className
+     */
+    className?: string;
+  }): Observable<Array<string>> {
+
+    return this.classifyUsingGet$Response(params).pipe(
+      map((r: StrictHttpResponse<Array<string>>) => r.body as Array<string>)
+    );
+  }
+
+  /**
+   * Path part for operation classifyMultipleUsingPost
+   */
+  static readonly ClassifyMultipleUsingPostPath = '/api/code/classifymultiple';
+
+  /**
+   * classifyMultiple.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `classifyMultipleUsingPost()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  classifyMultipleUsingPost$Response(params?: {
+    body?: Array<string>
+  }): Observable<StrictHttpResponse<{ [key: string]: Array<string> }>> {
+
+    const rb = new RequestBuilder(this.rootUrl, CodeRestControllerService.ClassifyMultipleUsingPostPath, 'post');
+    if (params) {
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<{ [key: string]: Array<string> }>;
+      })
+    );
+  }
+
+  /**
+   * classifyMultiple.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `classifyMultipleUsingPost$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  classifyMultipleUsingPost(params?: {
+    body?: Array<string>
+  }): Observable<{ [key: string]: Array<string> }> {
+
+    return this.classifyMultipleUsingPost$Response(params).pipe(
+      map((r: StrictHttpResponse<{ [key: string]: Array<string> }>) => r.body as { [key: string]: Array<string> })
+    );
+  }
+
+  /**
    * Path part for operation getCodeExecutionUsingGet
    */
   static readonly GetCodeExecutionUsingGetPath = '/api/code/codeexecution';

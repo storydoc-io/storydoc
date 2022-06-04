@@ -14,7 +14,6 @@ import {
   StitchItemDto
 } from "@storydoc/models";
 import {CodeRestControllerService} from "@storydoc/services";
-import {BluePrint} from "../api/models/blue-print";
 
 export interface StitchEvent {
   modelName: string
@@ -54,6 +53,7 @@ interface TraceStoreState {
   codeTrace?: CodeTraceDto
   treeNodes?: TreeNode[]
   selectedEvent?: StitchEvent,
+  selectedNode?: TreeNode
 }
 
 interface SourceCodeStoreState {
@@ -72,7 +72,10 @@ interface ConfigPanelState {
 
 export interface TreeNode {
   name: string,
-  children: TreeNode[]
+  children: TreeNode[],
+  event?: StitchEvent,
+  data? : any
+  parent?: TreeNode
 }
 
 
@@ -107,6 +110,11 @@ export class CodeService implements OnDestroy {
     distinctUntilChanged(),
   )
 
+  selectedNode$ = this.traceStore.pipe(
+    map(state => state.selectedNode),
+    distinctUntilChanged(),
+  )
+
   private sourceCodeStore = new BehaviorSubject<SourceCodeStoreState>({})
 
   sourceCode$ = this.sourceCodeStore.pipe(
@@ -130,7 +138,8 @@ export class CodeService implements OnDestroy {
   init(): void {
     log('init()')
     this.subscriptions.push(logChangesToObservable('traceStore::codeTrace$ >>', this.codeTrace$))
-    this.subscriptions.push(logChangesToObservable('traceStore::selectedItem$ >> ', this.selectedEvent$))
+    this.subscriptions.push(logChangesToObservable('traceStore::selectedEvent$ >> ', this.selectedEvent$))
+    this.subscriptions.push(logChangesToObservable('traceStore::selectedNode$ >> ', this.selectedNode$))
     this.subscriptions.push(logChangesToObservable('traceStore::treeNodes$ >> ', this.treeNodes$))
     this.subscriptions.push(logChangesToObservable('sourceCodeStore::sourceCode$ >> ', this.sourceCode$))
     this.subscriptions.push(logChangesToObservable('configStore >> ', this.configStore))
@@ -158,7 +167,7 @@ export class CodeService implements OnDestroy {
         this.traceStore.next({
           coord: coord,
           codeTrace,
-          treeNodes: codeTrace ? this.toTreeNodes(codeTrace.items) : null
+          treeNodes: codeTrace ? new StitchDto2TreeNodeConverter().run(codeTrace.items) : null
         })
         this.loadConfig(codeTrace.config)
         this.selectNode(codeTrace.items[0])
@@ -169,9 +178,11 @@ export class CodeService implements OnDestroy {
     log('selectNode(node)', node)
     this.traceStore.next({
       ...this.traceStore.getValue(),
-      selectedEvent: node.data.event
+      selectedNode: node,
+      selectedEvent: node.data?.event,
     })
   }
+
 
   loadSourceCode(className: string) {
     log('loadSourceCode(className)', className)
@@ -241,17 +252,25 @@ export class CodeService implements OnDestroy {
   }
 
 
-  // stitch dto to tree node conversion
 
-  private toTreeNodes(items: StitchItemDto[]): TreeNode[] {
+  //  blueprint panel section
+
+
+}
+
+class StitchDto2TreeNodeConverter {
+
+  public run(items: StitchItemDto[], parent?: TreeNode): TreeNode[] {
     if (!items) return
     return items.map(item => {
       let event = this.toStitchEvent(item)
-      return {
+      let node =  {
         event,
         name: this.getLabel(event),
-        children: this.toTreeNodes(item.children)
+        children: null
       }
+      node.children = this.run(item.children, node)
+      return node
     })
   }
 
@@ -323,8 +342,6 @@ export class CodeService implements OnDestroy {
   private getClassName(item: CodeExecutionEnterEvent) {
     return item.className?.split('.').slice(-1)[0]
   }
-
-  //  blueprint panel section
 
 
 }
