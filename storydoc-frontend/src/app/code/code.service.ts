@@ -14,6 +14,7 @@ import {
   StitchItemDto
 } from "@storydoc/models";
 import {CodeRestControllerService} from "@storydoc/services";
+import {getClassName, getLabel, toStitchEvent} from "./code.functions";
 
 export interface StitchEvent {
   modelName: string
@@ -263,10 +264,10 @@ class StitchDto2TreeNodeConverter {
   public run(items: StitchItemDto[], parent?: TreeNode): TreeNode[] {
     if (!items) return
     return items.map(item => {
-      let event = this.toStitchEvent(item)
+      let event = toStitchEvent(item)
       let node =  {
         event,
-        name: this.getLabel(event),
+        name: getLabel(event),
         children: null
       }
       node.children = this.run(item.children, node)
@@ -274,74 +275,6 @@ class StitchDto2TreeNodeConverter {
     })
   }
 
-  private toStitchEvent(item: StitchItemDto): StitchEvent {
-    switch (item.modelName) {
-      case 'CodeExecution': {
-        switch (item.eventName) {
-          case 'MethodCalled': {
-            return <CodeExecutionEnterEvent>{
-              modelName: item.modelName,
-              eventName: item.eventName,
-              className: item.attributes['typeName'],
-              methodName: item.attributes['functionName']
-            }
-          }
-          case 'MethodReturn': {
-            return <CodeExecutionReturnEvent>{
-              modelName: item.modelName,
-              eventName: item.eventName,
-              className: item.attributes['typeName'],
-              methodName: item.attributes['functionName']
-            }
-          }
-          default: {
-            console.log('unmapped CodeExecution event, eventName not supported  ', item)
-            return
-          }
-        }
-      }
-      case 'TestScenario': {
-        switch (item.eventName) {
-          case 'given': {
-            return <TestCaseBDDEvent>{
-              modelName: item.modelName,
-              eventName: item.eventName,
-              noun: item.attributes['noun'],
-              text: item.attributes['text']
-            }
-          }
-          default: {
-            console.log('unmapped TestScenario event, eventName not supported ', item)
-            return
-          }
-        }
-      }
-      default: {
-        console.log('unmapped event. model not supported ', item)
-        return
-      }
-    }
-
-  }
-
-  private getLabel(event: StitchEvent): string {
-    if (!event) return "empty event"
-    if (isCodeExecutionEnterEvent(event)) {
-      return this.getClassName(event) + ' :: ' + event.methodName
-    }
-    if (isCodeExecutionReturnEvent(event)) {
-      return this.getClassName(event) + ' :: ' + event.methodName
-    }
-    if (isCodeTestCaseBDDEvent(event)) {
-      return event.noun + ' :: ' + event.text
-    }
-    return ''
-
-  }
-
-  private getClassName(item: CodeExecutionEnterEvent) {
-    return item.className?.split('.').slice(-1)[0]
-  }
 
 
 }

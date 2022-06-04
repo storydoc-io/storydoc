@@ -1,10 +1,13 @@
 <div class="container">
-  <div class="title">{{classPart.name}}</div>
-  <div class="body">
-    <ng-container *ngFor="let method of classPart.methods">
-      <div [id]="method.id">
-        +  {{method.methodName}}
-      </div>
-    </ng-container>
+  <div class="box">
+    <div *ngIf="classPart.stereoType" class="stereoType"><<{{classPart.stereoType}}>></div>
+    <div class="title">{{classPart.name}}</div>
+    <div class="body">
+      <ng-container *ngFor="let method of classPart.methods">
+        <div [id]="method.id">
+          +  {{method.methodName}}
+        </div>
+      </ng-container>
+    </div>
   </div>
 </div>

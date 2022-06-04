@@ -5,6 +5,7 @@ import {distinctUntilChanged, map} from "rxjs/operators";
 import {CodeRestControllerService} from "@storydoc/services";
 import {log, logChangesToObservable} from "@storydoc/common";
 import {CodeExecutionEnterEvent, CodeService, StitchEvent, TreeNode} from "../../code.service";
+import {getClassName, getSimpleClassName, nodeToPath} from "../../code.functions";
 
 export interface BasePart {
   type: string
@@ -27,7 +28,7 @@ export interface MethodPart {
 
 export interface ClassPart extends BasePart {
   type: "ClassElem"
-  role: string
+  stereoType: string
   className: string
   methods: MethodPart[]
 }
@@ -101,10 +102,11 @@ export class BlueprintService implements OnDestroy {
 
   updateDiagram(codeTrace: CodeTraceDto, bluePrint: BluePrint, treeNode: TreeNode) {
     log('updateDiagram()')
-    let classNames = this.nodeToPath(treeNode).map(pathNode => (<CodeExecutionEnterEvent>(pathNode.data.event)).className)
+    let classNames = nodeToPath(treeNode).map(pathNode => (<CodeExecutionEnterEvent>(pathNode.data.event)).className)
     this.codeRestControllerService.classifyMultipleUsingPost({body: classNames}).subscribe(response => {
       let classificationMap = new Map(Object.entries(response))
       let diagram = new TreeNodes2DiagramConverter(bluePrint, classificationMap).run(treeNode)
+      console.log('diagramPart', diagram)
       this.bluePrintStore.next({
         ...this.bluePrintStore.value,
         diagramPart: diagram
@@ -113,18 +115,6 @@ export class BlueprintService implements OnDestroy {
 
   }
 
-  private nodeToPath(node: TreeNode) : any[]{
-    let result = []
-    let curNode = node
-    while(curNode) {
-      let b: any = curNode
-      if (b.data?.event) {
-        result.push(curNode)
-      }
-      curNode = curNode.parent
-    }
-    return result
-  }
 
 
 }
@@ -132,8 +122,13 @@ export class BlueprintService implements OnDestroy {
 
 
 class TreeNodes2DiagramConverter {
+
   bluePrint: BluePrint
   classificationMap: Map<string, string[]>
+
+  idCounter: number = 0
+  lastId: string
+  lines: Line[] = []
 
   constructor(bluePrint: BluePrint, classificationMap: Map<string, string[]>) {
     this.bluePrint = bluePrint;
@@ -142,33 +137,19 @@ class TreeNodes2DiagramConverter {
 
   public run(node: TreeNode): DiagramPart {
     if (!this.bluePrint || !this.classificationMap) return null
-    let diagramPart: DiagramPart = <DiagramPart> {
-      bluePrint : <BluePrintPart> {
+    let diagramPart: DiagramPart = <DiagramPart>{
+      bluePrint: <BluePrintPart>{
         name: this.bluePrint.name,
         subElements: []
       },
-      lines: []
+      lines: this.lines
     }
-    this.merge(this.nodeToPath(node).reverse(), diagramPart)
+    this.merge(nodeToPath(node).reverse(), diagramPart)
     return diagramPart
   }
 
-
-  private nodeToPath(node: TreeNode) : TreeNode[]{
-    let result = []
-    let curNode = node
-    while(curNode) {
-      let b = curNode
-      if (b.data?.event) {
-        result.push(curNode)
-      }
-      curNode = curNode.parent
-    }
-    return result
-  }
-
-  private merge(path: TreeNode[], diagramPart: DiagramPart): DiagramPart  {
-    for(let pathElem of path) {
+  private merge(path: TreeNode[], diagramPart: DiagramPart): DiagramPart {
+    for (let pathElem of path) {
       let event: CodeExecutionEnterEvent = <CodeExecutionEnterEvent>pathElem.data.event
       if (!event) continue
       let className = event.className
@@ -179,24 +160,27 @@ class TreeNodes2DiagramConverter {
       let currentBluePrintElement = this.bluePrint
       let currentDiagramPart: BasePart = diagramPart.bluePrint
 
-      for(classificationIdx=1; classificationIdx < classifications.length; classificationIdx++) {
+      for (classificationIdx = 1; classificationIdx < classifications.length; classificationIdx++) {
         currentClassification = classifications[classificationIdx]
         let parentBluePrintElement = currentBluePrintElement
         let parentDiagramPart = currentDiagramPart
 //        console.log("parentBluePrintElement", parentBluePrintElement)
 //        console.log("parentDiagramPart", parentDiagramPart)
 
-        currentBluePrintElement = parentBluePrintElement.subElements.find(subElem=> {
-            switch (subElem.type) {
-              case "BluePrint": return (<BluePrint>subElem).name===currentClassification
-              case "Role": return (<Role>subElem).name===currentClassification
-              default: false
-            }
+        currentBluePrintElement = parentBluePrintElement.subElements.find(subElem => {
+          switch (subElem.type) {
+            case "BluePrint":
+              return (<BluePrint>subElem).name === currentClassification
+            case "Role":
+              return (<Role>subElem).name === currentClassification
+            default:
+              false
+          }
         })
-        currentDiagramPart = (<BluePrintPart>parentDiagramPart).subElements.find(subPart=> subPart.name===currentClassification)
+        currentDiagramPart = (<BluePrintPart>parentDiagramPart).subElements.find(subPart => subPart.name === currentClassification)
 //        console.log("currentBluePrintElement", currentBluePrintElement)
 //        console.log("currentDiagramPart", currentDiagramPart)
-        if (currentDiagramPart===undefined) {
+        if (currentDiagramPart === undefined) {
           switch (currentBluePrintElement.type) {
             case "BluePrint": {
               currentDiagramPart = <BluePrintPart>{
@@ -207,18 +191,29 @@ class TreeNodes2DiagramConverter {
               break
             }
             case "Role": {
-              currentDiagramPart = <ClassPart> {
+              let id = 'id' + this.idCounter++
+              currentDiagramPart = <ClassPart>{
                 type: "ClassElem",
-                name: className,
+                stereoType: currentClassification,
+                name: getSimpleClassName(className),
                 className: className,
                 methods: [{
+                  active: true,
+                  id,
                   methodName: event.methodName
                 }],
-                role: currentClassification,
               }
+              if (this.lastId) {
+                this.lines.push(<Line>{
+                  idFrom: this.lastId,
+                  idTo: id
+                })
+              }
+              this.lastId = id
               break
             }
-            default: console.log("no currentBluePrintElement.type", currentBluePrintElement.type)
+            default:
+              console.log("no currentBluePrintElement.type", currentBluePrintElement.type)
           }
           (<CompositePart>parentDiagramPart).subElements.push(currentDiagramPart)
         }
@@ -227,84 +222,83 @@ class TreeNodes2DiagramConverter {
     return diagramPart
   }
 
-  /*
-      let diagram = <DiagramPart> {
-      bluePrint: <BluePrintPart>{
-        type: "BluePrint",
-        name: 'Storydoc Backend',
-        subElements: [
-          <BluePrintPart>{
-            name: "Code Domain",
-            type: "BluePrint",
-            subElements: [
-              <BluePrintPart>{
-                type: "BluePrint",
-                name: "App Layer",
-                subElements: [
-                  <ClassPart>{
-                    type: "ClassElem",
-                    name: "CodeServiceImpl",
-                    methods: [
-                      <MethodPart>{
-                        id: "id1",
-                        methodName: "createCodeExecution()",
-                        active: true,
-                      }
-                    ]
-                  }
-                ]
-              },
-              <BluePrintPart>{
-                type: "BluePrint",
-                name: "Infra Layer",
-                subElements: [
-                  <ClassPart>{
-                    type: "ClassElem",
-                    name: "CodeStorageImpl",
-                    methods: [
-                      <MethodPart>{
-                        id: "id2",
-                        methodName: "createCodeExecution()",
-                        active: true,
-                      }
-                    ]
-                  }
-                ]
-              },
-            ]
+}
 
-          },
-          <BluePrintPart>{
-            name: "StoryDoc Domain",
-            type: "BluePrint",
-            subElements: [
-              <BluePrintPart>{
-                type: 'BluePrint',
-                name: "App Layer",
-                subElements: [
-                  <ClassPart>{
-                    type: "ClassElem",
-                    name: "DocumentServiceImpl",
-                    methods: [
-                      <MethodPart>{
-                        id: "id3",
-                        methodName: "addArtifact()",
-                        active: true,
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      lines: [
-        <Line>{ idFrom: "id1", idTo: "id2"},
-        <Line>{ idFrom: "id2", idTo: "id3"}
+function dummyDiagram(): DiagramPart {
+  return <DiagramPart>{
+    bluePrint: <BluePrintPart>{
+      type: "BluePrint",
+      name: 'Storydoc Backend',
+      subElements: [
+        <BluePrintPart>{
+          name: "Code Domain",
+          type: "BluePrint",
+          subElements: [
+            <BluePrintPart>{
+              type: "BluePrint",
+              name: "App Layer",
+              subElements: [
+                <ClassPart>{
+                  type: "ClassElem",
+                  name: "CodeServiceImpl",
+                  methods: [
+                    <MethodPart>{
+                      id: "id1",
+                      methodName: "createCodeExecution()",
+                      active: true,
+                    }
+                  ]
+                }
+              ]
+            },
+            <BluePrintPart>{
+              type: "BluePrint",
+              name: "Infra Layer",
+              subElements: [
+                <ClassPart>{
+                  type: "ClassElem",
+                  name: "CodeStorageImpl",
+                  methods: [
+                    <MethodPart>{
+                      id: "id2",
+                      methodName: "createCodeExecution()",
+                      active: true,
+                    }
+                  ]
+                }
+              ]
+            },
+          ]
+
+        },
+        <BluePrintPart>{
+          name: "StoryDoc Domain",
+          type: "BluePrint",
+          subElements: [
+            <BluePrintPart>{
+              type: 'BluePrint',
+              name: "App Layer",
+              subElements: [
+                <ClassPart>{
+                  type: "ClassElem",
+                  name: "DocumentServiceImpl",
+                  methods: [
+                    <MethodPart>{
+                      id: "id3",
+                      methodName: "addArtifact()",
+                      active: true,
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       ]
-    }
-   */
-
-
+    },
+    lines: [
+      <Line>{idFrom: "id1", idTo: "id2"},
+      <Line>{idFrom: "id2", idTo: "id3"}
+    ]
+  }
 }

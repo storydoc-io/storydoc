@@ -1,5 +1,9 @@
 .container {
+  padding: 5px;
   display: inline-block;
+}
+
+.box {
   max-width: 220px;
   padding: 0;
   background-color: rgb(213,250,205);
@@ -7,11 +11,16 @@
   border: 1px solid grey;
 }
 
+.stereoType {
+  text-align: center;
+  padding-top: 2px;
+}
+
 .title {
   font-weight: bold;
   text-align: center;
   border-bottom: 1px solid grey;
-  padding: 10px;
+  padding: 1px;
 }
 
 .body {
