@@ -28,7 +28,7 @@ public class WorkspaceTestFixture {
         log.trace("\turl: " + format(resourceUrn));
         log.trace("\tcontent:" );
 
-        log.trace(new String(queryService.getInputStream(resourceUrn).readAllBytes()));
+        log.trace("\n" + new String(queryService.getInputStream(resourceUrn).readAllBytes()));
     }
 
     @SneakyThrows

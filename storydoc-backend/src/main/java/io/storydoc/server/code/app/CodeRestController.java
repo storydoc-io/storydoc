@@ -6,6 +6,7 @@ import io.storydoc.server.code.domain.CodeExecutionCoordinate;
 import io.storydoc.server.code.domain.CodeExecutionId;
 import io.storydoc.server.code.domain.SourceCodeConfigCoordinate;
 import io.storydoc.server.code.domain.SourceCodeConfigId;
+import io.storydoc.server.storydoc.app.dto.SettingsEntryDTO;
 import io.storydoc.server.storydoc.domain.BlockCoordinate;
 import io.storydoc.server.storydoc.domain.BlockId;
 import io.storydoc.server.storydoc.domain.StoryDocId;
@@ -47,6 +48,16 @@ public class CodeRestController {
         CodeExecutionCoordinate codeExecutionCoordinate  = CodeExecutionCoordinate.of(BlockCoordinate.of(execStoryDocId, execBlockId), codeExecutionId);
         SourceCodeConfigCoordinate sourceCodeConfigCoordinate = SourceCodeConfigCoordinate.of(BlockCoordinate.of(configStoryDocId, configBlockId), sourceCodeConfigId);
         codeService.setSourceConfigForExecution(codeExecutionCoordinate, sourceCodeConfigCoordinate);
+    }
+
+    @PostMapping(value = "/settings/stitch", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void setStitchSettings(@RequestParam("stitchDir") String stitchDir) {
+        codeService.setStitchSettings(stitchDir);
+    }
+
+    @GetMapping(value = "/settings/stitch", produces = MediaType.APPLICATION_JSON_VALUE)
+    public SettingsEntryDTO getStitchSetttings() {
+        return codeQueryService.getStitchSettings();
     }
 
     @PostMapping(value = "/codeexecution/stitch", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -9,29 +9,14 @@ public class ScenarioTracer {
     }
 
     public void beginTestCase(String testCaseName) {
-        stitchEngine.setActive(true);
-        JSONWriter json = new JSONWriter();
-        json.obj();
-        json.att("testCaseName");
-        json.string(testCaseName);
-        json.end();
-
-        stitchEngine.add("TestScenario", "TestEntered", json.getValue());
+        stitchEngine.beginTestCase(testCaseName);
     }
 
     public void endTestCase(String testCaseName) {
-        JSONWriter json = new JSONWriter();
-        json.obj();
-        json.att("testCaseName");
-        json.string(testCaseName);
-        json.end();
-
-        stitchEngine.add("TestScenario", "TestFinished", json.getValue());
-        stitchEngine.setActive(false);
+        stitchEngine.endTestCase();
     }
 
     public void bdd(String noun, String text) {
-        stitchEngine.setActive(true);
         JSONWriter json = new JSONWriter();
         json.obj();
         json.att("noun");

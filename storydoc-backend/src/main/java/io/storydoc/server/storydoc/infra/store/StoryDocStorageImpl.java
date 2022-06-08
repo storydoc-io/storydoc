@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import io.storydoc.server.storydoc.app.dto.SettingsEntryDTO;
 import io.storydoc.server.storydoc.domain.Artifact;
 import io.storydoc.server.storydoc.domain.*;
+import io.storydoc.server.storydoc.infra.store.model.Settings;
 import io.storydoc.server.storydoc.infra.store.model.StoryDoc;
 import io.storydoc.server.storydoc.infra.store.model.*;
 import io.storydoc.server.workspace.app.WorkspaceQueryService;
@@ -54,6 +56,12 @@ public class StoryDocStorageImpl implements StoryDocStorage {
     public ResourceUrn getStoryDocUrn(StoryDocId storyDocId) {
         String fileName = (storyDocId.getId() + ".json");
         return new ResourceUrn(getStoryDocFolder(storyDocId), fileName);
+    }
+
+    @Override
+    public ResourceUrn getGlobalSettingsUrn() {
+        String fileName = ("settings.json");
+        return new ResourceUrn(new FolderURN(List.of()), fileName);
     }
 
     @Override
@@ -392,6 +400,43 @@ public class StoryDocStorageImpl implements StoryDocStorage {
         saveDocument(storyDoc);
     }
 
+    @Override
+    public void setGlobalSettings(List<SettingsEntryDTO> entries) {
+        Settings settings = loadGlobalSettings();
+        for (SettingsEntryDTO entry: entries) {
+            setGlobalSetting(settings, entry.getNameSpace(), entry.getKey(), entry.getValue());
+        }
+        saveGlobalSettings(settings);
+    }
+
+    @Override
+    public void setGlobalSetting(SettingsEntryDTO entry) {
+        Settings settings = loadGlobalSettings();
+        setGlobalSetting(settings, entry.getNameSpace(), entry.getKey(), entry.getValue());
+        saveGlobalSettings(settings);
+    }
+
+    private void setGlobalSetting(Settings settings, String namespace, String key, String value) {
+        SettingsEntry settingsEntry = getEntry(settings.getEntries(), namespace, key);
+        if (settingsEntry !=null) {
+            if (value == null || value.length()==0) {
+                settings.getEntries().remove(settingsEntry);
+            } else {
+                settingsEntry.setValue(value);
+            }
+        } else {
+            settings.getEntries().add(new SettingsEntry(namespace, key, value));
+        }
+    }
+
+
+    private SettingsEntry getEntry(List<SettingsEntry> entries, String nameSpace, String key) {
+        return entries.stream()
+            .filter(e -> e.getNameSpace().equals(nameSpace) && e.getKey().equals(key))
+            .findFirst()
+            .orElse(null);
+    }
+
     public List<ArtifactId> findArtifacts(BlockCoordinate coordinate, Function<ArtifactMetaData, Boolean> filter) {
         StoryDoc storyDoc = loadDocument(coordinate.getStoryDocId());
         ArtifactBlock block = (ArtifactBlock)lookupBlock(coordinate.getBlockId(), storyDoc);
@@ -600,6 +645,42 @@ public class StoryDocStorageImpl implements StoryDocStorage {
 
         } catch (WorkspaceException e) {
             throw new StoryDocException("could not save binary artifact ", e);
+        }
+    }
+
+    public Settings loadGlobalSettings()  {
+        try {
+            return workspaceService.loadResource(new ResourceLoadContext<Settings>() {
+                @Override
+                public ResourceUrn getResourceUrn() {
+                    return getGlobalSettingsUrn();
+                }
+
+                @Override
+                public Settings read(InputStream inputStream) throws IOException {
+                    return objectMapper.readValue(inputStream, Settings.class);
+                }
+            });
+        } catch (WorkspaceException e) {
+            return new Settings(new ArrayList<>());
+        }
+    }
+
+    private void saveGlobalSettings(Settings settings) throws StoryDocException {
+        try {
+            workspaceService.saveResource(new ResourceSaveContext() {
+                @Override
+                public ResourceUrn getResourceUrn() {
+                    return getGlobalSettingsUrn();
+                }
+
+                @Override
+                public void write(OutputStream outputStream) throws IOException {
+                    objectMapper.writerWithDefaultPrettyPrinter().writeValue(outputStream, settings);
+                }
+            });
+        } catch (WorkspaceException e) {
+            throw new StoryDocException("could not save settings ", e);
         }
     }
 

@@ -11,6 +11,8 @@ import {CreateDocumentDialogComponent} from './document-manager-page/create-docu
 import {DocumentManagerPageComponent} from './document-manager-page/document-manager-page.component';
 import {StoryDocCommonModule} from "../common/common.module";
 import {CoreModule} from "../core.module";
+import { SettingsDialogComponent } from './settings-page/settings-dialog/settings-dialog.component';
+import { SettingsPageComponent } from './settings-page/settings-page.component';
 
 
 @NgModule({
@@ -24,6 +26,8 @@ import {CoreModule} from "../core.module";
     CreateDocumentDialogComponent,
     CreateBlockDialogComponent,
     CreateArtifactDialogComponent,
+    SettingsDialogComponent,
+    SettingsPageComponent,
   ],
   imports: [
     CoreModule,

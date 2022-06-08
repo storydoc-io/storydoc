@@ -1,0 +1,30 @@
+<div class="modal-dialog" *ngIf="spec">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Settings</h5>
+      <button type="button" class="btn-close" (click)="cancel()"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formGroup">
+        <div class="mb-3">
+          <label for="type" class="form-label">Type</label>
+          <select formControlName="descriptor" class="form-select"  #type>
+            <option>--select type--</option>
+            <option *ngFor="let descriptor of descriptors" [ngValue]="descriptor">{{descriptor.label}}</option>
+          </select>
+          <div id="type" class="form-text">Select setting type.</div>
+        </div>
+        <div class="mb-3">
+          <label for="value" class="form-label">Value</label>
+          <input formControlName="value" type="text" class="form-control" #value>
+          <div id="value" class="form-text">Enter setting value.</div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="confirm()" [disabled]="!formGroup.valid">Save changes
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+    </div>
+  </div>
+</div>

@@ -28,14 +28,10 @@ public class StitchAspect {
     @Around("springBeanPointcut()")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
         String cid = UUID.randomUUID().toString();
-        if (tracer.isActive()) {
             enterJoinPoint(joinPoint, cid);
-        }
         try {
             Object result = joinPoint.proceed();
-            if (tracer.isActive()) {
                 exitJoinPoint(joinPoint, cid, result);
-            }
             return result;
         } catch (IllegalArgumentException e) {
             throw e;

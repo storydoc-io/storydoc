@@ -1,8 +1,24 @@
 <app-layout-1col
+  [title]="title"
   [breadcrumb]="breadcrumb"
   [middle]="middle"
 >
 </app-layout-1col>
+
+<ng-template #title>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-11">
+        <h3>
+          Storydoc
+        </h3>
+      </div>
+      <div class="col-md-1">
+        <a class="btn  btn-sm btn-outline-light float-right m-2" routerLink="/fe/settings/">Settings</a>
+      </div>
+    </div>
+  </div>
+</ng-template>
 
 <ng-template #breadcrumb>
   <nav aria-label="breadcrumb">
@@ -37,3 +53,4 @@
 <jw-modal [id]="confirmationDialogId()">
   <app-confirmation-dialog [spec]="confirmationDialogSpec"></app-confirmation-dialog>
 </jw-modal>
+

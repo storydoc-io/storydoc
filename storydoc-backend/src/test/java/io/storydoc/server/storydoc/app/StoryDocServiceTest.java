@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -430,5 +431,52 @@ public class StoryDocServiceTest extends TestBase {
         assertEquals(artifactCoordinate2, associationDtos.get(0).getTo());
     }
 
+    @Test
+    public void set_global_setting() {
+        // given an empty workspace
+
+        // when I add a global setting
+        String namespace = "a-namespace-"+ UUID.randomUUID();
+        String key = "a-key-"+ UUID.randomUUID();
+        String value = "a-value-"+ UUID.randomUUID();
+        storyDocService.setGlobalSettings(List.of(new SettingsEntryDTO(namespace, key, value)));
+
+        workspaceTestFixture.logFolderStructure("after adding global setting ");
+        workspaceTestFixture.logResourceContent("global settings", storyDocQueryService.getGlobalSettingsUrn());
+
+        // then the setting is part of the global settings
+        SettingsDTO settingsDTO = storyDocQueryService.getGlobalSettings();
+        assertNotNull(settingsDTO);
+        assertEquals(1, settingsDTO.getEntries().size());
+        SettingsEntryDTO settingsEntryDTO = settingsDTO.getEntries().get(0);
+        assertEquals(namespace, settingsEntryDTO.getNameSpace());
+        assertEquals(key, settingsEntryDTO.getKey());
+        assertEquals(value, settingsEntryDTO.getValue());
+
+    }
+
+    @Test
+    public void update_global_setting() {
+        // given an workspace with a global setting
+        String namespace = "a-namespace-"+ UUID.randomUUID();
+        String key = "a-key-"+ UUID.randomUUID();
+        String value = "a-value-"+ UUID.randomUUID();
+        storyDocService.setGlobalSettings(List.of(new SettingsEntryDTO(namespace, key, value)));
+
+        // when I set the global settin to a new value
+        String value2 = "a-value-"+ UUID.randomUUID();
+        storyDocService.setGlobalSettings(List.of(new SettingsEntryDTO(namespace, key, value2)));
+
+        // then there is still 1 setting
+        SettingsDTO settingsDTO = storyDocQueryService.getGlobalSettings();
+        assertEquals(1, settingsDTO.getEntries().size());
+
+        // and it has the updated value
+        SettingsEntryDTO settingsEntryDTO = settingsDTO.getEntries().get(0);
+        assertEquals(namespace, settingsEntryDTO.getNameSpace());
+        assertEquals(key, settingsEntryDTO.getKey());
+        assertEquals(value2, settingsEntryDTO.getValue());
+
+    }
 
 }

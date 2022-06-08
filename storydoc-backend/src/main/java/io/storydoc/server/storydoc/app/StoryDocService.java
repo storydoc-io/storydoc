@@ -1,9 +1,11 @@
 package io.storydoc.server.storydoc.app;
 
+import io.storydoc.server.storydoc.app.dto.SettingsEntryDTO;
 import io.storydoc.server.storydoc.domain.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 public interface StoryDocService {
 
@@ -50,4 +52,8 @@ public interface StoryDocService {
     void renameArtifact(BlockCoordinate blockCoordinate, ArtifactId artifactId, String new_name);
 
     void addAssociation(ArtifactCoordinate artifactCoordinate1, ArtifactCoordinate artifactCoordinate2, String name);
+
+    void setGlobalSetting(SettingsEntryDTO setting);
+
+    void setGlobalSettings(List<SettingsEntryDTO> settings);
 }

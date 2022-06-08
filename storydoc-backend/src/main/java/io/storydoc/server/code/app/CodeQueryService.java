@@ -13,6 +13,7 @@ import io.storydoc.server.code.infra.stitch.StitchFileScannerNew;
 import io.storydoc.server.code.infra.stitch.StitchLine;
 import io.storydoc.server.storydoc.app.StoryDocQueryService;
 import io.storydoc.server.storydoc.app.dto.AssociationDto;
+import io.storydoc.server.storydoc.app.dto.SettingsEntryDTO;
 import io.storydoc.server.storydoc.app.dto.StoryDocSummaryDTO;
 import io.storydoc.server.storydoc.domain.ArtifactCoordinate;
 import io.storydoc.server.storydoc.domain.ArtifactMetaData;
@@ -108,4 +109,7 @@ public class CodeQueryService {
         return storyDocQueryService.getStoryDocSummary(storyDocId);
     }
 
+    public SettingsEntryDTO getStitchSettings() {
+        return storyDocQueryService.getGlobalSetting(CodeService.SETTINGS_NAMESPACE, CodeService.SETTINGS_KEY__STITCH_DIR);
+    }
 }

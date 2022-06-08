@@ -18,8 +18,7 @@ public class StitchFactory {
     private ScenarioTracer scenarioTracer;
 
     private StitchFactory() {
-         config = StitchConfig.builder()
-                .build();
+         config = StitchConfig.DEFAULT;
          stitchEngine = new StitchEngine(config);
 
          codeExecutionTracer = new CodeExecutionTracer(stitchEngine);

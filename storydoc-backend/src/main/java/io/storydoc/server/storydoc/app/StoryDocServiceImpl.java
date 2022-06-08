@@ -1,12 +1,14 @@
 package io.storydoc.server.storydoc.app;
 
 import io.storydoc.server.infra.IDGenerator;
+import io.storydoc.server.storydoc.app.dto.SettingsEntryDTO;
 import io.storydoc.server.storydoc.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 
 @Service
@@ -179,5 +181,17 @@ public class StoryDocServiceImpl implements StoryDocService {
     public void removeArtifact(ArtifactCoordinate artifactCoordinate) {
         StoryDoc storyDoc = domainService.getDocument(artifactCoordinate.getBlockCoordinate().getStoryDocId());
         storyDoc.deleteArtifact(artifactCoordinate);
+    }
+
+    @Override
+    public void setGlobalSetting(SettingsEntryDTO setting) {
+        Settings settings = domainService.getSettings();
+        settings.add(setting);
+    }
+
+    @Override
+    public void setGlobalSettings(List<SettingsEntryDTO> settingDTOs) {
+        Settings settings = domainService.getSettings();
+        settings.addAll(settingDTOs);
     }
 }

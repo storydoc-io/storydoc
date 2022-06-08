@@ -1,0 +1,64 @@
+<app-layout-1col
+  [title]="title"
+  [breadcrumb]="breadcrumb"
+  [middle]="middle"
+>
+</app-layout-1col>
+
+<ng-template #title>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <h3>Settings</h3>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #breadcrumb>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <app-back-button [routerLink]="'/'"></app-back-button>
+      <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Settings</li>
+    </ol>
+  </nav>
+</ng-template>
+
+<ng-template #middle>
+  <table table class="table">
+    <thead>
+    <tr>
+      <th scope="col">Setting</th>
+      <th scope="col">Namespace</th>
+      <th scope="col">Key</th>
+      <th scope="col">Value</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody *ngIf="settings$ | async  as settings">
+    <ng-container *ngIf="descriptors$|async as descriptors">
+      <tr *ngFor="let setting of settings ">
+        <ng-container *ngVar="descriptorFor(setting, descriptors) as descriptor">
+          <th scope="row">
+            {{descriptor.label}}
+          </th>
+          <td>{{setting.nameSpace}}</td>
+          <td>{{setting.key}}</td>
+          <td>{{setting.value}}</td>
+          <td>
+            <div class="btn  btn-sm btn-outline-primary" (click)="edit(setting, descriptor)">Edit</div>
+            <div class="btn  btn-sm btn-outline-primary" (click)="delete(setting)">Delete</div>
+          </td>
+        </ng-container>
+      </tr>
+    </ng-container>
+    </tbody>
+  </table>
+  <div class="btn  btn-sm btn-outline-primary" (click)="add()">Add Setting</div>
+</ng-template>
+
+<jw-modal [id]="settingsDialogId()">
+  <app-settings-dialog [spec]="settingsDialogSpec"></app-settings-dialog>
+</jw-modal>
+

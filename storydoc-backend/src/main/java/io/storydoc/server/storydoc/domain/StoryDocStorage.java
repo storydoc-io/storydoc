@@ -1,7 +1,9 @@
 package io.storydoc.server.storydoc.domain;
 
+import io.storydoc.server.storydoc.app.dto.SettingsEntryDTO;
 import io.storydoc.server.storydoc.infra.store.model.Association;
 import io.storydoc.server.storydoc.infra.store.model.Block;
+import io.storydoc.server.storydoc.infra.store.model.Settings;
 import io.storydoc.server.storydoc.infra.store.model.StoryDoc;
 import io.storydoc.server.storydoc.infra.store.model.StoryDocs;
 import io.storydoc.server.workspace.domain.FolderURN;
@@ -93,4 +95,14 @@ public interface StoryDocStorage {
     ResourceUrn getCollectionItemUrn(ArtifactCoordinate artifactCoordinate, ItemId itemId);
 
     List<Association> getAssociations(ArtifactCoordinate artifactCoordinate);
+
+    // global settings
+
+    Settings loadGlobalSettings();
+
+    ResourceUrn getGlobalSettingsUrn();
+
+    void setGlobalSettings(List<SettingsEntryDTO> entries);
+
+    void setGlobalSetting(SettingsEntryDTO setting);
 }

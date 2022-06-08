@@ -5,6 +5,8 @@ import io.storydoc.blueprint.Classifier;
 import io.storydoc.server.code.domain.*;
 import io.storydoc.server.infra.IDGenerator;
 import io.storydoc.server.infra.StoryDocBluePrintFactory;
+import io.storydoc.server.storydoc.app.StoryDocService;
+import io.storydoc.server.storydoc.app.dto.SettingsEntryDTO;
 import io.storydoc.server.storydoc.domain.BlockCoordinate;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
@@ -12,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.util.function.Function.identity;
@@ -20,17 +21,23 @@ import static java.util.function.Function.identity;
 @Service
 public class CodeService {
 
+    public static final String SETTINGS_NAMESPACE = "io.storydoc";
+    public static final String SETTINGS_KEY__STITCH_DIR = "stitch.dir";
+
     private final IDGenerator idGenerator;
 
     private final CodeDomainService domainService;
+
+    private final StoryDocService storyDocService;
 
     private final SourceCodeAccess sourceCodeAccess;
 
     private final SourceCodeConfigStorage sourceCodeConfigStorage;
 
-    public CodeService(IDGenerator idGenerator, CodeDomainService codeDomainService, SourceCodeAccess sourceCodeAccess, SourceCodeConfigStorage sourceCodeConfigStorage) {
+    public CodeService(IDGenerator idGenerator, CodeDomainService codeDomainService, StoryDocService storyDocService, SourceCodeAccess sourceCodeAccess, SourceCodeConfigStorage sourceCodeConfigStorage) {
         this.idGenerator = idGenerator;
         this.domainService = codeDomainService;
+        this.storyDocService = storyDocService;
         this.sourceCodeAccess = sourceCodeAccess;
         this.sourceCodeConfigStorage = sourceCodeConfigStorage;
     }
@@ -94,6 +101,10 @@ public class CodeService {
     public Map<String, List<String>> classifyMultiple(String[] classNames) {
         return Arrays.stream(classNames)
             .collect(Collectors.toMap(identity(), this::classify));
+    }
+
+    public void setStitchSettings(String stitchDir) {
+        storyDocService.setGlobalSettings(List.of(new SettingsEntryDTO(SETTINGS_NAMESPACE, SETTINGS_KEY__STITCH_DIR, stitchDir)));
     }
 
 }

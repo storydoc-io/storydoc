@@ -12,6 +12,7 @@ import { map, filter } from 'rxjs/operators';
 import { BluePrint } from '../models/blue-print';
 import { CodeExecutionCoordinate } from '../models/code-execution-coordinate';
 import { CodeTraceDto } from '../models/code-trace-dto';
+import { SettingsEntryDto } from '../models/settings-entry-dto';
 import { SourceCodeConfigCoordinate } from '../models/source-code-config-coordinate';
 import { SourceCodeConfigDto } from '../models/source-code-config-dto';
 import { SourceCodeDto } from '../models/source-code-dto';
@@ -596,6 +597,119 @@ export class CodeRestControllerService extends BaseService {
   }): Observable<void> {
 
     return this.setStitchDetailsForCodeExecutionUsingPost$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation getStitchSetttingsUsingGet
+   */
+  static readonly GetStitchSetttingsUsingGetPath = '/api/code/settings/stitch';
+
+  /**
+   * getStitchSetttings.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getStitchSetttingsUsingGet()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getStitchSetttingsUsingGet$Response(params?: {
+  }): Observable<StrictHttpResponse<SettingsEntryDto>> {
+
+    const rb = new RequestBuilder(this.rootUrl, CodeRestControllerService.GetStitchSetttingsUsingGetPath, 'get');
+    if (params) {
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<SettingsEntryDto>;
+      })
+    );
+  }
+
+  /**
+   * getStitchSetttings.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getStitchSetttingsUsingGet$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getStitchSetttingsUsingGet(params?: {
+  }): Observable<SettingsEntryDto> {
+
+    return this.getStitchSetttingsUsingGet$Response(params).pipe(
+      map((r: StrictHttpResponse<SettingsEntryDto>) => r.body as SettingsEntryDto)
+    );
+  }
+
+  /**
+   * Path part for operation setStitchSettingsUsingPost
+   */
+  static readonly SetStitchSettingsUsingPostPath = '/api/code/settings/stitch';
+
+  /**
+   * setStitchSettings.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `setStitchSettingsUsingPost()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  setStitchSettingsUsingPost$Response(params: {
+
+    /**
+     * stitchDir
+     */
+    stitchDir: string;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, CodeRestControllerService.SetStitchSettingsUsingPostPath, 'post');
+    if (params) {
+      rb.query('stitchDir', params.stitchDir, {"style":"form"});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * setStitchSettings.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `setStitchSettingsUsingPost$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  setStitchSettingsUsingPost(params: {
+
+    /**
+     * stitchDir
+     */
+    stitchDir: string;
+  }): Observable<void> {
+
+    return this.setStitchSettingsUsingPost$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }

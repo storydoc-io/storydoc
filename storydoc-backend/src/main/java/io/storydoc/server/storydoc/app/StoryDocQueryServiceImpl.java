@@ -3,6 +3,7 @@ package io.storydoc.server.storydoc.app;
 import io.storydoc.server.storydoc.app.dto.*;
 import io.storydoc.server.storydoc.domain.*;
 import io.storydoc.server.storydoc.infra.store.model.Artifact;
+import io.storydoc.server.storydoc.infra.store.model.Settings;
 import io.storydoc.server.storydoc.infra.store.model.StoryDoc;
 import io.storydoc.server.storydoc.infra.store.model.*;
 import io.storydoc.server.workspace.domain.FolderURN;
@@ -213,4 +214,40 @@ public class StoryDocQueryServiceImpl implements StoryDocQueryService {
             .build();
     }
 
+    @Override
+    public SettingsDTO getGlobalSettings() {
+        return toSettingsDto(storyDocStorage.loadGlobalSettings());
+    }
+
+    @Override
+    public ResourceUrn getGlobalSettingsUrn() {
+        return storyDocStorage.getGlobalSettingsUrn();
+    }
+
+    @Override
+    public SettingsEntryDTO getGlobalSetting(String namespace, String key) {
+        return storyDocStorage.loadGlobalSettings().getEntries().stream()
+                .filter(entry->entry.getNameSpace().equals(namespace) && entry.getKey().equals(key))
+                .findFirst()
+                .map(this::toEntryDto)
+                .orElse(null);
+    }
+
+    private SettingsDTO toSettingsDto(Settings settings) {
+        return SettingsDTO.builder()
+            .entries(settings.getEntries().stream()
+                .map(this::toEntryDto
+                )
+                .collect(Collectors.toList())
+            )
+            .build();
+    }
+
+    private SettingsEntryDTO toEntryDto(SettingsEntry entry) {
+        return SettingsEntryDTO.builder()
+                .nameSpace(entry.getNameSpace())
+                .key(entry.getKey())
+                .value(entry.getValue())
+                .build();
+    }
 }

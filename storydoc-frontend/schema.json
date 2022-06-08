@@ -35,6 +35,10 @@
       "description": "Screen Design Rest Controller"
     },
     {
+      "name": "settings-controller",
+      "description": "Settings Controller"
+    },
+    {
       "name": "sqldb-controller",
       "description": "SQLDB Controller"
     },
@@ -487,6 +491,72 @@
             "name": "testMethod",
             "in": "query",
             "description": "testMethod",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/code/settings/stitch": {
+      "get": {
+        "tags": [
+          "code-rest-controller"
+        ],
+        "summary": "getStitchSetttings",
+        "operationId": "getStitchSetttingsUsingGET",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SettingsEntryDTO"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "code-rest-controller"
+        ],
+        "summary": "setStitchSettings",
+        "operationId": "setStitchSettingsUsingPOST",
+        "parameters": [
+          {
+            "name": "stitchDir",
+            "in": "query",
+            "description": "stitchDir",
             "required": true,
             "style": "form",
             "schema": {
@@ -1490,6 +1560,71 @@
                   "items": {
                     "$ref": "#/components/schemas/ComponentDescriptorDTO"
                   }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/settings/setting": {
+      "post": {
+        "tags": [
+          "settings-controller"
+        ],
+        "summary": "setGlobalSetting",
+        "operationId": "setGlobalSettingUsingPOST",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SettingsEntryDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/settings/settings": {
+      "get": {
+        "tags": [
+          "settings-controller"
+        ],
+        "summary": "getGlobalSettings",
+        "operationId": "getGlobalSettingsUsingGET",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SettingsDTO"
                 }
               }
             }
@@ -4239,6 +4374,33 @@
           },
           "screenShotId": {
             "$ref": "#/components/schemas/ScreenShotId"
+          }
+        }
+      },
+      "SettingsDTO": {
+        "title": "SettingsDTO",
+        "type": "object",
+        "properties": {
+          "entries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SettingsEntryDTO"
+            }
+          }
+        }
+      },
+      "SettingsEntryDTO": {
+        "title": "SettingsEntryDTO",
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "nameSpace": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
           }
         }
       },

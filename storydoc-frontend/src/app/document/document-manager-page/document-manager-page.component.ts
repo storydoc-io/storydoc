@@ -1,6 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {ConfirmationDialogSpec, ModalService, PopupMenuComponent} from "@storydoc/common";
-import {ArtifactDto, StoryDocSummaryDto} from "@storydoc/models";
+import {StoryDocSummaryDto} from "@storydoc/models";
 import {DocumentDialogData, DocumentDialogSpec} from './create-document-dialog/create-document-dialog.component'
 import {DocumentManagerService} from "./document-manager.service";
 

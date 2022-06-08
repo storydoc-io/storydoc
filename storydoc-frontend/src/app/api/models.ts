@@ -45,6 +45,8 @@ export { ScreenShotTimeLineItemDto } from './models/screen-shot-time-line-item-d
 export { ScreenshotCollectionCoordinate } from './models/screenshot-collection-coordinate';
 export { ScreenshotCollectionSummaryDto } from './models/screenshot-collection-summary-dto';
 export { ScreenshotCoordinate } from './models/screenshot-coordinate';
+export { SettingsDto } from './models/settings-dto';
+export { SettingsEntryDto } from './models/settings-entry-dto';
 export { SourceCodeConfigCoordinate } from './models/source-code-config-coordinate';
 export { SourceCodeConfigDto } from './models/source-code-config-dto';
 export { SourceCodeConfigId } from './models/source-code-config-id';

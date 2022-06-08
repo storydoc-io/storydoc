@@ -1,27 +1,45 @@
 package io.storydoc.stitch;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.SneakyThrows;
 
-@Slf4j
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 public class StitchEngine {
 
-    boolean active;
+    private TestCaseEventStream eventStream;
 
-    private StitchConfig config;
+    private final StitchConfig config;
+
+    public StitchEngine() {
+        this(StitchConfig.DEFAULT);
+    }
 
     public StitchEngine(StitchConfig config) {
         this.config = config;
+        initRootPath();
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    @SneakyThrows
+    private void initRootPath() {
+        Files.createDirectories(config.getRootPath());
+
     }
 
-    public boolean isActive() {
-        return active;
+    public void beginTestCase(String testCaseName) {
+        eventStream = new TestCaseEventStream(getPath(testCaseName));
+    }
+
+    private Path getPath(String testCaseName) {
+        return config.getRootPath().resolve(testCaseName + ".txt");
     }
 
     public void add(String modelName, String eventName, String jsonValue) {
-        log.info(String.format("%s|%s|%s", modelName, eventName, jsonValue));
+        eventStream.add(String.format("%s|%s|%s", modelName, eventName, jsonValue));
+    }
+
+    public void endTestCase() {
+        eventStream.close();
+        eventStream = null;
     }
 }

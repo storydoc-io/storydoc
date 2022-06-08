@@ -1,9 +1,6 @@
 package io.storydoc.server.storydoc.app;
 
-import io.storydoc.server.storydoc.app.dto.ArtifactDTO;
-import io.storydoc.server.storydoc.app.dto.AssociationDto;
-import io.storydoc.server.storydoc.app.dto.StoryDocDTO;
-import io.storydoc.server.storydoc.app.dto.StoryDocSummaryDTO;
+import io.storydoc.server.storydoc.app.dto.*;
 import io.storydoc.server.storydoc.domain.*;
 import io.storydoc.server.workspace.domain.FolderURN;
 import io.storydoc.server.workspace.domain.ResourceUrn;
@@ -25,4 +22,8 @@ public interface StoryDocQueryService {
     InputStream getBinaryFromCollection(ArtifactCoordinate coordinate, ItemId itemId) throws WorkspaceException;
     ResourceUrn getArtifactItemUrn(ArtifactCoordinate artifactCoordinate, ItemId itemId);
     List<AssociationDto> getAssociationsFrom(ArtifactCoordinate artifactCoordinate1, String name);
+    SettingsDTO getGlobalSettings();
+    ResourceUrn getGlobalSettingsUrn();
+    SettingsEntryDTO getGlobalSetting(String settingsNamespace, String settingsKey_stitchDir);
+
 }

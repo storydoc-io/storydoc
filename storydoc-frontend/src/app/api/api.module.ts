@@ -8,6 +8,7 @@ import { AdminControllerService } from './services/admin-controller.service';
 import { CodeRestControllerService } from './services/code-rest-controller.service';
 import { RedirectToAngularService } from './services/redirect-to-angular.service';
 import { ScreenDesignRestControllerService } from './services/screen-design-rest-controller.service';
+import { SettingsControllerService } from './services/settings-controller.service';
 import { SqldbControllerService } from './services/sqldb-controller.service';
 import { StoryDocRestControllerService } from './services/story-doc-rest-controller.service';
 import { TimeLineControllerService } from './services/time-line-controller.service';
@@ -26,6 +27,7 @@ import { WorkspaceRestControllerService } from './services/workspace-rest-contro
     CodeRestControllerService,
     RedirectToAngularService,
     ScreenDesignRestControllerService,
+    SettingsControllerService,
     SqldbControllerService,
     StoryDocRestControllerService,
     TimeLineControllerService,

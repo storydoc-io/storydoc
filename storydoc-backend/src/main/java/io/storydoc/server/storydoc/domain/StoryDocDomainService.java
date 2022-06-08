@@ -29,4 +29,10 @@ public class StoryDocDomainService {
     public void removeDocument(StoryDocId storyDocId) {
         storage.removeDocument(storyDocId);
     }
+
+    public Settings getSettings() {
+        return Settings.builder()
+                .storage(storage)
+                .build();
+    }
 }
