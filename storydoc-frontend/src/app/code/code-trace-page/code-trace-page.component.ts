@@ -9,7 +9,8 @@ import {Subscription} from "rxjs";
 @Component({
   selector: 'app-code-trace-page',
   templateUrl: './code-trace-page.component.html',
-  styleUrls: ['./code-trace-page.component.scss']
+  styleUrls: ['./code-trace-page.component.scss'],
+  providers: [CodeService]
 })
 export class CodeTracePageComponent implements OnInit, OnDestroy{
 

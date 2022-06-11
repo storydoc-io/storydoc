@@ -79,13 +79,14 @@ export interface TreeNode {
   parent?: TreeNode
 }
 
+let instanceCount = 0
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class CodeService implements OnDestroy {
 
   constructor(private codeRestControllerService: CodeRestControllerService) {
+    instanceCount++
+    console.log('CodeService instance #', instanceCount++)
     this.init()
   }
 

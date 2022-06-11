@@ -60,6 +60,12 @@ export class SettingsService {
           nameSpace: 'io.storydoc.code',
           key: 'java.source.dir',
           valueType: 'PATH'
+        },
+        {
+          label: 'Stitch output',
+          nameSpace: 'io.storydoc.code',
+          key: 'stitch.dir',
+          valueType: 'PATH'
         }
       ]
     })

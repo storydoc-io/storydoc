@@ -48,9 +48,7 @@ interface BlueprintStoreState {
   diagramPart: DiagramPart
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class BlueprintService implements OnDestroy {
 
   constructor(private codeRestControllerService: CodeRestControllerService, private codeService: CodeService) { this.init() }

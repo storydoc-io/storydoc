@@ -6,7 +6,8 @@ import {BlueprintService} from "./blueprint.service";
 @Component({
   selector: 'app-blueprint-panel',
   templateUrl: './blueprint-panel.component.html',
-  styleUrls: ['./blueprint-panel.component.scss']
+  styleUrls: ['./blueprint-panel.component.scss'],
+  providers: [BlueprintService]
 })
 export class BlueprintPanelComponent implements OnInit {
 
