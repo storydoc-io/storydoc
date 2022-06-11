@@ -6,13 +6,13 @@
 
     <parent>
         <groupId>io.storydoc</groupId>
-        <artifactId>storydoc</artifactId>
+        <artifactId>storydoc-client</artifactId>
         <version>0.2.0-SNAPSHOT</version>
     </parent>
 
-    <name>stitch</name>
+    <name>storydoc :: client:: blueprint</name>
 
-    <artifactId>stitch</artifactId>
+    <artifactId>blueprint</artifactId>
     <version>0.2.0-SNAPSHOT</version>
 
     <properties>
@@ -31,6 +31,11 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.7</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.11.4</version>
         </dependency>
 
         <!-- test -->

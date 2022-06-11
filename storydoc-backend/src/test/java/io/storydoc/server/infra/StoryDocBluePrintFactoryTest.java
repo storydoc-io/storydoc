@@ -1,8 +1,9 @@
-package io.storydoc.blueprint;
+package io.storydoc.server.infra;
 
 
+import io.storydoc.blueprint.BluePrint;
+import io.storydoc.blueprint.Classifier;
 import io.storydoc.server.code.app.CodeQueryService;
-import io.storydoc.server.infra.StoryDocBluePrintFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
