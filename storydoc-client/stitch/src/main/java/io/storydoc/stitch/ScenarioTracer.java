@@ -8,11 +8,11 @@ public class ScenarioTracer {
         this.stitchEngine = stitchEngine;
     }
 
-    public void beginTestCase(String testCaseName) {
-        stitchEngine.beginTestCase(testCaseName);
+    public void beginTestCase(String... nameFragments) {
+        stitchEngine.beginTestCase(nameFragments);
     }
 
-    public void endTestCase(String testCaseName) {
+    public void endTestCase(String... nameFragments) {
         stitchEngine.endTestCase();
     }
 

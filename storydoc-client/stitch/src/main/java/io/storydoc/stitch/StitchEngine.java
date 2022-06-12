@@ -7,7 +7,9 @@ import java.nio.file.Path;
 
 public class StitchEngine {
 
-    private TestCaseEventStream eventStream;
+    private TestCaseEventStream testCaseEventStream;
+
+    private SummaryEventStream summaryEventStream;
 
     private final StitchConfig config;
 
@@ -18,28 +20,48 @@ public class StitchEngine {
     public StitchEngine(StitchConfig config) {
         this.config = config;
         initRootPath();
+        initSummary();
     }
 
     @SneakyThrows
     private void initRootPath() {
         Files.createDirectories(config.getRootPath());
-
     }
 
-    public void beginTestCase(String testCaseName) {
-        eventStream = new TestCaseEventStream(getPath(testCaseName));
+    private void initSummary() {
+        summaryEventStream = new SummaryEventStream(getSummaryPath());
     }
 
-    private Path getPath(String testCaseName) {
-        return config.getRootPath().resolve(testCaseName + ".txt");
+    Path getSummaryPath() {
+        return config.getRootPath().resolve("summary.txt");
+    }
+
+    @SneakyThrows
+    public void beginTestCase(String ... nameFragments) {
+        summaryEventStream.addEntry(nameFragments);
+        Path path = getPath(nameFragments);
+        Files.createDirectories(path.getParent());
+        testCaseEventStream = new TestCaseEventStream(path);
+    }
+
+    private Path getPath(String[] fragments) {
+        Path parentPath  = config.getRootPath();
+        int lastFragmentIdx = fragments.length - 1;
+        for (int idx = 0; idx < lastFragmentIdx; idx++) {
+            String subFolderName = fragments[idx];
+            parentPath = parentPath.resolve(subFolderName);
+        }
+        String fileName = fragments[lastFragmentIdx] + ".txt";
+        Path path = parentPath.resolve(fileName);
+        return path;
     }
 
     public void add(String modelName, String eventName, String jsonValue) {
-        eventStream.add(String.format("%s|%s|%s", modelName, eventName, jsonValue));
+        testCaseEventStream.add(String.format("%s|%s|%s", modelName, eventName, jsonValue));
     }
 
     public void endTestCase() {
-        eventStream.close();
-        eventStream = null;
+        testCaseEventStream.close();
+        testCaseEventStream = null;
     }
 }

@@ -30,13 +30,13 @@ abstract public class TestBase {
     @Rule
     public TestRule watcher = new TestWatcher() {
         protected void starting(Description description) {
-            scenarioTracer.beginTestCase(description.getClassName() + " " + description.getDisplayName());
+            scenarioTracer.beginTestCase(description.getClassName(), description.getMethodName());
             log.debug("**");
             log.debug("* Test: " + description.getClassName() + "." + description.getMethodName());
             log.debug("**");
         }
         protected void finished(Description description) {
-            scenarioTracer.endTestCase(description.getClassName() + " " + description.getDisplayName());
+            scenarioTracer.endTestCase(description.getClassName(), description.getMethodName());
         }
     };
 

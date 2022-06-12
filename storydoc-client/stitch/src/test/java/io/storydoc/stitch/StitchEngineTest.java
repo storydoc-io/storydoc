@@ -1,5 +1,6 @@
 package io.storydoc.stitch;
 
+import lombok.SneakyThrows;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -7,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.nio.file.Path;
 import java.util.UUID;
 
 public class StitchEngineTest  {
@@ -43,6 +46,11 @@ public class StitchEngineTest  {
         }
 
         logRootFolder();
+        logSummary(stitchEngine);
+    }
+
+    private void logSummary(StitchEngine stitchEngine) {
+        logFileContent("summary.txt: ", stitchEngine.getSummaryPath());
     }
 
     private String aTestCaseName() {
@@ -79,6 +87,13 @@ public class StitchEngineTest  {
                 logger.info(indent + "- " + dirElem.getName());
             }
         }
+    }
+
+    @SneakyThrows
+    private void logFileContent(String msg, Path path) {
+        FileInputStream fileInputStream = new FileInputStream(path.toFile());
+        logger.info(msg);
+        logger.info(new String(fileInputStream.readAllBytes()));
     }
 
 }
