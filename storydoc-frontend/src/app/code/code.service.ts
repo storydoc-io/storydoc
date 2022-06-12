@@ -2,19 +2,9 @@ import {Injectable, OnDestroy} from '@angular/core';
 import {BehaviorSubject, Subscription} from "rxjs";
 import {distinctUntilChanged, map} from "rxjs/operators";
 import {log, logChangesToObservable} from "@storydoc/common";
-import {
-  ArtifactDto,
-  ArtifactId,
-  BlockCoordinate,
-  CodeExecutionCoordinate,
-  CodeTraceDto,
-  SourceCodeConfigCoordinate,
-  SourceCodeConfigDto,
-  SourceCodeDto,
-  StitchItemDto
-} from "@storydoc/models";
+import {ArtifactId, BlockCoordinate, CodeExecutionCoordinate, CodeTraceDto, SourceCodeDto, StitchItemDto} from "@storydoc/models";
 import {CodeRestControllerService} from "@storydoc/services";
-import {getClassName, getLabel, toStitchEvent} from "./code.functions";
+import {getLabel, toStitchEvent} from "./code.functions";
 
 export interface StitchEvent {
   modelName: string
@@ -62,15 +52,6 @@ interface SourceCodeStoreState {
   sourceCode?: SourceCodeDto
 }
 
-interface SourceCodeConfigStoreState {
-  coord: SourceCodeConfigCoordinate,
-  sourceCodeConfig?: SourceCodeConfigDto
-}
-
-interface ConfigPanelState {
-  configs: ArtifactDto[]
-}
-
 export interface TreeNode {
   name: string,
   children: TreeNode[],
@@ -85,8 +66,6 @@ let instanceCount = 0
 export class CodeService implements OnDestroy {
 
   constructor(private codeRestControllerService: CodeRestControllerService) {
-    instanceCount++
-    console.log('CodeService instance #', instanceCount++)
     this.init()
   }
 
@@ -124,16 +103,6 @@ export class CodeService implements OnDestroy {
     distinctUntilChanged(),
   )
 
-  private configStore = new BehaviorSubject<SourceCodeConfigStoreState>({
-    coord: null,
-    sourceCodeConfig: null
-  })
-
-  config$ = this.configStore.pipe(
-    map(state => state.sourceCodeConfig),
-    distinctUntilChanged(),
-  )
-
 
   private subscriptions: Subscription[] = []
 
@@ -144,7 +113,6 @@ export class CodeService implements OnDestroy {
     this.subscriptions.push(logChangesToObservable('traceStore::selectedNode$ >> ', this.selectedNode$))
     this.subscriptions.push(logChangesToObservable('traceStore::treeNodes$ >> ', this.treeNodes$))
     this.subscriptions.push(logChangesToObservable('sourceCodeStore::sourceCode$ >> ', this.sourceCode$))
-    this.subscriptions.push(logChangesToObservable('configStore >> ', this.configStore))
     this.subscriptions.push(this.selectedEvent$.subscribe(event => {
       if (!event) return
       if (isCodeExecutionEnterEvent(event)) {
@@ -171,7 +139,6 @@ export class CodeService implements OnDestroy {
           codeTrace,
           treeNodes: codeTrace ? new StitchDto2TreeNodeConverter().run(codeTrace.items) : null
         })
-        this.loadConfig(codeTrace.config)
         this.selectNode(codeTrace.items[0])
       })
   }
@@ -199,33 +166,6 @@ export class CodeService implements OnDestroy {
       .subscribe(sourceCode => this.sourceCodeStore.next({className, sourceCode}))
   }
 
-
-  loadConfig(coord: SourceCodeConfigCoordinate) {
-    log('loadConfig(coord)', coord)
-    this.codeRestControllerService.getSourceConfigUsingGet({
-      storyDocId: coord.blockCoordinate.storyDocId.id,
-      blockId: coord.blockCoordinate.blockId.id,
-      sourceCodeConfigId: coord.sourceCodeConfigId.id
-    }).subscribe(config => this.configStore.next({
-      coord,
-      sourceCodeConfig: config
-    }))
-
-  }
-
-  addPathToConfig(path: string) {
-    log('addPathToConfig(path)', path)
-    let coord = this.configStore.getValue().coord
-    this.codeRestControllerService.setSourcePathUsingPost({
-      storyDocId: coord.blockCoordinate.storyDocId.id,
-      blockId: coord.blockCoordinate.blockId.id,
-      sourceCodeConfigId: coord.sourceCodeConfigId.id,
-      path
-    }).subscribe(() => {
-      this.loadConfig(coord)
-    })
-
-  }
 
   setCodeExecutionConfig(blockCoordinate: BlockCoordinate, artifactId: ArtifactId) {
     log('setCodeExecutionConfig(blockCoordinate, artifactId)', blockCoordinate, artifactId)

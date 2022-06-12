@@ -5,11 +5,13 @@ import {SourceCodeConfigCoordinate} from '@storydoc/models'
 import {LinkService, ModalService, PopupMenuComponent} from "@storydoc/common";
 import {CodeConfigurationData, CodeConfigurationSpec} from "./code-configuration-dialog/code-configuration-dialog.component";
 import {SourceCodeConfigDto} from "../../api/models/source-code-config-dto";
+import {CodeConfigurationService} from "./code-configuration.service";
 
 @Component({
   selector: 'app-code-configuration-page',
   templateUrl: './code-configuration-page.component.html',
-  styleUrls: ['./code-configuration-page.component.scss']
+  styleUrls: ['./code-configuration-page.component.scss'],
+  providers: [CodeConfigurationService]
 })
 export class CodeConfigurationPageComponent implements OnInit {
 
@@ -17,10 +19,10 @@ export class CodeConfigurationPageComponent implements OnInit {
     private route: ActivatedRoute,
     public link: LinkService,
     private modalService: ModalService,
-    private codeService: CodeService
+    private codeConfigurationService: CodeConfigurationService
   ) { }
 
-  config$ = this.codeService.config$
+  config$ = this.codeConfigurationService.config$
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -28,7 +30,7 @@ export class CodeConfigurationPageComponent implements OnInit {
       let blockId = params.get('blockId')
       let id = params.get('artifactId')
       if (id) {
-        this.codeService.loadConfig(<SourceCodeConfigCoordinate>{
+        this.codeConfigurationService.loadConfig(<SourceCodeConfigCoordinate>{
             blockCoordinate: {
               storyDocId: { id: documentId },
               blockId: { id: blockId }
@@ -72,7 +74,7 @@ export class CodeConfigurationPageComponent implements OnInit {
   }
 
   confirmAddPath(data: CodeConfigurationData) {
-    this.codeService.addPathToConfig(data.path)
+    this.codeConfigurationService.addPathToConfig(data.path)
   }
 
   // popup menu
