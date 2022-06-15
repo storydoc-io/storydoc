@@ -12,6 +12,7 @@
         <module>storydoc-backend</module>
         <module>storydoc-frontend</module>
         <module>storydoc-server-pe</module>
+
     </modules>
 
     <packaging>pom</packaging>
@@ -38,6 +39,11 @@
             <dependency>
                 <groupId>io.storydoc</groupId>
                 <artifactId>blueprint</artifactId>
+                <version>0.2.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>io.storydoc</groupId>
+                <artifactId>canon</artifactId>
                 <version>0.2.0-SNAPSHOT</version>
             </dependency>
             <dependency>

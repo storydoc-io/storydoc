@@ -1,17 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {StitchItemDto} from "@storydoc/models";
-import {TreeNode} from '../../code.service'
-import {
-  CodeExecutionEnterEvent,
-  CodeExecutionReturnEvent,
-  CodeService,
-  isCodeExecutionEnterEvent,
-  isCodeExecutionReturnEvent,
-  isCodeTestCaseBDDEvent,
-  StitchEvent,
-  TestCaseBDDEvent
-} from "../../code.service";
+import {isCodeExecutionEnterEvent, isCodeExecutionReturnEvent, isCodeTestCaseBDDEvent, StitchEvent} from "../../code.functions";
 import {Subscription} from "rxjs";
+import {CodeService} from "../../code.service";
 
 @Component({
   selector: 'app-code-trace-panel',

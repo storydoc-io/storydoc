@@ -17,6 +17,7 @@
         <module>stitch</module>
         <module>fabric</module>
         <module>blueprint</module>
+        <module>canon</module>
     </modules>
 
     <packaging>pom</packaging>

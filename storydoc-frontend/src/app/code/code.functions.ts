@@ -1,13 +1,37 @@
-import {
-  CodeExecutionEnterEvent,
-  CodeExecutionReturnEvent,
-  isCodeExecutionEnterEvent,
-  isCodeExecutionReturnEvent,
-  isCodeTestCaseBDDEvent,
-  StitchEvent,
-  TestCaseBDDEvent, TreeNode
-} from "./code.service";
 import {StitchItemDto} from "@storydoc/models";
+
+export interface StitchEvent {
+  modelName: string
+  eventName: string
+}
+
+export interface CodeExecutionEnterEvent extends StitchEvent {
+  className: string,
+  methodName: string
+}
+
+export function isCodeExecutionEnterEvent(event: StitchEvent): event is CodeExecutionEnterEvent {
+  return event.modelName === 'CodeExecution' && event.eventName === 'MethodCalled'
+}
+
+export interface CodeExecutionReturnEvent extends StitchEvent {
+  className: string,
+  methodName: string
+}
+
+export function isCodeExecutionReturnEvent(event: StitchEvent): event is CodeExecutionReturnEvent {
+  return event.modelName === 'CodeExecution' && event.eventName === 'MethodReturn'
+}
+
+export interface TestCaseBDDEvent extends StitchEvent {
+  noun: string
+  text: string
+}
+
+export function isCodeTestCaseBDDEvent(event: StitchEvent): event is TestCaseBDDEvent {
+  return event.modelName === 'TestScenario' && event.eventName === 'given'
+}
+
 
 export function getClassName(item: CodeExecutionEnterEvent) {
   return getSimpleClassName(item.className)
@@ -82,6 +106,15 @@ export function toStitchEvent(item: StitchItemDto): StitchEvent {
   }
 
 }
+
+export interface TreeNode {
+  name: string,
+  children: TreeNode[],
+  event?: StitchEvent,
+  data? : any
+  parent?: TreeNode
+}
+
 
 export function nodeToPath(node: TreeNode) : TreeNode[]{
   let result = []

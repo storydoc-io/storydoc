@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {CodeExecutionEnterEvent, CodeExecutionReturnEvent, CodeService, isCodeTestCaseBDDEvent, StitchEvent, TestCaseBDDEvent} from "../code.service";
 import {LinkService, ModalService} from "@storydoc/common";
 import {ActivatedRoute} from "@angular/router";
-import {CodeExecutionCoordinate, StitchItemDto} from "@storydoc/models";
+import {CodeExecutionCoordinate} from "@storydoc/models";
 import {CodeTraceConfigDialogData, CodeTraceConfigDialogSpec} from "./code-trace-configuration-dialog/code-trace-configuration-dialog.component";
 import {Subscription} from "rxjs";
+import {CodeService} from "../code.service";
 
 @Component({
   selector: 'app-code-trace-page',

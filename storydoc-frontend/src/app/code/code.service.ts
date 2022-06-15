@@ -4,39 +4,7 @@ import {distinctUntilChanged, map} from "rxjs/operators";
 import {log, logChangesToObservable} from "@storydoc/common";
 import {ArtifactId, BlockCoordinate, CodeExecutionCoordinate, CodeTraceDto, SourceCodeDto, StitchItemDto} from "@storydoc/models";
 import {CodeRestControllerService} from "@storydoc/services";
-import {getLabel, toStitchEvent} from "./code.functions";
-
-export interface StitchEvent {
-  modelName: string
-  eventName: string
-}
-
-export interface CodeExecutionEnterEvent extends StitchEvent {
-  className: string,
-  methodName: string
-}
-
-export function isCodeExecutionEnterEvent(event: StitchEvent): event is CodeExecutionEnterEvent {
-  return event.modelName === 'CodeExecution' && event.eventName === 'MethodCalled'
-}
-
-export interface CodeExecutionReturnEvent extends StitchEvent {
-  className: string,
-  methodName: string
-}
-
-export function isCodeExecutionReturnEvent(event: StitchEvent): event is CodeExecutionReturnEvent {
-  return event.modelName === 'CodeExecution' && event.eventName === 'MethodReturn'
-}
-
-export interface TestCaseBDDEvent extends StitchEvent {
-  noun: string
-  text: string
-}
-
-export function isCodeTestCaseBDDEvent(event: StitchEvent): event is TestCaseBDDEvent {
-  return event.modelName === 'TestScenario' && event.eventName === 'given'
-}
+import {getLabel, isCodeExecutionEnterEvent, StitchEvent, toStitchEvent, TreeNode} from "./code.functions";
 
 
 interface TraceStoreState {
@@ -52,13 +20,6 @@ interface SourceCodeStoreState {
   sourceCode?: SourceCodeDto
 }
 
-export interface TreeNode {
-  name: string,
-  children: TreeNode[],
-  event?: StitchEvent,
-  data? : any
-  parent?: TreeNode
-}
 
 let instanceCount = 0
 

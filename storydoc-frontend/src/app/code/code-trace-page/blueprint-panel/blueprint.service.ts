@@ -1,11 +1,11 @@
 import {Injectable, OnDestroy} from '@angular/core';
-import {BluePrint, BluePrintElement, CodeTraceDto, CompositeBluePrintElement, Role} from "@storydoc/models";
+import {BluePrint, CodeTraceDto, Role} from "@storydoc/models";
 import {BehaviorSubject, combineLatest, Subscription} from "rxjs";
 import {distinctUntilChanged, map} from "rxjs/operators";
 import {CodeRestControllerService} from "@storydoc/services";
 import {log, logChangesToObservable} from "@storydoc/common";
-import {CodeExecutionEnterEvent, CodeService, StitchEvent, TreeNode} from "../../code.service";
-import {getClassName, getSimpleClassName, nodeToPath} from "../../code.functions";
+import {CodeService} from "../../code.service";
+import {CodeExecutionEnterEvent, getSimpleClassName, nodeToPath, TreeNode} from "../../code.functions";
 
 export interface BasePart {
   type: string
