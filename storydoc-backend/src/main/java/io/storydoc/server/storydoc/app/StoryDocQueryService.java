@@ -22,8 +22,8 @@ public interface StoryDocQueryService {
     InputStream getBinaryFromCollection(ArtifactCoordinate coordinate, ItemId itemId) throws WorkspaceException;
     ResourceUrn getArtifactItemUrn(ArtifactCoordinate artifactCoordinate, ItemId itemId);
     List<AssociationDto> getAssociationsFrom(ArtifactCoordinate artifactCoordinate1, String name);
+    ArtifactCoordinate getDefaultArtifact(BlockCoordinate blockCoordinate, String type);
     SettingsDTO getGlobalSettings();
     ResourceUrn getGlobalSettingsUrn();
     SettingsEntryDTO getGlobalSetting(String settingsNamespace, String settingsKey_stitchDir);
-
 }

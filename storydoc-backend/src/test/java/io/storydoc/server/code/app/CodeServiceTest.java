@@ -4,6 +4,7 @@ import io.storydoc.server.TestBase;
 import io.storydoc.server.code.app.stitch.CodeTraceDTO;
 import io.storydoc.server.code.domain.CodeExecutionCoordinate;
 import io.storydoc.server.code.domain.SourceCodeConfigCoordinate;
+import io.storydoc.server.code.domain.StitchConfigCoordinate;
 import io.storydoc.server.storydoc.StoryDocTestFixture;
 import io.storydoc.server.storydoc.app.StoryDocQueryService;
 import io.storydoc.server.storydoc.app.dto.StoryDocDTO;
@@ -32,7 +33,49 @@ public class CodeServiceTest extends TestBase {
     StoryDocQueryService storyDocQueryService;
 
     @Test
-    public void create_sourcecode_config() {
+    public void stitch_config__create() {
+        // given a storydoc with a artifact block
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
+
+        // when I create a stitch config
+        String name = "name";
+        StitchConfigCoordinate coordinate = codeService.createStitchConfig(blockCoordinate, name);
+
+        workspaceTestFixture.logResourceContent("after add stitch config", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
+
+        // then the artifact is part of the storydoc
+        StoryDocDTO storyDocDTO = storyDocTestFixture.getStorydoc(blockCoordinate.getStoryDocId());
+        assertEquals(1, storyDocDTO.getBlocks().get(0).getArtifacts().size());
+
+        // and then I get the config  from its coordinate
+        StitchConfigDTO dto = codeQueryService.getStitchConfig(coordinate);
+        assertNotNull(dto);
+        assertEquals(coordinate.getStitchConfigId(), dto.getId());
+        assertNull(dto.getDir());
+
+    }
+
+    @Test
+    public void stitch_config__set_source_path() {
+        // given a storydoc with a artifact block
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
+
+        // given a stitch config
+        String name = "name";
+        StitchConfigCoordinate coordinate = codeService.createStitchConfig(blockCoordinate, name);
+
+        // when I set a stitch path in the code config
+        String path = "/some/path";
+        codeService.setStitchPath(coordinate, path);
+
+        // then the config contains the code path
+        StitchConfigDTO dto = codeQueryService.getStitchConfig(coordinate);
+        assertEquals(path, dto.getDir());
+    }
+    
+    
+    @Test
+    public void sourcecode_config__create() {
         // given a storydoc with a artifact block
         BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
 
@@ -55,7 +98,7 @@ public class CodeServiceTest extends TestBase {
     }
 
     @Test
-    public void set_source_code_path() {
+    public void sourcecode_config__set_source_path() {
         // given a storydoc with a artifact block
         BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
 
@@ -74,7 +117,7 @@ public class CodeServiceTest extends TestBase {
     }
 
     @Test
-    public void create_code_execution() {
+    public void code_execution__create() {
         // given a storydoc with a artifact block
         BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
 
@@ -89,7 +132,7 @@ public class CodeServiceTest extends TestBase {
     }
 
     @Test
-    public void set_stitch_details() {
+    public void code_execution__set_stitch_details() {
         // given a storydoc with a artifact block
         BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
 
@@ -105,7 +148,7 @@ public class CodeServiceTest extends TestBase {
     }
 
     @Test
-    public void parse_stitch_file() {
+    public void code_execution__get_execution() {
         // given a storydoc with a artifact block
         BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
 
@@ -126,8 +169,8 @@ public class CodeServiceTest extends TestBase {
     }
 
 
-        @Test
-    public void set_source_code_config_for_code_execution() {
+    @Test
+    public void code_execution__use_default_source_code_config() {
         // given a storydoc with a artifact block
         BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
 
@@ -135,18 +178,50 @@ public class CodeServiceTest extends TestBase {
         String name = "test-1";
         CodeExecutionCoordinate codeExecutionCoordinate = codeService.createCodeExecution(blockCoordinate, name);
 
-        // given a sourcecode config
+        // the code execution has no sourcecode config
+        {
+            CodeTraceDTO codeTraceDTO = codeQueryService.getExecution(codeExecutionCoordinate);
+            assertNull(codeTraceDTO.getConfig());
+        }
+
+        // When I create a sourcecode config in the same block
         String sourceCodeConfigName = "source-code-config-name";
         SourceCodeConfigCoordinate sourceCodeConfigCoordinate = codeService.createSourceCodeConfig(blockCoordinate, sourceCodeConfigName);
 
-        // when I associate the ccode exection with the sourcecode config
-        codeService.setSourceConfigForExecution(codeExecutionCoordinate, sourceCodeConfigCoordinate);
-        workspaceTestFixture.logResourceContent("after association", storyDocQueryService.getDocument(blockCoordinate.getStoryDocId()).getUrn());
+        // then the code execution has a default association with the sourcecode config
+        {
+            CodeTraceDTO codeTraceDTO = codeQueryService.getExecution(codeExecutionCoordinate);
+            assertNotNull(codeTraceDTO.getConfig());
+            assertEquals(sourceCodeConfigCoordinate, codeTraceDTO.getConfig());
+        }
 
-        // I can find the associated config
-        CodeTraceDTO codeTraceDTO =codeQueryService.getExecution(codeExecutionCoordinate);
-        assertNotNull(codeTraceDTO.getConfig());
-        assertEquals(sourceCodeConfigCoordinate, codeTraceDTO.getConfig());
+    }
+
+    @Test
+    public void code_execution__use_default_stitch_config() {
+        // given a storydoc with a artifact block
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
+
+        // given a code execution
+        String name = "test-1";
+        CodeExecutionCoordinate codeExecutionCoordinate = codeService.createCodeExecution(blockCoordinate, name);
+
+        // the code execution has no stitch config
+        {
+            CodeTraceDTO codeTraceDTO = codeQueryService.getExecution(codeExecutionCoordinate);
+            assertNull(codeTraceDTO.getStitchConfigCoordinate());
+        }
+
+        // When I create a stitch config in the same block
+        String stitchConfigName = "stitch-config-name";
+        StitchConfigCoordinate stitchConfigCoordinate = codeService.createStitchConfig(blockCoordinate, stitchConfigName);
+
+        // then the code execution has a default association with the stitch config
+        {
+            CodeTraceDTO codeTraceDTO = codeQueryService.getExecution(codeExecutionCoordinate);
+            assertNotNull(codeTraceDTO.getStitchConfigCoordinate());
+            assertEquals(stitchConfigCoordinate, codeTraceDTO.getStitchConfigCoordinate());
+        }
 
     }
 

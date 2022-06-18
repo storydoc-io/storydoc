@@ -6,6 +6,7 @@ import {LinkService, ModalService, PopupMenuComponent} from "@storydoc/common";
 import {CodeConfigurationData, CodeConfigurationSpec} from "./code-configuration-dialog/code-configuration-dialog.component";
 import {SourceCodeConfigDto} from "../../api/models/source-code-config-dto";
 import {CodeConfigurationService} from "./code-configuration.service";
+import {StitchConfigurationService} from "../stitch-configuration-page/stitch-configuration.service";
 
 @Component({
   selector: 'app-code-configuration-page',

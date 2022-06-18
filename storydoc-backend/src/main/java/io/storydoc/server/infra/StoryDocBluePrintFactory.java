@@ -1,18 +1,43 @@
 package io.storydoc.server.infra;
 
 import io.storydoc.blueprint.BluePrint;
-import io.storydoc.blueprint.classification.ByClassNameClassification;
-import io.storydoc.blueprint.layout.FlexLayout;
 import io.storydoc.blueprint.element.Role;
+import io.storydoc.blueprint.layout.FlexLayout;
 
 import java.util.List;
 
+import static io.storydoc.blueprint.classification.AnyClassNameClassification.anyClassName;
+import static io.storydoc.blueprint.classification.ByClassNameClassification.hasClassNameEndingWith;
 import static io.storydoc.blueprint.classification.ByPackageNameClassification.packageNameStartsWith;
 
 public class StoryDocBluePrintFactory {
 
 
     public BluePrint createBluePrint() {
+
+        BluePrint config = BluePrint.builder()
+                .name("Config")
+                .classifier(packageNameStartsWith("io.storydoc.server.config"))
+                .layout(new FlexLayout())
+                .elements(List.of(
+                        Role.builder()
+                            .name("config")
+                            .classifier(anyClassName())
+                            .build())
+                )
+                .build();
+
+        BluePrint infra = BluePrint.builder()
+                .name("Infra")
+                .classifier(packageNameStartsWith("io.storydoc.server.infra"))
+                .layout(new FlexLayout())
+                .elements(List.of(
+                        Role.builder()
+                                .name("config")
+                                .classifier(anyClassName())
+                                .build())
+                )
+                .build();
 
         BluePrint codeDomain = dddBlueprint()
                 .name("Code Domain")
@@ -37,25 +62,26 @@ public class StoryDocBluePrintFactory {
                 .name("Storydoc Backend")
                 .layout(new FlexLayout())
                 .classifier(packageNameStartsWith("io.storydoc.server"))
-                .elements(List.of(codeDomain, uiDomain, storyDocDomain, workspaceDomain))
+                .elements(List.of(config, infra, codeDomain, uiDomain, storyDocDomain, workspaceDomain))
                 .build();
 
     }
 
+
     private BluePrint.BluePrintBuilder dddBlueprint() {
         Role storageRole = Role.builder()
                 .name("Repository")
-                .classifier(ByClassNameClassification.hasClassNameEndingWith("Storage", "StorageImpl", "Repository", "RepositoryImpl"))
+                .classifier(hasClassNameEndingWith("Storage", "StorageImpl", "Repository", "RepositoryImpl"))
                 .build();
 
         Role serviceRole = Role.builder()
                 .name("Service")
-                .classifier(ByClassNameClassification.hasClassNameEndingWith("Service", "ServiecImpl"))
+                .classifier(hasClassNameEndingWith("Service", "ServiecImpl"))
                 .build();
 
         Role domainRepositoryRole = Role.builder()
                 .name("DomainRepository")
-                .classifier(ByClassNameClassification.hasClassNameEndingWith("DomainRepository"))
+                .classifier(hasClassNameEndingWith("DomainRepository"))
                 .build();
 
 

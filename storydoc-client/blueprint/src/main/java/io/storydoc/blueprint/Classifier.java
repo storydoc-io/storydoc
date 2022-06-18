@@ -1,5 +1,6 @@
 package io.storydoc.blueprint;
 
+import io.storydoc.blueprint.classification.ClassInfo;
 import io.storydoc.blueprint.element.BluePrintElement;
 import io.storydoc.blueprint.element.CompositeBluePrintElement;
 
@@ -14,14 +15,14 @@ public class Classifier {
         this.bluePrint = bluePrint;
     }
 
-    public List<String> classify(Class aClass) {
+    public List<String> classify(ClassInfo aClass) {
         List<String> classificationNames = new ArrayList<>();
         accepts(bluePrint, aClass, classificationNames);
         return classificationNames;
 
     }
 
-    private boolean accepts(BluePrintElement bluePrintElement, Class aClass, List<String> classifications) {
+    private boolean accepts(BluePrintElement bluePrintElement, ClassInfo aClass, List<String> classifications) {
         if (bluePrintElement.getClassification()==null) {
             throw new IllegalArgumentException("bluePrintElement has no classification: " + bluePrintElement.getName());
         }

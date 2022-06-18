@@ -7,15 +7,6 @@
     <div class="modal-body">
       <form [formGroup]="formGroup">
         <div class="mb-3">
-          <label class="form-label">Sourcecode location</label>
-          <button type="button" class="btn btn-primary" (click)="selectCodeConfigArtifact()">Select...</button>
-        </div>
-        <div class="mb-3">
-          <label for="stitchFile" class="form-label">Stitch File Location</label>
-          <input formControlName="stitchFile" type="text" class="form-control">
-          <div id="stitchFile" class="form-text">Enter location of the stitch file.</div>
-        </div>
-        <div class="mb-3">
           <label for="testClass" class="form-label">Test Class Name</label>
           <input formControlName="testClass" type="text" class="form-control">
           <div id="testClass" class="form-text">Enter test class name.</div>
@@ -34,7 +25,3 @@
     </div>
   </div>
 </div>
-
-<jw-modal [id]="artifactSelectionDialogId()">
-  <app-artifact-selection-dialog [spec]="artifactSelectionDialogSpec"></app-artifact-selection-dialog>
-</jw-modal>

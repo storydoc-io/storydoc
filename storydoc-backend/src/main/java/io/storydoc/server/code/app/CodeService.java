@@ -2,6 +2,7 @@ package io.storydoc.server.code.app;
 
 import io.storydoc.blueprint.BluePrint;
 import io.storydoc.blueprint.Classifier;
+import io.storydoc.blueprint.classification.ClassInfo;
 import io.storydoc.server.code.domain.*;
 import io.storydoc.server.infra.IDGenerator;
 import io.storydoc.server.infra.StoryDocBluePrintFactory;
@@ -73,11 +74,6 @@ public class CodeService {
         sourceCodeConfig.setSourcePath(coordinate, path);
     }
 
-    public void setSourceConfigForExecution(CodeExecutionCoordinate codeExecutionCoordinate, SourceCodeConfigCoordinate sourceCodeConfigCoordinate) {
-        CodeExecution codeExecution = domainService.getCodeExecution(codeExecutionCoordinate);
-        codeExecution.setSourceConfig(codeExecutionCoordinate, sourceCodeConfigCoordinate);
-    }
-
     private BluePrint bluePrint;
 
     public BluePrint getBluePrint() {
@@ -95,7 +91,14 @@ public class CodeService {
         if (classifier==null) {
             classifier = new Classifier(getBluePrint());
         }
-        return classifier.classify(Class.forName(className));
+        return classifier.classify(getClassInfo(className));
+    }
+
+    private ClassInfo getClassInfo(String className) {
+        return ClassInfo.builder()
+                .fullClassName(className)
+                .packageName(className.substring(0, className.lastIndexOf('.')))
+                .build();
     }
 
     public Map<String, List<String>> classifyMultiple(String[] classNames) {
@@ -107,4 +110,16 @@ public class CodeService {
         storyDocService.setGlobalSettings(List.of(new SettingsEntryDTO(SETTINGS_NAMESPACE, SETTINGS_KEY__STITCH_DIR, stitchDir)));
     }
 
+    public StitchConfigCoordinate createStitchConfig(BlockCoordinate blockCoordinate, String name) {
+        StitchConfigId codeExecutionId = new StitchConfigId(idGenerator.generateID(StitchConfigId.ID_PREFIX));
+        StitchConfigCoordinate coordinate = StitchConfigCoordinate.of(blockCoordinate, codeExecutionId);
+        domainService.createStitchConfig(coordinate, name);
+        return coordinate;
+
+    }
+
+    public void setStitchPath(StitchConfigCoordinate coordinate, String path) {
+        StitchConfig stitchConfig = domainService.getStitchConfig(coordinate);
+        stitchConfig.setPath(coordinate, path);
+    }
 }

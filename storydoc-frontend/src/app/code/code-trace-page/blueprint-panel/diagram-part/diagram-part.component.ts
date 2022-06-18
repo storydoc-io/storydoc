@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
+import {Component, HostListener, Inject, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {DOCUMENT} from "@angular/common"
 import {DiagramPart, Line} from "../blueprint.service";
 
@@ -10,7 +10,7 @@ declare var LeaderLine: any
   templateUrl: './diagram-part.component.html',
   styleUrls: ['./diagram-part.component.scss']
 })
-export class DiagramPartComponent implements OnChanges {
+export class DiagramPartComponent implements OnChanges{
 
   @Input()
   diagramPart: DiagramPart
@@ -30,8 +30,11 @@ export class DiagramPartComponent implements OnChanges {
     }
   }
 
+  ngAfterViewInit() {
+    this.removeLeaderLines()
+  }
+
   addLeaderLines() {
-    console.log('+++ adding leaderlines +++')
     this.diagramPart.lines.forEach(line => {
       this.leaderLines.push(new LeaderLine(
         this.document.getElementById(line.idFrom),
@@ -51,7 +54,6 @@ export class DiagramPartComponent implements OnChanges {
   }
 
   private removeLeaderLines() {
-    console.log('=== removing leaderlines ===')
     if (this.leaderLines) {
       for (var leaderLine of this.leaderLines) {
         leaderLine.remove()

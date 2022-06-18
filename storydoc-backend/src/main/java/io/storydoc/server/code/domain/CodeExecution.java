@@ -9,10 +9,6 @@ public class CodeExecution {
     private SourceCodeConfigStorage storage;
     private CodeStorage codeStorage;
 
-    public void setSourceConfig(CodeExecutionCoordinate codeExecutionCoordinate, SourceCodeConfigCoordinate sourceCodeConfigCoordinate) {
-        codeStorage.setSourceConfig(codeExecutionCoordinate, sourceCodeConfigCoordinate);
-    }
-
     public void setStitchDetails(CodeExecutionCoordinate coordinate, String stitchFile, String testClass, String testMethod) {
         codeStorage.setStitchDetails(coordinate, stitchFile, testClass, testMethod);
     }

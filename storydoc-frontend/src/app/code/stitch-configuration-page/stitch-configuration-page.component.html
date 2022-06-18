@@ -1,0 +1,51 @@
+<app-layout-2col
+  [breadcrumb]="breadcrumb"
+  [title]="title"
+  [leftColumn]="itemList">
+</app-layout-2col>
+
+<ng-template #breadcrumb>
+  <ng-container *ngIf="config$ | async as config">
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <app-back-button [routerLink]="link.toStoryDoc(config.storyDocSummary)"></app-back-button>
+          <a routerLink="/">Home</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a [routerLink]="link.toStoryDoc(config.storyDocSummary)">{{config.storyDocSummary.name}}</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">{{config.name}}</li>
+      </ol>
+    </nav>
+  </ng-container>
+</ng-template>
+
+<ng-template #title>
+  <div class="container-fluid" *ngIf="config$ | async as config">
+    <div class="row">
+      <h3>Timeline: {{config.name}}</h3>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #itemList>
+  <div class="container-fluid">
+    <div class="row">
+      <div *ngIf="config$ | async as config ; else loading">
+        <ul class="list-group">
+            {{config.dir}}
+        </ul>
+      </div>
+      <div class="btn  btn-sm btn-outline-primary" (click)="editPath()">Edit</div>
+    </div>
+  </div>
+</ng-template>
+
+<app-popup-menu></app-popup-menu>
+
+<ng-template #loading>loading...</ng-template>
+
+<jw-modal [id]="getDialogId()">
+  <app-stitch-configuration-dialog [spec]="codeConfigurationSpec"></app-stitch-configuration-dialog>
+</jw-modal>

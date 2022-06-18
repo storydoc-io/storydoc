@@ -9,9 +9,12 @@ public class CodeDomainService {
 
     private final SourceCodeConfigStorage sourceCodeConfigStorage;
 
-    public CodeDomainService(CodeStorage codeStorage, SourceCodeConfigStorage sourceCodeConfigStorage) {
+    private final StitchConfigStorage stitchConfigStorage;
+
+    public CodeDomainService(CodeStorage codeStorage, SourceCodeConfigStorage sourceCodeConfigStorage,  StitchConfigStorage stitchConfigStorage) {
         this.codeStorage = codeStorage;
         this.sourceCodeConfigStorage = sourceCodeConfigStorage;
+        this.stitchConfigStorage = stitchConfigStorage;
     }
 
     public void createCodeExecution(CodeExecutionCoordinate coordinate, String name) {
@@ -29,11 +32,22 @@ public class CodeDomainService {
                 .build();
     }
 
+    public StitchConfig getStitchConfig(StitchConfigCoordinate coordinate) {
+        return StitchConfig.builder()
+                .sourceCodeConfigId(coordinate.getStitchConfigId())
+                .storage(stitchConfigStorage)
+                .build();
+    }
+    
     public CodeExecution getCodeExecution(CodeExecutionCoordinate codeExecutionCoordinate) {
         return CodeExecution.builder()
                 .codeExecutionId(codeExecutionCoordinate.getCodeExecutionId())
                 .codeStorage(codeStorage)
                 .storage(sourceCodeConfigStorage)
                 .build();
+    }
+
+    public void createStitchConfig(StitchConfigCoordinate coordinate, String name) {
+        stitchConfigStorage.createStitchConfig(coordinate, name);
     }
 }

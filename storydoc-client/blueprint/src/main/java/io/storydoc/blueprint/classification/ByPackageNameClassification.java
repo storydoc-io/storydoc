@@ -13,7 +13,7 @@ public class ByPackageNameClassification extends Classification {
     }
 
     @Override
-    public boolean accepts(Class aClass) {
+    public boolean accepts(ClassInfo aClass) {
         return aClass.getPackageName().startsWith(packageName);
     }
 

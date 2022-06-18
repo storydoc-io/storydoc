@@ -341,94 +341,6 @@
         }
       }
     },
-    "/api/code/codeexecution/config": {
-      "post": {
-        "tags": [
-          "code-rest-controller"
-        ],
-        "summary": "setConfigForCodeExecution",
-        "operationId": "setConfigForCodeExecutionUsingPOST",
-        "parameters": [
-          {
-            "name": "execStoryDocId",
-            "in": "query",
-            "description": "execStoryDocId",
-            "required": true,
-            "style": "form",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "execBlockId",
-            "in": "query",
-            "description": "execBlockId",
-            "required": true,
-            "style": "form",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "codeExecutionId",
-            "in": "query",
-            "description": "codeExecutionId",
-            "required": true,
-            "style": "form",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "configStoryDocId",
-            "in": "query",
-            "description": "configStoryDocId",
-            "required": true,
-            "style": "form",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "configBlockId",
-            "in": "query",
-            "description": "configBlockId",
-            "required": true,
-            "style": "form",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "sourceCodeConfigId",
-            "in": "query",
-            "description": "sourceCodeConfigId",
-            "required": true,
-            "style": "form",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "201": {
-            "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
     "/api/code/codeexecution/stitch": {
       "post": {
         "tags": [
@@ -835,6 +747,261 @@
           },
           "201": {
             "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/code/stitchconfig": {
+      "get": {
+        "tags": [
+          "code-rest-controller"
+        ],
+        "summary": "getStitchConfig",
+        "operationId": "getStitchConfigUsingGET",
+        "parameters": [
+          {
+            "name": "storyDocId",
+            "in": "query",
+            "description": "storyDocId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blockId",
+            "in": "query",
+            "description": "blockId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "stitchConfigId",
+            "in": "query",
+            "description": "stitchConfigId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StitchConfigDTO"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "code-rest-controller"
+        ],
+        "summary": "createStitchConfig",
+        "operationId": "createStitchConfigUsingPOST",
+        "parameters": [
+          {
+            "name": "storyDocId",
+            "in": "query",
+            "description": "storyDocId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blockId",
+            "in": "query",
+            "description": "blockId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "name",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StitchConfigCoordinate"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/code/stitchconfig/path": {
+      "post": {
+        "tags": [
+          "code-rest-controller"
+        ],
+        "summary": "setStitchPath",
+        "operationId": "setStitchPathUsingPOST",
+        "parameters": [
+          {
+            "name": "storyDocId",
+            "in": "query",
+            "description": "storyDocId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blockId",
+            "in": "query",
+            "description": "blockId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "stitchConfigId",
+            "in": "query",
+            "description": "stitchConfigId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "path",
+            "in": "query",
+            "description": "path",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/code/stitchstructure": {
+      "get": {
+        "tags": [
+          "code-rest-controller"
+        ],
+        "summary": "getStitchStructure",
+        "operationId": "getStitchStructureUsingGET",
+        "parameters": [
+          {
+            "name": "storyDocId",
+            "in": "query",
+            "description": "storyDocId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blockId",
+            "in": "query",
+            "description": "blockId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "stitchConfigId",
+            "in": "query",
+            "description": "stitchConfigId",
+            "required": true,
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StitchStructureDTO"
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
@@ -3828,6 +3995,9 @@
           "name": {
             "type": "string"
           },
+          "stitchConfigCoordinate": {
+            "$ref": "#/components/schemas/StitchConfigCoordinate"
+          },
           "storyDocSummary": {
             "$ref": "#/components/schemas/StoryDocSummaryDTO"
           }
@@ -4458,6 +4628,45 @@
           }
         }
       },
+      "StitchConfigCoordinate": {
+        "title": "StitchConfigCoordinate",
+        "type": "object",
+        "properties": {
+          "blockCoordinate": {
+            "$ref": "#/components/schemas/BlockCoordinate"
+          },
+          "stitchConfigId": {
+            "$ref": "#/components/schemas/StitchConfigId"
+          }
+        }
+      },
+      "StitchConfigDTO": {
+        "title": "StitchConfigDTO",
+        "type": "object",
+        "properties": {
+          "dir": {
+            "type": "string"
+          },
+          "id": {
+            "$ref": "#/components/schemas/StitchConfigId"
+          },
+          "name": {
+            "type": "string"
+          },
+          "storyDocSummary": {
+            "$ref": "#/components/schemas/StoryDocSummaryDTO"
+          }
+        }
+      },
+      "StitchConfigId": {
+        "title": "StitchConfigId",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      },
       "StitchItemDTO": {
         "title": "StitchItemDTO",
         "type": "object",
@@ -4478,6 +4687,24 @@
             "type": "string"
           },
           "modelName": {
+            "type": "string"
+          }
+        }
+      },
+      "StitchStructureDTO": {
+        "title": "StitchStructureDTO",
+        "type": "object",
+        "properties": {
+          "children": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StitchStructureDTO"
+            }
+          },
+          "label": {
+            "type": "string"
+          },
+          "type": {
             "type": "string"
           }
         }

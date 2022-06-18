@@ -13,10 +13,10 @@ public class ByClassNameClassification extends Classification {
     }
 
     @Override
-    public boolean accepts(Class aClass) {
+    public boolean accepts(ClassInfo aClass) {
 
         for(String className: classNames) {
-            if (aClass.getName().endsWith(className)) return true;
+            if (aClass.getFullClassName().endsWith(className)) return true;
         }
         return false;
     }

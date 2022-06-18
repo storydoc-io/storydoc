@@ -215,6 +215,16 @@ public class StoryDocQueryServiceImpl implements StoryDocQueryService {
     }
 
     @Override
+    public ArtifactCoordinate getDefaultArtifact(BlockCoordinate blockCoordinate, String type) {
+        List<ArtifactId> artifactIds =  storyDocStorage.findArtifacts(blockCoordinate, (metaData)-> metaData.getType().equals(type));
+        if (artifactIds.size()>0) {
+            return ArtifactCoordinate.of(blockCoordinate, artifactIds.get(0));
+        } else {
+            return null;
+        }
+    }
+
+    @Override
     public SettingsDTO getGlobalSettings() {
         return toSettingsDto(storyDocStorage.loadGlobalSettings());
     }

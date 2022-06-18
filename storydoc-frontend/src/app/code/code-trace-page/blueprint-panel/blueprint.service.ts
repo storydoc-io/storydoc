@@ -5,7 +5,7 @@ import {distinctUntilChanged, map} from "rxjs/operators";
 import {CodeRestControllerService} from "@storydoc/services";
 import {log, logChangesToObservable} from "@storydoc/common";
 import {CodeService} from "../../code.service";
-import {CodeExecutionEnterEvent, getSimpleClassName, nodeToPath, TreeNode} from "../../code.functions";
+import {CodeExecutionEnterEvent, getSimpleClassName, isCodeExecutionEnterEvent, nodeToPath, TreeNode} from "../../code.functions";
 
 export interface BasePart {
   type: string
@@ -100,16 +100,22 @@ export class BlueprintService implements OnDestroy {
 
   updateDiagram(codeTrace: CodeTraceDto, bluePrint: BluePrint, treeNode: TreeNode) {
     log('updateDiagram()')
-    let classNames = nodeToPath(treeNode).map(pathNode => (<CodeExecutionEnterEvent>(pathNode.data.event)).className)
-    this.codeRestControllerService.classifyMultipleUsingPost({body: classNames}).subscribe(response => {
-      let classificationMap = new Map(Object.entries(response))
-      let diagram = new TreeNodes2DiagramConverter(bluePrint, classificationMap).run(treeNode)
-      console.log('diagramPart', diagram)
+    if (!treeNode || !treeNode.data || !isCodeExecutionEnterEvent(treeNode.data.event)) {
       this.bluePrintStore.next({
         ...this.bluePrintStore.value,
-        diagramPart: diagram
+        diagramPart: null
       })
-    })
+    } else {
+      let classNames = nodeToPath(treeNode).map(pathNode => (<CodeExecutionEnterEvent>(pathNode.data.event)).className)
+      this.codeRestControllerService.classifyMultipleUsingPost({body: classNames}).subscribe(response => {
+        let classificationMap = new Map(Object.entries(response))
+        let diagram = new TreeNodes2DiagramConverter(bluePrint, classificationMap).run(treeNode)
+        this.bluePrintStore.next({
+          ...this.bluePrintStore.value,
+          diagramPart: diagram
+        })
+      })
+    }
 
   }
 

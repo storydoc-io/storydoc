@@ -432,6 +432,24 @@ public class StoryDocServiceTest extends TestBase {
     }
 
     @Test
+    public void defaultArtifact() {
+        // given a storydoc with an artifact block
+        BlockCoordinate blockCoordinate = storyDocTestFixture.create_storydoc_with_artifact_block();
+        StoryDocId storyDocId = blockCoordinate.getStoryDocId();
+
+        // given an artifact of type 1
+        ArtifactCoordinate artifactCoordinate1 = storyDocTestFixture.add_artifact(blockCoordinate, "type-01");
+
+        // given an artifact in the same block of type 2
+        String type2 = "type-02";
+        ArtifactCoordinate artifactCoordinate2 = storyDocTestFixture.add_artifact(blockCoordinate, type2);
+
+        // then the artifact of type 2 is the default (associated) artifact of type 2 for the artifact of type 1
+        ArtifactCoordinate defaultArtifactCoordinate = storyDocQueryService.getDefaultArtifact(artifactCoordinate1.getBlockCoordinate(), type2);
+
+    }
+
+    @Test
     public void set_global_setting() {
         // given an empty workspace
 

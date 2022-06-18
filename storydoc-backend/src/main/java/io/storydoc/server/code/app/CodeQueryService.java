@@ -2,26 +2,26 @@ package io.storydoc.server.code.app;
 
 import io.storydoc.server.code.app.stitch.CodeTraceDTO;
 import io.storydoc.server.code.app.stitch.StitchItemDTO;
-import io.storydoc.server.code.domain.CodeExecutionCoordinate;
-import io.storydoc.server.code.domain.CodeStorage;
-import io.storydoc.server.code.domain.SourceCodeConfigCoordinate;
-import io.storydoc.server.code.domain.SourceCodeConfigStorage;
-import io.storydoc.server.code.infra.CodeStorageImpl;
+import io.storydoc.server.code.app.stitch.StitchStructureDTO;
+import io.storydoc.server.code.domain.*;
 import io.storydoc.server.code.infra.model.CodeExecution;
 import io.storydoc.server.code.infra.model.SourceCodeConfig;
 import io.storydoc.server.code.infra.stitch.StitchFileScannerNew;
 import io.storydoc.server.code.infra.stitch.StitchLine;
+import io.storydoc.server.code.infra.stitch.StitchStructureReader;
 import io.storydoc.server.storydoc.app.StoryDocQueryService;
-import io.storydoc.server.storydoc.app.dto.AssociationDto;
 import io.storydoc.server.storydoc.app.dto.SettingsEntryDTO;
 import io.storydoc.server.storydoc.app.dto.StoryDocSummaryDTO;
 import io.storydoc.server.storydoc.domain.ArtifactCoordinate;
 import io.storydoc.server.storydoc.domain.ArtifactMetaData;
+import io.storydoc.server.storydoc.domain.BlockCoordinate;
 import io.storydoc.server.storydoc.domain.StoryDocId;
 import org.springframework.stereotype.Service;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,12 +31,15 @@ public class CodeQueryService {
 
     private final SourceCodeConfigStorage sourceCodeConfigStorage;
 
+    private final StitchConfigStorage stitchConfigStorage;
+
     private final CodeStorage codeStorage;
 
     private final StoryDocQueryService storyDocQueryService;
 
-    public CodeQueryService(SourceCodeConfigStorage sourceCodeConfigStorage, CodeStorage codeStorage, StoryDocQueryService storyDocQueryService) {
+    public CodeQueryService(SourceCodeConfigStorage sourceCodeConfigStorage, StitchConfigStorage stitchConfigStorage, CodeStorage codeStorage, StoryDocQueryService storyDocQueryService) {
         this.sourceCodeConfigStorage = sourceCodeConfigStorage;
+        this.stitchConfigStorage = stitchConfigStorage;
         this.codeStorage = codeStorage;
         this.storyDocQueryService = storyDocQueryService;
     }
@@ -44,7 +47,9 @@ public class CodeQueryService {
     public CodeTraceDTO getExecution(CodeExecutionCoordinate coordinate) {
         CodeExecution codeExecution = codeStorage.load(coordinate);
 
-        ArtifactMetaData metaData = storyDocQueryService.getArtifactMetaData(coordinate.getBlockCoordinate(), coordinate.getCodeExecutionId().asArtifactId());
+        BlockCoordinate blockCoordinate = coordinate.getBlockCoordinate();
+
+        ArtifactMetaData metaData = storyDocQueryService.getArtifactMetaData(blockCoordinate, coordinate.getCodeExecutionId().asArtifactId());
 
         List<StitchLine> stitchLines = getStitchLineList(codeExecution);
 
@@ -52,6 +57,7 @@ public class CodeQueryService {
                 .name(metaData.getName())
                 .storyDocSummary(getStoryDocSummary(coordinate.getBlockCoordinate().getStoryDocId()))
                 .config(getAssociatedConfig(coordinate))
+                .stitchConfigCoordinate(getAssociatedStitchConfig(coordinate))
                 .items(stitchLines.stream()
                     .map(stitchLine -> toDto(stitchLine))
                     .collect(Collectors.toList())
@@ -83,15 +89,29 @@ public class CodeQueryService {
                 .build();
     }
 
-    private SourceCodeConfigCoordinate getAssociatedConfig(CodeExecutionCoordinate coordinate) {
-        List<AssociationDto> associatedConfigs = storyDocQueryService.getAssociationsFrom(coordinate.asArtifactCoordinate(), CodeStorageImpl.ASSOCIATED_SOURCE_CODE_CONFIG);
-        if (associatedConfigs.size()==0) {
-            return null;
-        }
-        ArtifactCoordinate associatedCoord = associatedConfigs.get(0).getTo();
-        return SourceCodeConfigCoordinate.of(associatedCoord);
+    private SourceCodeConfigCoordinate getAssociatedConfig(CodeExecutionCoordinate codeExecutionCoordinate) {
+        ArtifactCoordinate artifactCoordinate = storyDocQueryService.getDefaultArtifact(codeExecutionCoordinate.getBlockCoordinate(), io.storydoc.server.code.domain.SourceCodeConfig.ARTIFACT_TYPE);
+        return artifactCoordinate != null ? SourceCodeConfigCoordinate.of(artifactCoordinate) : null;
     }
 
+    private StitchConfigCoordinate getAssociatedStitchConfig(CodeExecutionCoordinate codeExecutionCoordinate) {
+        ArtifactCoordinate artifactCoordinate = storyDocQueryService.getDefaultArtifact(codeExecutionCoordinate.getBlockCoordinate(), io.storydoc.server.code.domain.StitchConfig.ARTIFACT_TYPE);
+        return artifactCoordinate != null ? StitchConfigCoordinate.of(artifactCoordinate) : null;
+    }
+
+    public StitchConfigDTO getStitchConfig(StitchConfigCoordinate coordinate) {
+        io.storydoc.server.code.infra.model.StitchConfig sourceCodeConfig = stitchConfigStorage.load(coordinate);
+        ArtifactMetaData metaData = storyDocQueryService.getArtifactMetaData(coordinate.getBlockCoordinate(), coordinate.getStitchConfigId().asArtifactId());
+
+        return StitchConfigDTO.builder()
+                .id(sourceCodeConfig.getId())
+                .name(metaData.getName())
+                .storyDocSummary(getStoryDocSummary(coordinate.getBlockCoordinate().getStoryDocId()))
+                .dir(sourceCodeConfig.getDir())
+                .build();
+    }
+    
+    
 
     public SourceCodeConfigDTO getSourceCodeConfig(SourceCodeConfigCoordinate coordinate) {
         SourceCodeConfig sourceCodeConfig = sourceCodeConfigStorage.load(coordinate);
@@ -112,4 +132,12 @@ public class CodeQueryService {
     public SettingsEntryDTO getStitchSettings() {
         return storyDocQueryService.getGlobalSetting(CodeService.SETTINGS_NAMESPACE, CodeService.SETTINGS_KEY__STITCH_DIR);
     }
+
+    public StitchStructureDTO getStitchStructure(StitchConfigCoordinate stitchConfigCoordinate) {
+        Path root = Paths.get(getStitchConfig(stitchConfigCoordinate).getDir());
+        StitchStructureReader structureReader = new StitchStructureReader();
+        return structureReader.readStructure(root);
+    }
+
+
 }

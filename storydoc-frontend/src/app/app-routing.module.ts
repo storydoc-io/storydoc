@@ -12,6 +12,7 @@ import {DBNavigationPageComponent} from "./db/dbnavigation-page/dbnavigation-pag
 import {DBDataPageComponent} from "./db/dbdata-page/dbdata-page.component";
 import {ScreenDesignPageComponent} from "./ui/screen-design-page/screen-design-page.component";
 import {CodeConfigurationPageComponent} from "./code/code-configuration-page/code-configuration-page.component";
+import {StitchConfigurationPageComponent} from "./code/stitch-configuration-page/stitch-configuration-page.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/fe/documents', pathMatch: 'full'},
@@ -22,6 +23,7 @@ const routes: Routes = [
   {path: 'fe/db-navigation', component: DBNavigationPageComponent},
   {path: 'fe/code-trace/d/:documentId/b/:blockId/a/:artifactId', component: CodeTracePageComponent},
   {path: 'fe/source-code-config/d/:documentId/b/:blockId/a/:artifactId', component: CodeConfigurationPageComponent},
+  {path: 'fe/stitch-config/d/:documentId/b/:blockId/a/:artifactId', component: StitchConfigurationPageComponent},
   {path: 'fe/timeline/d/:documentId/b/:blockId/a/:artifactId', component: TimelinePageComponent},
   {path: 'fe/ui-screenshot-collection/d/:documentId/b/:blockId/a/:artifactId', component: ScreenshotCollectionPageComponent},
   {path: 'fe/ui-scenario/d/:documentId/b/:blockId/a/:artifactId', component: UIScenarioPageComponent},

@@ -1,0 +1,21 @@
+<div class="modal-dialog" *ngIf="spec">
+  <form [formGroup]="formGroup">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{spec.mode=='NEW' ? 'Add' : 'Edit' }} Path</h5>
+        <button type="button" class="btn-close" (click)="cancel()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="path" class="form-label">Path</label>
+          <input formControlName="path" type="text" class="form-control" #path>
+          <div id="path" class="form-text">Enter a path to the stitch folder.</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!formGroup.valid">Save</button>
+        <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>

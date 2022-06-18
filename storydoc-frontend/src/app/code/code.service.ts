@@ -21,8 +21,6 @@ interface SourceCodeStoreState {
 }
 
 
-let instanceCount = 0
-
 @Injectable()
 export class CodeService implements OnDestroy {
 
@@ -131,14 +129,6 @@ export class CodeService implements OnDestroy {
   setCodeExecutionConfig(blockCoordinate: BlockCoordinate, artifactId: ArtifactId) {
     log('setCodeExecutionConfig(blockCoordinate, artifactId)', blockCoordinate, artifactId)
     let traceCoord = this.traceStore.getValue().coord
-    this.codeRestControllerService.setConfigForCodeExecutionUsingPost({
-      execStoryDocId: traceCoord.blockCoordinate.storyDocId.id,
-      execBlockId: traceCoord.blockCoordinate.blockId.id,
-      codeExecutionId: traceCoord.codeExecutionId.id,
-      configStoryDocId: blockCoordinate.storyDocId.id,
-      configBlockId: blockCoordinate.blockId.id,
-      sourceCodeConfigId: artifactId.id,
-    }).subscribe(() => this.loadTrace(traceCoord))
   }
 
   setStitchDetails(param: { stitchFile: string; testMethod: string; testClass: string }) {
@@ -159,6 +149,9 @@ export class CodeService implements OnDestroy {
   //  blueprint panel section
 
 
+  scroll() {
+
+  }
 }
 
 class StitchDto2TreeNodeConverter {

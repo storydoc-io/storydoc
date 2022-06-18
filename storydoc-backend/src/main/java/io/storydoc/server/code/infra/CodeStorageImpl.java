@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import io.storydoc.server.code.domain.CodeExecutionCoordinate;
 import io.storydoc.server.code.domain.CodeStorage;
-import io.storydoc.server.code.domain.SourceCodeConfigCoordinate;
 import io.storydoc.server.code.infra.model.CodeExecution;
 import io.storydoc.server.storydoc.app.StoryDocService;
 import org.springframework.stereotype.Component;
@@ -54,11 +53,6 @@ public class CodeStorageImpl implements CodeStorage {
         codeExecution.setTestClass(testClass);
         codeExecution.setTestMethod(testMethod);
         save(coordinate, codeExecution);
-    }
-
-    @Override
-    public void setSourceConfig(CodeExecutionCoordinate codeExecutionCoordinate, SourceCodeConfigCoordinate sourceCodeConfigCoordinate) {
-        storyDocService.addAssociation(codeExecutionCoordinate.asArtifactCoordinate(), sourceCodeConfigCoordinate.asArtifactCoordinate(), ASSOCIATED_SOURCE_CODE_CONFIG);
     }
 
     private void save(CodeExecutionCoordinate coordinate, CodeExecution codeExecution) {

@@ -2,10 +2,8 @@ package io.storydoc.server.code.app;
 
 import io.storydoc.blueprint.BluePrint;
 import io.storydoc.server.code.app.stitch.CodeTraceDTO;
-import io.storydoc.server.code.domain.CodeExecutionCoordinate;
-import io.storydoc.server.code.domain.CodeExecutionId;
-import io.storydoc.server.code.domain.SourceCodeConfigCoordinate;
-import io.storydoc.server.code.domain.SourceCodeConfigId;
+import io.storydoc.server.code.app.stitch.StitchStructureDTO;
+import io.storydoc.server.code.domain.*;
 import io.storydoc.server.storydoc.app.dto.SettingsEntryDTO;
 import io.storydoc.server.storydoc.domain.BlockCoordinate;
 import io.storydoc.server.storydoc.domain.BlockId;
@@ -41,15 +39,6 @@ public class CodeRestController {
         return codeQueryService.getExecution(CodeExecutionCoordinate.of(blockCoordinate, codeExecutionId));
     }
 
-    @PostMapping(value = "/codeexecution/config", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void setConfigForCodeExecution(@RequestParam("execStoryDocId") StoryDocId execStoryDocId, @RequestParam("execBlockId") BlockId execBlockId, @RequestParam("codeExecutionId") CodeExecutionId codeExecutionId,
-                                          @RequestParam("configStoryDocId") StoryDocId configStoryDocId, @RequestParam("configBlockId") BlockId configBlockId, @RequestParam("sourceCodeConfigId") SourceCodeConfigId sourceCodeConfigId
-    ) {
-        CodeExecutionCoordinate codeExecutionCoordinate  = CodeExecutionCoordinate.of(BlockCoordinate.of(execStoryDocId, execBlockId), codeExecutionId);
-        SourceCodeConfigCoordinate sourceCodeConfigCoordinate = SourceCodeConfigCoordinate.of(BlockCoordinate.of(configStoryDocId, configBlockId), sourceCodeConfigId);
-        codeService.setSourceConfigForExecution(codeExecutionCoordinate, sourceCodeConfigCoordinate);
-    }
-
     @PostMapping(value = "/settings/stitch", produces = MediaType.APPLICATION_JSON_VALUE)
     public void setStitchSettings(@RequestParam("stitchDir") String stitchDir) {
         codeService.setStitchSettings(stitchDir);
@@ -74,6 +63,30 @@ public class CodeRestController {
         return codeService.getSource(className, configCoordinate);
     }
 
+    @PostMapping(value = "/stitchconfig", produces = MediaType.APPLICATION_JSON_VALUE)
+    public StitchConfigCoordinate createStitchConfig(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId, @RequestParam("name") String name) {
+        BlockCoordinate blockCoordinate = BlockCoordinate.of(storyDocId, blockId);
+        return codeService.createStitchConfig(blockCoordinate, name);
+    }
+
+    @GetMapping(value = "/stitchconfig", produces = MediaType.APPLICATION_JSON_VALUE)
+    public StitchConfigDTO getStitchConfig(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId, @RequestParam("stitchConfigId") StitchConfigId stitchConfigId) {
+        BlockCoordinate blockCoordinate = BlockCoordinate.of(storyDocId, blockId);
+        return codeQueryService.getStitchConfig(StitchConfigCoordinate.of(blockCoordinate, stitchConfigId));
+    }
+
+    @PostMapping(value = "/stitchconfig/path", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void setStitchPath(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId, @RequestParam("stitchConfigId") StitchConfigId stitchConfigId, @RequestParam("path") String path) {
+        BlockCoordinate blockCoordinate = BlockCoordinate.of(storyDocId, blockId);
+        codeService.setStitchPath(StitchConfigCoordinate.of(blockCoordinate, stitchConfigId), path);
+    }
+
+    @GetMapping(value = "/stitchstructure", produces = MediaType.APPLICATION_JSON_VALUE)
+    public StitchStructureDTO getStitchStructure(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId, @RequestParam("stitchConfigId") StitchConfigId stitchConfigId) {
+        BlockCoordinate blockCoordinate = BlockCoordinate.of(storyDocId, blockId);
+        return codeQueryService.getStitchStructure(StitchConfigCoordinate.of(blockCoordinate, stitchConfigId));
+    }
+    
     @PostMapping(value = "/sourcecodeconfig", produces = MediaType.APPLICATION_JSON_VALUE)
     public SourceCodeConfigCoordinate createSourceConfig(@RequestParam("storyDocId") StoryDocId storyDocId, @RequestParam("blockId") BlockId blockId, @RequestParam("name") String name) {
         BlockCoordinate blockCoordinate = BlockCoordinate.of(storyDocId, blockId);

@@ -51,7 +51,11 @@ export { SourceCodeConfigCoordinate } from './models/source-code-config-coordina
 export { SourceCodeConfigDto } from './models/source-code-config-dto';
 export { SourceCodeConfigId } from './models/source-code-config-id';
 export { SourceCodeDto } from './models/source-code-dto';
+export { StitchConfigCoordinate } from './models/stitch-config-coordinate';
+export { StitchConfigDto } from './models/stitch-config-dto';
+export { StitchConfigId } from './models/stitch-config-id';
 export { StitchItemDto } from './models/stitch-item-dto';
+export { StitchStructureDto } from './models/stitch-structure-dto';
 export { StoryDocDto } from './models/story-doc-dto';
 export { StoryDocId } from './models/story-doc-id';
 export { StoryDocServerProperties } from './models/story-doc-server-properties';

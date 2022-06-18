@@ -52,13 +52,21 @@ let sourceCodeConfig = {
   editorUrl: '/fe/source-code-config'
 } as ArtifactDescriptor
 
+let stitchConfig = {
+  key: 'io.storydoc.server.code.domain.StitchConfig',
+  icon: '/assets/config.png',
+  label: 'Stitch Config',
+  editorUrl: '/fe/stitch-config'
+} as ArtifactDescriptor
+
 let map: { [key: string]: ArtifactDescriptor } = {
   'io.storydoc.server.timeline.domain.TimeLineModel': timeLineModel,
   'io.storydoc.server.ui.domain.screendesign.ScreenDesign': uiScreenDesign,
   'io.storydoc.server.ui.domain.UIScenario': uiScenario,
   'io.storydoc.server.ui.domain.ScreenShotCollection': uiScreenshotCollection,
   'io.storydoc.server.code.domain.CodeExecution': codeExecution,
-  'io.storydoc.server.code.domain.SourceCodeConfig': sourceCodeConfig
+  'io.storydoc.server.code.domain.SourceCodeConfig': sourceCodeConfig,
+  'io.storydoc.server.code.domain.StitchConfig': stitchConfig
 }
 
 let list: ArtifactDescriptor[] = [
@@ -67,7 +75,8 @@ let list: ArtifactDescriptor[] = [
   uiScenario,
   uiScreenshotCollection,
   codeExecution,
-  sourceCodeConfig
+  sourceCodeConfig,
+  stitchConfig
 ]
 
 @Injectable({

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {LinkService, ModalService} from "@storydoc/common";
 import {ActivatedRoute} from "@angular/router";
 import {CodeExecutionCoordinate} from "@storydoc/models";
@@ -82,4 +82,10 @@ export class CodeTracePageComponent implements OnInit, OnDestroy{
     this.modalService.close(this.configurationDialogId())
   }
 
+  @HostListener('scroll', ['$event']) // for scroll events of the current element
+  //@HostListener('window:scroll', ['$event']) // for window scroll events
+  onScrollBluePrint($event: Event) {
+    console.log("****** scroll ****")
+    this.codeService.scroll()
+  }
 }

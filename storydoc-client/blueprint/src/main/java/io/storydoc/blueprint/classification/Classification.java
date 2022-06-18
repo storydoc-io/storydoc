@@ -18,5 +18,5 @@ abstract public class Classification {
         this.type = type;
     }
 
-    abstract public boolean accepts(Class aClass);
+    abstract public boolean accepts(ClassInfo aClass);
 }

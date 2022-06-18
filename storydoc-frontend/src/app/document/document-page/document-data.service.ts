@@ -140,6 +140,19 @@ export class DocumentDataService {
         })
         break
       }
+      case 'io.storydoc.server.code.domain.StitchConfig': {
+        this.codeRestControllerService.createStitchConfigUsingPost({
+          storyDocId: this.getId(),
+          blockId: param.blockId,
+          name: param.name
+        }).subscribe({
+          next: value => this.refresh()
+        })
+        break
+      }
+      default: {
+        console.log('no handler for artifact type', param.artifactType)
+      }
     }
   }
 

@@ -16,6 +16,9 @@ import { SettingsEntryDto } from '../models/settings-entry-dto';
 import { SourceCodeConfigCoordinate } from '../models/source-code-config-coordinate';
 import { SourceCodeConfigDto } from '../models/source-code-config-dto';
 import { SourceCodeDto } from '../models/source-code-dto';
+import { StitchConfigCoordinate } from '../models/stitch-config-coordinate';
+import { StitchConfigDto } from '../models/stitch-config-dto';
+import { StitchStructureDto } from '../models/stitch-structure-dto';
 
 
 /**
@@ -364,123 +367,6 @@ export class CodeRestControllerService extends BaseService {
 
     return this.createCodeExecutionUsingPost$Response(params).pipe(
       map((r: StrictHttpResponse<CodeExecutionCoordinate>) => r.body as CodeExecutionCoordinate)
-    );
-  }
-
-  /**
-   * Path part for operation setConfigForCodeExecutionUsingPost
-   */
-  static readonly SetConfigForCodeExecutionUsingPostPath = '/api/code/codeexecution/config';
-
-  /**
-   * setConfigForCodeExecution.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `setConfigForCodeExecutionUsingPost()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  setConfigForCodeExecutionUsingPost$Response(params: {
-
-    /**
-     * execStoryDocId
-     */
-    execStoryDocId: string;
-
-    /**
-     * execBlockId
-     */
-    execBlockId: string;
-
-    /**
-     * codeExecutionId
-     */
-    codeExecutionId: string;
-
-    /**
-     * configStoryDocId
-     */
-    configStoryDocId: string;
-
-    /**
-     * configBlockId
-     */
-    configBlockId: string;
-
-    /**
-     * sourceCodeConfigId
-     */
-    sourceCodeConfigId: string;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, CodeRestControllerService.SetConfigForCodeExecutionUsingPostPath, 'post');
-    if (params) {
-      rb.query('execStoryDocId', params.execStoryDocId, {"style":"form"});
-      rb.query('execBlockId', params.execBlockId, {"style":"form"});
-      rb.query('codeExecutionId', params.codeExecutionId, {"style":"form"});
-      rb.query('configStoryDocId', params.configStoryDocId, {"style":"form"});
-      rb.query('configBlockId', params.configBlockId, {"style":"form"});
-      rb.query('sourceCodeConfigId', params.sourceCodeConfigId, {"style":"form"});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * setConfigForCodeExecution.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `setConfigForCodeExecutionUsingPost$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  setConfigForCodeExecutionUsingPost(params: {
-
-    /**
-     * execStoryDocId
-     */
-    execStoryDocId: string;
-
-    /**
-     * execBlockId
-     */
-    execBlockId: string;
-
-    /**
-     * codeExecutionId
-     */
-    codeExecutionId: string;
-
-    /**
-     * configStoryDocId
-     */
-    configStoryDocId: string;
-
-    /**
-     * configBlockId
-     */
-    configBlockId: string;
-
-    /**
-     * sourceCodeConfigId
-     */
-    sourceCodeConfigId: string;
-  }): Observable<void> {
-
-    return this.setConfigForCodeExecutionUsingPost$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
@@ -1069,6 +955,353 @@ export class CodeRestControllerService extends BaseService {
 
     return this.setSourcePathUsingPost$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation getStitchConfigUsingGet
+   */
+  static readonly GetStitchConfigUsingGetPath = '/api/code/stitchconfig';
+
+  /**
+   * getStitchConfig.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getStitchConfigUsingGet()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getStitchConfigUsingGet$Response(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * blockId
+     */
+    blockId: string;
+
+    /**
+     * stitchConfigId
+     */
+    stitchConfigId: string;
+  }): Observable<StrictHttpResponse<StitchConfigDto>> {
+
+    const rb = new RequestBuilder(this.rootUrl, CodeRestControllerService.GetStitchConfigUsingGetPath, 'get');
+    if (params) {
+      rb.query('storyDocId', params.storyDocId, {"style":"form"});
+      rb.query('blockId', params.blockId, {"style":"form"});
+      rb.query('stitchConfigId', params.stitchConfigId, {"style":"form"});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<StitchConfigDto>;
+      })
+    );
+  }
+
+  /**
+   * getStitchConfig.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getStitchConfigUsingGet$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getStitchConfigUsingGet(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * blockId
+     */
+    blockId: string;
+
+    /**
+     * stitchConfigId
+     */
+    stitchConfigId: string;
+  }): Observable<StitchConfigDto> {
+
+    return this.getStitchConfigUsingGet$Response(params).pipe(
+      map((r: StrictHttpResponse<StitchConfigDto>) => r.body as StitchConfigDto)
+    );
+  }
+
+  /**
+   * Path part for operation createStitchConfigUsingPost
+   */
+  static readonly CreateStitchConfigUsingPostPath = '/api/code/stitchconfig';
+
+  /**
+   * createStitchConfig.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `createStitchConfigUsingPost()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  createStitchConfigUsingPost$Response(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * blockId
+     */
+    blockId: string;
+
+    /**
+     * name
+     */
+    name: string;
+  }): Observable<StrictHttpResponse<StitchConfigCoordinate>> {
+
+    const rb = new RequestBuilder(this.rootUrl, CodeRestControllerService.CreateStitchConfigUsingPostPath, 'post');
+    if (params) {
+      rb.query('storyDocId', params.storyDocId, {"style":"form"});
+      rb.query('blockId', params.blockId, {"style":"form"});
+      rb.query('name', params.name, {"style":"form"});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<StitchConfigCoordinate>;
+      })
+    );
+  }
+
+  /**
+   * createStitchConfig.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `createStitchConfigUsingPost$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  createStitchConfigUsingPost(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * blockId
+     */
+    blockId: string;
+
+    /**
+     * name
+     */
+    name: string;
+  }): Observable<StitchConfigCoordinate> {
+
+    return this.createStitchConfigUsingPost$Response(params).pipe(
+      map((r: StrictHttpResponse<StitchConfigCoordinate>) => r.body as StitchConfigCoordinate)
+    );
+  }
+
+  /**
+   * Path part for operation setStitchPathUsingPost
+   */
+  static readonly SetStitchPathUsingPostPath = '/api/code/stitchconfig/path';
+
+  /**
+   * setStitchPath.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `setStitchPathUsingPost()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  setStitchPathUsingPost$Response(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * blockId
+     */
+    blockId: string;
+
+    /**
+     * stitchConfigId
+     */
+    stitchConfigId: string;
+
+    /**
+     * path
+     */
+    path: string;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, CodeRestControllerService.SetStitchPathUsingPostPath, 'post');
+    if (params) {
+      rb.query('storyDocId', params.storyDocId, {"style":"form"});
+      rb.query('blockId', params.blockId, {"style":"form"});
+      rb.query('stitchConfigId', params.stitchConfigId, {"style":"form"});
+      rb.query('path', params.path, {"style":"form"});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * setStitchPath.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `setStitchPathUsingPost$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  setStitchPathUsingPost(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * blockId
+     */
+    blockId: string;
+
+    /**
+     * stitchConfigId
+     */
+    stitchConfigId: string;
+
+    /**
+     * path
+     */
+    path: string;
+  }): Observable<void> {
+
+    return this.setStitchPathUsingPost$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation getStitchStructureUsingGet
+   */
+  static readonly GetStitchStructureUsingGetPath = '/api/code/stitchstructure';
+
+  /**
+   * getStitchStructure.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getStitchStructureUsingGet()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getStitchStructureUsingGet$Response(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * blockId
+     */
+    blockId: string;
+
+    /**
+     * stitchConfigId
+     */
+    stitchConfigId: string;
+  }): Observable<StrictHttpResponse<StitchStructureDto>> {
+
+    const rb = new RequestBuilder(this.rootUrl, CodeRestControllerService.GetStitchStructureUsingGetPath, 'get');
+    if (params) {
+      rb.query('storyDocId', params.storyDocId, {"style":"form"});
+      rb.query('blockId', params.blockId, {"style":"form"});
+      rb.query('stitchConfigId', params.stitchConfigId, {"style":"form"});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<StitchStructureDto>;
+      })
+    );
+  }
+
+  /**
+   * getStitchStructure.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getStitchStructureUsingGet$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getStitchStructureUsingGet(params: {
+
+    /**
+     * storyDocId
+     */
+    storyDocId: string;
+
+    /**
+     * blockId
+     */
+    blockId: string;
+
+    /**
+     * stitchConfigId
+     */
+    stitchConfigId: string;
+  }): Observable<StitchStructureDto> {
+
+    return this.getStitchStructureUsingGet$Response(params).pipe(
+      map((r: StrictHttpResponse<StitchStructureDto>) => r.body as StitchStructureDto)
     );
   }
 

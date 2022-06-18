@@ -48,7 +48,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-6">
-          <div style="max-height: 90vh; overflow-y: scroll;">
+          <div (scroll)="onScrollBluePrint($event)"  style="max-height: 90vh; overflow-y: scroll;">
             <app-blueprint-panel></app-blueprint-panel>
           </div>
         </div>
