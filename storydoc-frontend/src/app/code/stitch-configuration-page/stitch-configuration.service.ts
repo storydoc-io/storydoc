@@ -3,11 +3,12 @@ import {CodeRestControllerService} from "@storydoc/services";
 import {BehaviorSubject, Subscription} from "rxjs";
 import {log, logChangesToObservable} from "@storydoc/common";
 import {distinctUntilChanged, map} from "rxjs/operators";
-import {StitchConfigCoordinate, StitchConfigDto} from "@storydoc/models";
+import {StitchConfigCoordinate, StitchConfigDto, StitchStructureDto} from "@storydoc/models";
 
 interface StitchConfigStoreState {
   coord: StitchConfigCoordinate,
-  stitchConfig?: StitchConfigDto
+  stitchConfig?: StitchConfigDto,
+  stitchStructure?: StitchStructureDto
 }
 
 @Injectable()
@@ -38,6 +39,11 @@ export class StitchConfigurationService implements OnDestroy {
     distinctUntilChanged(),
   )
 
+  structure$ = this.configStore.pipe(
+    map(state => state.stitchStructure),
+    distinctUntilChanged(),
+  )
+
   loadConfig(coord: StitchConfigCoordinate) {
     log('loadConfig(coord)', coord)
     this.codeRestControllerService.getStitchConfigUsingGet({
@@ -45,6 +51,7 @@ export class StitchConfigurationService implements OnDestroy {
       blockId: coord.blockCoordinate.blockId.id,
       stitchConfigId: coord.stitchConfigId.id
     }).subscribe(config => this.configStore.next({
+      ... this.configStore.getValue(),
       coord,
       stitchConfig: config
     }))
@@ -66,5 +73,17 @@ export class StitchConfigurationService implements OnDestroy {
   }
 
 
-
+  loadStitchStructure(stitchConfigDto: StitchConfigDto) {
+    log('loadStitchStructure(stitchConfigDto)', stitchConfigDto)
+    this.codeRestControllerService.getStitchStructureUsingGet({
+      storyDocId: stitchConfigDto.stitchConfigCoordinate.blockCoordinate.storyDocId.id,
+      blockId: stitchConfigDto.stitchConfigCoordinate.blockCoordinate.blockId.id,
+      stitchConfigId: stitchConfigDto.stitchConfigCoordinate.stitchConfigId.id
+    }).subscribe((structure: StitchStructureDto)=>{
+      this.configStore.next({
+        ... this.configStore.getValue(),
+        stitchStructure: structure
+      })
+    })
+  }
 }

@@ -2,9 +2,20 @@ import {Injectable, OnDestroy} from '@angular/core';
 import {BehaviorSubject, Subscription} from "rxjs";
 import {distinctUntilChanged, map} from "rxjs/operators";
 import {log, logChangesToObservable} from "@storydoc/common";
-import {ArtifactId, BlockCoordinate, CodeExecutionCoordinate, CodeTraceDto, SourceCodeDto, StitchItemDto} from "@storydoc/models";
+import {
+  ArtifactId,
+  BlockCoordinate,
+  CodeExecutionCoordinate,
+  CodeTraceDto,
+  SourceCodeDto,
+  StitchConfigCoordinate,
+  StitchConfigDto,
+  StitchItemDto,
+  StitchStructureDto
+} from "@storydoc/models";
 import {CodeRestControllerService} from "@storydoc/services";
 import {getLabel, isCodeExecutionEnterEvent, StitchEvent, toStitchEvent, TreeNode} from "./code.functions";
+import {StitchConfigurationService} from "./stitch-configuration-page/stitch-configuration.service";
 
 
 interface TraceStoreState {
@@ -24,7 +35,7 @@ interface SourceCodeStoreState {
 @Injectable()
 export class CodeService implements OnDestroy {
 
-  constructor(private codeRestControllerService: CodeRestControllerService) {
+  constructor(private codeRestControllerService: CodeRestControllerService, private stitchConfigurationService: StitchConfigurationService) {
     this.init()
   }
 
@@ -55,6 +66,10 @@ export class CodeService implements OnDestroy {
     distinctUntilChanged(),
   )
 
+  stitchConfig$ = this.stitchConfigurationService.config$
+
+  stitchStructure$ = this.stitchConfigurationService.structure$
+
   private sourceCodeStore = new BehaviorSubject<SourceCodeStoreState>({})
 
   sourceCode$ = this.sourceCodeStore.pipe(
@@ -79,6 +94,8 @@ export class CodeService implements OnDestroy {
         this.loadSourceCode(event.className)
       }
     }))
+    this.subscriptions.push(this.codeTrace$.subscribe((codeTraceDto)=> this.loadConfig(codeTraceDto?.stitchConfigCoordinate)))
+    this.subscriptions.push(this.stitchConfig$.subscribe((stitchConfigDto)=> this.loadStitchStructure(stitchConfigDto)))
   }
 
   ngOnDestroy(): void {
@@ -131,6 +148,12 @@ export class CodeService implements OnDestroy {
     let traceCoord = this.traceStore.getValue().coord
   }
 
+  //  config
+  private loadConfig(stitchConfigCoordinate: StitchConfigCoordinate) {
+    log('loadSourceCode(className)', stitchConfigCoordinate)
+    if (stitchConfigCoordinate) this.stitchConfigurationService.loadConfig(stitchConfigCoordinate)
+  }
+
   setStitchDetails(param: { stitchFile: string; testMethod: string; testClass: string }) {
     log('setStitchDetails(param)', param)
     let traceCoord = this.traceStore.getValue().coord
@@ -144,13 +167,8 @@ export class CodeService implements OnDestroy {
     }).subscribe(() => this.loadTrace(traceCoord))
   }
 
-
-
-  //  blueprint panel section
-
-
-  scroll() {
-
+  private loadStitchStructure(stitchConfigDto: StitchConfigDto) {
+    if(stitchConfigDto) this.stitchConfigurationService.loadStitchStructure(stitchConfigDto)
   }
 }
 

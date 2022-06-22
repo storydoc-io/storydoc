@@ -1,26 +1,19 @@
-<div class="modal-dialog" >
+<div *ngIf="spec" class="modal-dialog" >
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title">Configure Code Trace</h5>
+      <h5 class="modal-title">Testcase selection</h5>
       <button type="button" class="btn-close" (click)="cancel()"></button>
     </div>
     <div class="modal-body">
-      <form [formGroup]="formGroup">
+      <form >
         <div class="mb-3">
-          <label for="testClass" class="form-label">Test Class Name</label>
-          <input formControlName="testClass" type="text" class="form-control">
-          <div id="testClass" class="form-text">Enter test class name.</div>
-        </div>
-        <div class="mb-3">
-          <label for="testMethod" class="form-label">Test Method Name</label>
-          <input formControlName="testMethod" type="text" class="form-control">
-          <div id="testMethod" class="form-text">Enter test method name.</div>
+          <tree-root [nodes]="treeNodes()" (activate)="selectNode($event)"></tree-root>
         </div>
 
       </form>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-primary" (click)="confirm()" [disabled]="!formGroup.valid">OK</button>
+      <button type="button" class="btn btn-primary" (click)="confirm()" >OK</button>
       <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
     </div>
   </div>

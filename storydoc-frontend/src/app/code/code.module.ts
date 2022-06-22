@@ -14,6 +14,7 @@ import { ClassPartComponent } from "./code-trace-page/blueprint-panel/class-part
 import { DiagramPartComponent} from "./code-trace-page/blueprint-panel/diagram-part/diagram-part.component";
 import { StitchConfigurationPageComponent } from './stitch-configuration-page/stitch-configuration-page.component';
 import { StitchConfigurationDialogComponent } from './stitch-configuration-page/stitch-configuration-dialog/stitch-configuration-dialog.component';
+import { BlueprintPanel2Component } from './code-trace-page/blueprint-panel2/blueprint-panel2.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { StitchConfigurationDialogComponent } from './stitch-configuration-page/
     ClassPartComponent,
     DiagramPartComponent,
     StitchConfigurationPageComponent,
-    StitchConfigurationDialogComponent
+    StitchConfigurationDialogComponent,
+    BlueprintPanel2Component
   ],
   imports: [
     CoreModule,

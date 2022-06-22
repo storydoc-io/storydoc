@@ -4647,11 +4647,11 @@
           "dir": {
             "type": "string"
           },
-          "id": {
-            "$ref": "#/components/schemas/StitchConfigId"
-          },
           "name": {
             "type": "string"
+          },
+          "stitchConfigCoordinate": {
+            "$ref": "#/components/schemas/StitchConfigCoordinate"
           },
           "storyDocSummary": {
             "$ref": "#/components/schemas/StoryDocSummaryDTO"

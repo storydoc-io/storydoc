@@ -3,16 +3,18 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ModalService} from "@storydoc/common";
 import {CodeService} from "../../code.service";
 import {ArtifactSelectionDialogSpec} from "../../../document/document-page/artifact-selection-dialog/artifact-selection-dialog.component";
-import {ArtifactDto, ArtifactId, BlockCoordinate, CodeExecutionCoordinate} from "@storydoc/models";
+import {ArtifactDto, ArtifactId, BlockCoordinate, CodeExecutionCoordinate, StitchStructureDto} from "@storydoc/models";
+import {TreeNode} from "../../code.functions";
+import {StitchStructureTreeNode} from "../code-trace-page.component";
 
 export interface CodeTraceConfigDialogData  {
-  stitchFile: string,
   testClass: string,
   testMethod: string
 }
 
 export interface CodeTraceConfigDialogSpec  {
   coord: CodeExecutionCoordinate
+  treeNodes: StitchStructureTreeNode[]
   data: CodeTraceConfigDialogData
   confirm: (data: CodeTraceConfigDialogData)=> void
   cancel: () => void
@@ -38,9 +40,6 @@ export class CodeTraceConfigurationDialogComponent implements OnInit {
   }
 
   formGroup: FormGroup = new FormGroup({
-    stitchFile: new FormControl(null, Validators.required),
-    testClass: new FormControl(null, Validators.required),
-    testMethod: new FormControl(null, Validators.required),
   })
 
   cancel() {
@@ -52,4 +51,14 @@ export class CodeTraceConfigurationDialogComponent implements OnInit {
   }
 
 
+  treeNodes() {
+    return this.spec.treeNodes
+  }
+
+
+  selectNode($event: any) {
+      console.log('***** selected: *****', $event)
+  }
+
 }
+

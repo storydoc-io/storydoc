@@ -1,10 +1,10 @@
 /* tslint:disable */
 /* eslint-disable */
-import { StitchConfigId } from './stitch-config-id';
+import { StitchConfigCoordinate } from './stitch-config-coordinate';
 import { StoryDocSummaryDto } from './story-doc-summary-dto';
 export interface StitchConfigDto {
   dir?: string;
-  id?: StitchConfigId;
   name?: string;
+  stitchConfigCoordinate?: StitchConfigCoordinate;
   storyDocSummary?: StoryDocSummaryDto;
 }

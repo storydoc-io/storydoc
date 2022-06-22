@@ -100,14 +100,14 @@ public class CodeQueryService {
     }
 
     public StitchConfigDTO getStitchConfig(StitchConfigCoordinate coordinate) {
-        io.storydoc.server.code.infra.model.StitchConfig sourceCodeConfig = stitchConfigStorage.load(coordinate);
+        io.storydoc.server.code.infra.model.StitchConfig stitchConfig = stitchConfigStorage.load(coordinate);
         ArtifactMetaData metaData = storyDocQueryService.getArtifactMetaData(coordinate.getBlockCoordinate(), coordinate.getStitchConfigId().asArtifactId());
 
         return StitchConfigDTO.builder()
-                .id(sourceCodeConfig.getId())
+                .stitchConfigCoordinate(coordinate)
                 .name(metaData.getName())
                 .storyDocSummary(getStoryDocSummary(coordinate.getBlockCoordinate().getStoryDocId()))
-                .dir(sourceCodeConfig.getDir())
+                .dir(stitchConfig.getDir())
                 .build();
     }
     

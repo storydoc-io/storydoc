@@ -50,7 +50,7 @@ public class CodeServiceTest extends TestBase {
         // and then I get the config  from its coordinate
         StitchConfigDTO dto = codeQueryService.getStitchConfig(coordinate);
         assertNotNull(dto);
-        assertEquals(coordinate.getStitchConfigId(), dto.getId());
+        assertEquals(coordinate, dto.getStitchConfigCoordinate());
         assertNull(dto.getDir());
 
     }
