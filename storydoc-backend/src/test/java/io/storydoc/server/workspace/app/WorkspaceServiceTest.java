@@ -3,13 +3,16 @@ package io.storydoc.server.workspace.app;
 import io.storydoc.server.TestBase;
 import io.storydoc.server.workspace.WorkspaceTestFixture;
 import io.storydoc.server.workspace.app.dto.FolderDTO;
-import io.storydoc.server.workspace.domain.FolderURN;
+import io.storydoc.server.workspace.domain.*;
+import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.*;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -163,7 +166,44 @@ public class WorkspaceServiceTest extends TestBase {
 
     }
 
+    class DummyResource implements WorkspaceResource {
+        String text;
+    }
 
+
+    private DummyResource readDummyResource(InputStream inputStream) {
+        DummyResource resource = new DummyResource();
+        resource.text = new BufferedReader(new InputStreamReader(inputStream))
+                .lines().collect(Collectors.joining("\n"));
+        return resource;
+    }
+
+    private void writeContent(String content, OutputStream outputStream) {
+        try (PrintWriter p = new PrintWriter(outputStream)) {
+            p.println(content);
+        }
+
+    }
+
+    @SneakyThrows
+    @Test
+    public void new_write_content() {
+        // given the content of a resource to be written in the root folder
+        String content = "content-" + UUID.randomUUID();
+        InputStream inputStream = new ByteArrayInputStream(content.getBytes());
+
+        FolderURN rootFolder = workspaceQueryService.getRootFolder().getUrn();
+        String resourceName = "name-" + UUID.randomUUID();
+        ResourceUrn resourceUrn = new ResourceUrn(rootFolder, resourceName);
+
+        //when I write the resource
+        workspaceService.saveResource(resourceUrn, (outputStream) -> this.writeContent(content, outputStream));
+
+        // then I can retrieve the content
+        DummyResource read = workspaceService.loadResource(resourceUrn, this::readDummyResource);
+        assertEquals(content, read.text);
+
+    }
 
 
 

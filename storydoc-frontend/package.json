@@ -35,6 +35,7 @@
     "leader-line": "^1.0.7",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
+    "webcola": "^3.4.0",
     "zone.js": "~0.11.3"
   },
   "devDependencies": {

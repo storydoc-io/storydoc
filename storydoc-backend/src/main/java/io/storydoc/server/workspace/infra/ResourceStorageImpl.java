@@ -102,4 +102,22 @@ public class ResourceStorageImpl implements ResourceStorage {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void saveResource(ResourceUrn resourceUrn, WorkspaceResourceSerializer serializer)  throws WorkspaceException {
+        try (OutputStream outputStream = getOutputStream(resourceUrn)) {
+            serializer.write(outputStream);
+        } catch(IOException ioe) {
+            throw new WorkspaceException("could not store resource " + resourceUrn, ioe);
+        }
+
+    }
+
+    @Override
+    public <R extends WorkspaceResource> R loadResource(ResourceUrn resourceUrn, WorkspaceResourceDeserializer<R> deserializer) throws WorkspaceException{
+        try (InputStream inputStream = getInputStream(resourceUrn)) {
+            return deserializer.read(inputStream);
+        } catch(IOException ioe) {
+            throw new WorkspaceException("could not load resource " + resourceUrn, ioe);
+        }
+    }
 }

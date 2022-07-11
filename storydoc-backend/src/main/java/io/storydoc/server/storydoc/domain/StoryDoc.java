@@ -46,7 +46,7 @@ public class StoryDoc {
         storage.setArtifactContent(coordinate, serializer);
     }
 
-    public <A extends Artifact> A loadArtifact(ArtifactCoordinate coordinate, ArtifactDeserializer deserializer) {
+    public <A extends Artifact> A loadArtifact(ArtifactCoordinate coordinate, ArtifactDeserializer<A> deserializer) {
         return storage.getArtifactContent(coordinate, deserializer);
     }
 

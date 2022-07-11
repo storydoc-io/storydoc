@@ -31,7 +31,7 @@ public interface StoryDocService {
 
     void saveArtifact(ArtifactCoordinate coordinate, ArtifactSerializer serializer);
 
-    <A extends Artifact> A loadArtifact(ArtifactCoordinate coordinate, ArtifactDeserializer deserializer);
+    <A extends Artifact> A loadArtifact(ArtifactCoordinate coordinate, ArtifactDeserializer<A> deserializer);
 
     void saveBinaryArtifact(ArtifactCoordinate artifactCoordinate, InputStream inputStream) throws IOException;
 

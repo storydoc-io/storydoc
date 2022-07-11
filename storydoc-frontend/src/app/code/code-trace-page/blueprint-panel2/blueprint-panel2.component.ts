@@ -42,7 +42,7 @@ export class BlueprintPanel2Component implements OnInit, OnDestroy {
     let viewBoxWidth = 200;
     this.svg = d3.select(this.hostElement).append('svg')
       .attr('width', '100%')
-      .attr('height', '100%')
+      .attr('height', '1000px')
   }
 
   private renderDiagram(diagramPart: DiagramPart) {

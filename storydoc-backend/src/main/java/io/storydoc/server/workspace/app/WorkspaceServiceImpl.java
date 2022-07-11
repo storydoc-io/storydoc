@@ -37,17 +37,17 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     }
 
     @Override
-    public void saveResource(ResourceSaveContext context) throws WorkspaceException {
-        resourceStore.store(context);
-    }
-
-    @Override
     public void deleteResource(ResourceUrn resourceUrn) throws WorkspaceException {
         resourceStore.delete(resourceUrn);
     }
 
     @Override
-    public <R extends WorkspaceResource> R loadResource(ResourceLoadContext context) throws WorkspaceException {
-        return resourceStore.load(context);
+    public void saveResource(ResourceUrn resourceUrn, WorkspaceResourceSerializer serializer) throws WorkspaceException {
+        resourceStore.saveResource(resourceUrn, serializer);
+    }
+
+    @Override
+    public <R extends WorkspaceResource> R loadResource(ResourceUrn resourceUrn, WorkspaceResourceDeserializer<R> deserializer) throws WorkspaceException {
+        return resourceStore.loadResource(resourceUrn, deserializer);
     }
 }

@@ -15,7 +15,7 @@ import java.io.IOException;
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {TestConfig.class})
 @Slf4j
-public class CanonTestBase {
+ abstract public class CanonTestBase {
 
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();

@@ -3,14 +3,12 @@ package io.storydoc.server.infra;
 import io.storydoc.stitch.CodeExecutionTracer;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class StitchAspect {
 
     private CodeExecutionTracer tracer = StitchFactory.INSTANCE.getCodeExecutionTracer();
@@ -28,10 +26,10 @@ public class StitchAspect {
     @Around("springBeanPointcut()")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
         String cid = UUID.randomUUID().toString();
-            enterJoinPoint(joinPoint, cid);
+            //enterJoinPoint(joinPoint, cid);
         try {
             Object result = joinPoint.proceed();
-                exitJoinPoint(joinPoint, cid, result);
+               // exitJoinPoint(joinPoint, cid, result);
             return result;
         } catch (IllegalArgumentException e) {
             throw e;

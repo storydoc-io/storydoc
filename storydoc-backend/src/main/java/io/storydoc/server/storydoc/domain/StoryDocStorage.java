@@ -66,7 +66,7 @@ public interface StoryDocStorage {
 
     ResourceUrn getArtifactUrn(ArtifactCoordinate artifactCoordinate);
 
-    <A extends Artifact> A getArtifactContent(ArtifactCoordinate coordinate, ArtifactDeserializer deserializer);
+    <A extends Artifact> A getArtifactContent(ArtifactCoordinate coordinate, ArtifactDeserializer<A> deserializer);
 
     List<ArtifactId> findArtifacts(BlockCoordinate coordinate, Function<ArtifactMetaData, Boolean> filter);
 

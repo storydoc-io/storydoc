@@ -457,17 +457,7 @@ public class StoryDocStorageImpl implements StoryDocStorage {
 
     public StoryDocs loadDocuments()  {
         try {
-            return workspaceService.loadResource(new ResourceLoadContext<StoryDocs>() {
-                @Override
-                public ResourceUrn getResourceUrn() {
-                    return getStoryDocsUrn();
-                }
-
-                @Override
-                public StoryDocs read(InputStream inputStream) throws IOException {
-                    return objectMapper.readValue(inputStream, StoryDocs.class);
-                }
-            });
+            return workspaceService.loadResource(getStoryDocsUrn(), (inputStream) -> objectMapper.readValue(inputStream, StoryDocs.class));
         } catch (WorkspaceException e) {
             return new StoryDocs(new ArrayList<>());
         }
@@ -476,17 +466,7 @@ public class StoryDocStorageImpl implements StoryDocStorage {
     @Override
     public StoryDoc loadDocument(StoryDocId storyDocId) throws StoryDocException {
         try {
-            return workspaceService.loadResource(new ResourceLoadContext<StoryDoc>() {
-                @Override
-                public ResourceUrn getResourceUrn() {
-                    return getStoryDocUrn(storyDocId);
-                }
-
-                @Override
-                public StoryDoc read(InputStream inputStream) throws IOException {
-                    return objectMapper.readValue(inputStream, StoryDoc.class);
-                }
-            });
+            return workspaceService.loadResource(getStoryDocUrn(storyDocId), (inputStream) -> objectMapper.readValue(inputStream, StoryDoc.class));
         } catch (WorkspaceException e) {
             throw new StoryDocException("could not load storydoc " + storyDocId, e);
         }
@@ -524,75 +504,45 @@ public class StoryDocStorageImpl implements StoryDocStorage {
 
     private void saveDocuments(StoryDocs storyDocs) throws StoryDocException {
         try {
-            workspaceService.saveResource(new ResourceSaveContext() {
-                @Override
-                public ResourceUrn getResourceUrn() {
-                    return getStoryDocsUrn();
-                }
-
-                @Override
-                public void write(OutputStream outputStream) throws IOException {
-                    objectMapper.writerWithDefaultPrettyPrinter().writeValue(outputStream, storyDocs);
-                }
-            });
+            workspaceService.saveResource(getStoryDocsUrn(), (outputStream) -> writeStoryDocs(outputStream, storyDocs));
         } catch (WorkspaceException e) {
             throw new StoryDocException("could not save storydocs ", e);
         }
     }
 
+    private void writeStoryDocs(OutputStream outputStream, StoryDocs storyDocs) throws IOException {
+        objectMapper.writerWithDefaultPrettyPrinter().writeValue(outputStream, storyDocs);
+    }
+
     private void saveDocument(StoryDoc storyDoc) throws StoryDocException {
         try {
-            workspaceService.saveResource(new ResourceSaveContext() {
-                @Override
-                public ResourceUrn getResourceUrn() {
-                    return getStoryDocUrn(StoryDocId.fromString(storyDoc.getId()));
-                }
-
-                @Override
-                public void write(OutputStream outputStream) throws IOException {
-                    objectMapper.writerWithDefaultPrettyPrinter().writeValue(outputStream, storyDoc);
-                }
-            });
+            workspaceService.saveResource(getStoryDocUrn(StoryDocId.fromString(storyDoc.getId())), (outputStream -> this.writeStorydoc(outputStream, storyDoc)));
         } catch (WorkspaceException e) {
             throw new StoryDocException("could not save storydoc " + storyDoc.getId(), e);
         }
     }
 
+    private void writeStorydoc(OutputStream outputStream, StoryDoc storyDoc) throws IOException {
+        objectMapper.writerWithDefaultPrettyPrinter().writeValue(outputStream, storyDoc);
+    }
+
     @Override
     public void setArtifactContent(ArtifactCoordinate artifactCoordinate, ArtifactSerializer serializer) {
         try {
-            workspaceService.saveResource(new ResourceSaveContext() {
-                @Override
-                public ResourceUrn getResourceUrn() {
-                    return getArtifactUrn(artifactCoordinate);
-                }
-
-                @Override
-                public void write(OutputStream outputStream) throws IOException {
-                    serializer.write(outputStream);
-                }
-            });
-
+            workspaceService.saveResource(getArtifactUrn(artifactCoordinate), (outputStream) -> writeArtifact(outputStream, serializer));
         } catch (WorkspaceException e) {
             throw new StoryDocException("could not save artifact " + artifactCoordinate);
         }
     }
 
+    private void writeArtifact(OutputStream outputStream, ArtifactSerializer serializer) throws IOException {
+        serializer.write(outputStream);
+    }
+
     @Override
-    public <A extends Artifact> A getArtifactContent(ArtifactCoordinate coordinate, ArtifactDeserializer deserializer) {
+    public <A extends Artifact> A getArtifactContent(ArtifactCoordinate coordinate, ArtifactDeserializer<A> deserializer) {
         try {
-            return workspaceService.loadResource(new ResourceLoadContext() {
-                @Override
-                public ResourceUrn getResourceUrn() {
-                    return getArtifactUrn(coordinate);
-                }
-
-                @Override
-                public WorkspaceResource read(InputStream inputStream) throws IOException {
-                    return deserializer.read(inputStream);
-                }
-            });
-
+            return workspaceService.loadResource(getArtifactUrn(coordinate), (inputStream) -> deserializer.read(inputStream));
         } catch (WorkspaceException e) {
             throw new StoryDocException("could not save artifact " + coordinate, e);
         }
@@ -601,19 +551,8 @@ public class StoryDocStorageImpl implements StoryDocStorage {
     @Override
     public void saveBinaryArtifact(ArtifactCoordinate artifactCoordinate, InputStream inputStream) {
         try {
-            workspaceService.saveResource(new ResourceSaveContext() {
-                @Override
-                public ResourceUrn getResourceUrn() {
-                    return getBlockFolder(artifactCoordinate.getBlockCoordinate())
-                            .resolve(ResourceUrn.of(artifactCoordinate.getArtifactId().getId()));
-                }
-
-                @Override
-                public void write(OutputStream outputStream) throws IOException {
-                    inputStream.transferTo(outputStream);
-                }
-            });
-
+            workspaceService.saveResource(getBlockFolder(artifactCoordinate.getBlockCoordinate()).resolve(ResourceUrn.of(artifactCoordinate.getArtifactId().getId())),
+                    outputStream -> inputStream.transferTo(outputStream));
         } catch (WorkspaceException e) {
             throw new StoryDocException("could not save binary artifact ", e);
         }
@@ -631,18 +570,7 @@ public class StoryDocStorageImpl implements StoryDocStorage {
         saveDocument(storyDoc);
 
         try {
-            workspaceService.saveResource(new ResourceSaveContext() {
-                @Override
-                public ResourceUrn getResourceUrn() {
-                    return getCollectionItemUrn(coordinate, itemId);
-                }
-
-                @Override
-                public void write(OutputStream outputStream) throws IOException {
-                    inputStream.transferTo(outputStream);
-                }
-            });
-
+            workspaceService.saveResource(getCollectionItemUrn(coordinate, itemId), (outputStream) -> inputStream.transferTo(outputStream));
         } catch (WorkspaceException e) {
             throw new StoryDocException("could not save binary artifact ", e);
         }
@@ -650,17 +578,7 @@ public class StoryDocStorageImpl implements StoryDocStorage {
 
     public Settings loadGlobalSettings()  {
         try {
-            return workspaceService.loadResource(new ResourceLoadContext<Settings>() {
-                @Override
-                public ResourceUrn getResourceUrn() {
-                    return getGlobalSettingsUrn();
-                }
-
-                @Override
-                public Settings read(InputStream inputStream) throws IOException {
-                    return objectMapper.readValue(inputStream, Settings.class);
-                }
-            });
+            return workspaceService.loadResource(getGlobalSettingsUrn(), (inputStream) -> objectMapper.readValue(inputStream, Settings.class));
         } catch (WorkspaceException e) {
             return new Settings(new ArrayList<>());
         }
@@ -668,17 +586,7 @@ public class StoryDocStorageImpl implements StoryDocStorage {
 
     private void saveGlobalSettings(Settings settings) throws StoryDocException {
         try {
-            workspaceService.saveResource(new ResourceSaveContext() {
-                @Override
-                public ResourceUrn getResourceUrn() {
-                    return getGlobalSettingsUrn();
-                }
-
-                @Override
-                public void write(OutputStream outputStream) throws IOException {
-                    objectMapper.writerWithDefaultPrettyPrinter().writeValue(outputStream, settings);
-                }
-            });
+            workspaceService.saveResource(getGlobalSettingsUrn(), (outputStream -> objectMapper.writerWithDefaultPrettyPrinter().writeValue(outputStream, settings)));
         } catch (WorkspaceException e) {
             throw new StoryDocException("could not save settings ", e);
         }

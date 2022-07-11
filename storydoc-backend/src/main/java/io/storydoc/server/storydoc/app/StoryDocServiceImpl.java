@@ -117,7 +117,7 @@ public class StoryDocServiceImpl implements StoryDocService {
     }
 
     @Override
-    public <A extends Artifact> A loadArtifact(ArtifactCoordinate coordinate, ArtifactDeserializer deserializer) {
+    public <A extends Artifact> A loadArtifact(ArtifactCoordinate coordinate, ArtifactDeserializer<A> deserializer) {
         StoryDoc storyDoc = domainService.getDocument(coordinate.getBlockCoordinate().getStoryDocId());
         return storyDoc.loadArtifact(coordinate, deserializer);
     }
