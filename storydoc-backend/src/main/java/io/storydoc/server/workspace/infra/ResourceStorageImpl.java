@@ -22,25 +22,6 @@ public class ResourceStorageImpl implements ResourceStorage {
     }
 
     @Override
-    public void store(ResourceSaveContext context) throws WorkspaceException {
-        try (OutputStream outputStream = getOutputStream(context.getResourceUrn())) {
-            context.write(outputStream);
-        } catch(IOException ioe) {
-            throw new WorkspaceException("could not store resource " + context.getResourceUrn(), ioe);
-        }
-    }
-
-    @Override
-    public <R extends WorkspaceResource> R load(ResourceLoadContext context) throws WorkspaceException {
-        try (InputStream inputStream = getInputStream(context.getResourceUrn())) {
-            return (R) context.read(inputStream);
-        } catch(IOException ioe) {
-            throw new WorkspaceException("could not load resource " + context.getResourceUrn(), ioe);
-        }
-
-    }
-
-    @Override
     public void delete(ResourceUrn resourceUrn) throws WorkspaceException {
         try {
             getFile(resourceUrn).delete();
